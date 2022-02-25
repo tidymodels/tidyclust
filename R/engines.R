@@ -81,7 +81,6 @@ set_engine_celery <- function(object, engine, ...) {
   )
 }
 
-
 stop_missing_engine <- function(cls) {
   info <-
     get_from_env_celery(cls) %>%

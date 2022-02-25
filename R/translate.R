@@ -28,7 +28,6 @@
 #'  to modify the model specification.
 #'
 #' @export
-
 translate_celery <- function(x, ...)
   UseMethod("translate_celery")
 
@@ -133,4 +132,16 @@ deharmonize <- function(args, key) {
 
   names(args) <- merged$original
   args[!is.na(merged$original)]
+}
+
+#' Check to ensure that ellipses are empty
+#' @param ... Extra arguments.
+#' @return If an error is not thrown (from non-empty ellipses), a NULL list.
+#' @keywords internal
+#' @export
+check_empty_ellipse_celery <- function(...)  {
+  terms <- quos(...)
+  if (!rlang::is_empty(terms))
+    rlang::abort("Please pass other arguments to the model function via `set_engine_celery()`.")
+  terms
 }

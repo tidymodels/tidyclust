@@ -8,7 +8,7 @@
 #' @rdname add_on_exports
 new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
 
-  #check_spec_mode_engine_val(cls, engine, mode)
+  check_spec_mode_engine_val(cls, engine, mode)
 
   out <- list(args = args, eng_args = eng_args,
               mode = mode, method = method, engine = engine)

@@ -1,5 +1,3 @@
-# ------------------------------------------------------------------------------
-
 #' Helper functions to convert between formula and matrix interface
 #'
 #' @description
@@ -116,7 +114,6 @@
   }
   res
 }
-
 
 check_form_dots <- function(x) {
   good_args <- c("subset", "weights")
