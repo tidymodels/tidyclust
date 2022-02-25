@@ -15,6 +15,7 @@ Imports:
     generics,
     glue,
     magrittr,
+    parsnip,
     purrr,
     rlang,
     stats,

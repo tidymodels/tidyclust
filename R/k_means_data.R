@@ -1,13 +1,13 @@
-set_new_model("k_means")
+set_new_model_celery("k_means")
 
-set_model_mode("k_means", "partition")
+set_model_mode_celery("k_means", "partition")
 
 # ------------------------------------------------------------------------------
 
-set_model_engine("k_means", "partition", "stats")
-set_dependency("k_means", "stats", "stats")
+set_model_engine_celery("k_means", "partition", "stats")
+set_dependency_celery("k_means", "stats", "stats")
 
-set_fit(
+set_fit_celery(
   model = "k_means",
   eng = "stats",
   mode = "partition",
@@ -19,7 +19,7 @@ set_fit(
   )
 )
 
-set_encoding(
+set_encoding_celery(
   model = "k_means",
   eng = "stats",
   mode = "partition",
@@ -31,7 +31,7 @@ set_encoding(
   )
 )
 
-set_model_arg(
+set_model_arg_celery(
   model = "k_means",
   eng = "stats",
   celery = "k",

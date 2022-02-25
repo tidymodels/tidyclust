@@ -32,12 +32,12 @@ celery$modes <- c(all_modes, "unknown")
 # check if class and mode and engine are compatible
 check_spec_mode_engine_val <- function(cls, eng, mode) {
 
-  all_modes <- get_from_env(paste0(cls, "_modes"))
+  all_modes <- get_from_env_celery(paste0(cls, "_modes"))
   if (!(mode %in% all_modes)) {
     rlang::abort(paste0("'", mode, "' is not a known mode for model `", cls, "()`."))
   }
 
-  model_info <- rlang::env_get(get_model_env(), cls)
+  model_info <- rlang::env_get(get_model_env_celery(), cls)
 
   # Cases where the model definition is in celery but all of the engines
   # are contained in a different package
@@ -102,40 +102,40 @@ check_spec_mode_engine_val <- function(cls, eng, mode) {
 #' @keywords internal
 #' @examples
 #' # Access the model data:
-#' current_code <- get_model_env()
+#' current_code <- get_model_env_celery()
 #' ls(envir = current_code)
 #'
 #' @keywords internal
 #' @export
-get_model_env <- function() {
+get_model_env_celery <- function() {
   current <- utils::getFromNamespace("celery", ns = "celery")
   current
 }
 
-#' @rdname get_model_env
+#' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-get_from_env <- function(items) {
-  mod_env <- get_model_env()
+get_from_env_celery <- function(items) {
+  mod_env <- get_model_env_celery()
   rlang::env_get(mod_env, items, default = NULL)
 }
 
-#' @rdname get_model_env
+#' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-set_in_env <- function(...) {
-  mod_env <- get_model_env()
+set_in_env_celery <- function(...) {
+  mod_env <- get_model_env_celery()
   rlang::env_bind(mod_env, ...)
 }
 
-#' @rdname get_model_env
+#' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-set_env_val <- function(name, value) {
+set_env_val_celery <- function(name, value) {
   if (length(name) != 1 || !is.character(name)) {
     rlang::abort("`name` should be a single character value.")
   }
-  mod_env <- get_model_env()
+  mod_env <- get_model_env_celery()
   x <- list(value)
   names(x) <- name
   rlang::env_bind(mod_env, !!!x)
@@ -196,8 +196,8 @@ set_env_val <- function(name, value) {
 #'  be used to makes sure that the model data is in the right
 #'  format.
 #'
-#' `check_model_exists()` checks the model value and ensures that the model has
-#'  already been registered. `check_model_doesnt_exist()` checks the model value
+#' `check_model_exists_celery()` checks the model value and ensures that the model has
+#'  already been registered. `check_model_doesnt_exist_celery()` checks the model value
 #'  and also checks to see if it is novel in the environment.
 #'
 #'  The options for engine-specific encodings dictate how the predictors should be
@@ -236,25 +236,25 @@ set_env_val <- function(name, value) {
 #'
 #'
 #' @examples
-#' # set_new_model("shallow_learning_model")
+#' # set_new_model_celery("shallow_learning_model")
 #'
 #' # Show the information about a model:
-#' show_model_info("k_means")
+#' show_model_info_celery("k_means")
 #' @keywords internal
 #' @export
-set_new_model <- function(model) {
-  check_model_doesnt_exist(model)
+set_new_model_celery <- function(model) {
+  check_model_doesnt_exist_celery(model)
 
-  current <- get_model_env()
+  current <- get_model_env_celery()
 
-  set_env_val("models", c(current$models, model))
-  set_env_val(model, dplyr::tibble(engine = character(0), mode = character(0)))
-  set_env_val(
+  set_env_val_celery("models", c(current$models, model))
+  set_env_val_celery(model, dplyr::tibble(engine = character(0), mode = character(0)))
+  set_env_val_celery(
     paste0(model, "_pkgs"),
     dplyr::tibble(engine = character(0), pkg = list(), mode = character(0))
   )
-  set_env_val(paste0(model, "_modes"), "unknown")
-  set_env_val(
+  set_env_val_celery(paste0(model, "_modes"), "unknown")
+  set_env_val_celery(
     paste0(model, "_args"),
     dplyr::tibble(
       engine = character(0),
@@ -264,7 +264,7 @@ set_new_model <- function(model) {
       has_submodel = logical(0)
     )
   )
-  set_env_val(
+  set_env_val_celery(
     paste0(model, "_fit"),
     dplyr::tibble(
       engine = character(0),
@@ -272,7 +272,7 @@ set_new_model <- function(model) {
       value = list()
     )
   )
-  set_env_val(
+  set_env_val_celery(
     paste0(model, "_predict"),
     dplyr::tibble(
       engine = character(0),
@@ -285,14 +285,14 @@ set_new_model <- function(model) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @export
-check_model_doesnt_exist <- function(model) {
+check_model_doesnt_exist_celery <- function(model) {
   if (rlang::is_missing(model) || length(model) != 1 || !is.character(model)) {
     rlang::abort("Please supply a character string for a model name (e.g. `'linear_reg'`)")
   }
 
-  current <- get_model_env()
+  current <- get_model_env_celery()
 
   if (any(current$models == model)) {
     rlang::abort(glue::glue("Model `{model}` already exists"))
@@ -301,34 +301,34 @@ check_model_doesnt_exist <- function(model) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_model_mode <- function(model, mode) {
-  check_model_exists(model)
+set_model_mode_celery <- function(model, mode) {
+  check_model_exists_celery(model)
   check_mode_val(mode)
 
-  current <- get_model_env()
+  current <- get_model_env_celery()
 
   if (!any(current$modes == mode)) {
     current$modes <- unique(c(current$modes, mode))
   }
 
-  set_env_val(
+  set_env_val_celery(
     paste0(model, "_modes"),
-    unique(c(get_from_env(paste0(model, "_modes")), mode))
+    unique(c(get_from_env_celery(paste0(model, "_modes")), mode))
   )
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @export
-check_model_exists <- function(model) {
+check_model_exists_celery <- function(model) {
   if (rlang::is_missing(model) || length(model) != 1 || !is.character(model)) {
-    rlang::abort("Please supply a character string for a model name (e.g. `'linear_reg'`)")
+    rlang::abort("Please supply a character string for a model name (e.g. `'k_means'`)")
   }
 
-  current <- get_model_env()
+  current <- get_model_env_celery()
 
   if (!any(current$models == model)) {
     rlang::abort(glue::glue("Model `{model}` has not been registered."))
@@ -346,28 +346,28 @@ check_mode_val <- function(mode) {
 
 # ------------------------------------------------------------------------------
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_model_engine <- function(model, mode, eng) {
-  check_model_exists(model)
+set_model_engine_celery <- function(model, mode, eng) {
+  check_model_exists_celery(model)
   check_mode_val(mode)
   check_eng_val(eng)
   check_mode_val(eng)
   check_mode_for_new_engine(model, eng, mode)
 
-  current <- get_model_env()
+  current <- get_model_env_celery()
 
   new_eng <- dplyr::tibble(engine = eng, mode = mode)
-  old_eng <- get_from_env(model)
+  old_eng <- get_from_env_celery(model)
 
   engs <-
     old_eng %>%
     dplyr::bind_rows(new_eng) %>%
     dplyr::distinct()
 
-  set_env_val(model, engs)
-  set_model_mode(model, mode)
+  set_env_val_celery(model, engs)
+  set_model_mode_celery(model, mode)
   invisible(NULL)
 }
 
@@ -378,24 +378,24 @@ check_eng_val <- function(eng) {
 }
 
 check_mode_for_new_engine <- function(cls, eng, mode) {
-  all_modes <- get_from_env(paste0(cls, "_modes"))
+  all_modes <- get_from_env_celery(paste0(cls, "_modes"))
   if (!(mode %in% all_modes)) {
     rlang::abort(paste0("'", mode, "' is not a known mode for model `", cls, "()`."))
   }
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_dependency <- function(model, eng, pkg = "celery", mode = NULL) {
-  check_model_exists(model)
+set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
+  check_model_exists_celery(model)
   check_eng_val(eng)
   check_pkg_val(pkg)
 
-  current <- get_model_env()
-  model_info <- get_from_env(model)
-  pkg_info <- get_from_env(paste0(model, "_pkgs"))
+  current <- get_model_env_celery()
+  model_info <- get_from_env_celery(model)
+  pkg_info <- get_from_env_celery(paste0(model, "_pkgs"))
 
   # ----------------------------------------------------------------------------
   # Check engine
@@ -449,7 +449,7 @@ set_dependency <- function(model, eng, pkg = "celery", mode = NULL) {
     dplyr::bind_rows(eng_pkgs) %>%
     dplyr::arrange(engine, mode)
 
-  set_env_val(paste0(model, "_pkgs"), pkg_info)
+  set_env_val_celery(paste0(model, "_pkgs"), pkg_info)
 
   invisible(NULL)
 }
@@ -461,18 +461,18 @@ check_pkg_val <- function(pkg) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_fit <- function(model, mode, eng, value) {
-  check_model_exists(model)
+set_fit_celery <- function(model, mode, eng, value) {
+  check_model_exists_celery(model)
   check_eng_val(eng)
   check_spec_mode_engine_val(model, eng, mode)
   check_fit_info(value)
 
-  current <- get_model_env()
-  model_info <- get_from_env(model)
-  old_fits <- get_from_env(paste0(model, "_fit"))
+  current <- get_model_env_celery()
+  model_info <- get_from_env_celery(model)
+  old_fits <- get_from_env_celery(paste0(model, "_fit"))
 
   has_engine <-
     model_info %>%
@@ -505,7 +505,7 @@ set_fit <- function(model, mode, eng, value) {
     rlang::abort("An error occured when adding the new fit module.")
   }
 
-  set_env_val(
+  set_env_val_celery(
     paste0(model, "_fit"),
     updated
   )
@@ -608,17 +608,17 @@ check_func_val <- function(func) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-get_encoding <- function(model) {
-  check_model_exists(model)
+get_encoding_celery <- function(model) {
+  check_model_exists_celery(model)
   nm <- paste0(model, "_encoding")
-  res <- try(get_from_env(nm), silent = TRUE)
+  res <- try(get_from_env_celery(nm), silent = TRUE)
   if (inherits(res, "try-error")) {
     # for objects made before encodings were specified in celery
     res <-
-      get_from_env(model) %>%
+      get_from_env_celery(model) %>%
       dplyr::mutate(
         model = model,
         predictor_indicators = "traditional",
@@ -632,12 +632,11 @@ get_encoding <- function(model) {
   res
 }
 
-
 #' @export
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
-set_encoding <- function(model, mode, eng, options) {
-  check_model_exists(model)
+set_encoding_celery <- function(model, mode, eng, options) {
+  check_model_exists_celery(model)
   check_eng_val(eng)
   check_mode_val(mode)
   check_encodings(options)
@@ -647,10 +646,10 @@ set_encoding <- function(model, mode, eng, options) {
   new_values <- dplyr::bind_cols(keys, options)
 
 
-  current_db_list <- ls(envir = get_model_env())
+  current_db_list <- ls(envir = get_model_env_celery())
   nm <- paste(model, "encoding", sep = "_")
   if (any(current_db_list == nm)) {
-    current <- get_from_env(nm)
+    current <- get_from_env_celery(nm)
     dup_check <-
       current %>%
       dplyr::inner_join(
@@ -666,7 +665,7 @@ set_encoding <- function(model, mode, eng, options) {
   }
 
   db_values <- dplyr::bind_rows(current, new_values)
-  set_env_val(nm, db_values)
+  set_env_val_celery(nm, db_values)
 
   invisible(NULL)
 }
@@ -684,7 +683,7 @@ check_encodings <- function(x) {
   if (length(missing_args) > 0) {
     rlang::abort(
       glue::glue(
-        "The values passed to `set_encoding()` are missing arguments: ",
+        "The values passed to `set_encoding_celery()` are missing arguments: ",
         paste0("'", missing_args, "'", collapse = ", ")
       )
     )
@@ -693,7 +692,7 @@ check_encodings <- function(x) {
   if (length(extra_args) > 0) {
     rlang::abort(
       glue::glue(
-        "The values passed to `set_encoding()` had extra arguments: ",
+        "The values passed to `set_encoding_celery()` had extra arguments: ",
         paste0("'", extra_args, "'", collapse = ", ")
       )
     )
@@ -702,19 +701,19 @@ check_encodings <- function(x) {
 }
 
 # ------------------------------------------------------------------------------
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_model_arg <- function(model, eng, celery, original, func, has_submodel) {
-  check_model_exists(model)
+set_model_arg_celery <- function(model, eng, celery, original, func, has_submodel) {
+  check_model_exists_celery(model)
   check_eng_val(eng)
   check_arg_val(celery)
   check_arg_val(original)
   check_func_val(func)
   check_submodels_val(has_submodel)
 
-  current <- get_model_env()
-  old_args <- get_from_env(paste0(model, "_args"))
+  current <- get_model_env_celery()
+  old_args <- get_from_env_celery(paste0(model, "_args"))
 
   new_arg <-
     dplyr::tibble(
@@ -731,7 +730,7 @@ set_model_arg <- function(model, eng, celery, original, func, has_submodel) {
   }
 
   updated <- vctrs::vec_unique(updated)
-  set_env_val(paste0(model, "_args"), updated)
+  set_env_val_celery(paste0(model, "_args"), updated)
 
   invisible(NULL)
 }
@@ -750,7 +749,7 @@ check_submodels_val <- function(has_submodel) {
 }
 
 check_mode_with_no_engine <- function(cls, mode) {
-  spec_modes <- get_from_env(paste0(cls, "_modes"))
+  spec_modes <- get_from_env_celery(paste0(cls, "_modes"))
   if (!(mode %in% spec_modes)) {
     stop_incompatible_mode(spec_modes, cls = cls)
   }
@@ -787,22 +786,22 @@ stop_incompatible_engine <- function(spec_engs, mode) {
 
 # ------------------------------------------------------------------------------
 
-#' @rdname set_new_model
+#' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-show_model_info <- function(model) {
-  check_model_exists(model)
-  current <- get_model_env()
+show_model_info_celery <- function(model) {
+  check_model_exists_celery(model)
+  current <- get_model_env_celery()
 
   cat("Information for `", model, "`\n", sep = "")
 
   cat(
     " modes:",
-    paste0(get_from_env(paste0(model, "_modes")), collapse = ", "),
+    paste0(get_from_env_celery(paste0(model, "_modes")), collapse = ", "),
     "\n\n"
   )
 
-  engines <- get_from_env(model)
+  engines <- get_from_env_celery(model)
   if (nrow(engines) > 0) {
     cat(" engines: \n")
     engines %>%
@@ -824,7 +823,7 @@ show_model_info <- function(model) {
     cat(" no registered engines.\n\n")
   }
 
-  args <- get_from_env(paste0(model, "_args"))
+  args <- get_from_env_celery(paste0(model, "_args"))
   if (nrow(args) > 0) {
     cat(" arguments: \n")
     args %>%
@@ -848,7 +847,7 @@ show_model_info <- function(model) {
     cat(" no registered arguments.\n\n")
   }
 
-  fits <- get_from_env(paste0(model, "_fit"))
+  fits <- get_from_env_celery(paste0(model, "_fit"))
   if (nrow(fits) > 0) {
     cat(" fit modules:\n")
     fits %>%
@@ -861,7 +860,7 @@ show_model_info <- function(model) {
     cat(" no registered fit modules.\n\n")
   }
 
-  preds <- get_from_env(paste0(model, "_predict"))
+  preds <- get_from_env_celery(paste0(model, "_predict"))
   if (nrow(preds) > 0) {
     cat(" prediction modules:\n")
     preds %>%

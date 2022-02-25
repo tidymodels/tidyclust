@@ -4,7 +4,7 @@ form_form <- function(object, control, env, ...) {
     object <- check_args(object)
 
     # sub in arguments to actual syntax for corresponding engine
-    object <- translate(object, engine = object$engine)
+    object <- translate_celery(object, engine = object$engine)
 
     fit_call <- make_form_call(object, env = env)
 
@@ -40,7 +40,7 @@ form_form <- function(object, control, env, ...) {
 form_x <- function(object, control, env, target = "none", ...) {
 
   encoding_info <-
-    get_encoding(class(object)[1]) %>%
+    get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   indicators <- encoding_info %>% dplyr::pull(predictor_indicators)
@@ -71,7 +71,7 @@ form_x <- function(object, control, env, target = "none", ...) {
 x_x <- function(object, env, control, target = "none", ...) {
 
   encoding_info <-
-    get_encoding(class(object)[1]) %>%
+    get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
@@ -83,7 +83,7 @@ x_x <- function(object, env, control, target = "none", ...) {
   object <- check_args(object)
 
   # sub in arguments to actual syntax for corresponding engine
-  object <- translate(object, engine = object$engine)
+  object <- translate_celery(object, engine = object$engine)
 
   fit_call <- make_x_call(object, target)
 
@@ -118,7 +118,7 @@ x_x <- function(object, env, control, target = "none", ...) {
 x_form <- function(object, env, control, ...) {
 
   encoding_info <-
-    get_encoding(class(object)[1]) %>%
+    get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)

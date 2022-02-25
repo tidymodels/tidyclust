@@ -134,46 +134,11 @@ check_form_dots <- function(x) {
   invisible(NULL)
 }
 
-## -----------------------------------------------------------------------------
-
-#' Fuzzy conversions
-#'
-#' These are substitutes for `as.matrix()` and `as.data.frame()` that leave
-#'  a sparse matrix as-is.
-#' @param x A data frame, matrix, or sparse matrix.
-#' @return A data frame, matrix, or sparse matrix.
-#' @export
-maybe_matrix <- function(x) {
-  inher(x, c("data.frame", "matrix", "dgCMatrix"), cl = match.call())
-  if (is.data.frame(x)) {
-    non_num_cols <- vapply(x, function(x) !is.numeric(x), logical(1))
-    if (any(non_num_cols)) {
-      non_num_cols <- names(non_num_cols)[non_num_cols]
-      non_num_cols <- glue::glue_collapse(glue::single_quote(non_num_cols), sep = ", ")
-      msg <- glue::glue("Some columns are non-numeric. The data cannot be ",
-                        "converted to numeric matrix: {non_num_cols}.")
-      rlang::abort(msg)
-    }
-    x <- as.matrix(x)
-  }
-  # leave alone if matrix or sparse matrix
-  x
-}
-
 local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
   contrasts <- getOption("contrasts")
   contrasts["unordered"] <- "contr_one_hot"
 
   rlang::local_options(contrasts = contrasts, .frame = frame)
-}
-
-#' @rdname maybe_matrix
-#' @export
-maybe_data_frame <- function(x) {
-  if (!inherits(x, "dgCMatrix")) {
-    x <- as.data.frame(x)
-  }
-  x
 }
 
 # ------------------------------------------------------------------------------

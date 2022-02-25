@@ -1,14 +1,14 @@
 #' Resolve a Model Specification for a Computational Engine
 #'
-#' `translate()` will translate a model specification into a code
+#' `translate_celery()` will translate_celery a model specification into a code
 #'  object that is specific to a particular engine (e.g. R package).
-#'  It translates generic parameters to their counterparts.
+#'  It translate_celerys generic parameters to their counterparts.
 #'
 #' @param x A model specification.
-#' @param engine The computational engine for the model (see `?set_engine`).
+#' @param engine The computational engine for the model (see `?set_engine_celery`).
 #' @param ... Not currently used.
 #' @details
-#' `translate()` produces a _template_ call that lacks the specific
+#' `translate_celery()` produces a _template_ call that lacks the specific
 #'  argument values (such as `data`, etc). These are filled in once
 #'  `fit()` is called with the specifics of the data for the model.
 #'  The call may also include `tune()` arguments if these are in
@@ -29,14 +29,14 @@
 #'
 #' @export
 
-translate <- function(x, ...)
-  UseMethod("translate")
+translate_celery <- function(x, ...)
+  UseMethod("translate_celery")
 
-#' @rdname translate
+#' @rdname translate_celery
 #' @export
-#' @export translate.default
-translate.default <- function(x, engine = x$engine, ...) {
-  check_empty_ellipse(...)
+#' @export translate_celery.default
+translate_celery.default <- function(x, engine = x$engine, ...) {
+  check_empty_ellipse_celery(...)
   if (is.null(engine))
     rlang::abort("Please set an engine.")
 
@@ -86,7 +86,7 @@ translate.default <- function(x, engine = x$engine, ...) {
 # new code for revised model data structures
 
 get_cluster_spec <- function(model, mode, engine) {
-  m_env <- get_model_env()
+  m_env <- get_model_env_celery()
   env_obj <- rlang::env_names(m_env)
   env_obj <- grep(model, env_obj, value = TRUE)
 
@@ -115,7 +115,7 @@ get_cluster_spec <- function(model, mode, engine) {
 }
 
 get_args <- function(model, engine) {
-  m_env <- get_model_env()
+  m_env <- get_model_env_celery()
   rlang::env_get(m_env, paste0(model, "_args")) %>%
     dplyr::filter(engine == !!engine) %>%
     dplyr::select(-engine)

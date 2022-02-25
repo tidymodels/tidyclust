@@ -1,11 +1,11 @@
 #' Fit a Model Specification to a Dataset
 #'
-#' `fit()` and `fit_x()` take a model specification, translate the required
+#' `fit()` and `fit_x()` take a model specification, translate_celery the required
 #'  code by substituting arguments, and execute the model fit
 #'  routine.
 #'
 #' @param object An object of class `cluster_spec` that has a chosen engine
-#'  (via [set_engine()]).
+#'  (via [set_engine_celery()]).
 #' @param formula An object of class `formula` (or one that can
 #'  be coerced to that class): a symbolic description of the model
 #'  to be fitted.
@@ -17,12 +17,12 @@
 #'  `catch`. See [control_celery()].
 #' @param ... Not currently used; values passed here will be
 #'  ignored. Other options required to fit the model should be
-#'  passed using `set_engine()`.
+#'  passed using `set_engine_celery()`.
 #' @details  `fit()` and `fit_x()` substitute the current arguments in the model
 #'  specification into the computational engine's code, check them
 #'  for validity, then fit the model using the data and the
 #'  engine-specific code. Different model functions have different
-#'  interfaces (e.g. formula or `x`/`y`) and these functions translate
+#'  interfaces (e.g. formula or `x`/`y`) and these functions translate_celery
 #'  between the interface used when `fit()` or `fit_x()` was invoked and the one
 #'  required by the underlying model.
 #'
@@ -55,12 +55,12 @@
 #'
 #' using_formula <-
 #'   kmeans_mod %>%
-#'   set_engine("stats") %>%
+#'   set_engine_celery("stats") %>%
 #'   fit( ~ ., data = mtcars)
 #'
 #' using_x <-
 #'   kmeans_mod %>%
-#'    set_engine("stats") %>%
+#'    set_engine_celery("stats") %>%
 #'   fit_x(x = mtcars)
 #'
 #' using_formula
@@ -81,9 +81,9 @@
 #'  The return value will also have a class related to the fitted model (e.g.
 #'  `"_glm"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine()], [control_celery()], `cluster_spec`, `cluster_fit`
+#' @seealso [set_engine_celery()], [control_celery()], `cluster_spec`, `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
-#' models have support for sparse matrix input. See `celery::get_encoding()`
+#' models have support for sparse matrix input. See `celery::get_encoding_celery()`
 #' for details. `x` should have column names.
 #' @rdname fit
 #' @export
@@ -352,6 +352,6 @@ check_x_interface <- function(x, cl, model) {
 }
 
 allow_sparse <- function(x) {
-  res <- get_from_env(paste0(class(x)[1], "_encoding"))
+  res <- get_from_env_celery(paste0(class(x)[1], "_encoding"))
   all(res$allow_sparse_x[res$engine == x$engine])
 }

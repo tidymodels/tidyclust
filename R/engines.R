@@ -4,7 +4,7 @@ specific_model <- function(x) {
 }
 
 possible_engines <- function(object, ...) {
-  m_env <- get_model_env()
+  m_env <- get_model_env_celery()
   engs <- rlang::env_get(m_env, specific_model(object))
   unique(engs$engine)
 }
@@ -37,7 +37,7 @@ check_installs <- function(x) {
 
 #' Declare a computational engine and specific arguments
 #'
-#' `set_engine()` is used to specify which package or system will be used
+#' `set_engine_celery()` is used to specify which package or system will be used
 #'  to fit the model, along with any arguments specific to that software.
 #'
 #' @section Engines:
@@ -56,10 +56,10 @@ check_installs <- function(x) {
 #' mod <-
 #'   k_means(k = 10) %>%
 #'   # now say how you want to fit the model and another other options
-#'   set_engine("stats", iter.max = 15)
-#' translate(mod, engine = "stats")
+#'   set_engine_celery("stats", iter.max = 15)
+#' translate_celery(mod, engine = "stats")
 #' @export
-set_engine <- function(object, engine, ...) {
+set_engine_celery <- function(object, engine, ...) {
   mod_type <- class(object)[1]
   if (!inherits(object, "cluster_spec")) {
     rlang::abort("`object` should have class 'cluster_spec'.")
@@ -84,7 +84,7 @@ set_engine <- function(object, engine, ...) {
 
 stop_missing_engine <- function(cls) {
   info <-
-    get_from_env(cls) %>%
+    get_from_env_celery(cls) %>%
     dplyr::group_by(mode) %>%
     dplyr::summarize(msg = paste0(unique(mode), " {",
                                   paste0(unique(engine), collapse = ", "),

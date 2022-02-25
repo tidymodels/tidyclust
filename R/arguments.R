@@ -1,18 +1,3 @@
-#' Functions required for celery-adjacent packages
-#'
-#' These functions are helpful when creating new packages that will register
-#' new model specifications.
-#' @export
-#' @keywords internal
-#' @rdname add_on_exports
-null_value <- function(x) {
-  if (rlang::is_quosure(x)) {
-    res <- isTRUE(all.equal(rlang::get_expr(x), rlang::expr(NULL)))
-  } else {
-    res <- isTRUE(all.equal(x, NULL))
-  }
-  res
-}
 
 check_eng_args <- function(args, obj, core_args) {
   # Make sure that we are not trying to modify an argument that
@@ -56,49 +41,6 @@ make_x_call <- function(object, target) {
   fit_call
 }
 
-# ------------------------------------------------------------------------------
-
-# In some cases, a model function that we are calling has non-standard argument
-# names. For example, a function foo() that only has the x/y interface might
-# have a signature like `foo(X, Y)`.
-
-# To deal with this, we allow for the `data` element of the model
-# as an option to specify these actual argument names
-#
-#   value = list(
-#     interface = "xy",
-#     data = c(x = "X", y = "Y"),
-#     protect = c("X", "Y"),
-#     func = c(pkg = "bar", fun = "foo"),
-#     defaults = list()
-#   )
-
-#' Make a celery call expression
-#'
-#' @param fun A character string of a function name.
-#' @param ns A character string of a package name.
-#' @param args A named list of argument values.
-#' @details The arguments are spliced into the `ns::fun()` call. If they are
-#' missing, null, or a single logical, then are not spliced.
-#' @return A call.
-#' @keywords internal
-#' @export
-make_call <- function(fun, ns, args, ...) {
-  # remove any null or placeholders (`missing_args`) that remain
-  discard <-
-    vapply(args, function(x)
-      is_missing_arg(x) | is.null(x), logical(1))
-  args <- args[!discard]
-
-  if (!is.null(ns) & !is.na(ns)) {
-    out <- rlang::call2(fun, !!!args, .ns = ns)
-  } else
-    out <- rlang::call2(fun, !!!args)
-  out
-}
-
-is_missing_arg <- function(x)
-  identical(x, quote(missing_arg()))
 
 make_form_call <- function(object, env = NULL) {
   fit_args <- object$method$fit$args

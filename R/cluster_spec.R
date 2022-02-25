@@ -1,3 +1,8 @@
+#' Functions required for celery-adjacent packages
+#'
+#' These functions are helpful when creating new packages that will register
+#' new cluster specifications.
+#'
 #' @export
 #' @keywords internal
 #' @rdname add_on_exports
@@ -7,7 +12,7 @@ new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
 
   out <- list(args = args, eng_args = eng_args,
               mode = mode, method = method, engine = engine)
-  class(out) <- make_classes(cls)
+  class(out) <- make_classes_celery(cls)
   out
 }
 
@@ -19,6 +24,6 @@ new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
 #' @return A character vector.
 #' @keywords internal
 #' @export
-make_classes <- function(prefix) {
+make_classes_celery <- function(prefix) {
   c(prefix, "cluster_spec")
 }

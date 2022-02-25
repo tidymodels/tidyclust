@@ -11,7 +11,7 @@
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine
-(via \code{\link[=set_engine]{set_engine()}}).}
+(via \code{\link[=set_engine_celery]{set_engine_celery()}}).}
 
 \item{formula}{An object of class \code{formula} (or one that can
 be coerced to that class): a symbolic description of the model
@@ -27,10 +27,10 @@ outcome(s), predictors, case weights, etc). Note: when needed, a
 
 \item{...}{Not currently used; values passed here will be
 ignored. Other options required to fit the model should be
-passed using \code{set_engine()}.}
+passed using \code{set_engine_celery()}.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See \code{celery::get_encoding()}
+models have support for sparse matrix input. See \code{celery::get_encoding_celery()}
 for details. \code{x} should have column names.}
 }
 \value{
@@ -51,7 +51,7 @@ The return value will also have a class related to the fitted model (e.g.
 \code{"_glm"}) before the base class of \code{"cluster_fit"}.
 }
 \description{
-\code{fit()} and \code{fit_x()} take a model specification, translate the required
+\code{fit()} and \code{fit_x()} take a model specification, translate_celery the required
 code by substituting arguments, and execute the model fit
 routine.
 }
@@ -60,7 +60,7 @@ routine.
 specification into the computational engine's code, check them
 for validity, then fit the model using the data and the
 engine-specific code. Different model functions have different
-interfaces (e.g. formula or \code{x}/\code{y}) and these functions translate
+interfaces (e.g. formula or \code{x}/\code{y}) and these functions translate_celery
 between the interface used when \code{fit()} or \code{fit_x()} was invoked and the one
 required by the underlying model.
 
@@ -94,17 +94,17 @@ kmeans_mod <- k_means(k = 5)
 
 using_formula <-
   kmeans_mod \%>\%
-  set_engine("stats") \%>\%
+  set_engine_celery("stats") \%>\%
   fit( ~ ., data = mtcars)
 
 using_x <-
   kmeans_mod \%>\%
-   set_engine("stats") \%>\%
+   set_engine_celery("stats") \%>\%
   fit_x(x = mtcars)
 
 using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_celery]{control_celery()}}, \code{cluster_spec}, \code{cluster_fit}
+\code{\link[=set_engine_celery]{set_engine_celery()}}, \code{\link[=control_celery]{control_celery()}}, \code{cluster_spec}, \code{cluster_fit}
 }
