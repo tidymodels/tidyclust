@@ -134,10 +134,3 @@ deharmonize <- function(args, key) {
   names(args) <- merged$original
   args[!is.na(merged$original)]
 }
-
-add_methods <- function(x, engine) {
-  x$engine <- engine
-  check_spec_mode_engine_val(class(x)[1], x$engine, x$mode)
-  x$method <- get_cluster_spec(specific_model(x), x$mode, x$engine)
-  x
-}
