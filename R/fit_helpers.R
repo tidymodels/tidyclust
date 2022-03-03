@@ -1,44 +1,43 @@
 form_form <- function(object, control, env, ...) {
 
-    # evaluate quoted args once here to check them
-    object <- check_args(object)
+  # evaluate quoted args once here to check them
+  object <- check_args(object)
 
-    # sub in arguments to actual syntax for corresponding engine
-    object <- translate_celery(object, engine = object$engine)
+  # sub in arguments to actual syntax for corresponding engine
+  object <- translate_celery(object, engine = object$engine)
 
-    fit_call <- make_form_call(object, env = env)
+  fit_call <- make_form_call(object, env = env)
 
-    res <- list(
-      spec = object
-    )
+  res <- list(
+    spec = object
+  )
 
-    if (control$verbosity > 1L) {
-      elapsed <- system.time(
-        res$fit <- eval_mod(
-          fit_call,
-          capture = control$verbosity == 0,
-          catch = control$catch,
-          env = env,
-          ...
-        ),
-        gcFirst = FALSE
-      )
-    } else {
+  if (control$verbosity > 1L) {
+    elapsed <- system.time(
       res$fit <- eval_mod(
         fit_call,
         capture = control$verbosity == 0,
         catch = control$catch,
         env = env,
         ...
-      )
-      elapsed <- list(elapsed = NA_real_)
-    }
-    res$elapsed <- elapsed
-    res
+      ),
+      gcFirst = FALSE
+    )
+  } else {
+    res$fit <- eval_mod(
+      fit_call,
+      capture = control$verbosity == 0,
+      catch = control$catch,
+      env = env,
+      ...
+    )
+    elapsed <- list(elapsed = NA_real_)
+  }
+  res$elapsed <- elapsed
+  res
 }
 
 form_x <- function(object, control, env, target = "none", ...) {
-
   encoding_info <-
     get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
@@ -58,7 +57,7 @@ form_x <- function(object, control, env, target = "none", ...) {
 
   res <- x_x(
     object = object,
-    env = env, #weights!
+    env = env, # weights!
     control = control,
     target = target
   )
@@ -69,7 +68,6 @@ form_x <- function(object, control, env, target = "none", ...) {
 }
 
 x_x <- function(object, env, control, target = "none", ...) {
-
   encoding_info <-
     get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
@@ -116,7 +114,6 @@ x_x <- function(object, env, control, target = "none", ...) {
 }
 
 x_form <- function(object, env, control, ...) {
-
   encoding_info <-
     get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
@@ -142,4 +139,3 @@ x_form <- function(object, env, control, ...) {
   res$preproc <- data_obj[c("x_var")]
   res
 }
-

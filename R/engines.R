@@ -9,8 +9,9 @@ possible_engines <- function(object, ...) {
   unique(engs$engine)
 }
 
-shhhh <- function(x)
+shhhh <- function(x) {
   suppressPackageStartupMessages(requireNamespace(x, quietly = TRUE))
+}
 
 is_installed <- function(pkg) {
   res <- try(shhhh(pkg), silent = TRUE)
@@ -85,10 +86,14 @@ stop_missing_engine <- function(cls) {
   info <-
     get_from_env_celery(cls) %>%
     dplyr::group_by(mode) %>%
-    dplyr::summarize(msg = paste0(unique(mode), " {",
-                                  paste0(unique(engine), collapse = ", "),
-                                  "}"),
-                     .groups = "drop")
+    dplyr::summarize(
+      msg = paste0(
+        unique(mode), " {",
+        paste0(unique(engine), collapse = ", "),
+        "}"
+      ),
+      .groups = "drop"
+    )
   if (nrow(info) == 0) {
     rlang::abort(paste0("No known engines for `", cls, "()`."))
   }

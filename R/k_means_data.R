@@ -78,4 +78,3 @@ set_model_arg_celery(
   func = list(pkg = "dials", fun = "k"),
   has_submodel = TRUE
 )
-

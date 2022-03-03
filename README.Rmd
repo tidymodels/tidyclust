@@ -1,0 +1,52 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# celery
+
+<!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/EmilHvitfeldt/celery/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EmilHvitfeldt/celery?branch=main)
+[![R-CMD-check](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The goal of celery is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the [parsnip](https://parsnip.tidymodels.org/) package.
+
+## Installation
+
+You can install the development version of celery from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("EmilHvitfeldt/celery")
+```
+
+## Example
+
+The first thing you do is to create a `cluster specification`. For this example we are creating a K-means model, using the `stats` engine.
+
+```{r}
+library(celery)
+
+k_means_spec <- k_means(k = 3) %>%
+  set_engine_celery("stats") 
+
+k_means_spec
+```
+
+This specification can then be fit using data.
+
+```{r}
+k_means_spec %>%
+  fit(~., data = mtcars)
+```

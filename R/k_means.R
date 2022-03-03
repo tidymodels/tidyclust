@@ -21,7 +21,6 @@ k_means <-
   function(mode = "partition",
            engine = "stats",
            k = NULL) {
-
     args <- list(
       k = enquo(k)
     )

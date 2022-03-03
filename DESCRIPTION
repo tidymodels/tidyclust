@@ -4,7 +4,8 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emilhhvitfeldt@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
-    person("Kelly", "Bodwin", , "kelly@bodwin.us", role = "aut")
+    person("Kelly", "Bodwin", , "kelly@bodwin.us", role = "aut"),
+    person("RStudio", role = c("cph", "fnd"))
   )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
@@ -24,7 +25,10 @@ Imports:
     utils,
     vctrs
 Suggests:
-    modeldata
+    testthat (>= 3.0.0),
+    modeldata,
+    covr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2.9000
+Config/testthat/edition: 3

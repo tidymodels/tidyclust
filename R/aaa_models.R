@@ -31,7 +31,6 @@ celery$modes <- c(all_modes, "unknown")
 
 # check if class and mode and engine are compatible
 check_spec_mode_engine_val <- function(cls, eng, mode) {
-
   all_modes <- get_from_env_celery(paste0(cls, "_modes"))
   if (!(mode %in% all_modes)) {
     rlang::abort(paste0("'", mode, "' is not a known mode for model `", cls, "()`."))
@@ -104,7 +103,6 @@ check_spec_mode_engine_val <- function(cls, eng, mode) {
 #' # Access the model data:
 #' current_code <- get_model_env_celery()
 #' ls(envir = current_code)
-#'
 #' @keywords internal
 #' @export
 get_model_env_celery <- function() {
@@ -372,8 +370,9 @@ set_model_engine_celery <- function(model, mode, eng) {
 }
 
 check_eng_val <- function(eng) {
-  if (rlang::is_missing(eng) || length(eng) != 1 || !is.character(eng))
+  if (rlang::is_missing(eng) || length(eng) != 1 || !is.character(eng)) {
     rlang::abort("Please supply a character string for an engine name (e.g. `'lm'`)")
+  }
   invisible(NULL)
 }
 
@@ -479,8 +478,10 @@ set_fit_celery <- function(model, mode, eng, value) {
     dplyr::filter(engine == eng & mode == !!mode) %>%
     nrow()
   if (has_engine != 1) {
-    rlang::abort(glue::glue("The combination of '{eng}' and mode '{mode}' has not ",
-                            "been registered for model '{model}'."))
+    rlang::abort(glue::glue(
+      "The combination of '{eng}' and mode '{mode}' has not ",
+      "been registered for model '{model}'."
+    ))
   }
 
   has_fit <-
@@ -489,8 +490,10 @@ set_fit_celery <- function(model, mode, eng, value) {
     nrow()
 
   if (has_fit > 0) {
-    rlang::abort(glue::glue("The combination of '{eng}' and mode '{mode}' ",
-                            "already has a fit component for model '{model}'."))
+    rlang::abort(glue::glue(
+      "The combination of '{eng}' and mode '{mode}' ",
+      "already has a fit component for model '{model}'."
+    ))
   }
 
   new_fit <-
@@ -524,8 +527,10 @@ check_fit_info <- function(fit_obj) {
 
   if (!all(has_req_nms)) {
     rlang::abort(
-      glue::glue("The `fit` module should have elements: ",
-                 glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", "))
+      glue::glue(
+        "The `fit` module should have elements: ",
+        glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", ")
+      )
     )
   }
 
@@ -534,8 +539,10 @@ check_fit_info <- function(fit_obj) {
   other_nms <- setdiff(exp_nms, names(fit_obj))
   has_opt_nms <- other_nms %in% opt_nms
   if (any(!has_opt_nms)) {
-    msg <- glue::glue("The `fit` module can only have optional elements: ",
-                      glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", "))
+    msg <- glue::glue(
+      "The `fit` module can only have optional elements: ",
+      glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", ")
+    )
 
     rlang::abort(msg)
   }
@@ -560,8 +567,10 @@ check_interface_val <- function(x) {
   exp_interf <- c("data.frame", "formula", "matrix")
   if (length(x) != 1 || !(x %in% exp_interf)) {
     rlang::abort(
-      glue::glue("The `interface` element should have a single value of: ",
-                 glue::glue_collapse(glue::glue("`{exp_interf}`"), sep = ", "))
+      glue::glue(
+        "The `interface` element should have a single value of: ",
+        glue::glue_collapse(glue::glue("`{exp_interf}`"), sep = ", ")
+      )
     )
   }
   invisible(NULL)
@@ -575,12 +584,13 @@ check_func_val <- function(func) {
       "`func` and 'pkg' should both be single character strings."
     )
 
-  if (rlang::is_missing(func) || !is.vector(func))
+  if (rlang::is_missing(func) || !is.vector(func)) {
     rlang::abort(msg)
+  }
 
   nms <- sort(names(func))
 
-  if (all(is.null(nms)))  {
+  if (all(is.null(nms))) {
     rlang::abort(msg)
   }
 
@@ -626,8 +636,10 @@ get_encoding_celery <- function(model) {
         remove_intercept = TRUE,
         allow_sparse_x = FALSE
       ) %>%
-      dplyr::select(model, engine, mode, predictor_indicators,
-                    compute_intercept, remove_intercept)
+      dplyr::select(
+        model, engine, mode, predictor_indicators,
+        compute_intercept, remove_intercept
+      )
   }
   res
 }
@@ -641,7 +653,7 @@ set_encoding_celery <- function(model, mode, eng, options) {
   check_mode_val(mode)
   check_encodings(options)
 
-  keys   <- tibble::tibble(model = model, engine = eng, mode = mode)
+  keys <- tibble::tibble(model = model, engine = eng, mode = mode)
   options <- tibble::as_tibble(options)
   new_values <- dplyr::bind_cols(keys, options)
 
@@ -659,7 +671,6 @@ set_encoding_celery <- function(model, mode, eng, options) {
     if (nrow(dup_check)) {
       rlang::abort(glue::glue("Engine '{eng}' and mode '{mode}' already have defined encodings for model '{model}'."))
     }
-
   } else {
     current <- NULL
   }
@@ -674,10 +685,12 @@ check_encodings <- function(x) {
   if (!is.list(x)) {
     rlang::abort("`values` should be a list.")
   }
-  req_args <- list(predictor_indicators = rlang::na_chr,
-                   compute_intercept = rlang::na_lgl,
-                   remove_intercept = rlang::na_lgl,
-                   allow_sparse_x = rlang::na_lgl)
+  req_args <- list(
+    predictor_indicators = rlang::na_chr,
+    compute_intercept = rlang::na_lgl,
+    remove_intercept = rlang::na_lgl,
+    allow_sparse_x = rlang::na_lgl
+  )
 
   missing_args <- setdiff(names(req_args), names(x))
   if (length(missing_args) > 0) {
@@ -736,8 +749,9 @@ set_model_arg_celery <- function(model, eng, celery, original, func, has_submode
 }
 
 check_arg_val <- function(arg) {
-  if (rlang::is_missing(arg) || length(arg) != 1 || !is.character(arg))
+  if (rlang::is_missing(arg) || length(arg) != 1 || !is.character(arg)) {
     rlang::abort("Please supply a character string for the argument.")
+  }
   invisible(NULL)
 }
 

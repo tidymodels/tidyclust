@@ -28,16 +28,18 @@
 #'  to modify the model specification.
 #'
 #' @export
-translate_celery <- function(x, ...)
+translate_celery <- function(x, ...) {
   UseMethod("translate_celery")
+}
 
 #' @rdname translate_celery
 #' @export
 #' @export translate_celery.default
 translate_celery.default <- function(x, engine = x$engine, ...) {
   check_empty_ellipse_celery(...)
-  if (is.null(engine))
+  if (is.null(engine)) {
     rlang::abort("Please set an engine.")
+  }
 
   mod_name <- specific_model(x)
 
@@ -122,8 +124,9 @@ get_args <- function(model, engine) {
 
 # to replace harmonize
 deharmonize <- function(args, key) {
-  if (length(args) == 0)
+  if (length(args) == 0) {
     return(args)
+  }
   parsn <- tibble::tibble(celery = names(args), order = seq_along(args))
   merged <-
     dplyr::left_join(parsn, key, by = "celery") %>%
@@ -139,9 +142,10 @@ deharmonize <- function(args, key) {
 #' @return If an error is not thrown (from non-empty ellipses), a NULL list.
 #' @keywords internal
 #' @export
-check_empty_ellipse_celery <- function(...)  {
+check_empty_ellipse_celery <- function(...) {
   terms <- quos(...)
-  if (!rlang::is_empty(terms))
+  if (!rlang::is_empty(terms)) {
     rlang::abort("Please pass other arguments to the model function via `set_engine_celery()`.")
+  }
   terms
 }

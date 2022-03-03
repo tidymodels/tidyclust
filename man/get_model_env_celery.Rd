@@ -32,6 +32,5 @@ information about model specifications.
 # Access the model data:
 current_code <- get_model_env_celery()
 ls(envir = current_code)
-
 }
 \keyword{internal}

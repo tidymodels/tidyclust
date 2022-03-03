@@ -1,14 +1,18 @@
 check_control <- function(x) {
-  if (!is.list(x))
+  if (!is.list(x)) {
     rlang::abort("control should be a named list.")
-  if (!isTRUE(all.equal(sort(names(x)), c("catch", "verbosity"))))
+  }
+  if (!isTRUE(all.equal(sort(names(x)), c("catch", "verbosity")))) {
     rlang::abort("control should be a named list with elements 'verbosity' and 'catch'.")
+  }
   # based on ?is.integer
-  int_check <- function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
-  if (!int_check(x$verbosity))
+  int_check <- function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
+  if (!int_check(x$verbosity)) {
     rlang::abort("verbosity should be an integer.")
-  if (!is.logical(x$catch))
+  }
+  if (!is.logical(x$catch)) {
     rlang::abort("catch should be a logical.")
+  }
   x
 }
 
@@ -41,9 +45,11 @@ control_celery <- function(verbosity = 1L, catch = FALSE) {
 #' @export
 print.control_celery <- function(x, ...) {
   cat("celery control object\n")
-  if (x$verbosity > 1)
+  if (x$verbosity > 1) {
     cat(" - verbose level", x$verbosity, "\n")
-  if (x$catch)
+  }
+  if (x$catch) {
     cat(" - fit errors will be caught\n")
+  }
   invisible(x)
 }

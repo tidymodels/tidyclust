@@ -56,11 +56,11 @@
 #' using_formula <-
 #'   kmeans_mod %>%
 #'   set_engine_celery("stats") %>%
-#'   fit( ~ ., data = mtcars)
+#'   fit(~., data = mtcars)
 #'
 #' using_x <-
 #'   kmeans_mod %>%
-#'    set_engine_celery("stats") %>%
+#'   set_engine_celery("stats") %>%
 #'   fit_x(x = mtcars)
 #'
 #' using_formula
@@ -108,8 +108,9 @@ fit.cluster_spec <- function(object,
     }
   }
 
-  if (all(c("x", "y") %in% names(dots)))
+  if (all(c("x", "y") %in% names(dots))) {
     rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_x()` instead.")
+  }
   cl <- match.call(expand.dots = TRUE)
   # Create an environment with the evaluated argument objects. This will be
   # used when a model call is made later.
@@ -133,8 +134,7 @@ fit.cluster_spec <- function(object,
   # used here, `fit_interface_formula` will determine if a
   # translation has to be made if the model interface is x/y/
   res <-
-    switch(
-      interfaces,
+    switch(interfaces,
       # homogeneous combinations:
       formula_formula =
         form_form(
@@ -160,7 +160,6 @@ fit.cluster_spec <- function(object,
           target = object$method$fit$interface,
           ...
         ),
-
       rlang::abort(glue::glue("{interfaces} is unknown."))
     )
   model_classes <- class(res$fit)
@@ -174,8 +173,9 @@ check_interface <- function(formula, data, cl, model) {
   # Determine the `fit()` interface
   form_interface <- !is.null(formula) & !is.null(data)
 
-  if (form_interface)
+  if (form_interface) {
     return("formula")
+  }
   rlang::abort("Error when checking the interface.")
 }
 
@@ -183,17 +183,18 @@ inher <- function(x, cls, cl) {
   if (!is.null(x) && !inherits(x, cls)) {
     call <- match.call()
     obj <- deparse(call[["x"]])
-    if (length(cls) > 1)
+    if (length(cls) > 1) {
       rlang::abort(
         glue::glue(
           "`{obj}` should be one of the following classes: ",
           glue::glue_collapse(glue::glue("'{cls}'"), sep = ", ")
         )
       )
-    else
+    } else {
       rlang::abort(
         glue::glue("`{obj}` should be a {cls} object")
       )
+    }
   }
   invisible(x)
 }
@@ -243,79 +244,78 @@ fit_x <- function(object, ...) {
 #' @export fit_x.cluster_spec
 fit_x.cluster_spec <-
   function(object, x, control = control_celery(), ...) {
-
-  if (!identical(class(control), class(control_celery()))) {
-    rlang::abort("The 'control' argument should have class 'control_celery'.")
-  }
-  if (is.null(colnames(x))) {
-    rlang::abort("'x' should have column names.")
-  }
-
-  dots <- quos(...)
-  if (is.null(object$engine)) {
-    eng_vals <- possible_engines(object)
-    object$engine <- eng_vals[1]
-    if (control$verbosity > 0) {
-      rlang::warn(glue::glue("Engine set to `{object$engine}`."))
+    if (!identical(class(control), class(control_celery()))) {
+      rlang::abort("The 'control' argument should have class 'control_celery'.")
     }
+    if (is.null(colnames(x))) {
+      rlang::abort("'x' should have column names.")
+    }
+
+    dots <- quos(...)
+    if (is.null(object$engine)) {
+      eng_vals <- possible_engines(object)
+      object$engine <- eng_vals[1]
+      if (control$verbosity > 0) {
+        rlang::warn(glue::glue("Engine set to `{object$engine}`."))
+      }
+    }
+
+    cl <- match.call(expand.dots = TRUE)
+    eval_env <- rlang::env()
+    eval_env$x <- x
+    fit_interface <- check_x_interface(eval_env$x, cl, object)
+
+    # populate `method` with the details for this model type
+    object <- add_methods(object, engine = object$engine)
+
+    check_installs(object)
+
+    interfaces <- paste(fit_interface, object$method$fit$interface, sep = "_")
+
+    # Now call the wrappers that transition between the interface
+    # called here ("fit" interface) that will direct traffic to
+    # what the underlying model uses. For example, if a formula is
+    # used here, `fit_interface_formula` will determine if a
+    # translation has to be made if the model interface is x/y/
+    res <-
+      switch(interfaces,
+        # homogeneous combinations:
+        matrix_matrix = ,
+        data.frame_matrix =
+          x_x(
+            object = object,
+            env = eval_env,
+            control = control,
+            target = "matrix",
+            ...
+          ),
+        data.frame_data.frame = ,
+        matrix_data.frame =
+          x_x(
+            object = object,
+            env = eval_env,
+            control = control,
+            target = "data.frame",
+            ...
+          ),
+
+        # heterogenous combinations
+        matrix_formula = ,
+        data.frame_formula =
+          x_form(
+            object = object,
+            env = eval_env,
+            control = control,
+            ...
+          ),
+        rlang::abort(glue::glue("{interfaces} is unknown."))
+      )
+    model_classes <- class(res$fit)
+    class(res) <- c(paste0("_", model_classes[1]), "model_fit")
+    res
   }
-
-  cl <- match.call(expand.dots = TRUE)
-  eval_env <- rlang::env()
-  eval_env$x <- x
-  fit_interface <- check_x_interface(eval_env$x, cl, object)
-
-  # populate `method` with the details for this model type
-  object <- add_methods(object, engine = object$engine)
-
-  check_installs(object)
-
-  interfaces <- paste(fit_interface, object$method$fit$interface, sep = "_")
-
-  # Now call the wrappers that transition between the interface
-  # called here ("fit" interface) that will direct traffic to
-  # what the underlying model uses. For example, if a formula is
-  # used here, `fit_interface_formula` will determine if a
-  # translation has to be made if the model interface is x/y/
-  res <-
-    switch(
-      interfaces,
-      # homogeneous combinations:
-      matrix_matrix = , data.frame_matrix =
-        x_x(
-          object = object,
-          env = eval_env,
-          control = control,
-          target = "matrix",
-          ...
-        ),
-
-      data.frame_data.frame = , matrix_data.frame =
-        x_x(
-          object = object,
-          env = eval_env,
-          control = control,
-          target = "data.frame",
-          ...
-        ),
-
-      # heterogenous combinations
-      matrix_formula = ,  data.frame_formula =
-        x_form(
-          object = object,
-          env = eval_env,
-          control = control,
-          ...
-        ),
-      rlang::abort(glue::glue("{interfaces} is unknown."))
-    )
-  model_classes <- class(res$fit)
-  class(res) <- c(paste0("_", model_classes[1]), "model_fit")
-  res
-}
 
 check_x_interface <- function(x, cl, model) {
-
   sparse_ok <- allow_sparse(model)
   sparse_x <- inherits(x, "dgCMatrix")
   if (!sparse_ok & sparse_x) {

@@ -2,3 +2,9 @@
 ^\.Rproj\.user$
 ^isc-proposal.pdf$
 ^LICENSE\.md$
+^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^codecov\.yml$
+^\.github$

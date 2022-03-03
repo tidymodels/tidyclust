@@ -95,11 +95,11 @@ kmeans_mod <- k_means(k = 5)
 using_formula <-
   kmeans_mod \%>\%
   set_engine_celery("stats") \%>\%
-  fit( ~ ., data = mtcars)
+  fit(~., data = mtcars)
 
 using_x <-
   kmeans_mod \%>\%
-   set_engine_celery("stats") \%>\%
+  set_engine_celery("stats") \%>\%
   fit_x(x = mtcars)
 
 using_formula

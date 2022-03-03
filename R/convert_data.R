@@ -33,12 +33,12 @@
 #' @export
 #'
 .convert_form_to_x_fit <- function(formula,
-                                    data,
-                                    ...,
-                                    na.action = na.omit,
-                                    indicators = "traditional",
-                                    composition = "data.frame",
-                                    remove_intercept = TRUE) {
+                                   data,
+                                   ...,
+                                   na.action = na.omit,
+                                   indicators = "traditional",
+                                   composition = "data.frame",
+                                   remove_intercept = TRUE) {
   if (!(composition %in% c("data.frame", "matrix"))) {
     rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
   }
@@ -198,10 +198,10 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 
 make_formula <- function(x, short = TRUE) {
   y_part <- "~"
-  if(short)
+  if (short) {
     form_text <- paste0(y_part, ".")
-  else
+  } else {
     form_text <- paste0(y_part, paste0(x, collapse = "+"))
+  }
   as.formula(form_text)
 }
-
