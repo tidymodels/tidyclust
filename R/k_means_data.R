@@ -95,3 +95,20 @@ set_model_arg_celery(
   func = list(pkg = "dials", fun = "k"),
   has_submodel = TRUE
 )
+
+set_pred(
+  model = "k_means",
+  eng = "ClusterR",
+  mode = "partition",
+  type = "cluster",
+  value = list(
+    pre = NULL,
+    post = NULL,
+    func = c(fun = "clusterR_kmeans_predict"),
+    args =
+      list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
+  )
+)
