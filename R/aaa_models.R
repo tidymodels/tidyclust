@@ -4,6 +4,11 @@ all_modes <- c("partition")
 
 # ------------------------------------------------------------------------------
 
+pred_types <-
+  c("cluster")
+
+# ------------------------------------------------------------------------------
+
 ## Rules about model-related information
 
 ### Definitions:
@@ -889,4 +894,149 @@ show_model_info_celery <- function(model) {
     cat(" no registered prediction modules.\n\n")
   }
   invisible(NULL)
+}
+
+# ------------------------------------------------------------------------------
+
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+set_pred <- function(model, mode, eng, type, value) {
+  check_model_exists_celery(model)
+  check_eng_val(eng)
+  check_spec_mode_engine_val(model, eng, mode)
+  check_pred_info(value, type)
+  check_unregistered(model, mode, eng)
+
+  model_info <- get_from_env_celery(model)
+
+  new_pred <-
+    dplyr::tibble(
+      engine = eng,
+      mode = mode,
+      type = type,
+      value = list(value)
+    )
+
+  pred_check <- is_discordant_info(model, mode, eng, new_pred, pred_type = type, component = "predict")
+  if (!pred_check) {
+    return(invisible(NULL))
+  }
+
+  old_pred <- get_from_env_celery(paste0(model, "_predict"))
+  updated <- try(dplyr::bind_rows(old_pred, new_pred), silent = TRUE)
+  if (inherits(updated, "try-error")) {
+    rlang::abort("An error occured when adding the new fit module.")
+  }
+
+  set_env_val_celery(paste0(model, "_predict"), updated)
+
+  invisible(NULL)
+}
+
+check_pred_info <- function(pred_obj, type) {
+  if (all(type != pred_types)) {
+    rlang::abort(
+      glue::glue("The prediction type should be one of: ",
+                 glue::glue_collapse(glue::glue("'{pred_types}'"), sep = ", "))
+    )
+  }
+
+  exp_nms <- c("args", "func", "post", "pre")
+  if (!isTRUE(all.equal(sort(names(pred_obj)), exp_nms))) {
+    rlang::abort(
+      glue::glue("The `predict` module should have elements: ",
+                 glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", "))
+    )
+  }
+
+  if (!is.null(pred_obj$pre) & !is.function(pred_obj$pre)) {
+    rlang::abort("The `pre` module should be null or a function: ")
+  }
+  if (!is.null(pred_obj$post) & !is.function(pred_obj$post)) {
+    rlang::abort("The `post` module should be null or a function: ")
+  }
+
+  check_func_val(pred_obj$func)
+
+  if (!is.list(pred_obj$args)) {
+    rlang::abort("The `args` element should be a list. ")
+  }
+
+  invisible(NULL)
+}
+
+check_unregistered <- function(model, mode, eng) {
+  model_info <- get_from_env_celery(model)
+  has_engine <-
+    model_info %>%
+    dplyr::filter(engine == eng & mode == !!mode) %>%
+    nrow()
+  if (has_engine != 1) {
+    rlang::abort(
+      glue::glue("The combination of engine '{eng}' and mode '{mode}' has not ",
+                 "been registered for model '{model}'.")
+    )
+  }
+  invisible(NULL)
+}
+
+# This will be used to see if the same information is being registered for the
+# same model/mode/engine (and prediction type). If it already exists and the
+# new information is different, fail with a message. See issue parsnip/#653
+is_discordant_info <- function(model, mode, eng, candidate,
+                               pred_type = NULL, component = "fit") {
+  current <- get_from_env_celery(paste0(model, "_", component))
+
+  # For older versions of parsnip before set_encoding()
+  new_encoding <- is.null(current) & component == "encoding"
+
+  if (new_encoding) {
+    return(TRUE)
+  } else {
+    current <-  dplyr::filter(current, engine == eng & mode == !!mode)
+  }
+
+  if (component == "predict" & !is.null(pred_type)) {
+
+    current <- dplyr::filter(current, type == pred_type)
+    p_type <- paste0("and prediction type '", pred_type, "'")
+  } else {
+    p_type <- ""
+  }
+
+  if (nrow(current) == 0) {
+    return(TRUE)
+  }
+
+  same_info <- isTRUE(all.equal(current, candidate, check.environment = FALSE))
+
+  if (!same_info) {
+    rlang::abort(
+      glue::glue(
+        "The combination of engine '{eng}' and mode '{mode}' {p_type} already has ",
+        "{component} data for model '{model}' and the new information being ",
+        "registered is different."
+      )
+    )
+  }
+
+  FALSE
+}
+
+check_spec_pred_type <- function(object, type) {
+  if (!spec_has_pred_type(object, type)) {
+    possible_preds <- names(object$spec$method$pred)
+    rlang::abort(c(
+      glue::glue("No {type} prediction method available for this model."),
+      glue::glue("Value for `type` should be one of: ",
+                 glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", "))
+    ))
+  }
+  invisible(NULL)
+}
+
+spec_has_pred_type <- function(object, type) {
+  possible_preds <- names(object$spec$method$pred)
+  any(possible_preds == type)
 }

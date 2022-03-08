@@ -205,3 +205,69 @@ make_formula <- function(x, short = TRUE) {
   }
   as.formula(form_text)
 }
+
+#' @param object An object of class `cluster_fit`.
+#' @inheritParams predict.cluster_fit
+#' @rdname convert_helpers
+#' @keywords internal
+#' @export
+.convert_form_to_x_new <- function(object,
+                                   new_data,
+                                   na.action = stats::na.pass,
+                                   composition = "data.frame") {
+  if (!(composition %in% c("data.frame", "matrix"))) {
+    rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
+  }
+
+  mod_terms <- object$terms
+  mod_terms <- stats::delete.response(mod_terms)
+
+  new_data <-
+    model.frame(
+      mod_terms,
+      new_data,
+      na.action = na.action,
+      xlev = object$xlevels
+    )
+
+  cl <- attr(mod_terms, "dataClasses")
+  if (!is.null(cl)) {
+    stats::.checkMFClasses(cl, new_data)
+  }
+
+  # TODO: Do we actually use the returned offsets anywhere for prediction?
+  # Extract offset from model frame. Multiple offsets will be added together.
+  # Offsets might have been supplied through the formula.
+  offset <- model.offset(new_data)
+
+  if (object$options$indicators != "none") {
+    if (object$options$indicators == "one_hot") {
+      local_one_hot_contrasts()
+    }
+
+    new_data <- model.matrix(mod_terms, new_data)
+  }
+
+  if (object$options$remove_intercept) {
+    new_data <- new_data[, colnames(new_data) != "(Intercept)", drop = FALSE]
+  }
+
+  if (composition == "data.frame") {
+    new_data <- as.data.frame(new_data)
+  } else {
+    new_data <- as.matrix(new_data)
+  }
+  list(x = new_data, offset = offset)
+}
+
+#' @rdname convert_helpers
+#' @keywords internal
+#' @export
+.convert_x_to_form_new <- function(object, new_data) {
+  new_data <- new_data[, object$x_var, drop = FALSE]
+  if (!is.data.frame(new_data)) {
+    new_data <- as.data.frame(new_data)
+  }
+  new_data
+}
+

@@ -24,5 +24,10 @@ Authors:
   \item Kelly Bodwin \email{kelly@bodwin.us}
 }
 
+Other contributors:
+\itemize{
+  \item RStudio [copyright holder, funder]
+}
+
 }
 \keyword{internal}

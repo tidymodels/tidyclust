@@ -40,6 +40,23 @@ set_model_arg_celery(
   has_submodel = TRUE
 )
 
+set_pred(
+  model = "k_means",
+  eng = "stats",
+  mode = "partition",
+  type = "cluster",
+  value = list(
+    pre = NULL,
+    post = NULL,
+    func = c(fun = "stats_kmeans_predict"),
+    args =
+      list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
+  )
+)
+
 # ------------------------------------------------------------------------------
 
 set_model_engine_celery("k_means", "partition", "ClusterR")

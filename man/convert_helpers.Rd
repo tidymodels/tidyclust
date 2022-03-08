@@ -3,6 +3,8 @@
 \name{.convert_form_to_x_fit}
 \alias{.convert_form_to_x_fit}
 \alias{.convert_x_to_form_fit}
+\alias{.convert_form_to_x_new}
+\alias{.convert_x_to_form_new}
 \title{Helper functions to convert between formula and matrix interface}
 \usage{
 .convert_form_to_x_fit(
@@ -16,6 +18,15 @@
 )
 
 .convert_x_to_form_fit(x, weights = NULL, remove_intercept = TRUE)
+
+.convert_form_to_x_new(
+  object,
+  new_data,
+  na.action = stats::na.pass,
+  composition = "data.frame"
+)
+
+.convert_x_to_form_new(object, new_data)
 }
 \arguments{
 \item{formula}{An object of class \code{formula} (or one that can
@@ -45,6 +56,10 @@ models have support for sparse matrix input. See \code{celery::get_encoding_cele
 for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
+
+\item{object}{An object of class \code{cluster_fit}.}
+
+\item{new_data}{A rectangular data object, such as a data frame.}
 
 \item{y_name}{A string specifying the name of the outcome.}
 }

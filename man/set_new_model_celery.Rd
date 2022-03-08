@@ -12,6 +12,7 @@
 \alias{set_encoding_celery}
 \alias{set_model_arg_celery}
 \alias{show_model_info_celery}
+\alias{set_pred}
 \title{Tools to Register Models}
 \usage{
 set_new_model_celery(model)
@@ -35,6 +36,8 @@ set_encoding_celery(model, mode, eng, options)
 set_model_arg_celery(model, eng, celery, original, func, has_submodel)
 
 show_model_info_celery(model)
+
+set_pred(model, mode, eng, type, value)
 }
 \arguments{
 \item{model}{A single character string for the model type (e.g.
@@ -69,6 +72,10 @@ package's \code{predict} method.}
 \item{has_submodel}{A single logical for whether the argument
 can make predictions on multiple submodels at once.}
 
+\item{type}{A single character value for the type of prediction. Possible
+values are: \code{class}, \code{conf_int}, \code{numeric}, \code{pred_int}, \code{prob}, \code{quantile},
+and \code{raw}.}
+
 \item{arg}{A single character string for the model argument name.}
 
 \item{fit_obj}{A list with elements \code{interface}, \code{protect},
@@ -76,10 +83,6 @@ can make predictions on multiple submodels at once.}
 \code{celery} model from scratch".}
 
 \item{pred_obj}{A list with elements \code{pre}, \code{post}, \code{func}, and \code{args}.}
-
-\item{type}{A single character value for the type of prediction. Possible
-values are: \code{class}, \code{conf_int}, \code{numeric}, \code{pred_int}, \code{prob}, \code{quantile},
-and \code{raw}.}
 
 \item{pre, post}{Optional functions for pre- and post-processing of prediction
 results.}

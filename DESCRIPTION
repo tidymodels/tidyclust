@@ -27,7 +27,8 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     modeldata,
-    covr
+    covr,
+    flexclust
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2.9000

@@ -311,7 +311,7 @@ fit_x.cluster_spec <-
         rlang::abort(glue::glue("{interfaces} is unknown."))
       )
     model_classes <- class(res$fit)
-    class(res) <- c(paste0("_", model_classes[1]), "model_fit")
+    class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
     res
   }
 

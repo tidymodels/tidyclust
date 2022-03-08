@@ -101,3 +101,15 @@ stop_missing_engine <- function(cls) {
   msg <- paste("Missing engine. Possible mode/engine combinations are:", msg)
   rlang::abort(msg)
 }
+
+load_libs <- function(x, quiet, attach = FALSE) {
+  for (pkg in x$method$libs) {
+    if (!attach) {
+      suppressPackageStartupMessages(requireNamespace(pkg, quietly = quiet))
+    } else {
+      library(pkg, character.only = TRUE)
+    }
+  }
+  invisible(x)
+}
+
