@@ -74,7 +74,9 @@ package.</p>
 
 <span class="fu">set_model_arg_celery</span><span class="op">(</span><span class="va">model</span>, <span class="va">eng</span>, <span class="va">celery</span>, <span class="va">original</span>, <span class="va">func</span>, <span class="va">has_submodel</span><span class="op">)</span>
 
-<span class="fu">show_model_info_celery</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
+<span class="fu">show_model_info_celery</span><span class="op">(</span><span class="va">model</span><span class="op">)</span>
+
+<span class="fu">set_pred</span><span class="op">(</span><span class="va">model</span>, <span class="va">mode</span>, <span class="va">eng</span>, <span class="va">type</span>, <span class="va">value</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -111,6 +113,10 @@ package's <code>predict</code> method.</p></dd>
 <dt>has_submodel</dt>
 <dd><p>A single logical for whether the argument
 can make predictions on multiple submodels at once.</p></dd>
+<dt>type</dt>
+<dd><p>A single character value for the type of prediction. Possible
+values are: <code>class</code>, <code>conf_int</code>, <code>numeric</code>, <code>pred_int</code>, <code>prob</code>, <code>quantile</code>,
+and <code>raw</code>.</p></dd>
 <dt>arg</dt>
 <dd><p>A single character string for the model argument name.</p></dd>
 <dt>fit_obj</dt>
@@ -119,10 +125,6 @@ can make predictions on multiple submodels at once.</p></dd>
 <code>celery</code> model from scratch".</p></dd>
 <dt>pred_obj</dt>
 <dd><p>A list with elements <code>pre</code>, <code>post</code>, <code>func</code>, and <code>args</code>.</p></dd>
-<dt>type</dt>
-<dd><p>A single character value for the type of prediction. Possible
-values are: <code>class</code>, <code>conf_int</code>, <code>numeric</code>, <code>pred_int</code>, <code>prob</code>, <code>quantile</code>,
-and <code>raw</code>.</p></dd>
 <dt>pre, post</dt>
 <dd><p>Optional functions for pre- and post-processing of prediction
 results.</p></dd>
@@ -197,7 +199,10 @@ and tuning.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       stats partition</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    ClusterR partition</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  no registered prediction modules.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  prediction modules:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mode   engine methods</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    partition ClusterR cluster</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    partition    stats cluster</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

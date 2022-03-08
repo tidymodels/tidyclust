@@ -34,6 +34,9 @@
     <loc>/reference/convert_helpers.html</loc>
   </url>
   <url>
+    <loc>/reference/extract_cluster_assignment.html</loc>
+  </url>
+  <url>
     <loc>/reference/fit.html</loc>
   </url>
   <url>
@@ -53,6 +56,15 @@
   </url>
   <url>
     <loc>/reference/make_classes_celery.html</loc>
+  </url>
+  <url>
+    <loc>/reference/other_predict.html</loc>
+  </url>
+  <url>
+    <loc>/reference/predict.cluster_fit.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prepare_data.html</loc>
   </url>
   <url>
     <loc>/reference/reexports.html</loc>
