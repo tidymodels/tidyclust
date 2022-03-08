@@ -21,11 +21,6 @@ extract_cluster_assignment <- function(object, ...) {
 }
 
 #' @export
-extract_cluster_assignment.default <- function(object, ...) {
-  rlang::abort("`object` must be a `cluster_spec`.")
-}
-
-#' @export
 extract_cluster_assignment.cluster_fit <- function(object, ...) {
   extract_cluster_assignment(object$fit)
 }
@@ -35,6 +30,10 @@ extract_cluster_assignment.kmeans <- function(object, ...) {
   cluster_assignment_tibble(object$cluster, length(object$size))
 }
 
+#' @export
+extract_cluster_assignment.KMeansCluster <- function(object, ...) {
+  cluster_assignment_tibble(object$clusters, nrow(object$centroids))
+}
 
 cluster_assignment_tibble <- function(clusters, n_clusters) {
   res <- factor(clusters, levels = seq_len(n_clusters))
