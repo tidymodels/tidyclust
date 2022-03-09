@@ -36,7 +36,9 @@ extract_cluster_assignment.KMeansCluster <- function(object, ...) {
 }
 
 cluster_assignment_tibble <- function(clusters, n_clusters) {
-  res <- factor(clusters, levels = seq_len(n_clusters))
+  res <- factor(clusters,
+                levels = unique(clusters),
+                labels = paste0("C", seq_len(n_clusters)))
   tibble::tibble(.cluster = res)
 }
 
