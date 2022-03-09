@@ -1,0 +1,19 @@
+---
+title: "k-means Clustering"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{k-means Clustering}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(celery)
+```
