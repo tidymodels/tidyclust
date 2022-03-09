@@ -16,4 +16,71 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(celery)
+library(palmerpenguins)
+library(tidymodels)
 ```
+
+## Fit
+
+```{r}
+kmeans_spec <- k_means(k = 5) %>%
+  set_engine_celery("stats")
+
+penguins_rec_1 <- recipe(~ ., data = penguins) %>%
+  update_role(species, island, new_role = "demographic") %>%
+  step_dummy(sex)
+  
+  
+penguins_rec_2 <- recipe(species ~ ., data = penguins) %>%
+  step_dummy(sex, island)
+
+wflow_1 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_rec_1)
+
+
+wflow_2 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_rec_2)
+```
+
+We need workflows!
+
+```{r}
+# dropping NA first so rows match up later, this is clunky
+pen_sub <- penguins %>% 
+  drop_na() %>%
+  select(-species, -island, -sex)
+
+kmeans_fit <- kmeans_spec %>% fit( ~., pen_sub)
+
+kmeans_fit %>%
+  predict(new_data = pen_sub)
+```
+
+* Needed flexclust install; probably not necessary, we could implement for kmeans with just dists
+
+* Missing values should probably return an NA prediction.  Or for k-means, imputation isn't crazy...
+
+* We want a consistent return, and k-means is randomized.  We should agree to a consistent default ordering throughout celery - maybe by size (number of members) or something?
+
+
+```{r}
+penguins %>%
+  drop_na() %>%
+  mutate(
+    preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
+  ) %>%
+  count(preds, sex, species)
+```
+
+## Diagnostics
+
+* Measure cluster enrichment with demographic variables (an official recipe designation?).  Include Chi-Square or ANOVA tests???
+
+* Exploit confusion matrix from `yardstick`
+
+* Characterization of clusters, presumably by centers?
+
+* Automatic plot?!
+
