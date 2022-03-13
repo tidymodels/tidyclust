@@ -4,96 +4,35 @@
 #'  `predict()` can be used for all types of models and uses the
 #'  "type" argument for more specificity.
 #'
-#' @param object An object of class `model_fit`
+#' @param object An object of class `cluster_fit`
 #' @param new_data A rectangular data object, such as a data frame.
 #' @param type A single character value or `NULL`. Possible values
-#'   are "numeric", "class", "prob", "conf_int", "pred_int", "quantile", "time",
-#'  "hazard", "survival", or "raw". When `NULL`, `predict()` will choose an
+#'   are "cluster", or "raw". When `NULL`, `predict()` will choose an
 #'  appropriate value based on the model's mode.
 #' @param opts A list of optional arguments to the underlying
 #'  predict function that will be used when `type = "raw"`. The
 #'  list should not include options for the model object or the
 #'  new data being predicted.
 #' @param ... Arguments to the underlying model's prediction
-#'  function cannot be passed here (see `opts`). There are some
-#'  `parsnip` related options that can be passed, depending on the
-#'  value of `type`. Possible arguments are:
-#'  \itemize{
-#'     \item `interval`: for `type`s of "survival" and "quantile", should
-#'            interval estimates be added, if available? Options are `"none"`
-#'            and `"confidence"`.
-#'     \item `level`: for `type`s of "conf_int", "pred_int", and "survival"
-#'            this is the parameter for the tail area of the intervals
-#'            (e.g. confidence level for confidence intervals).
-#'            Default value is 0.95.
-#'     \item `std_error`: add the standard error of fit or prediction (on
-#'            the scale of the linear predictors) for `type`s of "conf_int"
-#'            and "pred_int". Default value is `FALSE`.
-#'     \item `quantile`: the quantile(s) for quantile regression
-#'            (not implemented yet)
-#'     \item `time`: the time(s) for hazard and survival probability estimates.
-#'  }
+#'  function cannot be passed here (see `opts`).
 #' @details If "type" is not supplied to `predict()`, then a choice
 #'  is made:
 #'
-#'   * `type = "numeric"` for regression models,
-#'   * `type = "class"` for classification, and
-#'   * `type = "time"` for censored regression.
+#'   * `type = "cluster"` for clustering models
 #'
 #' `predict()` is designed to provide a tidy result (see "Value"
 #'  section below) in a tibble output format.
 #'
-#'  ## Interval predictions
-#'
-#'  When using `type = "conf_int"` and `type = "pred_int"`, the options
-#'   `level` and `std_error` can be used. The latter is a logical for an
-#'   extra column of standard error values (if available).
-#'
-#'  ## Censored regression predictions
-#'
-#' For censored regression, a numeric vector for `time` is required when
-#' survival or hazard probabilities are requested. Also, when
-#' `type = "linear_pred"`, censored regression models will by default be
-#' formatted such that the linear predictor _increases_ with time. This may
-#' have the opposite sign as what the underlying model's `predict()` method
-#' produces. Set `increasing = FALSE` to suppress this behavior.
-#'
 #' @return With the exception of `type = "raw"`, the results of
-#'  `predict.model_fit()` will be a tibble as many rows in the output
+#'  `predict.cluster_fit()` will be a tibble as many rows in the output
 #'  as there are rows in `new_data` and the column names will be
 #'  predictable.
 #'
-#' For numeric results with a single outcome, the tibble will have
-#'  a `.pred` column and `.pred_Yname` for multivariate results.
+#' For clustering results with a single outcome, the tibble will have
+#'  a `.pred_cluster`.
 #'
-#' For hard class predictions, the column is named `.pred_class`
-#'  and, when `type = "prob"`, the columns are `.pred_classlevel`.
-#'
-#' `type = "conf_int"` and `type = "pred_int"` return tibbles with
-#'  columns `.pred_lower` and `.pred_upper` with an attribute for
-#'  the confidence level. In the case where intervals can be
-#'  produces for class probabilities (or other non-scalar outputs),
-#'  the columns will be named `.pred_lower_classlevel` and so on.
-#'
-#' Quantile predictions return a tibble with a column `.pred`, which is
-#'  a list-column. Each list element contains a tibble with columns
-#'  `.pred` and `.quantile` (and perhaps other columns).
-#'
-#' Using `type = "raw"` with `predict.model_fit()` will return
+#' Using `type = "raw"` with `predict.cluster_fit()` will return
 #'  the unadulterated results of the prediction function.
-#'
-#' For censored regression:
-#'
-#'  * `type = "time"` produces a column `.pred_time`.
-#'  * `type = "hazard"` results in a list column `.pred` containing tibbles
-#'     with a column `.pred_hazard`.
-#'  * `type = "survival"` results in a list column `.pred` containing tibbles
-#'     with a `.pred_survival` column.
-#'
-#' In the case of Spark-based models, since table columns cannot
-#'  contain dots, the same convention is used except 1) no dots
-#'  appear in names and 2) vectors are never returned but
-#'  type-specific prediction functions.
 #'
 #' When the model fit failed and the error was captured, the
 #'  `predict()` function will return the same structure as above but
@@ -101,7 +40,13 @@
 #'  multivariate models.
 #'
 #' @examples
-#' 1 + 1
+#' kmeans_spec <- k_means(k = 5) %>%
+#'   set_engine_celery("stats")
+#'
+#' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
+#'
+#' kmeans_fit %>%
+#'   predict(new_data = mtcars)
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
 #' @export

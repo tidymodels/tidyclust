@@ -39,5 +39,5 @@ function.
 
 \strong{Note}: this function is used internally and users should only use it
 to understand what the underlying syntax would be. It should not be used
-to modify the model specification.
+to modify the cluster specification.
 }

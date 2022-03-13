@@ -41,9 +41,9 @@ set_pred(model, mode, eng, type, value)
 }
 \arguments{
 \item{model}{A single character string for the model type (e.g.
-\code{"rand_forest"}, etc).}
+\code{"k_means"}, etc).}
 
-\item{mode}{A single character string for the model mode (e.g. "regression").}
+\item{mode}{A single character string for the model mode (e.g. "partition").}
 
 \item{eng}{A single character string for the model engine.}
 
@@ -73,8 +73,7 @@ package's \code{predict} method.}
 can make predictions on multiple submodels at once.}
 
 \item{type}{A single character value for the type of prediction. Possible
-values are: \code{class}, \code{conf_int}, \code{numeric}, \code{pred_int}, \code{prob}, \code{quantile},
-and \code{raw}.}
+values are: \code{cluster} and \code{raw}.}
 
 \item{arg}{A single character string for the model argument name.}
 
@@ -96,30 +95,29 @@ that there are no conflicts with the underlying model structures used by the
 package.
 }
 \details{
-These functions are available for users to add their
-own models or engines (in a package or otherwise) so that they can
-be accessed using \code{celery}. This is more thoroughly documented
-on the package web site (see references below).
+These functions are available for users to add their own models or
+engines (in a package or otherwise) so that they can be accessed using
+\code{celery}.
 
-In short, \code{celery} stores an environment object that contains
-all of the information and code about how models are used (e.g.
-fitting, predicting, etc). These functions can be used to add
-models to that environment as well as helper functions that can
-be used to makes sure that the model data is in the right
-format.
+In short, \code{celery} stores an environment object that contains all of the
+information and code about how models are used (e.g. fitting, predicting,
+etc). These functions can be used to add models to that environment as well
+as helper functions that can be used to makes sure that the model data is
+in the right format.
 
-\code{check_model_exists_celery()} checks the model value and ensures that the model has
-already been registered. \code{check_model_doesnt_exist_celery()} checks the model value
-and also checks to see if it is novel in the environment.
+\code{check_model_exists_celery()} checks the model value and ensures that the
+model has already been registered. \code{check_model_doesnt_exist_celery()}
+checks the model value and also checks to see if it is novel in the
+environment.
 
-The options for engine-specific encodings dictate how the predictors should be
-handled. These options ensure that the data
-that \code{celery} gives to the underlying model allows for a model fit that is
-as similar as possible to what it would have produced directly.
+The options for engine-specific encodings dictate how the predictors should
+be handled. These options ensure that the data that \code{celery} gives to the
+underlying model allows for a model fit that is as similar as possible to
+what it would have produced directly.
 
-For example, if \code{fit()} is used to fit a model that does not have
-a formula interface, typically some predictor preprocessing must
-be conducted. \code{glmnet} is a good example of this.
+For example, if \code{fit()} is used to fit a model that does not have a formula
+interface, typically some predictor preprocessing must be conducted.
+\code{glmnet} is a good example of this.
 
 There are four options that can be used for the encodings:
 
@@ -131,12 +129,12 @@ including the baseline level for all factors). This encoding only affects
 cases when \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} is used and the underlying model has an x/y
 interface.
 
-Another option is \code{compute_intercept}; this controls whether \code{model.matrix()}
-should include the intercept in its formula. This affects more than the
-inclusion of an intercept column. With an intercept, \code{model.matrix()}
-computes dummy variables for all but one factor levels. Without an
-intercept, \code{model.matrix()} computes a full set of indicators for the
-\emph{first} factor variable, but an incomplete set for the remainder.
+Another option is \code{compute_intercept}; this controls whether
+\code{model.matrix()} should include the intercept in its formula. This affects
+more than the inclusion of an intercept column. With an intercept,
+\code{model.matrix()} computes dummy variables for all but one factor levels.
+Without an intercept, \code{model.matrix()} computes a full set of indicators
+for the \emph{first} factor variable, but an incomplete set for the remainder.
 
 Next, the option \code{remove_intercept} will remove the intercept column
 \emph{after} \code{model.matrix()} is finished. This can be useful if the model

@@ -1,3 +1,15 @@
+#' Other predict methods.
+#'
+#' These are internal functions not meant to be directly called by the user.
+#'
+#' @export
+#' @keywords internal
+#' @rdname other_predict
+#' @inheritParams predict_cluster.cluster_fit
+predict_cluster <- function(object, ...) {
+  UseMethod("predict_cluster")
+}
+
 #' @keywords internal
 #' @rdname other_predict
 #' @inheritParams predict.cluster_fit
@@ -30,17 +42,4 @@ predict_cluster.cluster_fit <- function(object, new_data, ...) {
   }
 
   unname(res)
-}
-
-
-#' Other predict methods.
-#'
-#' These are internal functions not meant to be directly called by the user.
-#'
-#' @export
-#' @keywords internal
-#' @rdname other_predict
-#' @inheritParams predict_cluster.cluster_fit
-predict_cluster <- function(object, ...) {
-  UseMethod("predict_cluster")
 }

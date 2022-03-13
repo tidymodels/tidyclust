@@ -9,7 +9,7 @@ extract_cluster_assignment(object, ...)
 \arguments{
 \item{object}{An cluster_spec object.}
 
-\item{...}{Other arguments passed to methods}
+\item{...}{Other arguments passed to methods.}
 }
 \description{
 Extract cluster assignments from model
@@ -19,9 +19,6 @@ kmeans_spec <- k_means(k = 5) \%>\%
   set_engine_celery("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
-
-kmeans_fit \%>\%
-  predict(new_data = mtcars)
 
 kmeans_fit \%>\%
   extract_cluster_assignment()

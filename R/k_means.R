@@ -1,12 +1,12 @@
-#' K Means
+#' K-Means
 #'
 #' @description
 #'
-#' `linear_reg()` defines a model that fits clusters based on distances to
-#' a number of centers.
+#' `k_means()` defines a model that fits clusters based on distances to a number
+#' of centers.
 #'
 #' @param mode A single character string for the type of model.
-#'  The only possible value for this model is "regression".
+#'  The only possible value for this model is "partition".
 #' @param engine A single character string specifying what computational engine
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"stats"`.
@@ -48,11 +48,9 @@ print.k_means <- function(x, ...) {
   invisible(x)
 }
 
-
 #' @export
 translate_celery.k_means <- function(x, engine = x$engine, ...) {
   x <- translate_celery.default(x, engine, ...)
-
   x
 }
 

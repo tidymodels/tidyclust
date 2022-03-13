@@ -29,9 +29,8 @@
 .convert_x_to_form_new(object, new_data)
 }
 \arguments{
-\item{formula}{An object of class \code{formula} (or one that can
-be coerced to that class): a symbolic description of the model
-to be fitted.}
+\item{formula}{An object of class \code{formula} (or one that can be coerced to
+that class): a symbolic description of the model to be fitted.}
 
 \item{data}{A data frame containing all relevant variables (e.g. outcome(s),
 predictors, case weights, etc).}
@@ -52,8 +51,8 @@ should be returned as a \code{"matrix"} or a \code{"data.frame"}.}
 column after \code{model.matrix()} is finished.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See \code{celery::get_encoding_celery()}
-for details. \code{x} should have column names.}
+models have support for sparse matrix input. See
+\code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
 
