@@ -2,12 +2,12 @@
 % Please edit documentation in R/fit.R
 \name{fit.cluster_spec}
 \alias{fit.cluster_spec}
-\alias{fit_x.cluster_spec}
+\alias{fit_xy.cluster_spec}
 \title{Fit a Model Specification to a Dataset}
 \usage{
 \method{fit}{cluster_spec}(object, formula, data, control = control_celery(), ...)
 
-\method{fit_x}{cluster_spec}(object, x, control = control_celery(), ...)
+\method{fit_xy}{cluster_spec}(object, x, control = control_celery(), ...)
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine
@@ -51,17 +51,17 @@ The return value will also have a class related to the fitted model (e.g.
 \code{"_glm"}) before the base class of \code{"cluster_fit"}.
 }
 \description{
-\code{fit()} and \code{fit_x()} take a model specification, translate_celery the required
+\code{fit()} and \code{fit_xy()} take a model specification, translate_celery the required
 code by substituting arguments, and execute the model fit
 routine.
 }
 \details{
-\code{fit()} and \code{fit_x()} substitute the current arguments in the model
+\code{fit()} and \code{fit_xy()} substitute the current arguments in the model
 specification into the computational engine's code, check them
 for validity, then fit the model using the data and the
 engine-specific code. Different model functions have different
 interfaces (e.g. formula or \code{x}/\code{y}) and these functions translate_celery
-between the interface used when \code{fit()} or \code{fit_x()} was invoked and the one
+between the interface used when \code{fit()} or \code{fit_xy()} was invoked and the one
 required by the underlying model.
 
 When possible, these functions attempt to avoid making copies of the
@@ -100,7 +100,7 @@ using_formula <-
 using_x <-
   kmeans_mod \%>\%
   set_engine_celery("stats") \%>\%
-  fit_x(x = mtcars)
+  fit_xy(x = mtcars)
 
 using_formula
 using_x

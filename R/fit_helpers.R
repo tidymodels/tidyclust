@@ -67,7 +67,7 @@ form_x <- function(object, control, env, target = "none", ...) {
   res
 }
 
-x_x <- function(object, env, control, target = "none", ...) {
+x_x <- function(object, env, control, target = "none", y = NULL, ...) {
   encoding_info <-
     get_encoding_celery(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)

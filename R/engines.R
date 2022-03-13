@@ -1,6 +1,6 @@
 specific_model <- function(x) {
   cls <- class(x)
-  cls[cls != "cluster_spec"]
+  cls[!cls %in% c("cluster_spec", "model_spec")]
 }
 
 possible_engines <- function(object, ...) {

@@ -7,6 +7,7 @@
 \alias{fit}
 \alias{tidy}
 \alias{glance}
+\alias{fit_xy}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -14,7 +15,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{generics}{\code{\link[generics]{fit}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics]{fit}}, \code{\link[generics]{fit_xy}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 }}

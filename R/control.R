@@ -38,7 +38,7 @@ check_control <- function(x) {
 control_celery <- function(verbosity = 1L, catch = FALSE) {
   res <- list(verbosity = verbosity, catch = catch)
   res <- check_control(res)
-  class(res) <- "control_celery"
+  class(res) <- c("control_celery", "control_parsnip")
   res
 }
 

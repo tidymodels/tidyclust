@@ -1,6 +1,6 @@
 #' Fit a Model Specification to a Dataset
 #'
-#' `fit()` and `fit_x()` take a model specification, translate_celery the required
+#' `fit()` and `fit_xy()` take a model specification, translate_celery the required
 #'  code by substituting arguments, and execute the model fit
 #'  routine.
 #'
@@ -18,12 +18,12 @@
 #' @param ... Not currently used; values passed here will be
 #'  ignored. Other options required to fit the model should be
 #'  passed using `set_engine_celery()`.
-#' @details  `fit()` and `fit_x()` substitute the current arguments in the model
+#' @details  `fit()` and `fit_xy()` substitute the current arguments in the model
 #'  specification into the computational engine's code, check them
 #'  for validity, then fit the model using the data and the
 #'  engine-specific code. Different model functions have different
 #'  interfaces (e.g. formula or `x`/`y`) and these functions translate_celery
-#'  between the interface used when `fit()` or `fit_x()` was invoked and the one
+#'  between the interface used when `fit()` or `fit_xy()` was invoked and the one
 #'  required by the underlying model.
 #'
 #' When possible, these functions attempt to avoid making copies of the
@@ -61,7 +61,7 @@
 #' using_x <-
 #'   kmeans_mod %>%
 #'   set_engine_celery("stats") %>%
-#'   fit_x(x = mtcars)
+#'   fit_xy(x = mtcars)
 #'
 #' using_formula
 #' using_x
@@ -96,9 +96,9 @@ fit.cluster_spec <- function(object,
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  if (!identical(class(control), class(control_celery()))) {
-    rlang::abort("The 'control' argument should have class 'control_celery'.")
-  }
+  #if (!identical(class(control), class(control_celery()))) {
+  #  rlang::abort("The 'control' argument should have class 'control_celery'.")
+  #}
   dots <- quos(...)
   if (is.null(object$engine)) {
     eng_vals <- possible_engines(object)
@@ -109,7 +109,7 @@ fit.cluster_spec <- function(object,
   }
 
   if (all(c("x", "y") %in% names(dots))) {
-    rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_x()` instead.")
+    rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_xy()` instead.")
   }
   cl <- match.call(expand.dots = TRUE)
   # Create an environment with the evaluated argument objects. This will be
@@ -227,26 +227,14 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 
 # ------------------------------------------------------------------------------
 
-#' Estimate model parameters.
-#'
-#' Estimates parameters for a given model from a set of data in the form of
-#'  a set of predictors (`x`).
-#'
-#' @param object An cluster_spec object.
-#' @param ... Other arguments passed to methods
-#' @export
-fit_x <- function(object, ...) {
-  UseMethod("fit_x")
-}
-
 #' @rdname fit
 #' @export
-#' @export fit_x.cluster_spec
-fit_x.cluster_spec <-
+#' @export fit_xy.cluster_spec
+fit_xy.cluster_spec <-
   function(object, x, control = control_celery(), ...) {
-    if (!identical(class(control), class(control_celery()))) {
-      rlang::abort("The 'control' argument should have class 'control_celery'.")
-    }
+    # if (!identical(class(control), class(control_celery()))) {
+    #   rlang::abort("The 'control' argument should have class 'control_celery'.")
+    # }
     if (is.null(colnames(x))) {
       rlang::abort("'x' should have column names.")
     }
