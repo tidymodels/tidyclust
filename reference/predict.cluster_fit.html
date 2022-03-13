@@ -61,13 +61,12 @@ predict() can be used for all types of models and uses the
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>An object of class <code>model_fit</code></p></dd>
+<dd><p>An object of class <code>cluster_fit</code></p></dd>
 <dt>new_data</dt>
 <dd><p>A rectangular data object, such as a data frame.</p></dd>
 <dt>type</dt>
 <dd><p>A single character value or <code>NULL</code>. Possible values
-are "numeric", "class", "prob", "conf_int", "pred_int", "quantile", "time",
-"hazard", "survival", or "raw". When <code>NULL</code>, <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> will choose an
+are "cluster", or "raw". When <code>NULL</code>, <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> will choose an
 appropriate value based on the model's mode.</p></dd>
 <dt>opts</dt>
 <dd><p>A list of optional arguments to the underlying
@@ -76,51 +75,18 @@ list should not include options for the model object or the
 new data being predicted.</p></dd>
 <dt>...</dt>
 <dd><p>Arguments to the underlying model's prediction
-function cannot be passed here (see <code>opts</code>). There are some
-<code>parsnip</code> related options that can be passed, depending on the
-value of <code>type</code>. Possible arguments are:</p><ul><li><p><code>interval</code>: for <code>type</code>s of "survival" and "quantile", should
-interval estimates be added, if available? Options are <code>"none"</code>
-and <code>"confidence"</code>.</p></li>
-<li><p><code>level</code>: for <code>type</code>s of "conf_int", "pred_int", and "survival"
-this is the parameter for the tail area of the intervals
-(e.g. confidence level for confidence intervals).
-Default value is 0.95.</p></li>
-<li><p><code>std_error</code>: add the standard error of fit or prediction (on
-the scale of the linear predictors) for <code>type</code>s of "conf_int"
-and "pred_int". Default value is <code>FALSE</code>.</p></li>
-<li><p><code>quantile</code>: the quantile(s) for quantile regression
-(not implemented yet)</p></li>
-<li><p><code>time</code>: the time(s) for hazard and survival probability estimates.</p></li>
-</ul></dd>
+function cannot be passed here (see <code>opts</code>).</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>With the exception of <code>type = "raw"</code>, the results of
-<code>predict.model_fit()</code> will be a tibble as many rows in the output
+<code>predict.cluster_fit()</code> will be a tibble as many rows in the output
 as there are rows in <code>new_data</code> and the column names will be
 predictable.
-For numeric results with a single outcome, the tibble will have
-a <code>.pred</code> column and <code>.pred_Yname</code> for multivariate results.
-For hard class predictions, the column is named <code>.pred_class</code>and, when <code>type = "prob"</code>, the columns are <code>.pred_classlevel</code>.
-<code>type = "conf_int"</code> and <code>type = "pred_int"</code> return tibbles with
-columns <code>.pred_lower</code> and <code>.pred_upper</code> with an attribute for
-the confidence level. In the case where intervals can be
-produces for class probabilities (or other non-scalar outputs),
-the columns will be named <code>.pred_lower_classlevel</code> and so on.
-Quantile predictions return a tibble with a column <code>.pred</code>, which is
-a list-column. Each list element contains a tibble with columns
-<code>.pred</code> and <code>.quantile</code> (and perhaps other columns).
-Using <code>type = "raw"</code> with <code>predict.model_fit()</code> will return
+For clustering results with a single outcome, the tibble will have
+a <code>.pred_cluster</code>.
+Using <code>type = "raw"</code> with <code>predict.cluster_fit()</code> will return
 the unadulterated results of the prediction function.
-For censored regression:</p><ul><li><p><code>type = "time"</code> produces a column <code>.pred_time</code>.</p></li>
-<li><p><code>type = "hazard"</code> results in a list column <code>.pred</code> containing tibbles
-with a column <code>.pred_hazard</code>.</p></li>
-<li><p><code>type = "survival"</code> results in a list column <code>.pred</code> containing tibbles
-with a <code>.pred_survival</code> column.</p></li>
-</ul><p>In the case of Spark-based models, since table columns cannot
-contain dots, the same convention is used except 1) no dots
-appear in names and 2) vectors are never returned but
-type-specific prediction functions.
 When the model fit failed and the error was captured, the
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function will return the same structure as above but
 filled with missing values. This does not currently work for
@@ -129,37 +95,34 @@ multivariate models.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If "type" is not supplied to <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>, then a choice
-is made:</p><ul><li><p><code>type = "numeric"</code> for regression models,</p></li>
-<li><p><code>type = "class"</code> for classification, and</p></li>
-<li><p><code>type = "time"</code> for censored regression.</p></li>
+is made:</p><ul><li><p><code>type = "cluster"</code> for clustering models</p></li>
 </ul><p><code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> is designed to provide a tidy result (see "Value"
-section below) in a tibble output format.</p><div class="section">
-<h3 id="interval-predictions">Interval predictions<a class="anchor" aria-label="anchor" href="#interval-predictions"></a></h3>
-
-
-<p>When using <code>type = "conf_int"</code> and <code>type = "pred_int"</code>, the options
-<code>level</code> and <code>std_error</code> can be used. The latter is a logical for an
-extra column of standard error values (if available).</p>
-</div>
-
-<div class="section">
-<h3 id="censored-regression-predictions">Censored regression predictions<a class="anchor" aria-label="anchor" href="#censored-regression-predictions"></a></h3>
-
-
-<p>For censored regression, a numeric vector for <code>time</code> is required when
-survival or hazard probabilities are requested. Also, when
-<code>type = "linear_pred"</code>, censored regression models will by default be
-formatted such that the linear predictor <em>increases</em> with time. This may
-have the opposite sign as what the underlying model's <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method
-produces. Set <code>increasing = FALSE</code> to suppress this behavior.</p>
-</div>
-
+section below) in a tibble output format.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fl">1</span><span class="op">+</span><span class="fl">1</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="k_means.html">k_means</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in">  <span class="fu"><a href="set_engine_celery.html">set_engine_celery</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">kmeans_spec</span>, <span class="op">~</span><span class="va">.</span>, <span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 32 × 1</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    .pred_cluster</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 1            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 4            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 1            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 3            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 22 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
