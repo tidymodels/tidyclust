@@ -10,4 +10,3 @@ test_that("printing", {
     k_means(k = 10)
   )
 })
-

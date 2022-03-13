@@ -119,5 +119,5 @@ produces. Set \code{increasing = FALSE} to suppress this behavior.
 }
 }
 \examples{
-1+1
+1 + 1
 }

@@ -937,16 +937,20 @@ set_pred <- function(model, mode, eng, type, value) {
 check_pred_info <- function(pred_obj, type) {
   if (all(type != pred_types)) {
     rlang::abort(
-      glue::glue("The prediction type should be one of: ",
-                 glue::glue_collapse(glue::glue("'{pred_types}'"), sep = ", "))
+      glue::glue(
+        "The prediction type should be one of: ",
+        glue::glue_collapse(glue::glue("'{pred_types}'"), sep = ", ")
+      )
     )
   }
 
   exp_nms <- c("args", "func", "post", "pre")
   if (!isTRUE(all.equal(sort(names(pred_obj)), exp_nms))) {
     rlang::abort(
-      glue::glue("The `predict` module should have elements: ",
-                 glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", "))
+      glue::glue(
+        "The `predict` module should have elements: ",
+        glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", ")
+      )
     )
   }
 
@@ -974,8 +978,10 @@ check_unregistered <- function(model, mode, eng) {
     nrow()
   if (has_engine != 1) {
     rlang::abort(
-      glue::glue("The combination of engine '{eng}' and mode '{mode}' has not ",
-                 "been registered for model '{model}'.")
+      glue::glue(
+        "The combination of engine '{eng}' and mode '{mode}' has not ",
+        "been registered for model '{model}'."
+      )
     )
   }
   invisible(NULL)
@@ -994,11 +1000,10 @@ is_discordant_info <- function(model, mode, eng, candidate,
   if (new_encoding) {
     return(TRUE)
   } else {
-    current <-  dplyr::filter(current, engine == eng & mode == !!mode)
+    current <- dplyr::filter(current, engine == eng & mode == !!mode)
   }
 
   if (component == "predict" & !is.null(pred_type)) {
-
     current <- dplyr::filter(current, type == pred_type)
     p_type <- paste0("and prediction type '", pred_type, "'")
   } else {
@@ -1029,8 +1034,10 @@ check_spec_pred_type <- function(object, type) {
     possible_preds <- names(object$spec$method$pred)
     rlang::abort(c(
       glue::glue("No {type} prediction method available for this model."),
-      glue::glue("Value for `type` should be one of: ",
-                 glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", "))
+      glue::glue(
+        "Value for `type` should be one of: ",
+        glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", ")
+      )
     ))
   }
   invisible(NULL)

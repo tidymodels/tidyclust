@@ -96,9 +96,9 @@ fit.cluster_spec <- function(object,
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  #if (!identical(class(control), class(control_celery()))) {
+  # if (!identical(class(control), class(control_celery()))) {
   #  rlang::abort("The 'control' argument should have class 'control_celery'.")
-  #}
+  # }
   dots <- quos(...)
   if (is.null(object$engine)) {
     eng_vals <- possible_engines(object)

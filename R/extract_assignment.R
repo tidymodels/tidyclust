@@ -5,7 +5,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#' set_engine_celery("stats")
+#'   set_engine_celery("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -14,7 +14,6 @@
 #'
 #' kmeans_fit %>%
 #'   extract_cluster_assignment()
-#'
 #' @export
 extract_cluster_assignment <- function(object, ...) {
   UseMethod("extract_cluster_assignment")
@@ -39,4 +38,3 @@ cluster_assignment_tibble <- function(clusters, n_clusters) {
   res <- factor(clusters, levels = seq_len(n_clusters))
   tibble::tibble(.cluster = res)
 }
-

@@ -16,7 +16,7 @@ Extract cluster assignments from model
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
-set_engine_celery("stats")
+  set_engine_celery("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
@@ -25,5 +25,4 @@ kmeans_fit \%>\%
 
 kmeans_fit \%>\%
   extract_cluster_assignment()
-
 }

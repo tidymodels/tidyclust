@@ -112,4 +112,3 @@ load_libs <- function(x, quiet, attach = FALSE) {
   }
   invisible(x)
 }
-

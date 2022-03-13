@@ -101,7 +101,7 @@
 #'  multivariate models.
 #'
 #' @examples
-#' 1+1
+#' 1 + 1
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
 #' @export
@@ -116,14 +116,12 @@ predict.cluster_fit <- function(object, new_data, type = NULL, opts = list(), ..
 
   type <- check_pred_type(object, type)
 
-  res <- switch(
-    type,
+  res <- switch(type,
     cluster = predict_cluster(object = object, new_data = new_data, ...),
     rlang::abort(glue::glue("I don't know about type = '{type}'"))
   )
 
-  res <- switch(
-    type,
+  res <- switch(type,
     cluster = format_cluster(res),
     res
   )
@@ -135,21 +133,22 @@ check_pred_type <- function(object, type, ...) {
   if (is.null(type)) {
     type <-
       switch(object$spec$mode,
-             partition = "cluster",
-             rlang::abort("`type` should be 'cluster'."))
+        partition = "cluster",
+        rlang::abort("`type` should be 'cluster'.")
+      )
   }
-  if (!(type %in% pred_types))
+  if (!(type %in% pred_types)) {
     rlang::abort(
       glue::glue(
         "`type` should be one of: ",
         glue::glue_collapse(pred_types, sep = ", ", last = " and ")
       )
     )
+  }
   type
 }
 
 format_cluster <- function(x) {
-
   tibble::tibble(.pred_cluster = unname(x))
 }
 
@@ -180,8 +179,7 @@ prepare_data <- function(object, new_data) {
     new_data <- new_data %>% dplyr::select(-dplyr::one_of("(Intercept)"))
   }
 
-  switch(
-    fit_interface,
+  switch(fit_interface,
     none = new_data,
     data.frame = as.data.frame(new_data),
     matrix = as.matrix(new_data),
@@ -190,10 +188,11 @@ prepare_data <- function(object, new_data) {
 }
 
 make_pred_call <- function(x) {
-  if ("pkg" %in% names(x$func))
-    cl <- rlang::call2(x$func["fun"],!!!x$args, .ns = x$func["pkg"])
-  else
-    cl <- rlang::call2(x$func["fun"],!!!x$args)
+  if ("pkg" %in% names(x$func)) {
+    cl <- rlang::call2(x$func["fun"], !!!x$args, .ns = x$func["pkg"])
+  } else {
+    cl <- rlang::call2(x$func["fun"], !!!x$args)
+  }
 
   cl
 }
