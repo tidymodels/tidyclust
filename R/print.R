@@ -2,13 +2,14 @@
 print.cluster_fit <- function(x, ...) {
   cat("celery cluster object\n\n")
   if (!is.na(x$elapsed[["elapsed"]])) {
-    cat("Fit time: ", prettyunits::pretty_sec(x$elapsed[["elapsed"]]),
-        "\n")
+    cat(
+      "Fit time: ", prettyunits::pretty_sec(x$elapsed[["elapsed"]]),
+      "\n"
+    )
   }
   if (inherits(x$fit, "try-error")) {
     cat("Cluster fit failed with error:\n", x$fit, "\n")
-  }
-  else {
+  } else {
     print(x$fit, ...)
   }
   invisible(x)
