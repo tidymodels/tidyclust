@@ -7,12 +7,15 @@
 \alias{check_model_exists_celery}
 \alias{set_model_engine_celery}
 \alias{set_dependency_celery}
+\alias{get_dependency_celery}
 \alias{set_fit_celery}
+\alias{get_fit_celery}
 \alias{get_encoding_celery}
 \alias{set_encoding_celery}
 \alias{set_model_arg_celery}
 \alias{show_model_info_celery}
-\alias{set_pred}
+\alias{set_pred_celery}
+\alias{get_pred_type_celery}
 \title{Tools to Register Models}
 \usage{
 set_new_model_celery(model)
@@ -27,7 +30,11 @@ set_model_engine_celery(model, mode, eng)
 
 set_dependency_celery(model, eng, pkg = "celery", mode = NULL)
 
+get_dependency_celery(model)
+
 set_fit_celery(model, mode, eng, value)
+
+get_fit_celery(model)
 
 get_encoding_celery(model)
 
@@ -37,7 +44,9 @@ set_model_arg_celery(model, eng, celery, original, func, has_submodel)
 
 show_model_info_celery(model)
 
-set_pred(model, mode, eng, type, value)
+set_pred_celery(model, mode, eng, type, value)
+
+get_pred_type_celery(model, type)
 }
 \arguments{
 \item{model}{A single character string for the model type (e.g.

@@ -40,7 +40,7 @@ set_model_arg_celery(
   has_submodel = TRUE
 )
 
-set_pred(
+set_pred_celery(
   model = "k_means",
   eng = "stats",
   mode = "partition",
@@ -96,7 +96,7 @@ set_model_arg_celery(
   has_submodel = TRUE
 )
 
-set_pred(
+set_pred_celery(
   model = "k_means",
   eng = "ClusterR",
   mode = "partition",
