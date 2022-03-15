@@ -3,7 +3,6 @@
 \name{get_model_env_celery}
 \alias{get_model_env_celery}
 \alias{get_from_env_celery}
-\alias{set_in_env_celery}
 \alias{set_env_val_celery}
 \title{Working with the celery model environment}
 \usage{
@@ -11,18 +10,16 @@ get_model_env_celery()
 
 get_from_env_celery(items)
 
-set_in_env_celery(...)
-
 set_env_val_celery(name, value)
 }
 \arguments{
 \item{items}{A character string of objects in the model environment.}
 
-\item{...}{Named values that will be assigned to the model environment.}
-
 \item{name}{A single character value for a new symbol in the model environment.}
 
 \item{value}{A single value for a new value in the model environment.}
+
+\item{...}{Named values that will be assigned to the model environment.}
 }
 \description{
 These functions read and write to the environment where the package stores

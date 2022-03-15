@@ -127,14 +127,6 @@ get_from_env_celery <- function(items) {
 #' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-set_in_env_celery <- function(...) {
-  mod_env <- get_model_env_celery()
-  rlang::env_bind(mod_env, ...)
-}
-
-#' @rdname get_model_env_celery
-#' @keywords internal
-#' @export
 set_env_val_celery <- function(name, value) {
   if (length(name) != 1 || !is.character(name)) {
     rlang::abort("`name` should be a single character value.")
