@@ -55,6 +55,35 @@ test_that("bad input", {
 })
 
 # ------------------------------------------------------------------------------
+set.seed(1234)
+kmeans_fit <- k_means(k = 4) %>%
+  set_engine_celery("stats") %>%
+  fit(~., mtcars)
+
+set.seed(1234)
+ref_res <- kmeans(mtcars, 4)
+
+ref_predictions <- ref_res$centers %>%
+  flexclust::dist2(mtcars) %>%
+  apply(2, which.min) %>%
+  unname()
+
+expect_equal(
+  ref_predictions,
+  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
+)
+
+expect_equal(
+  unname(ref_res$cluster),
+  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+)
+
+expect_equal(
+  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric(),
+  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+)
+
+# ------------------------------------------------------------------------------
 
 test_that("Right classes", {
   expect_equal(class(k_means()), c("k_means", "cluster_spec"))
