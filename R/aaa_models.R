@@ -127,14 +127,6 @@ get_from_env_celery <- function(items) {
 #' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-set_in_env_celery <- function(...) {
-  mod_env <- get_model_env_celery()
-  rlang::env_bind(mod_env, ...)
-}
-
-#' @rdname get_model_env_celery
-#' @keywords internal
-#' @export
 set_env_val_celery <- function(name, value) {
   if (length(name) != 1 || !is.character(name)) {
     rlang::abort("`name` should be a single character value.")
@@ -459,6 +451,18 @@ set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
   invisible(NULL)
 }
 
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_dependency_celery <- function(model) {
+  check_model_exists_celery(model)
+  pkg_name <- paste0(model, "_pkgs")
+  if (!any(pkg_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have a dependency list in celery."))
+  }
+  rlang::env_get(get_model_env_celery(), pkg_name)
+}
+
 check_pkg_val <- function(pkg) {
   if (rlang::is_missing(pkg) || length(pkg) != 1 || !is.character(pkg)) {
     rlang::abort("Please supply a single character value for the package name.")
@@ -520,6 +524,18 @@ set_fit_celery <- function(model, mode, eng, value) {
   )
 
   invisible(NULL)
+}
+
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_fit_celery <- function(model) {
+  check_model_exists_celery(model)
+  fit_name <- paste0(model, "_fit")
+  if (!any(fit_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have a `fit` method in celery."))
+  }
+  rlang::env_get(get_model_env_celery(), fit_name)
 }
 
 check_fit_info <- function(fit_obj) {
@@ -902,7 +918,7 @@ show_model_info_celery <- function(model) {
 #' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_pred <- function(model, mode, eng, type, value) {
+set_pred_celery <- function(model, mode, eng, type, value) {
   check_model_exists_celery(model)
   check_eng_val(eng)
   check_spec_mode_engine_val(model, eng, mode)
@@ -934,6 +950,23 @@ set_pred <- function(model, mode, eng, type, value) {
 
   invisible(NULL)
 }
+
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_pred_type_celery <- function(model, type) {
+  check_model_exists_celery(model)
+  pred_name <- paste0(model, "_predict")
+  if (!any(pred_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have any `pred` methods in celery."))
+  }
+  all_preds <- rlang::env_get(get_model_env_celery(), pred_name)
+  if (!any(all_preds$type == type)) {
+    rlang::abort(glue::glue("`{model}` does not have any prediction methods incelery."))
+  }
+  dplyr::filter(all_preds, type == !!type)
+}
+
 
 check_pred_info <- function(pred_obj, type) {
   if (all(type != pred_types)) {

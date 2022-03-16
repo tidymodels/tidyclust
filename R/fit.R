@@ -89,9 +89,9 @@ fit.cluster_spec <- function(object,
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  # if (!identical(class(control), class(control_celery()))) {
-  #  rlang::abort("The 'control' argument should have class 'control_celery'.")
-  # }
+  if (!inherits(control, "control_celery")) {
+    rlang::abort("The 'control' argument should have class 'control_celery'.")
+  }
   dots <- quos(...)
   if (is.null(object$engine)) {
     eng_vals <- possible_engines(object)
@@ -225,9 +225,9 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
   function(object, x, control = control_celery(), ...) {
-    # if (!identical(class(control), class(control_celery()))) {
-    #   rlang::abort("The 'control' argument should have class 'control_celery'.")
-    # }
+    if (!inherits(control, "control_celery")) {
+      rlang::abort("The 'control' argument should have class 'control_celery'.")
+    }
     if (is.null(colnames(x))) {
       rlang::abort("'x' should have column names.")
     }
