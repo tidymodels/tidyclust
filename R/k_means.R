@@ -117,3 +117,43 @@ translate_celery.k_means <- function(x, engine = x$engine, ...) {
 # }
 
 # ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+
+#' Simple Wrapper around ClusterR kmeans
+#'
+#' This wrapper runs `ClusterR::KMeans_rcpp` and adds column names to the
+#' `centroids` field.
+#'
+#' @param data matrix or data frame
+#' @param clusters the number of clusters
+#' @param num_init number of times the algorithm will be run with different
+#'   centroid seeds
+#' @param max_iters the maximum number of clustering iterations
+#' @param initializer the method of initialization. One of, optimal_init,
+#'   quantile_init, kmeans++ and random. See details for more information
+#' @param fuzzy either TRUE or FALSE. If TRUE, then prediction probabilities
+#'   will be calculated using the distance between observations and centroids
+#' @param verbose either TRUE or FALSE, indicating whether progress is printed
+#'   during clustering.
+#' @param CENTROIDS a matrix of initial cluster centroids. The rows of the
+#'   CENTROIDS matrix should be equal to the number of clusters and the columns
+#'   should be equal to the columns of the data.
+#' @param tol a float number. If, in case of an iteration (iteration > 1 and
+#'   iteration < max_iters) 'tol' is greater than the squared norm of the
+#'   centroids, then kmeans has converged
+#' @param tol_optimal_init tolerance value for the 'optimal_init' initializer.
+#'   The higher this value is, the far appart from each other the centroids are.
+#' @param seed integer value for random number generator (RNG)
+#'
+#' @return A `keras` model object.
+#' @keywords internal
+#' @export
+ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,
+                                initializer = "kmeans++", fuzzy = FALSE,
+                                verbose = FALSE, CENTROIDS = NULL, tol = 1e-04,
+                                tol_optimal_init = 0.3, seed = 1) {
+  res <- ClusterR::KMeans_rcpp(data, clusters)
+  colnames(res$centroids) <- colnames(data)
+  res
+}
