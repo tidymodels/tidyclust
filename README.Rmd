@@ -38,15 +38,35 @@ The first thing you do is to create a `cluster specification`. For this example 
 ```{r}
 library(celery)
 
-k_means_spec <- k_means(k = 3) %>%
+kmeans_spec <- k_means(k = 3) %>%
   set_engine_celery("stats") 
 
-k_means_spec
+kmeans_spec
 ```
 
 This specification can then be fit using data.
 
 ```{r}
-k_means_spec %>%
+kmeans_spec_fit <- kmeans_spec %>%
   fit(~., data = mtcars)
+kmeans_spec_fit
 ```
+
+Once you have a fitted celery object, you can do a number of things. `predict()` returns the cluster a new observation belongs to
+
+```{r}
+predict(kmeans_spec_fit, mtcars[1:4, ])
+```
+
+`extract_cluster_assignment()` returns the cluster assignments of the training observations
+
+```{r}
+extract_cluster_assignment(kmeans_spec_fit)
+```
+
+and `extract_clusters()` returns the locations of the clusters
+
+```{r}
+extract_clusters(kmeans_spec_fit)
+```
+
