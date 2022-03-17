@@ -70,7 +70,7 @@ set_fit_celery(
     interface = "matrix",
     data = c(x = "data"),
     protect = c("data", "clusters"),
-    func = c(pkg = "ClusterR", fun = "KMeans_rcpp"),
+    func = c(pkg = "celery", fun = "ClusterR_kmeans_fit"),
     defaults = list()
   )
 )
