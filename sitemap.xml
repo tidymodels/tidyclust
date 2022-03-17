@@ -19,6 +19,9 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/ClusterR_kmeans_fit.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_on_exports.html</loc>
   </url>
   <url>
@@ -35,6 +38,9 @@
   </url>
   <url>
     <loc>/reference/extract_cluster_assignment.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_clusters.html</loc>
   </url>
   <url>
     <loc>/reference/fit.html</loc>
