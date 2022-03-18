@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 library(celery)
 library(tidyverse)
 library(palmerpenguins)
+library(tidymodels)
 set.seed(838383)
 ```
 
@@ -165,13 +166,38 @@ To attach cluster assignments or predictions to a dataset, use `augment_cluster(
 
 ## Workflows
 
+```{r}
+penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
+                            data = penguins)
 
-## Metrics
+penguins_recipe_2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                            data = penguins)
+
+# wflow_1 <- workflow() %>%
+#   add_celery_model(kmeans_spec) %>%
+#   add_recipe(penguins_recipe_1)
+```
 
 
-## Cross-Validation
 
-take the full data assignments as "ground truth"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

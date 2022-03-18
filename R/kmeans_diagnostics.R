@@ -5,12 +5,50 @@
 #' @return A tibble with two columns, the cluster name and the SSE within that
 #' cluster.
 
-cluster_sse <- function(.model, distance = "euclidean") {
+within_cluster_sse <- function(.model, distance = "euclidean") {
 
+  #if engine is stats
 
+  # need to line up new names with old ones
+  # unique is in order of appearance and both clusters assignments
+  ## are in observatoin order
+  res <- tibble(
+    .cluster = unique(extract_cluster_assignment(.model)$.cluster),
+    orig_label = unique(.model$fit$cluster)
+  ) %>%
+    arrange(orig_label) %>%
+    mutate(
+      sse = .model$fit$withinss
+    ) %>%
+    arrange(.cluster) %>%
+    select(-orig_label)
 
+  return(res)
 
 }
+
+wss <- function(.model, distance = "euclidean") {
+
+  ### if engine is stats
+
+  within_ss <- .model$fit$tot.withinss
+
+  return(within_ss)
+
+}
+
+sse_ratio <- function(.model, distance = "euclidean") {
+
+  return(wss(.model)/.model$fit$totss)
+
+}
+
+
+
+## Silhouette
+
+
+## Gap method
 
 
 #' Measures correlation between cluster assignments and another variable
@@ -29,10 +67,8 @@ enrichment <- function(data, clusters, var) {
 
   if (!is.numeric(vec)) {
 
-    res[[1]] <- data %>%
-      janitor::tabyl({{clusters}}, {{var}})
-
-    res[[2]] <- res[[1]] %>%
+    res <- data %>%
+      janitor::tabyl({{clusters}}, {{var}}) %>%
       select(-1) %>%
       as.matrix() %>%
       chisq.test() %>%
@@ -40,16 +76,11 @@ enrichment <- function(data, clusters, var) {
 
   } else {
 
-    res[[1]] <- data %>%
-      group_by({{clusters}}) %>%
-      summarize(mean = mean({{var}}),
-                sd = sd({{var}}))
-
-    res[[2]] <- 0
+    ### anova
 
   }
 
 
-  return(res)
+  return(-log(res$p.value))
 
 }
