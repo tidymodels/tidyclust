@@ -56,6 +56,10 @@ kmeans_fit <- kmeans_spec %>% fit( ~., pen_sub)
 
 kmeans_fit %>%
   predict(new_data = pen_sub)
+
+### try my new version
+kmeans_fit %>%
+  extract_cluster_assignment()
 ```
 
 * Needed flexclust install; probably not necessary, we could implement for kmeans with just dists
@@ -84,3 +88,45 @@ penguins %>%
 
 * Automatic plot?!
 
+
+## talk to Emil
+
+* Ordering of clusters is really bothering me
+something with indices
+
+* Cluster density followup: is it kind of a model?
+
+```{r}
+recipe( ~ demo1 + predictor1) %>%
+  step_celery(kmeans_fit) # doesn't quite make sense
+  
+```
+
+* Some of these followups feel like they need a recipe.  Which vars are we using for within SS?  Which vars for enrichments? Do we PCA first?  etc.
+
+```{r}
+get_SS(Cluster ~ v1 + v2)
+recipe(Cluster ~ v1 + v2) %>%
+  step_pca() %>%
+  get_ss()
+```
+
+... or maybe fit `enrichment()` on a recipe and it automatically uses the variables with the "enrich" role?  
+how would PCA fit in on this?
+
+How does `fit()` access the right variables?
+
+... is this even worth it given we can attach cluster assignments?  I say yes, because what if we are trying to "cross-validate".
+
+
+```{r}
+penguins_2 <- penguins %>%
+  drop_na() %>%
+  mutate(
+    preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
+  ) 
+
+debugonce(enrichment)
+penguins_2 %>%
+  enrichment(preds, species)
+```
