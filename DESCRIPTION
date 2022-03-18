@@ -28,8 +28,11 @@ Suggests:
     testthat (>= 3.0.0),
     modeldata,
     covr,
-    flexclust
+    flexclust,
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2.9000
 Config/testthat/edition: 3
+VignetteBuilder: knitr
