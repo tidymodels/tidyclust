@@ -1,41 +1,3 @@
-specific_model <- function(x) {
-  cls <- class(x)
-  cls[cls != "cluster_spec"]
-}
-
-possible_engines <- function(object, ...) {
-  m_env <- get_model_env_celery()
-  engs <- rlang::env_get(m_env, specific_model(object))
-  unique(engs$engine)
-}
-
-shhhh <- function(x) {
-  suppressPackageStartupMessages(requireNamespace(x, quietly = TRUE))
-}
-
-is_installed <- function(pkg) {
-  res <- try(shhhh(pkg), silent = TRUE)
-  res
-}
-
-check_installs <- function(x) {
-  if (length(x$method$libs) > 0) {
-    is_inst <- purrr::map_lgl(x$method$libs, is_installed)
-    if (any(!is_inst)) {
-      missing_pkg <- x$method$libs[!is_inst]
-      missing_pkg <- paste0(missing_pkg, collapse = ", ")
-      rlang::abort(
-        glue::glue(
-          "This engine requires some package installs: ",
-          glue::glue_collapse(glue::glue("'{missing_pkg}'"), sep = ", ")
-        )
-      )
-    }
-  }
-}
-
-# ------------------------------------------------------------------------------
-
 #' Declare a computational engine and specific arguments
 #'
 #' `set_engine_celery()` is used to specify which package or system will be used
@@ -48,16 +10,16 @@ check_installs <- function(x) {
 #' @param object A model specification.
 #' @param engine A character string for the software that should
 #'  be used to fit the model. This is highly dependent on the type
-#'  of model (e.g. linear regression, random forest, etc.).
+#'  of model (e.g. K-means, etc.).
 #' @param ... Any optional arguments associated with the chosen computational
 #'  engine. These are captured as quosures and can be `tune()`.
 #' @return An updated model specification.
 #' @examples
 #' # First, set general arguments using the standardized names
-#' mod <-
-#'   k_means(k = 10) %>%
+#' mod <- k_means(k = 10) %>%
 #'   # now say how you want to fit the model and another other options
 #'   set_engine_celery("stats", iter.max = 15)
+#'
 #' translate_celery(mod, engine = "stats")
 #' @export
 set_engine_celery <- function(object, engine, ...) {
@@ -113,3 +75,38 @@ load_libs <- function(x, quiet, attach = FALSE) {
   invisible(x)
 }
 
+specific_model <- function(x) {
+  cls <- class(x)
+  cls[cls != "cluster_spec"]
+}
+
+possible_engines <- function(object, ...) {
+  m_env <- get_model_env_celery()
+  engs <- rlang::env_get(m_env, specific_model(object))
+  unique(engs$engine)
+}
+
+shhhh <- function(x) {
+  suppressPackageStartupMessages(requireNamespace(x, quietly = TRUE))
+}
+
+is_installed <- function(pkg) {
+  res <- try(shhhh(pkg), silent = TRUE)
+  res
+}
+
+check_installs <- function(x) {
+  if (length(x$method$libs) > 0) {
+    is_inst <- purrr::map_lgl(x$method$libs, is_installed)
+    if (any(!is_inst)) {
+      missing_pkg <- x$method$libs[!is_inst]
+      missing_pkg <- paste0(missing_pkg, collapse = ", ")
+      rlang::abort(
+        glue::glue(
+          "This engine requires some package installs: ",
+          glue::glue_collapse(glue::glue("'{missing_pkg}'"), sep = ", ")
+        )
+      )
+    }
+  }
+}

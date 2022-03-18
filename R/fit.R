@@ -1,54 +1,46 @@
-#' Fit a Model Specification to a Dataset
+#' Fit a Model Specification to a Data Set
 #'
-#' `fit()` and `fit_x()` take a model specification, translate_celery the required
-#'  code by substituting arguments, and execute the model fit
-#'  routine.
+#' `fit()` and `fit_xy()` take a model specification, translate_celery the
+#' required code by substituting arguments, and execute the model fit routine.
 #'
-#' @param object An object of class `cluster_spec` that has a chosen engine
-#'  (via [set_engine_celery()]).
-#' @param formula An object of class `formula` (or one that can
-#'  be coerced to that class): a symbolic description of the model
-#'  to be fitted.
-#' @param data Optional, depending on the interface (see Details
-#'  below). A data frame containing all relevant variables (e.g.
-#'  outcome(s), predictors, case weights, etc). Note: when needed, a
-#'  \emph{named argument} should be used.
-#' @param control A named list with elements `verbosity` and
-#'  `catch`. See [control_celery()].
-#' @param ... Not currently used; values passed here will be
-#'  ignored. Other options required to fit the model should be
-#'  passed using `set_engine_celery()`.
-#' @details  `fit()` and `fit_x()` substitute the current arguments in the model
-#'  specification into the computational engine's code, check them
-#'  for validity, then fit the model using the data and the
-#'  engine-specific code. Different model functions have different
-#'  interfaces (e.g. formula or `x`/`y`) and these functions translate_celery
-#'  between the interface used when `fit()` or `fit_x()` was invoked and the one
-#'  required by the underlying model.
+#' @param object An object of class `cluster_spec` that has a chosen engine (via
+#'   [set_engine_celery()]).
+#' @param formula An object of class `formula` (or one that can be coerced to
+#'   that class): a symbolic description of the model to be fitted.
+#' @param data Optional, depending on the interface (see Details below). A data
+#'   frame containing all relevant variables (e.g. outcome(s), predictors, case
+#'   weights, etc). Note: when needed, a \emph{named argument} should be used.
+#' @param control A named list with elements `verbosity` and `catch`. See
+#'   [control_celery()].
+#' @param ... Not currently used; values passed here will be ignored. Other
+#'   options required to fit the model should be passed using
+#'   `set_engine_celery()`.
+#' @details  `fit()` and `fit_xy()` substitute the current arguments in the
+#'   model specification into the computational engine's code, check them for
+#'   validity, then fit the model using the data and the engine-specific code.
+#'   Different model functions have different interfaces (e.g. formula or
+#'   `x`/`y`) and these functions translate_celery between the interface used
+#'   when `fit()` or `fit_xy()` was invoked and the one required by the
+#'   underlying model.
 #'
-#' When possible, these functions attempt to avoid making copies of the
-#'  data. For example, if the underlying model uses a formula and
-#'  `fit()` is invoked, the original data are references
-#'  when the model is fit. However, if the underlying model uses
-#'  something else, such as `x`/`y`, the formula is evaluated and
-#'  the data are converted to the required format. In this case, any
-#'  calls in the resulting model objects reference the temporary
-#'  objects used to fit the model.
+#'   When possible, these functions attempt to avoid making copies of the data.
+#'   For example, if the underlying model uses a formula and `fit()` is invoked,
+#'   the original data are references when the model is fit. However, if the
+#'   underlying model uses something else, such as `x`/`y`, the formula is
+#'   evaluated and the data are converted to the required format. In this case,
+#'   any calls in the resulting model objects reference the temporary objects
+#'   used to fit the model.
 #'
-#' If the model engine has not been set, the model's default engine will be used
-#'  (as discussed on each model page). If the `verbosity` option of
-#'  [control_celery()] is greater than zero, a warning will be produced.
+#'   If the model engine has not been set, the model's default engine will be
+#'   used (as discussed on each model page). If the `verbosity` option of
+#'   [control_celery()] is greater than zero, a warning will be produced.
 #'
-#' If you would like to use an alternative method for generating contrasts when
-#' supplying a formula to `fit()`, set the global option `contrasts` to your
-#' preferred method. For example, you might set it to:
-#' `options(contrasts = c(unordered = "contr.helmert", ordered = "contr.poly"))`.
-#' See the help page for [stats::contr.treatment()] for more possible contrast
-#' types.
+#'   If you would like to use an alternative method for generating contrasts
+#'   when supplying a formula to `fit()`, set the global option `contrasts` to
+#'   your preferred method. For example, you might set it to: `options(contrasts
+#'   = c(unordered = "contr.helmert", ordered = "contr.poly"))`. See the help
+#'   page for [stats::contr.treatment()] for more possible contrast types.
 #' @examples
-#' # Although `glm()` only has a formula interface, different
-#' # methods for specifying the model can be used
-#'
 #' library(dplyr)
 #'
 #' kmeans_mod <- k_means(k = 5)
@@ -61,30 +53,31 @@
 #' using_x <-
 #'   kmeans_mod %>%
 #'   set_engine_celery("stats") %>%
-#'   fit_x(x = mtcars)
+#'   fit_xy(x = mtcars)
 #'
 #' using_formula
 #' using_x
 #' @return A `cluster_fit` object that contains several elements:
-#' \itemize{
-#'   \item \code{lvl}: If the outcome is a factor, this contains
-#'    the factor levels at the time of model fitting.
-#'   \item \code{spec}: The model specification object
-#'    (\code{object} in the call to \code{fit})
-#'   \item \code{fit}: when the model is executed without error,
-#'    this is the model object. Otherwise, it is a \code{try-error}
-#'    object with the error message.
-#'   \item \code{preproc}: any objects needed to convert between
-#'    a formula and non-formula interface (such as the \code{terms}
-#'    object)
-#' }
+#'   \itemize{
+#'     \item \code{lvl}: If the outcome is a factor, this contains the factor
+#'                       levels at the time of model fitting.
+#'     \item \code{spec}: The model specification object (\code{object} in the
+#'                        call to \code{fit})
+#'     \item \code{fit}: when the model is executed without error, this is the
+#'                       model object. Otherwise, it is a \code{try-error}
+#'                       object with the error message.
+#'     \item \code{preproc}: any objects needed to convert between a formula and
+#'                           non-formula interface
+#'                           (such as the \code{terms} object)
+#'   }
 #'  The return value will also have a class related to the fitted model (e.g.
-#'  `"_glm"`) before the base class of `"cluster_fit"`.
+#'  `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine_celery()], [control_celery()], `cluster_spec`, `cluster_fit`
+#' @seealso [set_engine_celery()], [control_celery()], `cluster_spec`,
+#'   `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
-#' models have support for sparse matrix input. See `celery::get_encoding_celery()`
-#' for details. `x` should have column names.
+#'   models have support for sparse matrix input. See
+#'   `celery::get_encoding_celery()` for details. `x` should have column names.
 #' @rdname fit
 #' @export
 #' @export fit.cluster_spec
@@ -96,7 +89,7 @@ fit.cluster_spec <- function(object,
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  if (!identical(class(control), class(control_celery()))) {
+  if (!inherits(control, "control_celery")) {
     rlang::abort("The 'control' argument should have class 'control_celery'.")
   }
   dots <- quos(...)
@@ -109,7 +102,7 @@ fit.cluster_spec <- function(object,
   }
 
   if (all(c("x", "y") %in% names(dots))) {
-    rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_x()` instead.")
+    rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_xy()` instead.")
   }
   cl <- match.call(expand.dots = TRUE)
   # Create an environment with the evaluated argument objects. This will be
@@ -227,24 +220,12 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 
 # ------------------------------------------------------------------------------
 
-#' Estimate model parameters.
-#'
-#' Estimates parameters for a given model from a set of data in the form of
-#'  a set of predictors (`x`).
-#'
-#' @param object An cluster_spec object.
-#' @param ... Other arguments passed to methods
-#' @export
-fit_x <- function(object, ...) {
-  UseMethod("fit_x")
-}
-
 #' @rdname fit
 #' @export
-#' @export fit_x.cluster_spec
-fit_x.cluster_spec <-
+#' @export fit_xy.cluster_spec
+fit_xy.cluster_spec <-
   function(object, x, control = control_celery(), ...) {
-    if (!identical(class(control), class(control_celery()))) {
+    if (!inherits(control, "control_celery")) {
       rlang::abort("The 'control' argument should have class 'control_celery'.")
     }
     if (is.null(colnames(x))) {

@@ -4,8 +4,7 @@ all_modes <- c("partition")
 
 # ------------------------------------------------------------------------------
 
-pred_types <-
-  c("cluster")
+pred_types <- c("cluster")
 
 # ------------------------------------------------------------------------------
 
@@ -15,18 +14,20 @@ pred_types <-
 
 # - the model is the model type (e.g. "k_means", etc)
 # - the model's mode is the species of model such as "partition"
-# - the engines are within a model and mode and describe the method/implementation
-#   of the model in question. These are often R package names.
+# - the engines are within a model and mode and describe the
+#   method/implementation of the model in question. These are often R package
+#   names.
 
-### The package dependencies are model- and engine-specific. They are used across modes
+### The package dependencies are model- and engine-specific.
+### They are used across modes
 
-### The `fit` information is a list of data that is needed to fit the model. This
-### information is specific to an engine and mode.
+### The `fit` information is a list of data that is needed to fit the model.
+### This information is specific to an engine and mode.
 
-### The `predict` information is also list of data that is needed to make some sort
-### of prediction on the model object. The possible types are contained in `pred_types`
-### and this information is specific to the engine, mode, and type (although there
-### are no types across different modes).
+### The `predict` information is also list of data that is needed to make some
+### sort  of prediction on the model object. The possible types are contained
+### in `pred_types` and this information is specific to the engine, mode, and
+### type (although there are no types across different modes).
 
 # ------------------------------------------------------------------------------
 
@@ -126,14 +127,6 @@ get_from_env_celery <- function(items) {
 #' @rdname get_model_env_celery
 #' @keywords internal
 #' @export
-set_in_env_celery <- function(...) {
-  mod_env <- get_model_env_celery()
-  rlang::env_bind(mod_env, ...)
-}
-
-#' @rdname get_model_env_celery
-#' @keywords internal
-#' @export
 set_env_val_celery <- function(name, value) {
   if (length(name) != 1 || !is.character(name)) {
     rlang::abort("`name` should be a single character value.")
@@ -149,12 +142,12 @@ set_env_val_celery <- function(name, value) {
 #' Tools to Register Models
 #'
 #' These functions are similar to constructors and can be used to validate
-#'  that there are no conflicts with the underlying model structures used by the
-#'  package.
+#' that there are no conflicts with the underlying model structures used by the
+#' package.
 #'
 #' @param model A single character string for the model type (e.g.
-#'  `"rand_forest"`, etc).
-#' @param mode A single character string for the model mode (e.g. "regression").
+#'  `"k_means"`, etc).
+#' @param mode A single character string for the model mode (e.g. "partition").
 #' @param eng A single character string for the model engine.
 #' @param arg A single character string for the model argument name.
 #' @param has_submodel A single logical for whether the argument
@@ -171,8 +164,7 @@ set_env_val_celery <- function(name, value) {
 #'  `celery` model from scratch".
 #' @param pred_obj A list with elements `pre`, `post`, `func`, and `args`.
 #' @param type A single character value for the type of prediction. Possible
-#'  values are: `class`, `conf_int`, `numeric`, `pred_int`, `prob`, `quantile`,
-#'   and `raw`.
+#'  values are: `cluster` and `raw`.
 #' @param pkg An options character string for a package name.
 #' @param celery A single character string for the "harmonized" argument name
 #'  that `celery` exposes.
@@ -187,56 +179,54 @@ set_env_val_celery <- function(name, value) {
 #' @param ... Optional arguments that should be passed into the `args` slot for
 #'  prediction objects.
 #' @keywords internal
-#' @details These functions are available for users to add their
-#'  own models or engines (in a package or otherwise) so that they can
-#'  be accessed using `celery`. This is more thoroughly documented
-#'  on the package web site (see references below).
+#' @details These functions are available for users to add their own models or
+#'   engines (in a package or otherwise) so that they can be accessed using
+#'   `celery`.
 #'
-#' In short, `celery` stores an environment object that contains
-#'  all of the information and code about how models are used (e.g.
-#'  fitting, predicting, etc). These functions can be used to add
-#'  models to that environment as well as helper functions that can
-#'  be used to makes sure that the model data is in the right
-#'  format.
+#'   In short, `celery` stores an environment object that contains all of the
+#'   information and code about how models are used (e.g. fitting, predicting,
+#'   etc). These functions can be used to add models to that environment as well
+#'   as helper functions that can be used to makes sure that the model data is
+#'   in the right format.
 #'
-#' `check_model_exists_celery()` checks the model value and ensures that the model has
-#'  already been registered. `check_model_doesnt_exist_celery()` checks the model value
-#'  and also checks to see if it is novel in the environment.
+#'   `check_model_exists_celery()` checks the model value and ensures that the
+#'   model has already been registered. `check_model_doesnt_exist_celery()`
+#'   checks the model value and also checks to see if it is novel in the
+#'   environment.
 #'
-#'  The options for engine-specific encodings dictate how the predictors should be
-#'  handled. These options ensure that the data
-#'  that `celery` gives to the underlying model allows for a model fit that is
-#'  as similar as possible to what it would have produced directly.
+#'   The options for engine-specific encodings dictate how the predictors should
+#'   be handled. These options ensure that the data that `celery` gives to the
+#'   underlying model allows for a model fit that is as similar as possible to
+#'   what it would have produced directly.
 #'
-#'  For example, if `fit()` is used to fit a model that does not have
-#'  a formula interface, typically some predictor preprocessing must
-#'  be conducted. `glmnet` is a good example of this.
+#'   For example, if `fit()` is used to fit a model that does not have a formula
+#'   interface, typically some predictor preprocessing must be conducted.
+#'   `glmnet` is a good example of this.
 #'
 #'   There are four options that can be used for the encodings:
 #'
-#'  `predictor_indicators` describes whether and how to create indicator/dummy
-#'  variables from factor predictors. There are three options: `"none"` (do not
-#'  expand factor predictors), `"traditional"` (apply the standard
-#'  `model.matrix()` encodings), and `"one_hot"` (create the complete set
-#'  including the baseline level for all factors). This encoding only affects
-#'  cases when [fit.cluster_spec()] is used and the underlying model has an x/y
-#'  interface.
+#'   `predictor_indicators` describes whether and how to create indicator/dummy
+#'   variables from factor predictors. There are three options: `"none"` (do not
+#'   expand factor predictors), `"traditional"` (apply the standard
+#'   `model.matrix()` encodings), and `"one_hot"` (create the complete set
+#'   including the baseline level for all factors). This encoding only affects
+#'   cases when [fit.cluster_spec()] is used and the underlying model has an x/y
+#'   interface.
 #'
-#' Another option is `compute_intercept`; this controls whether `model.matrix()`
-#'  should include the intercept in its formula. This affects more than the
-#'  inclusion of an intercept column. With an intercept, `model.matrix()`
-#'  computes dummy variables for all but one factor levels. Without an
-#'  intercept, `model.matrix()` computes a full set of indicators for the
-#'  _first_ factor variable, but an incomplete set for the remainder.
+#'   Another option is `compute_intercept`; this controls whether
+#'   `model.matrix()` should include the intercept in its formula. This affects
+#'   more than the inclusion of an intercept column. With an intercept,
+#'   `model.matrix()` computes dummy variables for all but one factor levels.
+#'   Without an intercept, `model.matrix()` computes a full set of indicators
+#'   for the _first_ factor variable, but an incomplete set for the remainder.
 #'
-#'  Next, the option `remove_intercept` will remove the intercept column
-#'  _after_ `model.matrix()` is finished. This can be useful if the model
-#'  function (e.g. `lm()`) automatically generates an intercept.
+#'   Next, the option `remove_intercept` will remove the intercept column
+#'   _after_ `model.matrix()` is finished. This can be useful if the model
+#'   function (e.g. `lm()`) automatically generates an intercept.
 #'
-#' Finally, `allow_sparse_x` specifies whether the model function can natively
-#'  accommodate a sparse matrix representation for predictors during fitting
-#'  and tuning.
-#'
+#'   Finally, `allow_sparse_x` specifies whether the model function can natively
+#'   accommodate a sparse matrix representation for predictors during fitting
+#'   and tuning.
 #'
 #' @examples
 #' # set_new_model_celery("shallow_learning_model")
@@ -251,7 +241,10 @@ set_new_model_celery <- function(model) {
   current <- get_model_env_celery()
 
   set_env_val_celery("models", c(current$models, model))
-  set_env_val_celery(model, dplyr::tibble(engine = character(0), mode = character(0)))
+  set_env_val_celery(
+    model,
+    dplyr::tibble(engine = character(0), mode = character(0))
+  )
   set_env_val_celery(
     paste0(model, "_pkgs"),
     dplyr::tibble(engine = character(0), pkg = list(), mode = character(0))
@@ -292,7 +285,7 @@ set_new_model_celery <- function(model) {
 #' @export
 check_model_doesnt_exist_celery <- function(model) {
   if (rlang::is_missing(model) || length(model) != 1 || !is.character(model)) {
-    rlang::abort("Please supply a character string for a model name (e.g. `'linear_reg'`)")
+    rlang::abort("Please supply a character string for a model name (e.g. `'k_means'`)")
   }
 
   current <- get_model_env_celery()
@@ -342,7 +335,7 @@ check_model_exists_celery <- function(model) {
 
 check_mode_val <- function(mode) {
   if (rlang::is_missing(mode) || length(mode) != 1 || !is.character(mode)) {
-    rlang::abort("Please supply a character string for a mode (e.g. `'regression'`).")
+    rlang::abort("Please supply a character string for a mode (e.g. `'partition'`).")
   }
   invisible(NULL)
 }
@@ -376,7 +369,7 @@ set_model_engine_celery <- function(model, mode, eng) {
 
 check_eng_val <- function(eng) {
   if (rlang::is_missing(eng) || length(eng) != 1 || !is.character(eng)) {
-    rlang::abort("Please supply a character string for an engine name (e.g. `'lm'`)")
+    rlang::abort("Please supply a character string for an engine name (e.g. `'stats'`)")
   }
   invisible(NULL)
 }
@@ -458,6 +451,18 @@ set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
   invisible(NULL)
 }
 
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_dependency_celery <- function(model) {
+  check_model_exists_celery(model)
+  pkg_name <- paste0(model, "_pkgs")
+  if (!any(pkg_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have a dependency list in celery."))
+  }
+  rlang::env_get(get_model_env_celery(), pkg_name)
+}
+
 check_pkg_val <- function(pkg) {
   if (rlang::is_missing(pkg) || length(pkg) != 1 || !is.character(pkg)) {
     rlang::abort("Please supply a single character value for the package name.")
@@ -519,6 +524,18 @@ set_fit_celery <- function(model, mode, eng, value) {
   )
 
   invisible(NULL)
+}
+
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_fit_celery <- function(model) {
+  check_model_exists_celery(model)
+  fit_name <- paste0(model, "_fit")
+  if (!any(fit_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have a `fit` method in celery."))
+  }
+  rlang::env_get(get_model_env_celery(), fit_name)
 }
 
 check_fit_info <- function(fit_obj) {
@@ -901,7 +918,7 @@ show_model_info_celery <- function(model) {
 #' @rdname set_new_model_celery
 #' @keywords internal
 #' @export
-set_pred <- function(model, mode, eng, type, value) {
+set_pred_celery <- function(model, mode, eng, type, value) {
   check_model_exists_celery(model)
   check_eng_val(eng)
   check_spec_mode_engine_val(model, eng, mode)
@@ -934,19 +951,40 @@ set_pred <- function(model, mode, eng, type, value) {
   invisible(NULL)
 }
 
+#' @rdname set_new_model_celery
+#' @keywords internal
+#' @export
+get_pred_type_celery <- function(model, type) {
+  check_model_exists_celery(model)
+  pred_name <- paste0(model, "_predict")
+  if (!any(pred_name != rlang::env_names(get_model_env_celery()))) {
+    rlang::abort(glue::glue("`{model}` does not have any `pred` methods in celery."))
+  }
+  all_preds <- rlang::env_get(get_model_env_celery(), pred_name)
+  if (!any(all_preds$type == type)) {
+    rlang::abort(glue::glue("`{model}` does not have any prediction methods incelery."))
+  }
+  dplyr::filter(all_preds, type == !!type)
+}
+
+
 check_pred_info <- function(pred_obj, type) {
   if (all(type != pred_types)) {
     rlang::abort(
-      glue::glue("The prediction type should be one of: ",
-                 glue::glue_collapse(glue::glue("'{pred_types}'"), sep = ", "))
+      glue::glue(
+        "The prediction type should be one of: ",
+        glue::glue_collapse(glue::glue("'{pred_types}'"), sep = ", ")
+      )
     )
   }
 
   exp_nms <- c("args", "func", "post", "pre")
   if (!isTRUE(all.equal(sort(names(pred_obj)), exp_nms))) {
     rlang::abort(
-      glue::glue("The `predict` module should have elements: ",
-                 glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", "))
+      glue::glue(
+        "The `predict` module should have elements: ",
+        glue::glue_collapse(glue::glue("`{exp_nms}`"), sep = ", ")
+      )
     )
   }
 
@@ -974,8 +1012,10 @@ check_unregistered <- function(model, mode, eng) {
     nrow()
   if (has_engine != 1) {
     rlang::abort(
-      glue::glue("The combination of engine '{eng}' and mode '{mode}' has not ",
-                 "been registered for model '{model}'.")
+      glue::glue(
+        "The combination of engine '{eng}' and mode '{mode}' has not ",
+        "been registered for model '{model}'."
+      )
     )
   }
   invisible(NULL)
@@ -994,11 +1034,10 @@ is_discordant_info <- function(model, mode, eng, candidate,
   if (new_encoding) {
     return(TRUE)
   } else {
-    current <-  dplyr::filter(current, engine == eng & mode == !!mode)
+    current <- dplyr::filter(current, engine == eng & mode == !!mode)
   }
 
   if (component == "predict" & !is.null(pred_type)) {
-
     current <- dplyr::filter(current, type == pred_type)
     p_type <- paste0("and prediction type '", pred_type, "'")
   } else {
@@ -1029,8 +1068,10 @@ check_spec_pred_type <- function(object, type) {
     possible_preds <- names(object$spec$method$pred)
     rlang::abort(c(
       glue::glue("No {type} prediction method available for this model."),
-      glue::glue("Value for `type` should be one of: ",
-                 glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", "))
+      glue::glue(
+        "Value for `type` should be one of: ",
+        glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", ")
+      )
     ))
   }
   invisible(NULL)

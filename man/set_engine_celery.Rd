@@ -11,7 +11,7 @@ set_engine_celery(object, engine, ...)
 
 \item{engine}{A character string for the software that should
 be used to fit the model. This is highly dependent on the type
-of model (e.g. linear regression, random forest, etc.).}
+of model (e.g. K-means, etc.).}
 
 \item{...}{Any optional arguments associated with the chosen computational
 engine. These are captured as quosures and can be \code{tune()}.}
@@ -31,9 +31,9 @@ engines available to each model specification.
 
 \examples{
 # First, set general arguments using the standardized names
-mod <-
-  k_means(k = 10) \%>\%
+mod <- k_means(k = 10) \%>\%
   # now say how you want to fit the model and another other options
   set_engine_celery("stats", iter.max = 15)
+
 translate_celery(mod, engine = "stats")
 }

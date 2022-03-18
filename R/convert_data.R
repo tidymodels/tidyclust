@@ -270,4 +270,3 @@ make_formula <- function(x, short = TRUE) {
   }
   new_data
 }
-

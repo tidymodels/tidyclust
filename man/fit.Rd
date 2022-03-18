@@ -2,92 +2,83 @@
 % Please edit documentation in R/fit.R
 \name{fit.cluster_spec}
 \alias{fit.cluster_spec}
-\alias{fit_x.cluster_spec}
-\title{Fit a Model Specification to a Dataset}
+\alias{fit_xy.cluster_spec}
+\title{Fit a Model Specification to a Data Set}
 \usage{
 \method{fit}{cluster_spec}(object, formula, data, control = control_celery(), ...)
 
-\method{fit_x}{cluster_spec}(object, x, control = control_celery(), ...)
+\method{fit_xy}{cluster_spec}(object, x, control = control_celery(), ...)
 }
 \arguments{
-\item{object}{An object of class \code{cluster_spec} that has a chosen engine
-(via \code{\link[=set_engine_celery]{set_engine_celery()}}).}
+\item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
+\code{\link[=set_engine_celery]{set_engine_celery()}}).}
 
-\item{formula}{An object of class \code{formula} (or one that can
-be coerced to that class): a symbolic description of the model
-to be fitted.}
+\item{formula}{An object of class \code{formula} (or one that can be coerced to
+that class): a symbolic description of the model to be fitted.}
 
-\item{data}{Optional, depending on the interface (see Details
-below). A data frame containing all relevant variables (e.g.
-outcome(s), predictors, case weights, etc). Note: when needed, a
-\emph{named argument} should be used.}
+\item{data}{Optional, depending on the interface (see Details below). A data
+frame containing all relevant variables (e.g. outcome(s), predictors, case
+weights, etc). Note: when needed, a \emph{named argument} should be used.}
 
-\item{control}{A named list with elements \code{verbosity} and
-\code{catch}. See \code{\link[=control_celery]{control_celery()}}.}
+\item{control}{A named list with elements \code{verbosity} and \code{catch}. See
+\code{\link[=control_celery]{control_celery()}}.}
 
-\item{...}{Not currently used; values passed here will be
-ignored. Other options required to fit the model should be
-passed using \code{set_engine_celery()}.}
+\item{...}{Not currently used; values passed here will be ignored. Other
+options required to fit the model should be passed using
+\code{set_engine_celery()}.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See \code{celery::get_encoding_celery()}
-for details. \code{x} should have column names.}
+models have support for sparse matrix input. See
+\code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
 }
 \value{
 A \code{cluster_fit} object that contains several elements:
 \itemize{
-\item \code{lvl}: If the outcome is a factor, this contains
-the factor levels at the time of model fitting.
-\item \code{spec}: The model specification object
-(\code{object} in the call to \code{fit})
-\item \code{fit}: when the model is executed without error,
-this is the model object. Otherwise, it is a \code{try-error}
+\item \code{lvl}: If the outcome is a factor, this contains the factor
+levels at the time of model fitting.
+\item \code{spec}: The model specification object (\code{object} in the
+call to \code{fit})
+\item \code{fit}: when the model is executed without error, this is the
+model object. Otherwise, it is a \code{try-error}
 object with the error message.
-\item \code{preproc}: any objects needed to convert between
-a formula and non-formula interface (such as the \code{terms}
-object)
+\item \code{preproc}: any objects needed to convert between a formula and
+non-formula interface
+(such as the \code{terms} object)
 }
 The return value will also have a class related to the fitted model (e.g.
-\code{"_glm"}) before the base class of \code{"cluster_fit"}.
+\code{"_kmeans"}) before the base class of \code{"cluster_fit"}.
 }
 \description{
-\code{fit()} and \code{fit_x()} take a model specification, translate_celery the required
-code by substituting arguments, and execute the model fit
-routine.
+\code{fit()} and \code{fit_xy()} take a model specification, translate_celery the
+required code by substituting arguments, and execute the model fit routine.
 }
 \details{
-\code{fit()} and \code{fit_x()} substitute the current arguments in the model
-specification into the computational engine's code, check them
-for validity, then fit the model using the data and the
-engine-specific code. Different model functions have different
-interfaces (e.g. formula or \code{x}/\code{y}) and these functions translate_celery
-between the interface used when \code{fit()} or \code{fit_x()} was invoked and the one
-required by the underlying model.
+\code{fit()} and \code{fit_xy()} substitute the current arguments in the
+model specification into the computational engine's code, check them for
+validity, then fit the model using the data and the engine-specific code.
+Different model functions have different interfaces (e.g. formula or
+\code{x}/\code{y}) and these functions translate_celery between the interface used
+when \code{fit()} or \code{fit_xy()} was invoked and the one required by the
+underlying model.
 
-When possible, these functions attempt to avoid making copies of the
-data. For example, if the underlying model uses a formula and
-\code{fit()} is invoked, the original data are references
-when the model is fit. However, if the underlying model uses
-something else, such as \code{x}/\code{y}, the formula is evaluated and
-the data are converted to the required format. In this case, any
-calls in the resulting model objects reference the temporary
-objects used to fit the model.
+When possible, these functions attempt to avoid making copies of the data.
+For example, if the underlying model uses a formula and \code{fit()} is invoked,
+the original data are references when the model is fit. However, if the
+underlying model uses something else, such as \code{x}/\code{y}, the formula is
+evaluated and the data are converted to the required format. In this case,
+any calls in the resulting model objects reference the temporary objects
+used to fit the model.
 
-If the model engine has not been set, the model's default engine will be used
-(as discussed on each model page). If the \code{verbosity} option of
+If the model engine has not been set, the model's default engine will be
+used (as discussed on each model page). If the \code{verbosity} option of
 \code{\link[=control_celery]{control_celery()}} is greater than zero, a warning will be produced.
 
-If you would like to use an alternative method for generating contrasts when
-supplying a formula to \code{fit()}, set the global option \code{contrasts} to your
-preferred method. For example, you might set it to:
-\code{options(contrasts = c(unordered = "contr.helmert", ordered = "contr.poly"))}.
-See the help page for \code{\link[stats:contrast]{stats::contr.treatment()}} for more possible contrast
-types.
+If you would like to use an alternative method for generating contrasts
+when supplying a formula to \code{fit()}, set the global option \code{contrasts} to
+your preferred method. For example, you might set it to: \code{options(contrasts = c(unordered = "contr.helmert", ordered = "contr.poly"))}. See the help
+page for \code{\link[stats:contrast]{stats::contr.treatment()}} for more possible contrast types.
 }
 \examples{
-# Although `glm()` only has a formula interface, different
-# methods for specifying the model can be used
-
 library(dplyr)
 
 kmeans_mod <- k_means(k = 5)
@@ -100,11 +91,12 @@ using_formula <-
 using_x <-
   kmeans_mod \%>\%
   set_engine_celery("stats") \%>\%
-  fit_x(x = mtcars)
+  fit_xy(x = mtcars)
 
 using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine_celery]{set_engine_celery()}}, \code{\link[=control_celery]{control_celery()}}, \code{cluster_spec}, \code{cluster_fit}
+\code{\link[=set_engine_celery]{set_engine_celery()}}, \code{\link[=control_celery]{control_celery()}}, \code{cluster_spec},
+\code{cluster_fit}
 }

@@ -40,7 +40,7 @@ set_model_arg_celery(
   has_submodel = TRUE
 )
 
-set_pred(
+set_pred_celery(
   model = "k_means",
   eng = "stats",
   mode = "partition",
@@ -70,7 +70,7 @@ set_fit_celery(
     interface = "matrix",
     data = c(x = "data"),
     protect = c("data", "clusters"),
-    func = c(pkg = "ClusterR", fun = "KMeans_rcpp"),
+    func = c(pkg = "celery", fun = "ClusterR_kmeans_fit"),
     defaults = list()
   )
 )
@@ -96,7 +96,7 @@ set_model_arg_celery(
   has_submodel = TRUE
 )
 
-set_pred(
+set_pred_celery(
   model = "k_means",
   eng = "ClusterR",
   mode = "partition",

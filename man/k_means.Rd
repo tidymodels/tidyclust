@@ -2,13 +2,13 @@
 % Please edit documentation in R/k_means.R
 \name{k_means}
 \alias{k_means}
-\title{K Means}
+\title{K-Means}
 \usage{
 k_means(mode = "partition", engine = "stats", k = NULL)
 }
 \arguments{
 \item{mode}{A single character string for the type of model.
-The only possible value for this model is "regression".}
+The only possible value for this model is "partition".}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting. Possible engines are listed below. The default for this
@@ -17,8 +17,8 @@ model is \code{"stats"}.}
 \item{k}{Positive integer, number of clusters in model.}
 }
 \description{
-\code{linear_reg()} defines a model that fits clusters based on distances to
-a number of centers.
+\code{k_means()} defines a model that fits clusters based on distances to a number
+of centers.
 }
 \examples{
 # show_engines("k_means")

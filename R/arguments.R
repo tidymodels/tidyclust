@@ -1,4 +1,3 @@
-
 check_eng_args <- function(args, obj, core_args) {
   # Make sure that we are not trying to modify an argument that
   # is explicitly protected in the method metadata or arg_key
@@ -41,7 +40,6 @@ make_x_call <- function(object, target) {
 
   fit_call
 }
-
 
 make_form_call <- function(object, env = NULL) {
   fit_args <- object$method$fit$args

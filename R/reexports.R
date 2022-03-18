@@ -1,4 +1,3 @@
-
 #' @importFrom magrittr %>%
 #' @export
 magrittr::`%>%`
@@ -14,3 +13,7 @@ generics::tidy
 #' @importFrom generics glance
 #' @export
 generics::glance
+
+#' @importFrom generics fit_xy
+#' @export
+generics::fit_xy

@@ -1,3 +1,15 @@
+#' Other predict methods.
+#'
+#' These are internal functions not meant to be directly called by the user.
+#'
+#' @export
+#' @keywords internal
+#' @rdname other_predict
+#' @inheritParams predict_cluster.cluster_fit
+predict_cluster <- function(object, ...) {
+  UseMethod("predict_cluster")
+}
+
 #' @keywords internal
 #' @rdname other_predict
 #' @inheritParams predict.cluster_fit
@@ -5,7 +17,6 @@
 #' @export predict_cluster.cluster_fit
 #' @export
 predict_cluster.cluster_fit <- function(object, new_data, ...) {
-
   check_spec_pred_type(object, "cluster")
 
   if (inherits(object$fit, "try-error")) {
@@ -16,8 +27,9 @@ predict_cluster.cluster_fit <- function(object, new_data, ...) {
   new_data <- prepare_data(object, new_data)
 
   # preprocess data
-  if (!is.null(object$spec$method$pred$cluster$pre))
+  if (!is.null(object$spec$method$pred$cluster$pre)) {
     new_data <- object$spec$method$pred$cluster$pre(new_data, object)
+  }
 
   # create prediction call
   pred_call <- make_pred_call(object$spec$method$pred$cluster)
@@ -31,15 +43,3 @@ predict_cluster.cluster_fit <- function(object, new_data, ...) {
 
   unname(res)
 }
-
-
-#' Other predict methods.
-#'
-#' These are internal functions not meant to be directly called by the user.
-#'
-#' @export
-#' @keywords internal
-#' @rdname other_predict
-#' @inheritParams predict_cluster.cluster_fit
-predict_cluster <- function(object, ...)
-  UseMethod("predict_cluster")
