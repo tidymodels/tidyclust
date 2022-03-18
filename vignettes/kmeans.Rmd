@@ -1,0 +1,179 @@
+---
+title: "kmeans"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{kmeans}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(celery)
+library(tidyverse)
+library(palmerpenguins)
+set.seed(838383)
+```
+
+## A brief introduction to the k-means algorithm
+
+*k-means* is a method of *unsupervised* learning that produces a partitioning of
+observations into *k* unique clusters.  The goal of *k-means* is to minimize the sum of
+squared Euclidian distances between observations in a cluster and the **centroid**,
+or geometric mean, of that cluster.
+
+In *k-means* clustering, observed variables (columns) are considered to be locations
+on orthogonal axes in multidimensional space.  For example, in the plot below,
+each point represents an observation of one penguin, and the location in 2-dimensional
+space is determined by the bill length and bill depth of that penguin.
+
+```{r, echo = FALSE}
+penguins %>%
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) + 
+  geom_point()
+```
+
+
+A *k-means* cluster assignment is achieved by iterating to convergence from random
+initial conditions.  The algorithm proceeds as follows:
+
+1. Choose *k* random observations in the dataset.  These locations in space are
+declared to be the **initial centroids**.
+
+```{r}
+init <- penguins %>%
+  sample_n(3)
+
+penguins %>%
+  ggplot() + 
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(aes(x = ))
+```
+
+2. Assign each observation to the nearest centroid.
+
+
+3. Compute the new centroids of each cluster.
+
+4. Repeat steps 2 and 3 until the centroids do not change.
+
+
+#### Things to note
+
+* Because *k-means* relies on random initial conditions, the procedure may not
+result in identical cluster assignments on subsequent runs.
+
+* Because *k-means* is a greedy algorithm, it is not guaranteed to achieve a
+globally optimal solution.
+
+* *k-means* produces a **partition**: each observation is assigned to exactly 
+one cluster
+
+* *k-means* is a **non-stochastic** approach; no probability model is assumed
+regarding the selection of the observations or the values of the variables.
+
+
+## k-means specification in {celery}
+
+To specify a k-means model in `celery`, simply choose a value of $k$ and an
+engine:
+
+```{r}
+kmeans_spec <- k_means(k = 3) %>%
+  set_engine_celery("stats") 
+
+kmeans_spec
+```
+
+Once specified, a model may be "fit" to a dataset by providing a formula and 
+data frame.  Note that unlike in supervised modeling, the formula should not
+include a response variable.
+
+```{r}
+kmeans_spec_fit <- kmeans_spec %>%
+  fit(~ bill_length_mm + bill_depth_mm, data = penguins)
+
+kmeans_spec_fit
+```
+
+To access the only the results produced by the engine - in this case, `stats::kmeans` -
+simply extract the fit from the fitted model object:
+
+```{r}
+kmeans_spec_fit$fit
+```
+
+
+#### Cluster centroids
+
+A cluster is typically characterized by the location of its
+final centroid.  These can be accessed by:
+
+```{r}
+kmeans_spec_fit %>%
+  extract_clusters()
+```
+
+[interpretation]
+
+
+
+#### Cluster assignments and predictions
+
+Of the information provided from the model fit, the primary objective is typically
+the cluster assignments of each observation.  These can be accessed via the
+`extract_cluster_assignment()` function:
+
+```{r}
+kmeans_spec_fit %>%
+  extract_cluster_assignment()
+```
+
+Note that this function renames clusters in accordance with the standard `celery`
+naming convention and ordering.  (See: REFERENCE)
+
+Similarly, you can "predict" the cluster membership of new data using the 
+`predict_cluster()` function:
+
+```{r}
+new_penguin <- tibble(
+  bill_length_mm = 40,
+  bill_depth_mm = 15
+)
+
+kmeans_spec_fit %>%
+  predict_cluster(new_penguin)
+```
+
+In the case of `kmeans`, the cluster assignment is predicted by finding the closest
+final centroid to the new observation.
+
+#### Augmenting datasets
+
+To attach cluster assignments or predictions to a dataset, use `augment_cluster()`:
+
+```{r}
+### does it work?
+```
+
+
+## Workflows
+
+
+## Metrics
+
+
+## Cross-Validation
+
+take the full data assignments as "ground truth"
+
+
+
+
+
