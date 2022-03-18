@@ -2,8 +2,15 @@
 #'
 #' @param .model a fitted kmeans celery model
 #'
+#' @return A tibble with two columns, the cluster name and the SSE within that
+#' cluster.
 
-#... exploit what already exists, or re-implement ourselves for any cluster?
+cluster_sse <- function(.model, distance = "euclidean") {
+
+
+
+
+}
 
 
 #' Measures correlation between cluster assignments and another variable
