@@ -68,20 +68,22 @@ ref_predictions <- ref_res$centers %>%
   apply(2, which.min) %>%
   unname()
 
-expect_equal(
-  ref_predictions,
-  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
-)
-
-expect_equal(
-  unname(ref_res$cluster),
-  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
-)
-
-expect_equal(
-  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric(),
-  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
-)
+# replaced with test in test-predict_formats.R
+# should check that clusterings are "essentially equivalent"
+# expect_equal(
+#   ref_predictions,
+#   predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
+# )
+#
+# expect_equal(
+#   unname(ref_res$cluster),
+#   extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+# )
+#
+# expect_equal(
+#   predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric(),
+#   extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+# )
 
 # ------------------------------------------------------------------------------
 
