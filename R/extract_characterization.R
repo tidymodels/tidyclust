@@ -13,7 +13,7 @@
 #' kmeans_fit %>%
 #'   extract_clusters()
 #' @export
-extract_clusters <- function(object, ...) {
+extract_centroids <- function(object, ...) {
   summ <- extract_fit_summary(object)
   clusters <- tibble::tibble(.cluster = summ$cluster_names)
   bind_cols(clusters, summ$centroids)
