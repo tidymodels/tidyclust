@@ -1,0 +1,132 @@
+---
+title: "k-means Clustering"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{k-means Clustering}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(celery)
+library(palmerpenguins)
+library(tidymodels)
+```
+
+## Fit
+
+```{r}
+kmeans_spec <- k_means(k = 5) %>%
+  set_engine_celery("stats")
+
+penguins_rec_1 <- recipe(~ ., data = penguins) %>%
+  update_role(species, island, new_role = "demographic") %>%
+  step_dummy(sex)
+  
+  
+penguins_rec_2 <- recipe(species ~ ., data = penguins) %>%
+  step_dummy(sex, island)
+
+wflow_1 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_rec_1)
+
+
+wflow_2 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_rec_2)
+```
+
+We need workflows!
+
+```{r}
+# dropping NA first so rows match up later, this is clunky
+pen_sub <- penguins %>% 
+  drop_na() %>%
+  select(-species, -island, -sex)
+
+kmeans_fit <- kmeans_spec %>% fit( ~., pen_sub)
+
+kmeans_fit %>%
+  predict(new_data = pen_sub)
+
+### try my new version
+kmeans_fit %>%
+  extract_cluster_assignment()
+```
+
+* Needed flexclust install; probably not necessary, we could implement for kmeans with just dists
+
+* Missing values should probably return an NA prediction.  Or for k-means, imputation isn't crazy...
+
+* We want a consistent return, and k-means is randomized.  We should agree to a consistent default ordering throughout celery - maybe by size (number of members) or something?
+
+
+```{r}
+penguins %>%
+  drop_na() %>%
+  mutate(
+    preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
+  ) %>%
+  count(preds, sex, species)
+```
+
+## Diagnostics
+
+* Measure cluster enrichment with demographic variables (an official recipe designation?).  Include Chi-Square or ANOVA tests???
+
+* Exploit confusion matrix from `yardstick`
+
+* Characterization of clusters, presumably by centers?
+
+* Automatic plot?!
+
+
+## talk to Emil
+
+* Ordering of clusters is really bothering me
+something with indices
+
+* Cluster density followup: is it kind of a model?
+
+```{r}
+recipe( ~ demo1 + predictor1) %>%
+  step_celery(kmeans_fit) # doesn't quite make sense
+  
+```
+
+* Some of these followups feel like they need a recipe.  Which vars are we using for within SS?  Which vars for enrichments? Do we PCA first?  etc.
+
+```{r}
+get_SS(Cluster ~ v1 + v2)
+recipe(Cluster ~ v1 + v2) %>%
+  step_pca() %>%
+  get_ss()
+```
+
+... or maybe fit `enrichment()` on a recipe and it automatically uses the variables with the "enrich" role?  
+how would PCA fit in on this?
+
+How does `fit()` access the right variables?
+
+... is this even worth it given we can attach cluster assignments?  I say yes, because what if we are trying to "cross-validate".
+
+
+```{r}
+penguins_2 <- penguins %>%
+  drop_na() %>%
+  mutate(
+    preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
+  ) 
+
+debugonce(enrichment)
+penguins_2 %>%
+  enrichment(preds, species)
+```

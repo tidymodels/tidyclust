@@ -1,0 +1,149 @@
+---
+title: "kmeans_metrics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{kmeans_metrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(celery)
+library(palmerpenguins)
+library(tidyverse)
+library(tidymodels)
+```
+
+
+## Setup
+
+```{r}
+kmeans_spec <- k_means(k = 3) %>%
+    set_engine_celery("stats") 
+  
+kmeans_fit <- kmeans_spec %>%
+  fit(~ bill_length_mm + bill_depth_mm,
+      data = penguins)
+
+kmeans_fit %>% extract_clusters()
+kmeans_fit %>% extract_fit_summary()
+```
+
+
+## Metrics
+
+```{r}
+kmeans_fit %>% within_cluster_sse()
+kmeans_fit %>% tot_wss()
+kmeans_fit %>% tot_sse()
+kmeans_fit %>% sse_ratio()
+```
+
+```{r}
+# kmeans_fit %>%
+#   augment(penguins)
+
+penguins <- penguins %>% drop_na()
+  
+dists <- penguins %>%
+  select(contains("bill")) %>%
+  dist() %>%
+  as.matrix()
+
+silhouettes(dists, predict(kmeans_fit, penguins)$.pred_cluster) 
+
+avg_silhouette(dists, predict(kmeans_fit, penguins)$.pred_cluster)
+```
+
+
+
+#### Comparison to auxilary variables
+
+ALERT NAS ARE STUPID
+
+```{r}
+penguins <- penguins %>%
+  drop_na(bill_length_mm, bill_depth_mm) 
+
+penguins %>%
+  cbind(extract_cluster_assignment(kmeans_fit)) %>%
+  enrichment(.cluster, species)
+```
+
+
+
+## Cross-Validation
+
+take the full data assignments as "ground truth"
+
+
+## Tuning
+
+Traditional "elbow" plot:
+
+```{r}
+
+results_wss <- c()
+results_ratio <- c()
+
+for (k in 2:10) {
+  
+  kmeans_spec_k <- k_means(k = k) %>%
+    set_engine_celery("stats") 
+  
+  kmeans_fit_k <- kmeans_spec_k %>%
+    fit(~ bill_length_mm + bill_depth_mm,
+        data = penguins)
+  
+  
+  results_ratio <- c(results_ratio, sse_ratio(kmeans_fit_k))
+  results_wss <- c(results_wss, wss(kmeans_fit_k))
+}
+
+plot(results_wss)
+plot(results_ratio)
+```
+
+(Note that the totss aka residual ss is the same no matter what k, so these plots will be the same except the scale of the y-axis.  I hypothesize ratio will be better for cross validation.)
+
+
+What about by enrichment?
+
+
+```{r}
+
+results_species <- c()
+
+for (k in 2:10) {
+  
+  kmeans_spec_k <- k_means(k = k) %>%
+    set_engine_celery("stats") 
+  
+  kmeans_fit_k <- kmeans_spec_k %>%
+    fit(~ bill_length_mm + bill_depth_mm,
+        data = penguins)
+  
+  res <- penguins %>%
+  cbind(extract_cluster_assignment(kmeans_fit_k)) %>%
+  enrichment(.cluster, species)
+  
+  results_species <- c(results_species, res)
+
+}
+
+plot(results_species)
+```
+
+Is there a penalized ChiSq type thing?  Look into this.
+
+
+## Silhouette
+
+
