@@ -177,12 +177,12 @@ avg_silhouette <- function(.dist, clusters) {
 #'
 #' @param data the dataset
 #' @param clusters the variable with cluster assignments
-#' @param ...  other variables for enrichment
+#' @param var other variables for enrichment
 #'
 #' @return The p-value of a Chi-Square test for relationship between cluster
 #' assignments and the categorical variable.
 
-# this needs to be ... instead of var soon
+# this needs to be ... instead of var soon. change @param too when it happens
 #' @export
 enrichment <- function(data, clusters, var) {
 

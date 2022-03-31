@@ -11,7 +11,7 @@ enrichment(data, clusters, var)
 
 \item{clusters}{the variable with cluster assignments}
 
-\item{...}{other variables for enrichment}
+\item{var}{other variables for enrichment}
 }
 \value{
 The p-value of a Chi-Square test for relationship between cluster
