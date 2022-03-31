@@ -4,14 +4,13 @@
 \alias{silhouettes}
 \title{Measures silhouettes between clusters}
 \usage{
-silhouettes(.data, clusters, distance = "euclidean")
+silhouettes(.dist, clusters)
 }
 \arguments{
-\item{.data}{A data frame}
+\item{.dist}{A distance matrix}
 
-\item{clusters}{The column containing cluster assignments.}
-
-\item{distance}{The distance metric to use. (Currently only "euclidean")}
+\item{clusters}{A vector containing cluster assignments in the
+row order of the distance matrix.}
 }
 \value{
 The silhouettes matrix.
@@ -25,8 +24,10 @@ kmeans_spec <- k_means(k = 5) \%>\%
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-mtcars \%>\%
-  augment(kmeans_fit) \%>\%
-  silhouettes(.cluster)
+dists <- mtcars \%>\%
+  as.matrix() \%>\%
+  dist()
+
+silhouettes(dists, kmeans_fit$fit$cluster)
 
 }
