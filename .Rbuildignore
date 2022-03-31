@@ -8,3 +8,5 @@
 ^pkgdown$
 ^codecov\.yml$
 ^\.github$
+^dev$
+^vignettes/articles$

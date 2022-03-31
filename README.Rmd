@@ -20,8 +20,6 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# Celery is in the VERY early stages of development. Functions are likely to change functionality as well as names. Use at your own risk!
-
 The goal of celery is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the [parsnip](https://parsnip.tidymodels.org/) package.
 
 ## Installation
