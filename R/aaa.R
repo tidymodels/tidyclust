@@ -4,7 +4,8 @@
 utils::globalVariables(
   c(
     "engine", "predictor_indicators", "compute_intercept", "remove_intercept",
-    "value", "x", "y", "engine2", "lab", "original", "type"
+    "value", "x", "y", "engine2", "lab", "original", "type", "cluster",
+    "neighbor", "sil_width", "orig_label", ".cluster"
   )
 )
 
