@@ -34,6 +34,10 @@ Suggests:
     flexclust,
     knitr,
     rmarkdown
+Config/Needs/website:
+    pkgdown,
+    tidymodels,
+    tidyverse
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2.9000
