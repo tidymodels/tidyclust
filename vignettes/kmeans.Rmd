@@ -163,7 +163,7 @@ final centroid.  These can be accessed by:
 
 ```{r}
 kmeans_spec_fit %>%
-  extract_clusters()
+  extract_centroids()
 ```
 
 [interpretation]

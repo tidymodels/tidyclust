@@ -32,7 +32,7 @@ kmeans_fit <- kmeans_spec %>%
   fit(~ bill_length_mm + bill_depth_mm,
       data = penguins)
 
-kmeans_fit %>% extract_clusters()
+kmeans_fit %>% extract_centroids()
 kmeans_fit %>% extract_fit_summary()
 ```
 
@@ -68,7 +68,7 @@ avg_silhouette(dists, predict(kmeans_fit, penguins)$.pred_cluster)
 
 ALERT NAS ARE STUPID
 
-```{r}
+```{r, eval=FALSE}
 penguins <- penguins %>%
   drop_na(bill_length_mm, bill_depth_mm) 
 
@@ -88,7 +88,7 @@ take the full data assignments as "ground truth"
 
 Traditional "elbow" plot:
 
-```{r}
+```{r, eval=FALSE}
 
 results_wss <- c()
 results_ratio <- c()
