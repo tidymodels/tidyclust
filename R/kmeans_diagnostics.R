@@ -26,12 +26,12 @@ within_cluster_sse <- function(object, ...) {
     .cluster = unique(extract_cluster_assignment(object)$.cluster),
     orig_label = unique(summ$orig_label)
   ) %>%
-    arrange(orig_label) %>%
-    mutate(
+    dplyr::arrange(orig_label) %>%
+    dplyr::mutate(
       sse = summ$within_sse
     ) %>%
-    arrange(.cluster) %>%
-    select(-orig_label)
+    dplyr::arrange(.cluster) %>%
+    dplyr::select(-orig_label)
 
   return(res)
 
@@ -134,7 +134,7 @@ silhouettes <- function(.dist, clusters) {
   sil %>%
     unclass() %>%
     tibble::as_tibble() %>%
-    mutate(
+    dplyr::mutate(
       cluster = factor(paste0("Cluster_", cluster)),
       neighbor = factor(paste0("Cluster_", neighbor)),
       sil_width = as.numeric(sil_width)
@@ -187,15 +187,15 @@ avg_silhouette <- function(.dist, clusters) {
 enrichment <- function(data, clusters, var) {
 
   res <- list()
-  vec <- data %>% pull({{var}})
+  vec <- data %>% dplyr::pull({{var}})
 
   if (!is.numeric(vec)) {
 
     res <- data %>%
       janitor::tabyl({{clusters}}, {{var}}) %>%
-      select(-1) %>%
+      dplyr::select(-1) %>%
       as.matrix() %>%
-      chisq.test() %>%
+      stats::chisq.test() %>%
       tidy()
 
   } else {
