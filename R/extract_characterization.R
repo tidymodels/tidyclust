@@ -11,7 +11,7 @@
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
 #' kmeans_fit %>%
-#'   extract_clusters()
+#'   extract_centroids()
 #' @export
 extract_centroids <- function(object, ...) {
   summ <- extract_fit_summary(object)

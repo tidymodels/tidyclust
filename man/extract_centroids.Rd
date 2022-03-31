@@ -22,5 +22,5 @@ kmeans_spec <- k_means(k = 5) \%>\%
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
-  extract_clusters()
+  extract_centroids()
 }
