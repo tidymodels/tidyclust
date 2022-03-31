@@ -21,6 +21,13 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/kmeans.html">kmeans</a>
+    <a class="dropdown-item" href="../articles/kmeans_metrics.html">kmeans_metrics</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -53,9 +60,24 @@
 
       <dl><dt>
           
+          <code><a href="avg_silhouette.html">avg_silhouette()</a></code> 
+        </dt>
+        <dd>Measures average silhouette between clusters</dd>
+      </dl><dl><dt>
+          
           <code><a href="control_celery.html">control_celery()</a></code> 
         </dt>
         <dd>Control the fit function</dd>
+      </dl><dl><dt>
+          
+          <code><a href="enrichment.html">enrichment()</a></code> 
+        </dt>
+        <dd>Measures relationship between cluster assignments and another categorical variable.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="extract_centroids.html">extract_centroids()</a></code> 
+        </dt>
+        <dd>Extract clusters from model</dd>
       </dl><dl><dt>
           
           <code><a href="extract_cluster_assignment.html">extract_cluster_assignment()</a></code> 
@@ -63,9 +85,9 @@
         <dd>Extract cluster assignments from model</dd>
       </dl><dl><dt>
           
-          <code><a href="extract_clusters.html">extract_clusters()</a></code> 
+          <code><a href="extract_fit_summary.html">extract_fit_summary()</a></code> 
         </dt>
-        <dd>Extract clusters from model</dd>
+        <dd>S3 method to get fitted model summary info depending on engine</dd>
       </dl><dl><dt>
           
           <code><a href="fit.html">fit(<i>&lt;cluster_spec&gt;</i>)</a></code> <code><a href="fit.html">fit_xy(<i>&lt;cluster_spec&gt;</i>)</a></code> 
@@ -93,14 +115,39 @@
         <dd>Declare a computational engine and specific arguments</dd>
       </dl><dl><dt>
           
+          <code><a href="silhouettes.html">silhouettes()</a></code> 
+        </dt>
+        <dd>Measures silhouettes between clusters</dd>
+      </dl><dl><dt>
+          
+          <code><a href="sse_ratio.html">sse_ratio()</a></code> 
+        </dt>
+        <dd>Compute the ratio of the WSS to the total SSE</dd>
+      </dl><dl><dt>
+          
           <code><a href="tidy.cluster_fit.html">tidy(<i>&lt;cluster_fit&gt;</i>)</a></code> 
         </dt>
         <dd>Turn a celery model object into a tidy tibble</dd>
       </dl><dl><dt>
           
+          <code><a href="tot_sse.html">tot_sse()</a></code> 
+        </dt>
+        <dd>Compute the total sum of squares</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tot_wss.html">tot_wss()</a></code> 
+        </dt>
+        <dd>Compute the sum of within-cluster SSE</dd>
+      </dl><dl><dt>
+          
           <code><a href="translate_celery.html">translate_celery()</a></code> 
         </dt>
         <dd>Resolve a Model Specification for a Computational Engine</dd>
+      </dl><dl><dt>
+          
+          <code><a href="within_cluster_sse.html">within_cluster_sse()</a></code> 
+        </dt>
+        <dd>Calculates Sum of Squared Error in each cluster</dd>
       </dl></div>
   </main></div>
 

@@ -13,6 +13,15 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/kmeans.html</loc>
+  </url>
+  <url>
+    <loc>/articles/kmeans_metrics.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -23,6 +32,9 @@
   </url>
   <url>
     <loc>/reference/add_on_exports.html</loc>
+  </url>
+  <url>
+    <loc>/reference/avg_silhouette.html</loc>
   </url>
   <url>
     <loc>/reference/celery-package.html</loc>
@@ -37,10 +49,16 @@
     <loc>/reference/convert_helpers.html</loc>
   </url>
   <url>
+    <loc>/reference/enrichment.html</loc>
+  </url>
+  <url>
+    <loc>/reference/extract_centroids.html</loc>
+  </url>
+  <url>
     <loc>/reference/extract_cluster_assignment.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_clusters.html</loc>
+    <loc>/reference/extract_fit_summary.html</loc>
   </url>
   <url>
     <loc>/reference/fit.html</loc>
@@ -79,9 +97,24 @@
     <loc>/reference/set_new_model_celery.html</loc>
   </url>
   <url>
+    <loc>/reference/silhouettes.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sse_ratio.html</loc>
+  </url>
+  <url>
     <loc>/reference/tidy.cluster_fit.html</loc>
   </url>
   <url>
+    <loc>/reference/tot_sse.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tot_wss.html</loc>
+  </url>
+  <url>
     <loc>/reference/translate_celery.html</loc>
+  </url>
+  <url>
+    <loc>/reference/within_cluster_sse.html</loc>
   </url>
 </urlset>
