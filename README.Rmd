@@ -31,6 +31,8 @@ You can install the development version of celery from [GitHub](https://github.c
 devtools::install_github("EmilHvitfeldt/celery")
 ```
 
+Please note that this package currently requires a [branch of the workflows](https://github.com/tidymodels/workflows/tree/celery) package to work. Use with caution.
+
 ## Example
 
 The first thing you do is to create a `cluster specification`. For this example we are creating a K-means model, using the `stats` engine.
@@ -67,6 +69,6 @@ extract_cluster_assignment(kmeans_spec_fit)
 and `extract_clusters()` returns the locations of the clusters
 
 ```{r}
-extract_clusters(kmeans_spec_fit)
+extract_centroids(kmeans_spec_fit)
 ```
 

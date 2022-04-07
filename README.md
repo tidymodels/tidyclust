@@ -24,6 +24,10 @@ You can install the development version of celery from
 devtools::install_github("EmilHvitfeldt/celery")
 ```
 
+Please note that this package currently requires a [branch of the
+workflows](https://github.com/tidymodels/workflows/tree/celery) package
+to work. Use with caution.
+
 ## Example
 
 The first thing you do is to create a `cluster specification`. For this
@@ -52,38 +56,38 @@ kmeans_spec_fit <- kmeans_spec %>%
 kmeans_spec_fit
 #> celery cluster object
 #> 
-#> K-means clustering with 3 clusters of sizes 7, 11, 14
+#> K-means clustering with 3 clusters of sizes 14, 11, 7
 #> 
 #> Cluster means:
 #>        mpg cyl     disp        hp     drat       wt     qsec        vs
-#> 1 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286
+#> 1 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000
 #> 2 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909
-#> 3 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000
+#> 3 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286
 #>          am     gear     carb
-#> 1 0.4285714 3.857143 3.428571
+#> 1 0.1428571 3.285714 3.500000
 #> 2 0.7272727 4.090909 1.545455
-#> 3 0.1428571 3.285714 3.500000
+#> 3 0.4285714 3.857143 3.428571
 #> 
 #> Clustering vector:
 #>           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
-#>                   1                   1                   2                   1 
+#>                   3                   3                   2                   3 
 #>   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
-#>                   3                   1                   3                   2 
+#>                   1                   3                   1                   2 
 #>            Merc 230            Merc 280           Merc 280C          Merc 450SE 
-#>                   2                   1                   1                   3 
+#>                   2                   3                   3                   1 
 #>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
-#>                   3                   3                   3                   3 
+#>                   1                   1                   1                   1 
 #>   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
-#>                   3                   2                   2                   2 
+#>                   1                   2                   2                   2 
 #>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
-#>                   2                   3                   3                   3 
+#>                   2                   1                   1                   1 
 #>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
-#>                   3                   2                   2                   2 
+#>                   1                   2                   2                   2 
 #>      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
-#>                   3                   1                   3                   2 
+#>                   1                   3                   1                   2 
 #> 
 #> Within cluster sum of squares by cluster:
-#> [1] 13954.34 11848.37 93643.90
+#> [1] 93643.90 11848.37 13954.34
 #>  (between_SS / total_SS =  80.8 %)
 #> 
 #> Available components:
@@ -100,10 +104,10 @@ predict(kmeans_spec_fit, mtcars[1:4, ])
 #> # A tibble: 4 × 1
 #>   .pred_cluster
 #>   <fct>        
-#> 1 1            
-#> 2 1            
+#> 1 3            
+#> 2 3            
 #> 3 2            
-#> 4 1
+#> 4 3
 ```
 
 `extract_cluster_assignment()` returns the cluster assignments of the
@@ -114,27 +118,29 @@ extract_cluster_assignment(kmeans_spec_fit)
 #> # A tibble: 32 × 1
 #>    .cluster
 #>    <fct>   
-#>  1 1       
-#>  2 1       
-#>  3 2       
-#>  4 1       
-#>  5 3       
-#>  6 1       
-#>  7 3       
-#>  8 2       
-#>  9 2       
-#> 10 1       
+#>  1 C1      
+#>  2 C1      
+#>  3 C2      
+#>  4 C1      
+#>  5 C3      
+#>  6 C1      
+#>  7 C3      
+#>  8 C2      
+#>  9 C2      
+#> 10 C1      
 #> # … with 22 more rows
 ```
 
 and `extract_clusters()` returns the locations of the clusters
 
 ``` r
-extract_clusters(kmeans_spec_fit)
-#> # A tibble: 3 × 12
-#>   .cluster   mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#>   <fct>    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 1         19.7     6  183. 122.   3.59  3.12  18.0 0.571 0.429  3.86  3.43
-#> 2 2         26.7     4  105.  82.6  4.07  2.29  19.1 0.909 0.727  4.09  1.55
-#> 3 3         15.1     8  353. 209.   3.23  4.00  16.8 0     0.143  3.29  3.5
+extract_centroids(kmeans_spec_fit)
+#> New names:
+#> • `` -> `...2`
+#> # A tibble: 3 × 2
+#>   .cluster   ...2
+#>   <chr>     <dbl>
+#> 1 Cluster_1  19.7
+#> 2 Cluster_2  26.7
+#> 3 Cluster_3  15.1
 ```
