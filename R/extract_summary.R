@@ -31,11 +31,11 @@ extract_fit_summary.kmeans <- function(object, ...) {
 
   list(
     cluster_names = paste0("Cluster_", 1:nrow(object$centers)),
-    centroids = object$centers[reorder_clusts],
+    centroids = object$centers[reorder_clusts,],
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
-    orig_labels = object$cluster
+    orig_labels = unname(object$cluster)
   )
 
 }
