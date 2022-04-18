@@ -28,14 +28,16 @@ extract_fit_summary.cluster_fit <- function(object, ...) {
 extract_fit_summary.kmeans <- function(object, ...) {
 
   reorder_clusts <- order(unique(object$cluster))
+  names <- paste0("Cluster_", 1:nrow(object$centers))
 
   list(
-    cluster_names = paste0("Cluster_", 1:nrow(object$centers)),
-    centroids = object$centers[reorder_clusts,],
+    cluster_names = names,
+    centroids = tibble::as_tibble(object$centers[reorder_clusts,]),
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
-    orig_labels = unname(object$cluster)
+    orig_labels = unname(object$cluster),
+    cluster_assignments = names[reorder_clusts][object$cluster]
   )
 
 }
@@ -44,13 +46,15 @@ extract_fit_summary.kmeans <- function(object, ...) {
 extract_fit_summary.KMeansCluster <- function(object, ...) {
 
   reorder_clusts <- order(unique(object$cluster))
+  names <- paste0("Cluster_", 1:nrow(object$centroids))
 
   list(
-    cluster_names = paste0("Cluster_", 1:nrow(object$centroids)),
-    centroids = object$centroids[reorder_clusts,],
+    cluster_names = names,
+    centroids = tibble::as_tibble(object$centroids[reorder_clusts,]),
     n_members = object$obs_per_cluster[reorder_clusts],
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,
-    orig_labels = object$clusters
+    orig_labels = object$clusters,
+    cluster_assignments = names[reorder_clusts][object$clusters]
   )
 }
