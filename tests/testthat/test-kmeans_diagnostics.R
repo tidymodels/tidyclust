@@ -7,10 +7,12 @@ obj2 <- k_means(k = 3) %>%
   fit(~., mtcars)
 
 
+new_data <- mtcars[1:4,]
+
 test_that("kmeans sse metrics work", {
 
   expect_equal(within_cluster_sse(obj1)$sse,
-               c(7654.146, 76954.010, 42877.103),
+               c(42877.103, 76954.010, 7654.146),
                tolerance = 0.005)
 
   expect_equal(tot_wss(obj1), 127485.3, tolerance = 0.005)
@@ -19,12 +21,24 @@ test_that("kmeans sse metrics work", {
 
 
   expect_equal(within_cluster_sse(obj2)$sse,
-               c(4665.041, 42877.103, 56041.432),
+               c(56041.432, 4665.041, 42877.103),
                tolerance = 0.005)
 
   expect_equal(tot_wss(obj2), 103583.6, tolerance = 0.005)
   expect_equal(tot_sse(obj2), tot_sse(obj1), tolerance = 0.005)
   expect_equal(sse_ratio(obj2), 0.1661624, tolerance = 0.005)
+
+})
+
+test_that("kmeans sse metrics work on new data", {
+
+  expect_equal(within_cluster_sse(obj1, new_data)$sse,
+               c(933.0699, 12855.1696),
+               tolerance = 0.005)
+
+  expect_equal(tot_wss(obj1, new_data), 13788.24, tolerance = 0.005)
+  expect_equal(tot_sse(obj1, new_data), 32763.7, tolerance = 0.005)
+  expect_equal(sse_ratio(obj1, new_data), 0.4208389, tolerance = 0.005)
 
 })
 
@@ -34,15 +48,25 @@ test_that("kmeans sihouette metrics work", {
      as.matrix() %>%
      dist()
 
-  c1 <- extract_fit_summary(obj1)$cluster_assignments
-  c2 <- extract_fit_summary(obj2)$cluster_assignments
+  expect_equal(names(silhouettes(obj1, dists = dists)),
+               names(silhouettes(obj2, dists = dists)))
 
-  expect_equal(names(silhouettes(dists, c1)),
-               names(silhouettes(dists, c2)))
-
-  expect_equal(avg_silhouette(dists, c1), 0.4993742,
+  expect_equal(avg_silhouette(obj1, dists = dists), 0.4993742,
                tolerance = 0.005)
-  expect_equal(avg_silhouette(dists, c2), 0.5473414,
+  expect_equal(avg_silhouette(obj2, dists = dists), 0.5473414,
+               tolerance = 0.005)
+
+})
+
+
+test_that("kmeans sihouette metrics work with new data", {
+
+  expect_equal(names(silhouettes(obj1, new_data = new_data)),
+               names(silhouettes(obj2, new_data = new_data)))
+
+  expect_equal(avg_silhouette(obj1, new_data = new_data), 0.5176315,
+               tolerance = 0.005)
+  expect_equal(avg_silhouette(obj2, new_data = new_data), 0.5176315,
                tolerance = 0.005)
 
 })

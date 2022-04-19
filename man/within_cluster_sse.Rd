@@ -4,10 +4,15 @@
 \alias{within_cluster_sse}
 \title{Calculates Sum of Squared Error in each cluster}
 \usage{
-within_cluster_sse(object, ...)
+within_cluster_sse(object, new_data = NULL, dist_fun = Rfast::dista)
 }
 \arguments{
-\item{object}{a fitted kmeans celery model}
+\item{object}{A fitted kmeans celery model}
+
+\item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
+
+\item{dist_fun}{A function for calculating distances to centroids.  Defaults
+to Euclidean distance on processed data.}
 
 \item{...}{Other arguments passed to methods.}
 }

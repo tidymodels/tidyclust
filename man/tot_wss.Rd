@@ -4,10 +4,15 @@
 \alias{tot_wss}
 \title{Compute the sum of within-cluster SSE}
 \usage{
-tot_wss(object, ...)
+tot_wss(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
-\item{object}{An cluster_spec object.}
+\item{object}{A fitted kmeans celery model}
+
+\item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
+
+\item{dist_fun}{A function for calculating distances to centroids.  Defaults
+to Euclidean distance on processed data.}
 
 \item{...}{Other arguments passed to methods.}
 }

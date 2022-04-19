@@ -2,7 +2,10 @@
 
 #' Calculates Sum of Squared Error in each cluster
 #'
-#' @param object a fitted kmeans celery model
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dist_fun A function for calculating distances to centroids.  Defaults
+#' to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
 #' @return A tibble with two columns, the cluster name and the SSE within that
@@ -17,21 +20,46 @@
 #' kmeans_fit %>%
 #'   within_cluster_sse()
 #'
+#' @import dplyr
+#'
 #' @export
-within_cluster_sse <- function(object, ...) {
+within_cluster_sse <- function(object, new_data = NULL,
+                               dist_fun = Rfast::dista) {
+
+
+  # Preprocess data before computing distances if appropriate
+  if (class(object) == "workflow" && !is.null(new_data)) {
+
+    new_data <- object %>%
+      hardhat::extract_recipe() %>%
+      recipes::bake(new_data)
+
+  }
 
   summ <- extract_fit_summary(object)
 
-  res <- tibble::tibble(
-    .cluster = unique(extract_cluster_assignment(object)$.cluster),
-    orig_label = unique(summ$orig_label)
-  ) %>%
-    dplyr::arrange(orig_label) %>%
-    dplyr::mutate(
+  if (is.null(new_data)) {
+
+    res <- tibble::tibble(
+      .cluster = factor(summ$cluster_names),
       sse = summ$within_sse
-    ) %>%
-    dplyr::arrange(.cluster) %>%
-    dplyr::select(-orig_label)
+      )
+
+  } else {
+
+    dist_to_centroids <- dist_fun(summ$centroids, new_data)
+
+    res <- dist_to_centroids %>%
+      tibble::as_tibble() %>%
+      purrr::map_dfr(~c(.cluster = which.min(.x),
+                 dist = min(.x)^2)) %>%
+      mutate(
+        .cluster = factor(paste0("Cluster_", .cluster))
+      ) %>%
+      group_by(.cluster) %>%
+      summarize(sse = mean(dist))
+
+  }
 
   return(res)
 
@@ -40,8 +68,12 @@ within_cluster_sse <- function(object, ...) {
 
 #' Compute the sum of within-cluster SSE
 #'
-#' @param object An cluster_spec object.
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dist_fun A function for calculating distances to centroids.  Defaults
+#' to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
@@ -52,16 +84,20 @@ within_cluster_sse <- function(object, ...) {
 #' kmeans_fit %>%
 #'   tot_wss()
 #' @export
-tot_wss <- function(object, ...) {
+tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
-  sum(extract_fit_summary(object)$within_sse)
+  sum(within_cluster_sse(object, new_data, dist_fun, ...)$sse, na.rm = TRUE)
 
 }
 
 #' Compute the total sum of squares
 #'
-#' @param object An cluster_spec object.
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dist_fun A function for calculating distances to centroids.  Defaults
+#' to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
@@ -72,9 +108,28 @@ tot_wss <- function(object, ...) {
 #' kmeans_fit %>%
 #'   tot_sse()
 #' @export
-tot_sse <- function(object, ...) {
+tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
-  extract_fit_summary(object)$tot_sse
+
+  # Preprocess data before computing distances if appropriate
+  if (class(object) == "workflow" && !is.null(new_data)) {
+
+    new_data <- object %>%
+      hardhat::extract_recipe() %>%
+      recipes::bake(new_data)
+
+  }
+
+  summ <- extract_fit_summary(object)
+
+  if (is.null(new_data)) {
+    tot <- summ$tot_sse
+  } else {
+    overall_mean <- colSums(summ$centroids * summ$n_members)/sum(summ$n_members)
+    tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
+  }
+
+  return(tot)
 
 }
 
@@ -82,7 +137,10 @@ tot_sse <- function(object, ...) {
 
 #' Compute the ratio of the WSS to the total SSE
 #'
-#' @param object An cluster_spec object.
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dist_fun A function for calculating distances to centroids.  Defaults
+#' to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
 #' @examples
@@ -94,9 +152,9 @@ tot_sse <- function(object, ...) {
 #' kmeans_fit %>%
 #'   sse_ratio()
 #' @export
-sse_ratio <- function(object, ...) {
+sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
-  tot_wss(object)/tot_sse(object)
+  tot_wss(object, new_data, dist_fun)/tot_sse(object, new_data, dist_fun)
 
 }
 
@@ -106,11 +164,14 @@ sse_ratio <- function(object, ...) {
 
 #' Measures silhouettes between clusters
 #'
-#' @param .dist A distance matrix
-#' @param clusters A vector containing cluster assignments in the
-#' row order of the distance matrix.
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dists A distance matrix. Used if `new_data` is `NULL`.
+#' @param dist_fun A function for calculating distances between observations.  Defaults
+#' to Euclidean distance on processed data.
+#' @param ... Other arguments passed to methods.
 #'
-#' @return The silhouettes matrix.
+#' @return A tibble giving the silhouettes for each observation.
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
@@ -122,14 +183,17 @@ sse_ratio <- function(object, ...) {
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' silhouettes(dists, kmeans_fit$fit$cluster)
+#' silhouettes(kmeans_fit, dists)
 #'
 #' @export
-silhouettes <- function(.dist, clusters) {
+silhouettes <- function(object, new_data = NULL,
+                        dists = NULL, dist_fun = Rfast::Dist) {
 
-  clust_int <- as.integer(gsub("Cluster_", "", clusters))
+  preproc <- prep_data_dist(object, new_data, dists, dist_fun)
 
-  sil <- cluster::silhouette(clust_int, .dist)
+  clust_int <- as.integer(gsub("Cluster_", "", preproc$clusters))
+
+  sil <- cluster::silhouette(clust_int, preproc$dists)
 
   sil %>%
     unclass() %>%
@@ -143,12 +207,15 @@ silhouettes <- function(.dist, clusters) {
 }
 
 
-#' Measures average silhouette between clusters
-#' @param .dist A distance matrix
-#' @param clusters A vector containing cluster assignments in the
-#' row order of the distance matrix.
+#' Measures average silhouette across all observations
+#' @param object A fitted kmeans celery model
+#' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
+#' @param dists A distance matrix. Used if `new_data` is `NULL`.
+#' @param dist_fun A function for calculating distances between observations.  Defaults
+#' to Euclidean distance on processed data.
+#' @param ... Other arguments passed to methods.
 #'
-#' @return The silhouettes matrix.
+#' @return A double; the average silhouette.
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
@@ -160,16 +227,21 @@ silhouettes <- function(.dist, clusters) {
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' avg_silhouette(dists, kmeans_fit$fit$cluster)
+#' avg_silhouette(kmeans_fit, dists)
 #'
 #' @export
-avg_silhouette <- function(.dist, clusters) {
+avg_silhouette <- function(object, new_data = NULL,
+                           dists = NULL, dist_fun = Rfast::Dist,
+                           ...) {
 
-  mean(silhouettes(.dist, clusters)$sil_width)
+  mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
 
 }
 
 #-------- Gap Method -------#
+
+
+
 
 #-------- Enrichment -------#
 
@@ -208,4 +280,84 @@ enrichment <- function(data, clusters, var) {
   return(-log(res$p.value))
 
 }
+
+#------ Helpers ----- #
+
+#' Prepares data and distance matrices for metric calculation
+#'
+#' @param object A fitted cluster_spec object.
+#' @param new_data A dataset to calculate predictions on.  If `NULL`, the trained
+#' cluster assignments from the fitted object are used.
+#' @param dists A distance matrix for the data.  If `NULL`, distance is computed
+#' on `new_data` using the `stats::dist()` function.
+#' @param ... Optional parameters passed to `stats::dists()`
+#'
+#' @return A list
+
+prep_data_dist <- function(object, new_data = NULL,
+                           dists = NULL, dist_fun = Rfast::Dist) {
+
+  # Sihouettes requires a distance matrix
+  if (is.null(new_data) & is.null(dists)) {
+    stop("Must supply either a dataset or distance matrix to compute silhouettes.")
+  }
+
+  # If data is blank, we are using the trained cluster assignments
+  if (is.null(new_data)) {
+    clusters <- extract_fit_summary(object)$cluster_assignments
+  } else {
+    clusters <- predict_cluster(object, new_data)
+  }
+
+
+  # If they supplied distance, check that it matches the data dimension
+  if (!is.null(dists)) {
+    if (!is.null(new_data) && nrow(new_data) != attr(dists, "Size")) {
+      stop("Dimensions of dataset and distance matrix must match.")
+    } else if (is.null(new_data) && length(clusters) != attr(dists, "Size")) {
+      stop("Dimensions of training dataset and distance matrix must match.")
+    }
+  }
+
+  # Preprocess data before computing distances if appropriate
+  if (class(object) == "workflow" && !is.null(new_data)) {
+
+    new_data <- object %>%
+      hardhat::extract_recipe() %>%
+      recipes::bake(new_data)
+
+  }
+
+  # Calculate distances including optionally supplied params
+  if (is.null(dists)) {
+    dists <- dist_fun(new_data)
+  }
+
+  return(list(clusters = clusters,
+              data = new_data,
+              dists = dists))
+
+}
+
+
+
+#' Computes distance from observations to centroids
+#'
+#' @param new_data A data frame
+#' @param centroids A data frame where each row is a centroid.
+#' @param dist_fun A function for computing matrix-to-matrix distances.
+#' Defaults to `Rfast::dista()`
+#'
+get_centroid_dists <- function(new_data, centroids,
+                               dist_fun = Rfast::dista) {
+
+  if (ncol(new_data) != ncol(centroids)) {
+    stop("Centroids must have same columns as data.")
+  }
+
+  dist_fun(centroids, new_data)
+
+
+}
+
 

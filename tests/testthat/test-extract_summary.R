@@ -12,5 +12,8 @@ test_that("extract summary works for kmeans", {
 
   expect_equal(names(summ1), names(summ2))
 
+  # check order
+  expect_equal(summ1$n_members, c(17, 11, 4))
+
 })
 

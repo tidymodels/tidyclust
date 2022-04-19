@@ -21,6 +21,7 @@ Imports:
     parsnip,
     prettyunits,
     purrr,
+    Rfast,
     rlang,
     stats,
     tibble,
