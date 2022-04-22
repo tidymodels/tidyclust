@@ -240,10 +240,13 @@ avg_silhouette <- function(object, new_data = NULL,
 
 #-------- Gap Method -------#
 
-
+#### Not sure whether to add this, it's basically a resampling method
 
 
 #-------- Enrichment -------#
+
+
+#### This one needs to change to fit the new structure, not a priority for now
 
 #' Measures relationship between cluster assignments and another categorical variable.
 #'
