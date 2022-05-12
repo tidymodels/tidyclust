@@ -78,6 +78,10 @@
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
 #'   `celery::get_encoding_celery()` for details. `x` should have column names.
+#' @param case_weights An optional classed vector of numeric case weights. This
+#'   must return `TRUE` when [hardhat::is_case_weights()] is run on it. See
+#'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
+#'   examples.
 #' @rdname fit
 #' @export
 #' @export fit.cluster_spec
