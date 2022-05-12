@@ -583,6 +583,31 @@ append_predictions <- function(collection, predictions, split, control, .config 
   dplyr::bind_rows(collection, predictions)
 }
 
+append_metrics <- function(workflow, collection, predictions, metrics, param_names,
+                           outcome_name, event_level, split, .config = NULL)
+{
+  if (inherits(predictions, "try-error")) {
+    return(collection)
+  }
+
+  params <- predictions %>%
+    dplyr::select(param_names) %>%
+    dplyr::distinct()
+
+  tmp_est <- purrr::imap_dfr(metrics,
+                             ~list(.estimate = .x(workflow)),
+                             .id = ".metric") %>%
+    dplyr::mutate(.estimator = "standard")
+
+  tmp_est <- cbind(tmp_est, labels(split))
+
+  tmp_est <- cbind(params, tmp_est)
+  if (!rlang::is_null(.config)) {
+    tmp_est <- cbind(tmp_est, .config)
+  }
+  dplyr::bind_rows(collection, tmp_est)
+}
+
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)

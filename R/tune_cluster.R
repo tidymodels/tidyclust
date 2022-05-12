@@ -471,16 +471,17 @@ tune_cluster_loop_iter <- function(split,
         next
       }
 
-      # out_metrics <- append_metrics(
-      #   collection = out_metrics,
-      #   predictions = iter_predictions,
-      #   metrics = metrics,
-      #   param_names = param_names,
-      #   outcome_name = outcome_names,
-      #   event_level = event_level,
-      #   split = split,
-      #   .config = iter_config
-      # )
+      out_metrics <- append_metrics(
+        workflow = workflow,
+        collection = out_metrics,
+        predictions = iter_predictions,
+        metrics = metrics,
+        param_names = param_names,
+        outcome_name = outcome_names,
+        event_level = event_level,
+        split = split,
+        .config = iter_config
+      )
 
       # iter_config_metrics <- extract_metrics_config(param_names, out_metrics)
 
