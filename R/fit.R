@@ -224,7 +224,7 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
-  function(object, x, control = control_celery(), ...) {
+  function(object, x, case_weights = NULL, control = control_celery(), ...) {
     # if (!inherits(control, "control_celery")) {
     #   rlang::abort("The 'control' argument should have class 'control_celery'.")
     # }
