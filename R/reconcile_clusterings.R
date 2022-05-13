@@ -33,3 +33,7 @@ km_2 <- kmeans(ir, 10)
 
 bob <- reconcile_clusterings(km_1$cluster, km_2$cluster)
 sum(bob$clusters_1 == bob$clusters_2_renamed)
+
+
+### what happens when clusters2 and clusters1 don't share names, even permuted?
+### or not the same number of unique values?

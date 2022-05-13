@@ -1,5 +1,6 @@
 library(tidymodels)
 library(tidyverse)
+library(celery)
 
 ## "Cross-validation" for kmeans
 
@@ -54,13 +55,13 @@ res %>%
 ## This needs "predict"
 ## Doesn't really make sense yet
 
-cvs <- vfold_cv(ir, v = 5)
+cvs <- vfold_cv(ir, v = 10)
 
 res <- data.frame(
   k = NA,
   i = NA,
   acc = NA,
-  roc_auc = NA
+  f1 = NA
 )
 
 for (k in 2:10) {
@@ -68,27 +69,29 @@ for (k in 2:10) {
   km <- k_means(k = k) %>%
     set_engine_celery("stats")
 
-  full_fit <- km %>% fit(~., data = ir) %>%
-    extract_cluster_assignment()
+  full_fit <- km %>% fit(~., data = ir)
 
 
-  for (i in 1:5) {
+  for (i in 1:10) {
 
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
 
     km_fit <- km %>% fit(~., data = tmp_train)
 
-    dat <- tmp_train %>%
+    dat <- tmp_test %>%
       mutate(
-        truth = full_fit$.cluster[as.numeric(rownames(tmp_train))],
-        estimate = extract_cluster_assignment(km_fit)$.cluster
+        truth = predict(full_fit, tmp_test)$.pred_cluster,
+        estimate = predict(km_fit, tmp_test)$.pred_cluster
       )
 
-    acc <- accuracy(dat, truth, estimate)
+    thing <- reconcile_clusterings(dat$truth, dat$estimate)
+
+    acc <- accuracy(thing, clusters_1, clusters_2)
+    f1 <- f_meas(thing, clusters_1, clusters_2)
 
     res <- rbind(res,
-                 c(k = k, i = i, acc = acc$.estimate[1], roc_auc = NA))
+                 c(k = k, i = i, acc = acc$.estimate[1], f1 = f1$.estimate))
 
   }
 
@@ -96,5 +99,10 @@ for (k in 2:10) {
 
 
 res %>%
-  ggplot(aes(x = factor(k), y = acc)) +
-  geom_boxplot()
+  ggplot(aes(x = factor(k), y = f1)) +
+  geom_point()
+
+
+### use orders from reconciling to order centers and check center similarity?
+### or to get "raw probabilities" - what does that mean though?
+### to do predict = raw
