@@ -156,13 +156,11 @@ tune_cluster_workflow <- function(workflow,
 }
 
 tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) {
-  # `%op%` <- get_operator(control$allow_par, workflow)
-  `%op%` <- foreach::`%do%`
+  `%op%` <- get_operator(control$allow_par, workflow)
   `%:%` <- foreach::`%:%`
 
-  packages <- NULL # c(control$pkgs, required_pkgs(workflow))
+  packages <- c(control$pkgs, required_pkgs(workflow))
 
-  # grid_info <- tibble(k = 3)  #compute_grid_info(workflow, grid) TODO
   grid_info <- compute_grid_info(workflow, grid)
 
   n_resamples <- nrow(resamples)
@@ -221,10 +219,10 @@ tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) 
           .errorhandling = "pass",
           .combine = iter_combine
         ) %op% {
-          # Extract internal function from tune namespace
+          # Extract internal function from celery namespace
           tune_grid_loop_iter_safely <- utils::getFromNamespace(
-            x = "tune_grid_loop_iter_safely",
-            ns = "tune"
+            x = "tune_cluster_loop_iter_safely",
+            ns = "celery"
           )
 
           grid_info_row <- vctrs::vec_slice(grid_info, row)
@@ -287,9 +285,8 @@ tune_cluster_loop_iter <- function(split,
                                    metrics,
                                    control,
                                    seed) {
-  # browser()
   load_pkgs(workflow)
-  # load_namespace(control$pkgs) TODO
+  load_namespace(control$pkgs)
 
   # After package loading to avoid potential package RNG manipulation
   if (!is.null(seed)) {
