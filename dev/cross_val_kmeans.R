@@ -5,13 +5,14 @@ library(tidyverse)
 
 ir <- iris %>% select(-Species)
 
-cvs <- vfold_cv(ir, v = 10)
+cvs <- vfold_cv(ir, v = 5)
 
 res <- data.frame(
   k = NA,
   i = NA,
   wss = NA,
-  sil = NA
+  sil = NA,
+  wss_2 = NA
 )
 
 for (k in 2:10) {
@@ -20,7 +21,7 @@ for (k in 2:10) {
     set_engine_celery("stats")
 
 
-  for (i in 1:10) {
+  for (i in 1:5) {
 
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
@@ -30,11 +31,13 @@ for (k in 2:10) {
     wss <- km_fit %>%
       tot_wss(tmp_test)
 
+    wss_2 <- km_fit$fit$tot.withinss
+
     sil <- km_fit %>%
       avg_silhouette(tmp_test)
 
     res <- rbind(res,
-                 c(k = k, i = i, wss = wss, sil = sil))
+                 c(k = k, i = i, wss = wss, sil = sil, wss_2 = wss_2))
 
   }
 
@@ -42,10 +45,12 @@ for (k in 2:10) {
 
 res %>%
   drop_na() %>%
-  group_by(k) %>%
-  summarize(wss = mean(wss)) %>%
-  ggplot(aes(x = factor(k), y = wss)) +
+  ggplot(aes(x = factor(k), y = sil)) +
   geom_point()
 
 
-### not getting very consistent results here...
+### Second idea
+## What if we cluster the whole data, then see how well subsamples are reclassified?
+## This needs "predict"
+
+

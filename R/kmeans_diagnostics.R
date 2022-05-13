@@ -42,7 +42,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 
     res <- tibble::tibble(
       .cluster = factor(summ$cluster_names),
-      sse = summ$within_sse
+      wss = summ$within_sse
       )
 
   } else {
@@ -50,14 +50,14 @@ within_cluster_sse <- function(object, new_data = NULL,
     dist_to_centroids <- dist_fun(summ$centroids, new_data)
 
     res <- dist_to_centroids %>%
-      tibble::as_tibble() %>%
+      tibble::as_tibble(.name_repair = "minimal") %>%
       purrr::map_dfr(~c(.cluster = which.min(.x),
                  dist = min(.x)^2)) %>%
       mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
       group_by(.cluster) %>%
-      summarize(sse = mean(dist))
+      summarize(wss = sum(dist))
 
   }
 
@@ -86,7 +86,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 #' @export
 tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
-  sum(within_cluster_sse(object, new_data, dist_fun, ...)$sse, na.rm = TRUE)
+  sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 
 }
 
