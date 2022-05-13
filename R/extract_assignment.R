@@ -28,14 +28,16 @@ extract_cluster_assignment.kmeans <- function(object, ...) {
 
 #' @export
 extract_cluster_assignment.KMeansCluster <- function(object, ...) {
-  cluster_assignment_tibble(object$clusters, nrow(object$centroids))
+  cluster_assignment_tibble(object$clusters, length(object$obs_per_cluster))
 }
 
 # ------------------------------------------------------------------------------
 
 cluster_assignment_tibble <- function(clusters, n_clusters) {
-  res <- factor(clusters,
-                levels = unique(clusters),
-                labels = paste0("C", seq_len(n_clusters)))
-  tibble::tibble(.cluster = res)
+
+  reorder_clusts <- order(unique(clusters))
+  names <- paste0("Cluster_", 1:n_clusters)
+  res <- names[reorder_clusts][clusters]
+
+  tibble::tibble(.cluster = factor(res))
 }
