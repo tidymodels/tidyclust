@@ -39,6 +39,7 @@ Suggests:
     janitor,
     knitr,
     modeldata,
+    recipes,
     rmarkdown,
     testthat (>= 3.0.0),
     workflows
