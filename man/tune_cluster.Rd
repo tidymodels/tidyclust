@@ -2,13 +2,13 @@
 % Please edit documentation in R/tune_cluster.R
 \name{tune_cluster}
 \alias{tune_cluster}
-\alias{tune_cluster.model_spec}
+\alias{tune_cluster.cluster_spec}
 \alias{tune_cluster.workflow}
 \title{Model tuning via grid search}
 \usage{
 tune_cluster(object, ...)
 
-\method{tune_cluster}{model_spec}(
+\method{tune_cluster}{cluster_spec}(
   object,
   preprocessor,
   resamples,

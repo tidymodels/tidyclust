@@ -41,10 +41,10 @@ tune_cluster.default <- function(object, ...) {
 
 #' @export
 #' @rdname tune_cluster
-tune_cluster.model_spec <- function(object, preprocessor, resamples, ...,
-                                    param_info = NULL, grid = 10,
-                                    metrics = NULL,
-                                    control = control_celery()) {
+tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
+                                      param_info = NULL, grid = 10,
+                                      metrics = NULL,
+                                      control = control_celery()) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
     rlang::abort(paste(
       "To tune a model spec, you must preprocess",
