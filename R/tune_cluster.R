@@ -446,14 +446,14 @@ tune_cluster_loop_iter <- function(split,
         iter_grid <- tibble::new_tibble(x = list(), nrow = nrow)
       }
 
-      # out_extracts <- append_extracts(
-      #   collection = out_extracts,
-      #   workflow = workflow,
-      #   grid = iter_grid,
-      #   split = split,
-      #   ctrl = control,
-      #   .config = iter_config
-      # )
+      out_extracts <- append_extracts(
+        collection = out_extracts,
+        workflow = workflow,
+        grid = iter_grid,
+        split = split,
+        ctrl = control,
+        .config = iter_config
+      )
 
       iter_msg_predictions <- paste(iter_msg_model, "(predictions)")
 
@@ -497,7 +497,7 @@ tune_cluster_loop_iter <- function(split,
 
   list(
     .metrics = out_metrics,
-    # .extracts = out_extracts,
+    .extracts = out_extracts,
     .predictions = out_predictions,
     #.all_outcome_names = out_all_outcome_names,
     .notes = out_notes

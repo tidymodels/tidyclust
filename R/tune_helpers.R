@@ -608,6 +608,30 @@ append_metrics <- function(workflow, collection, predictions, metrics, param_nam
   dplyr::bind_rows(collection, tmp_est)
 }
 
+append_extracts <- function(collection, workflow, grid, split, ctrl, .config = NULL) {
+  extracts <-
+    grid %>%
+    dplyr::bind_cols(labels(split)) %>%
+    dplyr::mutate(
+      .extracts = list(
+        extract_details(workflow, ctrl$extract)
+      )
+    )
+
+  if (!rlang::is_null(.config)) {
+    extracts <- cbind(extracts, .config)
+  }
+
+  dplyr::bind_rows(collection, extracts)
+}
+
+extract_details <- function(object, extractor) {
+  if (is.null(extractor)) {
+    return(list())
+  }
+  try(extractor(object), silent = TRUE)
+}
+
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)
