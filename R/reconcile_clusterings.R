@@ -27,3 +27,9 @@ clusters_1 <- c("C1", "C1", "C2", "C3", "C4", "C4")
 clusters_2 <- c("C3", "C2", "C2", "C4", "C1", "C1")
 
 reconcile_clusterings(clusters_1, clusters_2)
+
+km_1 <- kmeans(ir, 10)
+km_2 <- kmeans(ir, 10)
+
+bob <- reconcile_clusterings(km_1$cluster, km_2$cluster)
+sum(bob$clusters_1 == bob$clusters_2_renamed)
