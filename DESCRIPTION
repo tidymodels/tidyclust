@@ -35,6 +35,8 @@ Suggests:
     flexclust,
     knitr,
     rmarkdown
+Remotes:
+    tidymodels/workflows@celery
 Config/Needs/website:
     pkgdown,
     tidymodels,
