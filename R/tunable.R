@@ -72,3 +72,5 @@ stats_k_means_engine_args <-
     component = "k_means",
     component_id = "engine"
   )
+
+# nocov end
