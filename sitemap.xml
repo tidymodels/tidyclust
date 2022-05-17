@@ -73,6 +73,9 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/k.html</loc>
+  </url>
+  <url>
     <loc>/reference/k_means.html</loc>
   </url>
   <url>
@@ -113,6 +116,9 @@
   </url>
   <url>
     <loc>/reference/translate_celery.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tune_cluster.html</loc>
   </url>
   <url>
     <loc>/reference/within_cluster_sse.html</loc>
