@@ -7,7 +7,7 @@
 \usage{
 \method{fit}{cluster_spec}(object, formula, data, control = control_celery(), ...)
 
-\method{fit_xy}{cluster_spec}(object, x, control = control_celery(), ...)
+\method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_celery(), ...)
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
@@ -30,6 +30,11 @@ options required to fit the model should be passed using
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
 \code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
+
+\item{case_weights}{An optional classed vector of numeric case weights. This
+must return \code{TRUE} when \code{\link[hardhat:is_case_weights]{hardhat::is_case_weights()}} is run on it. See
+\code{\link[hardhat:frequency_weights]{hardhat::frequency_weights()}} and \code{\link[hardhat:importance_weights]{hardhat::importance_weights()}} for
+examples.}
 }
 \value{
 A \code{cluster_fit} object that contains several elements:
