@@ -55,33 +55,42 @@ test_that("bad input", {
 })
 
 # ------------------------------------------------------------------------------
-set.seed(1234)
-kmeans_fit <- k_means(k = 4) %>%
-  set_engine_celery("stats") %>%
-  fit(~., mtcars)
 
-set.seed(1234)
-ref_res <- kmeans(mtcars, 4)
+test_that("bad input", {
+  set.seed(1234)
+  kmeans_fit <- k_means(k = 4) %>%
+    set_engine_celery("stats") %>%
+    fit(~., mtcars)
 
-ref_predictions <- ref_res$centers %>%
-  flexclust::dist2(mtcars) %>%
-  apply(2, which.min) %>%
-  unname()
+  set.seed(1234)
+  ref_res <- kmeans(mtcars, 4)
 
-expect_equal(
-  ref_predictions,
-  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
-)
+  ref_predictions <- ref_res$centers %>%
+    flexclust::dist2(mtcars) %>%
+    apply(2, which.min) %>%
+    unname()
 
-expect_equal(
-  unname(ref_res$cluster),
-  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
-)
+  unique(ref_predictions)[ref_predictions]
+  relevel_preds <- function(x) {
+    factor(unname(x), unique(unname(x))) %>% as.numeric()
+  }
 
-expect_equal(
-  predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric(),
-  extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
-)
+
+  expect_equal(
+    ref_predictions,
+    predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
+  )
+
+  expect_equal(
+    relevel_preds(unname(ref_res$cluster)),
+    extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+  )
+
+  expect_equal(
+    relevel_preds(predict(kmeans_fit, mtcars)$.pred_cluster),
+    extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
+  )
+})
 
 # ------------------------------------------------------------------------------
 

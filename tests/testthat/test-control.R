@@ -1,4 +1,5 @@
 test_that("control class", {
+  skip("waiting for workflow PR")
   x <- k_means(k = 5) %>% set_engine_celery("stats")
   ctrl <- control_celery()
   class(ctrl) <- c("potato", "chair")

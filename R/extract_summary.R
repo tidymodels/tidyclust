@@ -25,6 +25,11 @@ extract_fit_summary.cluster_fit <- function(object, ...) {
 }
 
 #' @export
+extract_fit_summary.workflow <- function(object, ...) {
+  extract_fit_summary(object$fit$fit$fit)
+}
+
+#' @export
 extract_fit_summary.kmeans <- function(object, ...) {
 
   reorder_clusts <- order(unique(object$cluster))

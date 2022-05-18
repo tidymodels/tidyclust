@@ -8,6 +8,14 @@
 \alias{tidy}
 \alias{glance}
 \alias{fit_xy}
+\alias{extract_parameter_set_dials}
+\alias{tune}
+\alias{extract_spec_parsnip}
+\alias{min_grid}
+\alias{extract_preprocessor}
+\alias{extract_fit_parsnip}
+\alias{load_pkgs}
+\alias{required_pkgs}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -15,8 +23,12 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{generics}{\code{\link[generics]{fit}}, \code{\link[generics]{fit_xy}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics]{fit}}, \code{\link[generics]{fit_xy}}, \code{\link[generics]{glance}}, \code{\link[generics]{min_grid}}, \code{\link[generics]{required_pkgs}}, \code{\link[generics]{tidy}}}
+
+  \item{hardhat}{\code{\link[hardhat:hardhat-extract]{extract_fit_parsnip}}, \code{\link[hardhat:hardhat-extract]{extract_parameter_set_dials}}, \code{\link[hardhat:hardhat-extract]{extract_preprocessor}}, \code{\link[hardhat:hardhat-extract]{extract_spec_parsnip}}, \code{\link[hardhat]{tune}}}
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+
+  \item{tune}{\code{\link[tune]{load_pkgs}}}
 }}
 

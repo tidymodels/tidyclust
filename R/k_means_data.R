@@ -36,7 +36,7 @@ set_model_arg_celery(
   eng = "stats",
   celery = "k",
   original = "centers",
-  func = list(pkg = "dials", fun = "k"),
+  func = list(pkg = "celery", fun = "k"),
   has_submodel = TRUE
 )
 
@@ -92,7 +92,7 @@ set_model_arg_celery(
   eng = "ClusterR",
   celery = "k",
   original = "clusters",
-  func = list(pkg = "dials", fun = "k"),
+  func = list(pkg = "celery", fun = "k"),
   has_submodel = TRUE
 )
 
