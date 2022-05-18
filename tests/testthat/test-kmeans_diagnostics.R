@@ -11,7 +11,7 @@ new_data <- mtcars[1:4,]
 
 test_that("kmeans sse metrics work", {
 
-  expect_equal(within_cluster_sse(obj1)$sse,
+  expect_equal(within_cluster_sse(obj1)$wss,
                c(42877.103, 76954.010, 7654.146),
                tolerance = 0.005)
 
@@ -20,19 +20,18 @@ test_that("kmeans sse metrics work", {
   expect_equal(sse_ratio(obj1), 0.204504, tolerance = 0.005)
 
 
-  expect_equal(within_cluster_sse(obj2)$sse,
+  expect_equal(within_cluster_sse(obj2)$wss,
                c(56041.432, 4665.041, 42877.103),
                tolerance = 0.005)
 
   expect_equal(tot_wss(obj2), 103583.6, tolerance = 0.005)
   expect_equal(tot_sse(obj2), tot_sse(obj1), tolerance = 0.005)
   expect_equal(sse_ratio(obj2), 0.1661624, tolerance = 0.005)
-
 })
 
 test_that("kmeans sse metrics work on new data", {
 
-  expect_equal(within_cluster_sse(obj1, new_data)$sse,
+  expect_equal(within_cluster_sse(obj1, new_data)$wss,
                c(933.0699, 12855.1696),
                tolerance = 0.005)
 
