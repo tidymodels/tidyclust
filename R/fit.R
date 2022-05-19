@@ -78,6 +78,10 @@
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
 #'   `celery::get_encoding_celery()` for details. `x` should have column names.
+#' @param case_weights An optional classed vector of numeric case weights. This
+#'   must return `TRUE` when [hardhat::is_case_weights()] is run on it. See
+#'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
+#'   examples.
 #' @rdname fit
 #' @export
 #' @export fit.cluster_spec
@@ -224,7 +228,7 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
-  function(object, x, control = control_celery(), ...) {
+  function(object, x, case_weights = NULL, control = control_celery(), ...) {
     # if (!inherits(control, "control_celery")) {
     #   rlang::abort("The 'control' argument should have class 'control_celery'.")
     # }
