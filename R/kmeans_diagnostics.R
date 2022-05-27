@@ -28,40 +28,35 @@ within_cluster_sse <- function(object, new_data = NULL,
 
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-
     new_data <- object %>%
       hardhat::extract_recipe() %>%
       recipes::bake(new_data)
-
   }
 
   summ <- extract_fit_summary(object)
 
   if (is.null(new_data)) {
-
     res <- tibble::tibble(
       .cluster = factor(summ$cluster_names),
       wss = summ$within_sse
-      )
-
+    )
   } else {
-
     dist_to_centroids <- dist_fun(summ$centroids, new_data)
 
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
-      purrr::map_dfr(~c(.cluster = which.min(.x),
-                 dist = min(.x)^2)) %>%
+      purrr::map_dfr(~ c(
+        .cluster = which.min(.x),
+        dist = min(.x)^2
+      )) %>%
       mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
       group_by(.cluster) %>%
       summarize(wss = sum(dist))
-
   }
 
   return(res)
-
 }
 
 
@@ -84,9 +79,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'   tot_wss()
 #' @export
 tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
-
   sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
-
 }
 
 #' Compute the total sum of squares
@@ -112,11 +105,9 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-
     new_data <- object %>%
       hardhat::extract_recipe() %>%
       recipes::bake(new_data)
-
   }
 
   summ <- extract_fit_summary(object)
@@ -124,12 +115,11 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
   if (is.null(new_data)) {
     tot <- summ$tot_sse
   } else {
-    overall_mean <- colSums(summ$centroids * summ$n_members)/sum(summ$n_members)
+    overall_mean <- colSums(summ$centroids * summ$n_members) / sum(summ$n_members)
     tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
   }
 
   return(tot)
-
 }
 
 
@@ -152,9 +142,7 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'   sse_ratio()
 #' @export
 sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
-
-  tot_wss(object, new_data, dist_fun)/tot_sse(object, new_data, dist_fun)
-
+  tot_wss(object, new_data, dist_fun) / tot_sse(object, new_data, dist_fun)
 }
 
 
@@ -186,7 +174,6 @@ sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #' @export
 silhouettes <- function(object, new_data = NULL,
                         dists = NULL, dist_fun = Rfast::Dist) {
-
   preproc <- prep_data_dist(object, new_data, dists, dist_fun)
 
   clust_int <- as.integer(gsub("Cluster_", "", preproc$clusters))
@@ -201,7 +188,6 @@ silhouettes <- function(object, new_data = NULL,
       neighbor = factor(paste0("Cluster_", neighbor)),
       sil_width = as.numeric(sil_width)
     )
-
 }
 
 
@@ -231,9 +217,7 @@ silhouettes <- function(object, new_data = NULL,
 avg_silhouette <- function(object, new_data = NULL,
                            dists = NULL, dist_fun = Rfast::Dist,
                            ...) {
-
   mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
-
 }
 
 #-------- Gap Method -------#
@@ -258,28 +242,23 @@ avg_silhouette <- function(object, new_data = NULL,
 # this needs to be ... instead of var soon. change @param too when it happens
 #' @export
 enrichment <- function(data, clusters, var) {
-
   res <- list()
-  vec <- data %>% dplyr::pull({{var}})
+  vec <- data %>% dplyr::pull({{ var }})
 
   if (!is.numeric(vec)) {
-
     res <- data %>%
-      janitor::tabyl({{clusters}}, {{var}}) %>%
+      janitor::tabyl({{ clusters }}, {{ var }}) %>%
       dplyr::select(-1) %>%
       as.matrix() %>%
       stats::chisq.test() %>%
       tidy()
-
   } else {
 
     ### anova
-
   }
 
 
   return(-log(res$p.value))
-
 }
 
 #------ Helpers ----- #
@@ -322,11 +301,9 @@ prep_data_dist <- function(object, new_data = NULL,
 
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-
     new_data <- object %>%
       hardhat::extract_recipe() %>%
       recipes::bake(new_data)
-
   }
 
   # Calculate distances including optionally supplied params
@@ -334,10 +311,11 @@ prep_data_dist <- function(object, new_data = NULL,
     dists <- dist_fun(new_data)
   }
 
-  return(list(clusters = clusters,
-              data = new_data,
-              dists = dists))
-
+  return(list(
+    clusters = clusters,
+    data = new_data,
+    dists = dists
+  ))
 }
 
 
@@ -351,14 +329,9 @@ prep_data_dist <- function(object, new_data = NULL,
 #'
 get_centroid_dists <- function(new_data, centroids,
                                dist_fun = Rfast::dista) {
-
   if (ncol(new_data) != ncol(centroids)) {
     stop("Centroids must have same columns as data.")
   }
 
   dist_fun(centroids, new_data)
-
-
 }
-
-

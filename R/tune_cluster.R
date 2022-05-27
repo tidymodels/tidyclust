@@ -98,12 +98,12 @@ tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
 # ------------------------------------------------------------------------------
 
 tune_cluster_workflow <- function(workflow,
-                               resamples,
-                               grid = 10,
-                               metrics = NULL,
-                               pset = NULL,
-                               control = NULL, #control_grid(),
-                               rng = TRUE) {
+                                  resamples,
+                                  grid = 10,
+                                  metrics = NULL,
+                                  pset = NULL,
+                                  control = NULL, # control_grid(),
+                                  rng = TRUE) {
   tune::check_rset(resamples)
 
   # metrics <- check_metrics(metrics, workflow)
@@ -262,18 +262,17 @@ compute_grid_info <- function(workflow, grid) {
   any_parameters_preprocessor <- nrow(parameters_preprocessor) > 0
   if (any_parameters_model) {
     if (any_parameters_preprocessor) {
-      compute_grid_info_model_and_preprocessor(workflow,
-                                               grid, parameters_model)
-    }
-    else {
+      compute_grid_info_model_and_preprocessor(
+        workflow,
+        grid, parameters_model
+      )
+    } else {
       compute_grid_info_model(workflow, grid, parameters_model)
     }
-  }
-  else {
+  } else {
     if (any_parameters_preprocessor) {
       compute_grid_info_preprocessor(workflow, grid, parameters_model)
-    }
-    else {
+    } else {
       rlang::abort("Internal error: `workflow` should have some tunable parameters if `grid` is not `NULL`.")
     }
   }
@@ -486,7 +485,7 @@ tune_cluster_loop_iter <- function(split,
         collection = out_predictions,
         predictions = iter_predictions,
         split = split,
-        control = control#,
+        control = control # ,
         # .config = iter_config_metrics
       )
     } # model loop
@@ -496,17 +495,17 @@ tune_cluster_loop_iter <- function(split,
     .metrics = out_metrics,
     .extracts = out_extracts,
     .predictions = out_predictions,
-    #.all_outcome_names = out_all_outcome_names,
+    # .all_outcome_names = out_all_outcome_names,
     .notes = out_notes
   )
 }
 
 tune_cluster_loop_iter_safely <- function(split,
-                                       grid_info,
-                                       workflow,
-                                       metrics,
-                                       control,
-                                       seed) {
+                                          grid_info,
+                                          workflow,
+                                          metrics,
+                                          control,
+                                          seed) {
   tune_cluster_loop_iter_wrapper <- super_safely(tune_cluster_loop_iter)
 
   time <- proc.time()
@@ -574,10 +573,16 @@ super_safely <- function(fn) {
     rlang::cnd_muffle(w)
   }
   safe_fn <- function(...) {
-    withCallingHandlers(expr = tryCatch(expr = list(result = fn(...),
-                                                    error = NULL, warnings = warnings),
-                                        error = handle_error),
-                        warning = handle_warning)
+    withCallingHandlers(
+      expr = tryCatch(
+        expr = list(
+          result = fn(...),
+          error = NULL, warnings = warnings
+        ),
+        error = handle_error
+      ),
+      warning = handle_warning
+    )
   }
   safe_fn
 }
@@ -590,19 +595,31 @@ compute_grid_info_model <- function(workflow, grid, parameters_model) {
   seq_fit_models <- seq_len(n_fit_models)
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
   msgs_preprocessor <- rep(msgs_preprocessor, times = n_fit_models)
-  msgs_model <- new_msgs_model(i = seq_fit_models, n = n_fit_models,
-                               msgs_preprocessor = msgs_preprocessor)
+  msgs_model <- new_msgs_model(
+    i = seq_fit_models, n = n_fit_models,
+    msgs_preprocessor = msgs_preprocessor
+  )
   iter_configs <- compute_config_ids(out, "Preprocessor1")
-  out <- tibble::add_column(.data = out, .iter_preprocessor = 1L,
-                            .before = 1L)
-  out <- tibble::add_column(.data = out, .msg_preprocessor = msgs_preprocessor,
-                            .after = ".iter_preprocessor")
-  out <- tibble::add_column(.data = out, .iter_model = seq_fit_models,
-                            .after = ".msg_preprocessor")
-  out <- tibble::add_column(.data = out, .iter_config = iter_configs,
-                            .after = ".iter_model")
-  out <- tibble::add_column(.data = out, .msg_model = msgs_model,
-                            .after = ".iter_config")
+  out <- tibble::add_column(
+    .data = out, .iter_preprocessor = 1L,
+    .before = 1L
+  )
+  out <- tibble::add_column(
+    .data = out, .msg_preprocessor = msgs_preprocessor,
+    .after = ".iter_preprocessor"
+  )
+  out <- tibble::add_column(
+    .data = out, .iter_model = seq_fit_models,
+    .after = ".msg_preprocessor"
+  )
+  out <- tibble::add_column(
+    .data = out, .iter_config = iter_configs,
+    .after = ".iter_model"
+  )
+  out <- tibble::add_column(
+    .data = out, .msg_model = msgs_model,
+    .after = ".iter_config"
+  )
   out
 }
 

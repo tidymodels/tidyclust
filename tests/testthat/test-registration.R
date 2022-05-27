@@ -8,7 +8,7 @@ library(testthat)
 # There's currently an issue comparing tibbles so we do it col-by-col
 test_by_col <- function(a, b) {
   for (i in union(names(a), names(b))) {
-    expect_equal(a[[i]], b[[i]])
+    expect_identical(a[[i]], b[[i]])
   }
 }
 
@@ -91,7 +91,9 @@ test_that("adding a new engine", {
   expect_equal(get_from_env_celery("sponge_modes"), c("unknown", "partition"))
 
   expect_snapshot(error = TRUE, set_model_engine_celery("sponge", eng = "gum"))
-  expect_snapshot(error = TRUE, set_model_engine_celery("sponge", mode = "partition"))
+  expect_snapshot(error = TRUE,
+    set_model_engine_celery("sponge", mode = "partition")
+  )
   expect_snapshot(
     error = TRUE,
     set_model_engine_celery("sponge", mode = "regression", eng = "gum")
@@ -104,9 +106,15 @@ test_that("adding a new engine", {
 test_that("adding a new package", {
   set_dependency_celery("sponge", "gum", "trident")
 
-  expect_snapshot(error = TRUE, set_dependency_celery("sponge", "gum", letters[1:2]))
-  expect_snapshot(error = TRUE, set_dependency_celery("sponge", "gummies", "trident"))
-  expect_snapshot(error = TRUE, set_dependency_celery("sponge", "gum", "trident", mode = "regression"))
+  expect_snapshot(error = TRUE,
+    set_dependency_celery("sponge", "gum", letters[1:2])
+  )
+  expect_snapshot(error = TRUE,
+    set_dependency_celery("sponge", "gummies", "trident")
+  )
+  expect_snapshot(error = TRUE,
+    set_dependency_celery("sponge", "gum", "trident", mode = "regression")
+  )
 
   test_by_col(
     get_from_env_celery("sponge_pkgs"),
@@ -334,7 +342,7 @@ test_that("adding a new fit", {
     )
   )
 
-  for (i in 1:length(fit_vals)) {
+  for (i in seq_along(fit_vals)) {
     expect_snapshot(
       error = TRUE,
       set_fit_celery(
@@ -491,7 +499,7 @@ test_that("adding a new predict method", {
     )
   )
 
-  for (i in 1:length(cluster_vals)) {
+  for (i in seq_along(cluster_vals)) {
     expect_snapshot(
       error = TRUE,
       set_pred_celery(

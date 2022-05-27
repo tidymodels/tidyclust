@@ -9,7 +9,7 @@ tune_args_cluster_spec <- function(object, full = FALSE, ...) {
   }
 
   # Locate tunable args in spec args and engine specific args
-  object$args     <- purrr::map(object$args, convert_args)
+  object$args <- purrr::map(object$args, convert_args)
   object$eng_args <- purrr::map(object$eng_args, convert_args)
 
   arg_id <- purrr::map_chr(object$args, find_tune_id)
@@ -86,7 +86,8 @@ find_tune_id <- function(x) {
       "The current argument has: `",
       paste0(deparse(x), collapse = ""),
       "`.",
-      call. = FALSE)
+      call. = FALSE
+    )
   }
 
   return(tunable_elems)
@@ -135,14 +136,14 @@ tune_tbl <- function(name = character(),
                      component = character(),
                      component_id = character(),
                      full = FALSE) {
-
-
   complete_id <- id[!is.na(id)]
   dups <- duplicated(complete_id)
   if (any(dups)) {
     stop("There are duplicate `id` values listed in [tune()]: ",
-         paste0("'", unique(complete_id[dups]), "'", collapse = ", "),
-         ".", sep = "", call. = FALSE)
+      paste0("'", unique(complete_id[dups]), "'", collapse = ", "),
+      ".",
+      sep = "", call. = FALSE
+    )
   }
 
   vry_tbl <- tibble::tibble(
@@ -155,7 +156,7 @@ tune_tbl <- function(name = character(),
   )
 
   if (!full) {
-    vry_tbl <- vry_tbl[vry_tbl$tunable,]
+    vry_tbl <- vry_tbl[vry_tbl$tunable, ]
   }
 
   vry_tbl
