@@ -2,7 +2,7 @@
 
     Code
       cars_res <- tune_cluster(helper_objects$kmeans_mod, y ~ z, resamples = data_folds,
-      grid = cars_grid, control = control_grid(extract = function(x) {
+      grid = cars_grid, control = tune::control_grid(extract = function(x) {
         1
       }, save_pred = TRUE))
     Warning <rlang_warning>

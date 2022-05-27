@@ -21,3 +21,7 @@ helper_objects_celery <- function() {
     kmeans_mod_no_tune = kmeans_mod_no_tune
   )
 }
+
+new_empty_quosure <- function(expr) {
+  rlang::new_quosure(expr, env = rlang::empty_env())
+}

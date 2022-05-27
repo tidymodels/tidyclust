@@ -609,7 +609,6 @@ append_metrics <- function(workflow,
                            predictions,
                            metrics,
                            param_names,
-                           outcome_name,
                            event_level,
                            split,
                            .config = NULL) {
