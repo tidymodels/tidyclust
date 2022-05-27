@@ -55,15 +55,18 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">within_cluster_sse</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">within_cluster_sse</span><span class="op">(</span><span class="va">object</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, dist_fun <span class="op">=</span> <span class="fu">Rfast</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rfast/man/dista.html" class="external-link">dista</a></span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>a fitted kmeans celery model</p></dd>
-<dt>...</dt>
-<dd><p>Other arguments passed to methods.</p></dd>
+<dd><p>A fitted kmeans celery model</p></dd>
+<dt>new_data</dt>
+<dd><p>A dataset to predict on.  If <code>NULL</code>, uses trained clustering.</p></dd>
+<dt>dist_fun</dt>
+<dd><p>A function for calculating distances to centroids.  Defaults
+to Euclidean distance on processed data.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -81,13 +84,13 @@ cluster.</p>
 <span class="r-in"><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu">within_cluster_sse</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .cluster    sse</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> C1        <span style="text-decoration: underline;">3</span>617.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> C2        <span style="text-decoration: underline;">6</span>356.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> C3       <span style="text-decoration: underline;">46</span>659.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> C4        <span style="text-decoration: underline;">7</span>256.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> C5         208.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .cluster     wss</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Cluster_1  <span style="text-decoration: underline;">6</span>356.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Cluster_2 <span style="text-decoration: underline;">46</span>659.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Cluster_3  <span style="text-decoration: underline;">7</span>256.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Cluster_4  <span style="text-decoration: underline;">3</span>617.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Cluster_5   208.</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>

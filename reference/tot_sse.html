@@ -55,13 +55,18 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tot_sse</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tot_sse</span><span class="op">(</span><span class="va">object</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, dist_fun <span class="op">=</span> <span class="fu">Rfast</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rfast/man/dista.html" class="external-link">dista</a></span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>An cluster_spec object.</p></dd>
+<dd><p>A fitted kmeans celery model</p></dd>
+<dt>new_data</dt>
+<dd><p>A dataset to predict on.  If <code>NULL</code>, uses trained clustering.</p></dd>
+<dt>dist_fun</dt>
+<dd><p>A function for calculating distances to centroids.  Defaults
+to Euclidean distance on processed data.</p></dd>
 <dt>...</dt>
 <dd><p>Other arguments passed to methods.</p></dd>
 </dl></div>

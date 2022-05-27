@@ -64,6 +64,9 @@
     <loc>/reference/fit.html</loc>
   </url>
   <url>
+    <loc>/reference/get_centroid_dists.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_model_env_celery.html</loc>
   </url>
   <url>
@@ -86,6 +89,9 @@
   </url>
   <url>
     <loc>/reference/predict.cluster_fit.html</loc>
+  </url>
+  <url>
+    <loc>/reference/prep_data_dist.html</loc>
   </url>
   <url>
     <loc>/reference/prepare_data.html</loc>
