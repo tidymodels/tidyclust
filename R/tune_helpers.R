@@ -617,7 +617,7 @@ append_metrics <- function(workflow,
   }
 
   params <- predictions %>%
-    dplyr::select(param_names) %>%
+    dplyr::select(dplyr::all_of(param_names)) %>%
     dplyr::distinct()
 
   tmp_est <- purrr::imap_dfr(metrics,
