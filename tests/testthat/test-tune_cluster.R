@@ -20,7 +20,13 @@ test_that("tune recipe only", {
   control <- control_grid(extract = identity)
   metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
 
-  res <- tune_cluster(wflow, resamples = folds, grid = grid, control = control, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
   res_est <- collect_metrics(res)
   res_workflow <- res$.extracts[[1]]$.extracts[[1]]
 
@@ -51,7 +57,13 @@ test_that("tune model only (with recipe)", {
   control <- control_grid(extract = identity)
   metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
 
-  res <- tune_cluster(wflow, resamples = folds, grid = grid, control = control, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
   res_est <- collect_metrics(res)
   res_workflow <- res$.extracts[[1]]$.extracts[[1]]
 
@@ -114,7 +126,13 @@ test_that("tune model and recipe", {
   control <- control_grid(extract = identity)
   metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
 
-  res <- tune_cluster(wflow, resamples = folds, grid = grid, control = control, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
   res_est <- collect_metrics(res)
   res_workflow <- res$.extracts[[1]]$.extracts[[1]]
 
@@ -155,7 +173,13 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   control <- control_grid(extract = identity, parallel_over = "everything")
   metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
 
-  res <- tune_cluster(wflow, resamples = folds, grid = grid, control = control, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
   res_est <- collect_metrics(res)
 
   expect_equal(res$id, folds$id)
@@ -241,7 +265,9 @@ test_that("tune model only - failure in recipe is caught elegantly", {
       preprocessor = rec,
       resamples = data_folds,
       grid = cars_grid,
-      control = control_grid(extract = function(x) {1}, save_pred = TRUE)
+      control = control_grid(extract = function(x) {
+        1
+      }, save_pred = TRUE)
     )
   )
 
@@ -273,7 +299,9 @@ test_that("tune model only - failure in formula is caught elegantly", {
       y ~ z,
       resamples = data_folds,
       grid = cars_grid,
-      control = control_grid(extract = function(x) {1}, save_pred = TRUE)
+      control = control_grid(extract = function(x) {
+        1
+      }, save_pred = TRUE)
     )
   )
 
@@ -310,7 +338,9 @@ test_that("tune model and recipe - failure in recipe is caught elegantly", {
       preprocessor = rec,
       resamples = data_folds,
       grid = cars_grid,
-      control = control_grid(extract = function(x) {1}, save_pred = TRUE)
+      control = control_grid(extract = function(x) {
+        1
+      }, save_pred = TRUE)
     )
   })
 
@@ -349,7 +379,11 @@ test_that("argument order gives errors for formula", {
   helper_objects <- helper_objects_celery()
 
   expect_snapshot(error = TRUE, {
-    tune_cluster(mpg ~ ., helper_objects$kmeans_mod_no_tune, rsample::vfold_cv(mtcars, v = 2))
+    tune_cluster(
+      mpg ~ .,
+      helper_objects$kmeans_mod_no_tune,
+      rsample::vfold_cv(mtcars, v = 2)
+    )
   })
 })
 

@@ -11,8 +11,9 @@ tunable_cluster_spec <- function(x, ...) {
   arg_name <- paste0(mod_type(x), "_args")
   if (!(any(arg_name == names(mod_env)))) {
     stop("The `celery` model database doesn't know about the arguments for ",
-         "model `", mod_type(x), "`. Was it registered?",
-         sep = "", call. = FALSE)
+      "model `", mod_type(x), "`. Was it registered?",
+      sep = "", call. = FALSE
+    )
   }
 
   arg_vals <-
@@ -33,7 +34,7 @@ tunable_cluster_spec <- function(x, ...) {
     has_info <- purrr::map_lgl(arg_vals$call_info, is.null)
     rm_list <- !(has_info & (arg_vals$component_id == "main"))
 
-    arg_vals <- arg_vals[rm_list,]
+    arg_vals <- arg_vals[rm_list, ]
   }
   arg_vals %>% dplyr::select(name, call_info, source, component, component_id)
 }
@@ -44,7 +45,7 @@ add_engine_parameters <- function(pset, engines) {
   is_engine_param <- pset$name %in% engines$name
   if (any(is_engine_param)) {
     engine_names <- pset$name[is_engine_param]
-    pset <- pset[!is_engine_param,]
+    pset <- pset[!is_engine_param, ]
     pset <-
       dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))
   }
