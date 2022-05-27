@@ -243,7 +243,7 @@
       set_pred_celery(model = "sponge", eng = "gum", mode = "partition", type = "eggs",
         value = cluster_vals)
     Error <rlang_error>
-      The prediction type should be one of: 'cluster'
+      The prediction type should be one of: 'cluster', 'raw'
 
 ---
 

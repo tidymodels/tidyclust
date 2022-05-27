@@ -49,3 +49,8 @@ tune::load_pkgs
 #' @importFrom generics required_pkgs
 #' @export
 generics::required_pkgs
+
+#' @importFrom parsnip predict_raw
+#' @export
+parsnip::predict_raw
+
