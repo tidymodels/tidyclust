@@ -6,7 +6,6 @@
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #' to Euclidean distance on processed data.
-#' @param ... Other arguments passed to methods.
 #'
 #' @return A tibble with two columns, the cluster name and the SSE within that
 #' cluster.
@@ -169,7 +168,6 @@ sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
 #' @param dist_fun A function for calculating distances between observations.  Defaults
 #' to Euclidean distance on processed data.
-#' @param ... Other arguments passed to methods.
 #'
 #' @return A tibble giving the silhouettes for each observation.
 #'
@@ -183,7 +181,7 @@ sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' silhouettes(kmeans_fit, dists)
+#' silhouettes(kmeans_fit, dists = dists)
 #'
 #' @export
 silhouettes <- function(object, new_data = NULL,
@@ -227,7 +225,7 @@ silhouettes <- function(object, new_data = NULL,
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' avg_silhouette(kmeans_fit, dists)
+#' avg_silhouette(kmeans_fit, dists = dists)
 #'
 #' @export
 avg_silhouette <- function(object, new_data = NULL,
@@ -293,7 +291,7 @@ enrichment <- function(data, clusters, var) {
 #' cluster assignments from the fitted object are used.
 #' @param dists A distance matrix for the data.  If `NULL`, distance is computed
 #' on `new_data` using the `stats::dist()` function.
-#' @param ... Optional parameters passed to `stats::dists()`
+#' @param dist_fun A custom distance functions.
 #'
 #' @return A list
 

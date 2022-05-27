@@ -40,6 +40,6 @@ dists <- mtcars \%>\%
   as.matrix() \%>\%
   dist()
 
-avg_silhouette(kmeans_fit, dists)
+avg_silhouette(kmeans_fit, dists = dists)
 
 }
