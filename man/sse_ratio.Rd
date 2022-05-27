@@ -4,10 +4,15 @@
 \alias{sse_ratio}
 \title{Compute the ratio of the WSS to the total SSE}
 \usage{
-sse_ratio(object, ...)
+sse_ratio(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
-\item{object}{An cluster_spec object.}
+\item{object}{A fitted kmeans celery model}
+
+\item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
+
+\item{dist_fun}{A function for calculating distances to centroids.  Defaults
+to Euclidean distance on processed data.}
 
 \item{...}{Other arguments passed to methods.}
 }

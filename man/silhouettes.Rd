@@ -4,16 +4,20 @@
 \alias{silhouettes}
 \title{Measures silhouettes between clusters}
 \usage{
-silhouettes(.dist, clusters)
+silhouettes(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
 }
 \arguments{
-\item{.dist}{A distance matrix}
+\item{object}{A fitted kmeans celery model}
 
-\item{clusters}{A vector containing cluster assignments in the
-row order of the distance matrix.}
+\item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
+
+\item{dists}{A distance matrix. Used if \code{new_data} is \code{NULL}.}
+
+\item{dist_fun}{A function for calculating distances between observations.  Defaults
+to Euclidean distance on processed data.}
 }
 \value{
-The silhouettes matrix.
+A tibble giving the silhouettes for each observation.
 }
 \description{
 Measures silhouettes between clusters
@@ -28,6 +32,6 @@ dists <- mtcars \%>\%
   as.matrix() \%>\%
   dist()
 
-silhouettes(dists, kmeans_fit$fit$cluster)
+silhouettes(kmeans_fit, dists = dists)
 
 }

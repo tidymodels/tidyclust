@@ -56,7 +56,7 @@ test_that("bad input", {
 
 # ------------------------------------------------------------------------------
 
-test_that("bad input", {
+test_that("predictions", {
   set.seed(1234)
   kmeans_fit <- k_means(k = 4) %>%
     set_engine_celery("stats") %>%
@@ -70,14 +70,12 @@ test_that("bad input", {
     apply(2, which.min) %>%
     unname()
 
-  unique(ref_predictions)[ref_predictions]
   relevel_preds <- function(x) {
     factor(unname(x), unique(unname(x))) %>% as.numeric()
   }
 
-
   expect_equal(
-    ref_predictions,
+    relevel_preds(ref_predictions),
     predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
   )
 

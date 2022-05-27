@@ -2,21 +2,33 @@
 % Please edit documentation in R/kmeans_diagnostics.R
 \name{avg_silhouette}
 \alias{avg_silhouette}
-\title{Measures average silhouette between clusters}
+\title{Measures average silhouette across all observations}
 \usage{
-avg_silhouette(.dist, clusters)
+avg_silhouette(
+  object,
+  new_data = NULL,
+  dists = NULL,
+  dist_fun = Rfast::Dist,
+  ...
+)
 }
 \arguments{
-\item{.dist}{A distance matrix}
+\item{object}{A fitted kmeans celery model}
 
-\item{clusters}{A vector containing cluster assignments in the
-row order of the distance matrix.}
+\item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
+
+\item{dists}{A distance matrix. Used if \code{new_data} is \code{NULL}.}
+
+\item{dist_fun}{A function for calculating distances between observations.  Defaults
+to Euclidean distance on processed data.}
+
+\item{...}{Other arguments passed to methods.}
 }
 \value{
-The silhouettes matrix.
+A double; the average silhouette.
 }
 \description{
-Measures average silhouette between clusters
+Measures average silhouette across all observations
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
@@ -28,6 +40,6 @@ dists <- mtcars \%>\%
   as.matrix() \%>\%
   dist()
 
-avg_silhouette(dists, kmeans_fit$fit$cluster)
+avg_silhouette(kmeans_fit, dists = dists)
 
 }
