@@ -279,7 +279,7 @@ prep_data_dist <- function(object, new_data = NULL,
 
   # Sihouettes requires a distance matrix
   if (is.null(new_data) & is.null(dists)) {
-    stop("Must supply either a dataset or distance matrix to compute silhouettes.")
+    abort("Must supply either a dataset or distance matrix to compute silhouettes.")
   }
 
   # If data is blank, we are using the trained cluster assignments
@@ -293,9 +293,9 @@ prep_data_dist <- function(object, new_data = NULL,
   # If they supplied distance, check that it matches the data dimension
   if (!is.null(dists)) {
     if (!is.null(new_data) && nrow(new_data) != attr(dists, "Size")) {
-      stop("Dimensions of dataset and distance matrix must match.")
+      abort("Dimensions of dataset and distance matrix must match.")
     } else if (is.null(new_data) && length(clusters) != attr(dists, "Size")) {
-      stop("Dimensions of training dataset and distance matrix must match.")
+      abort("Dimensions of training dataset and distance matrix must match.")
     }
   }
 
@@ -330,7 +330,7 @@ prep_data_dist <- function(object, new_data = NULL,
 get_centroid_dists <- function(new_data, centroids,
                                dist_fun = Rfast::dista) {
   if (ncol(new_data) != ncol(centroids)) {
-    stop("Centroids must have same columns as data.")
+    abort("Centroids must have same columns as data.")
   }
 
   dist_fun(centroids, new_data)

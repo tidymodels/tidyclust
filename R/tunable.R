@@ -5,14 +5,18 @@ tunable_cluster_spec <- function(x, ...) {
   mod_env <- rlang::ns_env("celery")$celery
 
   if (is.null(x$engine)) {
-    stop("Please declare an engine first using `set_engine()`.", call. = FALSE)
+    abort("Please declare an engine first using `set_engine()`.", call. = FALSE)
   }
 
   arg_name <- paste0(mod_type(x), "_args")
   if (!(any(arg_name == names(mod_env)))) {
-    stop("The `celery` model database doesn't know about the arguments for ",
-      "model `", mod_type(x), "`. Was it registered?",
-      sep = "", call. = FALSE
+    abort(
+      paste(
+        "The `celery` model database doesn't know about the arguments for ",
+        "model `", mod_type(x), "`. Was it registered?",
+        sep = ""
+        ),
+      call. = FALSE
     )
   }
 
