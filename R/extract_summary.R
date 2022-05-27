@@ -32,7 +32,7 @@ extract_fit_summary.workflow <- function(object, ...) {
 #' @export
 extract_fit_summary.kmeans <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
-  names <- paste0("Cluster_", 1:nrow(object$centers))
+  names <- paste0("Cluster_", seq_len(nrow(object$centers)))
 
   list(
     cluster_names = names,
@@ -48,7 +48,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
 #' @export
 extract_fit_summary.KMeansCluster <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
-  names <- paste0("Cluster_", 1:nrow(object$centroids))
+  names <- paste0("Cluster_", seq_len(nrow(object$centroids)))
 
   list(
     cluster_names = names,
