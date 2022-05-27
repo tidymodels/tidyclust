@@ -16,9 +16,11 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(celery)
-library(palmerpenguins)
 library(tidyverse)
 library(tidymodels)
+
+data("penguins", package = "modeldata")
+penguins <- penguins %>% drop_na()
 ```
 
 
@@ -49,17 +51,14 @@ kmeans_fit %>% sse_ratio()
 ```{r}
 # kmeans_fit %>%
 #   augment(penguins)
-
-penguins <- penguins %>% drop_na()
   
 dists <- penguins %>%
   select(contains("bill")) %>%
-  dist() %>%
-  as.matrix()
+  dist()
 
-silhouettes(dists, predict(kmeans_fit, penguins)$.pred_cluster) 
+silhouettes(kmeans_fit, dists = dists)
 
-avg_silhouette(dists, predict(kmeans_fit, penguins)$.pred_cluster)
+avg_silhouette(kmeans_fit, dists = dists)
 ```
 
 
