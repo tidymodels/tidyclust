@@ -14,6 +14,10 @@ generics::tidy
 #' @export
 generics::glance
 
+#' @importFrom generics augment
+#' @export
+generics::augment
+
 #' @importFrom generics fit_xy
 #' @export
 generics::fit_xy
