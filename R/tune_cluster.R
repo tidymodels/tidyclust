@@ -297,7 +297,7 @@ tune_cluster_loop_iter <- function(split,
   }
 
   control_parsnip <- parsnip::control_parsnip(verbosity = 0, catch = TRUE)
-  control_workflow <- control_workflow(control_parsnip = control_parsnip)
+  control_workflow <- workflows::control_workflow(control_parsnip = control_parsnip)
 
   event_level <- control$event_level
 
@@ -405,7 +405,7 @@ tune_cluster_loop_iter <- function(split,
       workflow <- finalize_workflow_spec(workflow, iter_grid_model)
 
       workflow <- catch_and_log_fit(
-        expr = workflows::.fit_model(workflow, control_workflow),
+        expr = workflows::.fit_model(workflow, workflows::control_workflow()),
         control,
         split,
         iter_msg_model,
@@ -420,7 +420,7 @@ tune_cluster_loop_iter <- function(split,
       workflow <- workflows::.fit_finalize(workflow)
 
       # Extract outcome names from the hardhat mold
-      outcome_names <- outcome_names(workflow)
+      # outcome_names <- outcome_names(workflow)
 
       # out_all_outcome_names <- append_outcome_names(
       #   all_outcome_names = out_all_outcome_names,
@@ -473,7 +473,6 @@ tune_cluster_loop_iter <- function(split,
         predictions = iter_predictions,
         metrics = metrics,
         param_names = param_names,
-        outcome_name = outcome_names,
         event_level = event_level,
         split = split,
         .config = iter_config
