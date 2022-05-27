@@ -28,7 +28,7 @@ test_that("kmeans sse metrics work", {
 
   expect_equal(tot_wss(obj2), sum(km_orig_2$WCSS_per_cluster), tolerance = 0.005)
   expect_equal(tot_sse(obj2), tot_sse(obj1), tolerance = 0.005)
-
+  expect_equal(sse_ratio(obj2), 0.1661624, tolerance = 0.005)
 })
 
 test_that("kmeans sse metrics work on new data", {
