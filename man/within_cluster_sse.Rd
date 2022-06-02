@@ -13,8 +13,6 @@ within_cluster_sse(object, new_data = NULL, dist_fun = Rfast::dista)
 
 \item{dist_fun}{A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.}
-
-\item{...}{Other arguments passed to methods.}
 }
 \value{
 A tibble with two columns, the cluster name and the SSE within that

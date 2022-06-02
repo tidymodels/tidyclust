@@ -15,8 +15,6 @@ silhouettes(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
 
 \item{dist_fun}{A function for calculating distances between observations.  Defaults
 to Euclidean distance on processed data.}
-
-\item{...}{Other arguments passed to methods.}
 }
 \value{
 A tibble giving the silhouettes for each observation.
@@ -34,6 +32,6 @@ dists <- mtcars \%>\%
   as.matrix() \%>\%
   dist()
 
-silhouettes(kmeans_fit, dists)
+silhouettes(kmeans_fit, dists = dists)
 
 }

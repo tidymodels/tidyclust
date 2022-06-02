@@ -1,11 +1,3 @@
-library(testthat)
-library(parsnip)
-library(rlang)
-
-source(test_path("helper-functions.R"))
-
-# ------------------------------------------------------------------------------
-
 test_that("primary arguments", {
   basic <- k_means(mode = "partition")
   basic_stats <- translate_celery(basic %>% set_engine_celery("stats"))
@@ -54,9 +46,7 @@ test_that("bad input", {
   expect_snapshot(error = TRUE, translate_celery(k_means(formula = ~x)))
 })
 
-# ------------------------------------------------------------------------------
-
-test_that("bad input", {
+test_that("predictions", {
   set.seed(1234)
   kmeans_fit <- k_means(k = 4) %>%
     set_engine_celery("stats") %>%
@@ -70,14 +60,12 @@ test_that("bad input", {
     apply(2, which.min) %>%
     unname()
 
-  unique(ref_predictions)[ref_predictions]
   relevel_preds <- function(x) {
     factor(unname(x), unique(unname(x))) %>% as.numeric()
   }
 
-
   expect_equal(
-    ref_predictions,
+    relevel_preds(ref_predictions),
     predict(kmeans_fit, mtcars)$.pred_cluster %>% as.numeric()
   )
 
@@ -91,8 +79,6 @@ test_that("bad input", {
     extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
   )
 })
-
-# ------------------------------------------------------------------------------
 
 test_that("Right classes", {
   expect_equal(class(k_means()), c("k_means", "cluster_spec"))

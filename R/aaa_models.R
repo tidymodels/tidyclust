@@ -4,7 +4,7 @@ all_modes <- c("partition")
 
 # ------------------------------------------------------------------------------
 
-pred_types <- c("cluster")
+pred_types <- c("cluster", "raw")
 
 # ------------------------------------------------------------------------------
 
@@ -352,8 +352,6 @@ set_model_engine_celery <- function(model, mode, eng) {
   check_mode_val(eng)
   check_mode_for_new_engine(model, eng, mode)
 
-  current <- get_model_env_celery()
-
   new_eng <- dplyr::tibble(engine = eng, mode = mode)
   old_eng <- get_from_env_celery(model)
 
@@ -390,7 +388,6 @@ set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
   check_eng_val(eng)
   check_pkg_val(pkg)
 
-  current <- get_model_env_celery()
   model_info <- get_from_env_celery(model)
   pkg_info <- get_from_env_celery(paste0(model, "_pkgs"))
 
@@ -479,7 +476,6 @@ set_fit_celery <- function(model, mode, eng, value) {
   check_spec_mode_engine_val(model, eng, mode)
   check_fit_info(value)
 
-  current <- get_model_env_celery()
   model_info <- get_from_env_celery(model)
   old_fits <- get_from_env_celery(paste0(model, "_fit"))
 
@@ -623,7 +619,6 @@ check_func_val <- function(func) {
   } else {
     # check for extra names:
     allow_nms <- c("fun", "pkg", "range", "trans", "values")
-    nm_check <- nms %in% c("fun", "pkg", "range", "trans", "values")
     not_allowed <- nms[!(nms %in% allow_nms)]
     if (length(not_allowed) > 0) {
       rlang::abort(msg)
@@ -747,7 +742,6 @@ set_model_arg_celery <- function(model, eng, celery, original, func, has_submode
   check_func_val(func)
   check_submodels_val(has_submodel)
 
-  current <- get_model_env_celery()
   old_args <- get_from_env_celery(paste0(model, "_args"))
 
   new_arg <-
@@ -827,7 +821,6 @@ stop_incompatible_engine <- function(spec_engs, mode) {
 #' @export
 show_model_info_celery <- function(model) {
   check_model_exists_celery(model)
-  current <- get_model_env_celery()
 
   cat("Information for `", model, "`\n", sep = "")
 
@@ -924,8 +917,6 @@ set_pred_celery <- function(model, mode, eng, type, value) {
   check_spec_mode_engine_val(model, eng, mode)
   check_pred_info(value, type)
   check_unregistered(model, mode, eng)
-
-  model_info <- get_from_env_celery(model)
 
   new_pred <-
     dplyr::tibble(

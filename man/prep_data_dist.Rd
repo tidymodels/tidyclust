@@ -15,7 +15,7 @@ cluster assignments from the fitted object are used.}
 \item{dists}{A distance matrix for the data.  If \code{NULL}, distance is computed
 on \code{new_data} using the \code{stats::dist()} function.}
 
-\item{...}{Optional parameters passed to \code{stats::dists()}}
+\item{dist_fun}{A custom distance functions.}
 }
 \value{
 A list

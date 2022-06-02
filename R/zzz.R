@@ -110,4 +110,3 @@ s3_register <- function(generic, class, method = NULL) {
 }
 
 # nocov end
-

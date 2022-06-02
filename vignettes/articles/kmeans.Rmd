@@ -17,9 +17,10 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(celery)
 library(tidyverse)
-library(palmerpenguins)
 library(tidymodels)
 set.seed(838383)
+
+data("penguins", package = "modeldata")
 ```
 
 ## A brief introduction to the k-means algorithm

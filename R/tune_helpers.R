@@ -4,11 +4,13 @@ new_bare_tibble <- function(x, ..., class = character()) {
 }
 
 is_cataclysmic <- function(x) {
-  is_err <- purrr::map_lgl(x$.metrics, inherits, c("simpleError",
-                                                   "error"))
+  is_err <- purrr::map_lgl(x$.metrics, inherits, c(
+    "simpleError",
+    "error"
+  ))
   if (any(!is_err)) {
-    is_good <- purrr::map_lgl(x$.metrics[!is_err], ~tibble::is_tibble(.x) &&
-                                nrow(.x) > 0)
+    is_good <- purrr::map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
+      nrow(.x) > 0)
     is_err[!is_err] <- !is_good
   }
   all(is_err)
@@ -23,9 +25,11 @@ reduce_all_outcome_names <- function(resamples) {
     return(character())
   }
   if (n_unique > 1L) {
-    rlang::warn(paste0("More than one set of outcomes were used when tuning. ",
-                       "This should never happen. ",
-                       "Review how the outcome is specified in your model."))
+    rlang::warn(paste0(
+      "More than one set of outcomes were used when tuning. ",
+      "This should never happen. ",
+      "Review how the outcome is specified in your model."
+    ))
   }
   outcome_names <- all_outcome_names[[1L]]
   outcome_names
@@ -35,20 +39,23 @@ set_workflow <- function(workflow, control) {
   if (control$save_workflow) {
     if (!is.null(workflow$pre$actions$recipe)) {
       w_size <- utils::object.size(workflow$pre$actions$recipe)
-      if (w_size/1024^2 > 5) {
-        msg <- paste0("The workflow being saved contains a recipe, which is ",
-                      format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
-                      "setting `save_workflow = FALSE`.")
+      if (w_size / 1024^2 > 5) {
+        msg <- paste0(
+          "The workflow being saved contains a recipe, which is ",
+          format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
+          "setting `save_workflow = FALSE`."
+        )
         cols <- get_celery_colors()
-        msg <- strwrap(msg, prefix = paste0(cols$symbol$info(cli::symbol$info),
-                                            " "))
+        msg <- strwrap(msg, prefix = paste0(
+          cols$symbol$info(cli::symbol$info),
+          " "
+        ))
         msg <- cols$message$info(paste0(msg, collapse = "\n"))
         rlang::inform(msg)
       }
     }
     workflow
-  }
-  else {
+  } else {
     NULL
   }
 }
@@ -72,16 +79,17 @@ get_operator <- function(allow = TRUE, object) {
   if (is_par & allow && any(pkgs %in% blacklist)) {
     pkgs <- pkgs[pkgs %in% blacklist]
     msg <- paste0("'", pkgs, "'", collapse = ", ")
-    msg <- paste("Some required packages prohibit parallel processing: ",
-                 msg)
+    msg <- paste(
+      "Some required packages prohibit parallel processing: ",
+      msg
+    )
     cli::cli_alert_warning(msg)
     allow <- FALSE
   }
   cond <- allow && is_par
   if (cond) {
     res <- foreach::`%dopar%`
-  }
-  else {
+  } else {
     res <- foreach::`%do%`
   }
   res
@@ -120,9 +128,11 @@ new_grid_info_resamples <- function() {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
   msgs_model <- new_msgs_model(i = 1L, n = 1L, msgs_preprocessor = msgs_preprocessor)
   iter_config <- list("Preprocessor1_Model1")
-  out <- tibble::tibble(.iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
-                        .iter_model = 1L, .iter_config = iter_config, .msg_model = msgs_model,
-                        .submodels = list(list()))
+  out <- tibble::tibble(
+    .iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
+    .iter_model = 1L, .iter_config = iter_config, .msg_model = msgs_model,
+    .submodels = list(list())
+  )
   out
 }
 
@@ -140,8 +150,7 @@ parallel_over_finalize <- function(parallel_over, n_resamples) {
   }
   if (n_resamples == 1L) {
     "everything"
-  }
-  else {
+  } else {
     "resamples"
   }
 }
@@ -174,7 +183,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = purrr::map(1:nrow(grid), ~list())
+      .submodels = purrr::map(1:nrow(grid), ~ list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -234,8 +243,7 @@ tune_log <- function(control, split = NULL, task, type = "success") {
     labs <- rev(unlist(labs))
     labs <- paste0(labs, collapse = ", ")
     labs <- paste0(labs, ": ")
-  }
-  else {
+  } else {
     labs <- ""
   }
   task <- gsub("\\{", "", task)
@@ -250,7 +258,8 @@ catcher <- function(expr) {
     rlang::cnd_muffle(cnd)
   }
   res <- try(withCallingHandlers(warning = add_cond, expr),
-             silent = TRUE)
+    silent = TRUE
+  )
   list(res = res, signals = signals)
 }
 
@@ -259,16 +268,20 @@ siren <- function(x, type = "info") {
   types <- names(celery_color$message)
   type <- match.arg(type, types)
   msg <- glue::glue(x)
-  symb <- dplyr::case_when(type == "warning" ~ celery_color$symbol$warning("!"),
-                           type == "go" ~ celery_color$symbol$go(cli::symbol$pointer),
-                           type == "danger" ~ celery_color$symbol$danger("x"), type ==
-                             "success" ~ celery_color$symbol$success(celery_symbol$success),
-                           type == "info" ~ celery_color$symbol$info("i"))
-  msg <- dplyr::case_when(type == "warning" ~ celery_color$message$warning(msg),
-                          type == "go" ~ celery_color$message$go(msg), type == "danger" ~
-                            celery_color$message$danger(msg), type == "success" ~
-                            celery_color$message$success(msg), type == "info" ~
-                            celery_color$message$info(msg))
+  symb <- dplyr::case_when(
+    type == "warning" ~ celery_color$symbol$warning("!"),
+    type == "go" ~ celery_color$symbol$go(cli::symbol$pointer),
+    type == "danger" ~ celery_color$symbol$danger("x"), type ==
+      "success" ~ celery_color$symbol$success(celery_symbol$success),
+    type == "info" ~ celery_color$symbol$info("i")
+  )
+  msg <- dplyr::case_when(
+    type == "warning" ~ celery_color$message$warning(msg),
+    type == "go" ~ celery_color$message$go(msg), type == "danger" ~
+      celery_color$message$danger(msg), type == "success" ~
+      celery_color$message$success(msg), type == "info" ~
+      celery_color$message$info(msg)
+  )
   if (inherits(msg, "character")) {
     msg <- as.character(msg)
   }
@@ -280,27 +293,32 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
   control2$verbose <- TRUE
   wrn <- res$signals
   if (length(wrn) > 0) {
-    wrn_msg <- purrr::map_chr(wrn, ~.x$message)
+    wrn_msg <- purrr::map_chr(wrn, ~ .x$message)
     wrn_msg <- unique(wrn_msg)
     wrn_msg <- paste(wrn_msg, collapse = ", ")
-    wrn_msg <- tibble::tibble(location = loc, type = "warning",
-                              note = wrn_msg)
+    wrn_msg <- tibble::tibble(
+      location = loc, type = "warning",
+      note = wrn_msg
+    )
     notes <- dplyr::bind_rows(notes, wrn_msg)
     wrn_msg <- glue::glue_collapse(paste0(loc, ": ", wrn_msg$note),
-                                   width = options()$width - 5)
+      width = options()$width - 5
+    )
     tune_log(control2, split, wrn_msg, type = "warning")
   }
   if (inherits(res$res, "try-error")) {
     err_msg <- as.character(attr(res$res, "condition"))
     err_msg <- gsub("\n$", "", err_msg)
-    err_msg <- tibble::tibble(location = loc, type = "error",
-                              note = err_msg)
+    err_msg <- tibble::tibble(
+      location = loc, type = "error",
+      note = err_msg
+    )
     notes <- dplyr::bind_rows(notes, err_msg)
     err_msg <- glue::glue_collapse(paste0(loc, ": ", err_msg$note),
-                                   width = options()$width - 5)
+      width = options()$width - 5
+    )
     tune_log(control2, split, err_msg, type = "danger")
-  }
-  else {
+  } else {
     if (!bad_only) {
       tune_log(control, split, loc, type = "success")
     }
@@ -338,9 +356,8 @@ merger <- function(x, y, ...) {
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
     updater <- update_recipe
-    step_ids <- purrr::map_chr(x$steps, ~.x$id)
-  }
-  else {
+    step_ids <- purrr::map_chr(x$steps, ~ .x$id)
+  } else {
     updater <- update_model
     step_ids <- NULL
   }
@@ -352,7 +369,7 @@ merger <- function(x, y, ...) {
     dplyr::mutate(
       ..object = purrr::map(
         1:nrow(y),
-        ~updater(y[.x, ], x, pset, step_ids, grid_name)
+        ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
     ) %>%
     dplyr::select(x = ..object)
@@ -559,7 +576,11 @@ set_workflow_recipe <- function(workflow, recipe) {
   workflow
 }
 
-append_predictions <- function(collection, predictions, split, control, .config = NULL) {
+append_predictions <- function(collection,
+                               predictions,
+                               split,
+                               control,
+                               .config = NULL) {
   if (!control$save_pred) {
     return(NULL)
   }
@@ -583,20 +604,26 @@ append_predictions <- function(collection, predictions, split, control, .config 
   dplyr::bind_rows(collection, predictions)
 }
 
-append_metrics <- function(workflow, collection, predictions, metrics, param_names,
-                           outcome_name, event_level, split, .config = NULL)
-{
+append_metrics <- function(workflow,
+                           collection,
+                           predictions,
+                           metrics,
+                           param_names,
+                           event_level,
+                           split,
+                           .config = NULL) {
   if (inherits(predictions, "try-error")) {
     return(collection)
   }
 
   params <- predictions %>%
-    dplyr::select(param_names) %>%
+    dplyr::select(dplyr::all_of(param_names)) %>%
     dplyr::distinct()
 
   tmp_est <- purrr::imap_dfr(metrics,
-                             ~list(.estimate = .x(workflow)),
-                             .id = ".metric") %>%
+    ~ list(.estimate = .x(workflow)),
+    .id = ".metric"
+  ) %>%
     dplyr::mutate(.estimator = "standard")
 
   tmp_est <- cbind(tmp_est, labels(split))
@@ -608,7 +635,12 @@ append_metrics <- function(workflow, collection, predictions, metrics, param_nam
   dplyr::bind_rows(collection, tmp_est)
 }
 
-append_extracts <- function(collection, workflow, grid, split, ctrl, .config = NULL) {
+append_extracts <- function(collection,
+                            workflow,
+                            grid,
+                            split,
+                            ctrl,
+                            .config = NULL) {
   extracts <-
     grid %>%
     dplyr::bind_cols(labels(split)) %>%
@@ -661,18 +693,20 @@ slice_seeds <- function(x, i, n) {
   x[(i - 1L) * n + seq_len(n)]
 }
 
-iter_combine <- function (...) {
+iter_combine <- function(...) {
   results <- list(...)
-  metrics <- purrr::map(results, ~.x[[".metrics"]])
-  extracts <- purrr::map(results, ~.x[[".extracts"]])
-  predictions <- purrr::map(results, ~.x[[".predictions"]])
-  all_outcome_names <- purrr::map(results, ~.x[[".all_outcome_names"]])
-  notes <- purrr::map(results, ~.x[[".notes"]])
+  metrics <- purrr::map(results, ~ .x[[".metrics"]])
+  extracts <- purrr::map(results, ~ .x[[".extracts"]])
+  predictions <- purrr::map(results, ~ .x[[".predictions"]])
+  all_outcome_names <- purrr::map(results, ~ .x[[".all_outcome_names"]])
+  notes <- purrr::map(results, ~ .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
   all_outcome_names <- vctrs::vec_c(!!!all_outcome_names)
   notes <- vctrs::vec_c(!!!notes)
-  list(.metrics = metrics, .extracts = extracts, .predictions = predictions,
-       .all_outcome_names = all_outcome_names, .notes = notes)
+  list(
+    .metrics = metrics, .extracts = extracts, .predictions = predictions,
+    .all_outcome_names = all_outcome_names, .notes = notes
+  )
 }

@@ -16,6 +16,7 @@
 \alias{extract_fit_parsnip}
 \alias{load_pkgs}
 \alias{required_pkgs}
+\alias{predict_raw}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -28,6 +29,8 @@ below to see their documentation.
   \item{hardhat}{\code{\link[hardhat:hardhat-extract]{extract_fit_parsnip}}, \code{\link[hardhat:hardhat-extract]{extract_parameter_set_dials}}, \code{\link[hardhat:hardhat-extract]{extract_preprocessor}}, \code{\link[hardhat:hardhat-extract]{extract_spec_parsnip}}, \code{\link[hardhat]{tune}}}
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
+
+  \item{parsnip}{\code{\link[parsnip:predict.model_fit]{predict_raw}}}
 
   \item{tune}{\code{\link[tune]{load_pkgs}}}
 }}
