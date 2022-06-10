@@ -5,6 +5,8 @@
 \title{S3 method to get fitted model summary info depending on engine}
 \usage{
 extract_fit_summary(object, ...)
+
+extract_fit_summary(object, ...)
 }
 \arguments{
 \item{object}{a fitted cluster_spec object}
@@ -13,11 +15,22 @@ extract_fit_summary(object, ...)
 }
 \value{
 A list with various summary elements
+
+A list with various summary elements
 }
 \description{
 S3 method to get fitted model summary info depending on engine
+
+S3 method to get fitted model summary info depending on engine
 }
 \examples{
+kmeans_spec <- k_means(k = 5) \%>\%
+  set_engine_celery("stats")
+
+kmeans_fit <- fit(kmeans_spec, ~., mtcars)
+
+kmeans_fit \%>\%
+  extract_fit_summary()
 kmeans_spec <- k_means(k = 5) \%>\%
   set_engine_celery("stats")
 
