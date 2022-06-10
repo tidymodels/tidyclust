@@ -18,7 +18,7 @@ extract_cluster_assignment <- function(object, ...) {
 
 #' @export
 extract_cluster_assignment.cluster_fit <- function(object, ...) {
-  extract_cluster_assignment(object$fit)
+  extract_cluster_assignment(object$fit, ...)
 }
 
 #' @export
@@ -29,6 +29,20 @@ extract_cluster_assignment.kmeans <- function(object, ...) {
 #' @export
 extract_cluster_assignment.KMeansCluster <- function(object, ...) {
   cluster_assignment_tibble(object$clusters, length(object$obs_per_cluster))
+}
+
+#' @export
+extract_cluster_assignment.hier_clust <- function(object, ...) {
+
+  # if k or h is passed in the dots, use those.  Otherwise, use attributes
+  # from original model specification
+  args <- list(...)
+  if (!("k" %in% names(args) | "h" %in% names(args))) {
+    k <- attr(object, "k")
+    h <- attr(object, "h")
+  }
+  clusters <- stats::cutree(object, k, h)
+  cluster_assignment_tibble(clusters, length(unique(clusters)))
 }
 
 # ------------------------------------------------------------------------------
