@@ -88,7 +88,7 @@ translate_celery.hier_clust <- function(x, engine = x$engine, ...) {
 #' @export
 hclust_fit <- function(data, k = NULL, h = NULL,
                        method = "complete",
-                       dist_fun = Rfast::dista) {
+                       dist_fun = Rfast::Dist) {
   dmat <- dist_fun(data)
   res <- hclust(dmat, method = method)
   attr(res, "k") <- k

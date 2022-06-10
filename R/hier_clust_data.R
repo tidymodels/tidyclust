@@ -15,7 +15,7 @@ set_fit_celery(
     interface = "matrix",
     protect = c(),  #### what is this?
     func = c(pkg = "celery", fun = "hclust_fit"),
-    defaults = list(method = "complete", dist_fun = RFast::dista)
+    defaults = list(method = "complete", dist_fun = Rfast::Dist)
   )
 )
 
