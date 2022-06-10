@@ -32,7 +32,7 @@ extract_cluster_assignment.KMeansCluster <- function(object, ...) {
 }
 
 #' @export
-extract_cluster_assignment.hier_clust <- function(object, ...) {
+extract_cluster_assignment.hclust <- function(object, ...) {
 
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification

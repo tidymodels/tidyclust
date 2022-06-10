@@ -2,7 +2,7 @@
 
 S3method(extract_cluster_assignment,KMeansCluster)
 S3method(extract_cluster_assignment,cluster_fit)
-S3method(extract_cluster_assignment,hier_clust)
+S3method(extract_cluster_assignment,hclust)
 S3method(extract_cluster_assignment,kmeans)
 S3method(extract_fit_summary,KMeansCluster)
 S3method(extract_fit_summary,cluster_fit)

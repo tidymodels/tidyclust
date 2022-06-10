@@ -4,16 +4,10 @@
 \alias{hclust_fit}
 \title{Simple Wrapper around hclust function}
 \usage{
-hclust_fit(
-  data,
-  k = NULL,
-  h = NULL,
-  method = "complete",
-  dist_fun = Rfast::dista
-)
+hclust_fit(x, k = NULL, h = NULL, method = "complete", dist_fun = Rfast::Dist)
 }
 \arguments{
-\item{data}{matrix or data frame}
+\item{x}{matrix or data frame}
 
 \item{k}{the number of clusters}
 

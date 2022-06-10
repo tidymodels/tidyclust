@@ -9,8 +9,7 @@ hier_clust(
   engine = "stats",
   k = NULL,
   h = NULL,
-  method = "complete",
-  dist_fun = Rfast::dista
+  method = "complete"
 )
 }
 \arguments{

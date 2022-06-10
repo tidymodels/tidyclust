@@ -13,9 +13,9 @@ set_fit_celery(
   mode = "partition",
   value = list(
     interface = "matrix",
-    protect = c(),  #### what is this?
+    protect = c("data"),  #### what is this?
     func = c(pkg = "celery", fun = "hclust_fit"),
-    defaults = list(method = "complete", dist_fun = Rfast::Dist)
+    defaults = list(method = "complete")
   )
 )
 
@@ -44,7 +44,7 @@ set_model_arg_celery(
   model = "hier_clust",
   eng = "stats",
   celery = "cut_height",
-  original = "h",
+  original = "cut_height",
   func = list(pkg = "celery", fun = "cut_height"),
   has_submodel = TRUE
 )

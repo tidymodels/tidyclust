@@ -29,13 +29,11 @@ hier_clust <-
            engine = "stats",
            k = NULL,
            h = NULL,
-           method = "complete",
-           dist_fun = Rfast::dista) {
+           method = "complete") {
     args <- list(
       k = enquo(k),
       h = enquo(h),
-      method = enquo(method),
-      dist_fun = enquo(dist_fun)
+      method = enquo(method)
     )
 
     new_cluster_spec(
@@ -74,7 +72,7 @@ translate_celery.hier_clust <- function(x, engine = x$engine, ...) {
 #' This wrapper prepares the data into a distance matrix to send to
 #' `stats::hclust` and retains the parameters `k` or `h` as an attribute.
 #'
-#' @param data matrix or data frame
+#' @param x matrix or data frame
 #' @param k the number of clusters
 #' @param h the height to cut the dendrogram
 #' @param method the agglomeration method to be used. This should be (an
@@ -86,11 +84,12 @@ translate_celery.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-hclust_fit <- function(data, k = NULL, h = NULL,
+hclust_fit <- function(x, k = NULL, h = NULL,
                        method = "complete",
                        dist_fun = Rfast::Dist) {
-  dmat <- dist_fun(data)
-  res <- hclust(dmat, method = method)
+  dmat <- dist_fun(x)
+  res <- hclust(as.dist(dmat), method = method)
   attr(res, "k") <- k
   attr(res, "h") <- h
+  return(res)
 }
