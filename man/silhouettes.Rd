@@ -7,7 +7,7 @@
 silhouettes(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
 }
 \arguments{
-\item{object}{A fitted kmeans celery model}
+\item{object}{A fitted kmeans tidyclust model}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
@@ -24,7 +24,7 @@ Measures silhouettes between clusters
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_celery("stats")
+  set_engine_tidyclust("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

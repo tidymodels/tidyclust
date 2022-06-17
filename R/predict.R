@@ -41,7 +41,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -119,7 +119,7 @@ prepare_data <- function(object, new_data) {
   }
 
   remove_intercept <-
-    get_encoding_celery(class(object$spec)[1]) %>%
+    get_encoding_tidyclust(class(object$spec)[1]) %>%
     dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
     dplyr::pull(remove_intercept)
   if (remove_intercept & any(grepl("Intercept", names(new_data)))) {

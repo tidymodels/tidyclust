@@ -12,13 +12,13 @@
 #' @param catch A logical where a value of `TRUE` will evaluate the model inside
 #'   of `try(, silent = TRUE)`. If the model fails, an object is still returned
 #'   (without an error) that inherits the class "try-error".
-#' @return An S3 object with class "control_celery" that is a named list with
+#' @return An S3 object with class "control_tidyclust" that is a named list with
 #'   the results of the function call
 #' @export
-control_celery <- function(verbosity = 1L, catch = FALSE) {
+control_tidyclust <- function(verbosity = 1L, catch = FALSE) {
   res <- list(verbosity = verbosity, catch = catch)
   res <- check_control(res)
-  class(res) <- c("control_celery", "control_parsnip")
+  class(res) <- c("control_tidyclust", "control_parsnip")
   res
 }
 
@@ -41,8 +41,8 @@ check_control <- function(x) {
 }
 
 #' @export
-print.control_celery <- function(x, ...) {
-  cat("celery control object\n")
+print.control_tidyclust <- function(x, ...) {
+  cat("tidyclust control object\n")
   if (x$verbosity > 1) {
     cat(" - verbose level", x$verbosity, "\n")
   }

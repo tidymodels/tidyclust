@@ -5,13 +5,13 @@
 \alias{fit_xy.cluster_spec}
 \title{Fit a Model Specification to a Data Set}
 \usage{
-\method{fit}{cluster_spec}(object, formula, data, control = control_celery(), ...)
+\method{fit}{cluster_spec}(object, formula, data, control = control_tidyclust(), ...)
 
-\method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_celery(), ...)
+\method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_tidyclust(), ...)
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
-\code{\link[=set_engine_celery]{set_engine_celery()}}).}
+\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}).}
 
 \item{formula}{An object of class \code{formula} (or one that can be coerced to
 that class): a symbolic description of the model to be fitted.}
@@ -21,15 +21,15 @@ frame containing all relevant variables (e.g. outcome(s), predictors, case
 weights, etc). Note: when needed, a \emph{named argument} should be used.}
 
 \item{control}{A named list with elements \code{verbosity} and \code{catch}. See
-\code{\link[=control_celery]{control_celery()}}.}
+\code{\link[=control_tidyclust]{control_tidyclust()}}.}
 
 \item{...}{Not currently used; values passed here will be ignored. Other
 options required to fit the model should be passed using
-\code{set_engine_celery()}.}
+\code{set_engine_tidyclust()}.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
-\code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
+\code{tidyclust::get_encoding_tidyclust()} for details. \code{x} should have column names.}
 
 \item{case_weights}{An optional classed vector of numeric case weights. This
 must return \code{TRUE} when \code{\link[hardhat:is_case_weights]{hardhat::is_case_weights()}} is run on it. See
@@ -54,7 +54,7 @@ The return value will also have a class related to the fitted model (e.g.
 \code{"_kmeans"}) before the base class of \code{"cluster_fit"}.
 }
 \description{
-\code{fit()} and \code{fit_xy()} take a model specification, translate_celery the
+\code{fit()} and \code{fit_xy()} take a model specification, translate_tidyclust the
 required code by substituting arguments, and execute the model fit routine.
 }
 \details{
@@ -62,7 +62,7 @@ required code by substituting arguments, and execute the model fit routine.
 model specification into the computational engine's code, check them for
 validity, then fit the model using the data and the engine-specific code.
 Different model functions have different interfaces (e.g. formula or
-\code{x}/\code{y}) and these functions translate_celery between the interface used
+\code{x}/\code{y}) and these functions translate_tidyclust between the interface used
 when \code{fit()} or \code{fit_xy()} was invoked and the one required by the
 underlying model.
 
@@ -76,7 +76,7 @@ used to fit the model.
 
 If the model engine has not been set, the model's default engine will be
 used (as discussed on each model page). If the \code{verbosity} option of
-\code{\link[=control_celery]{control_celery()}} is greater than zero, a warning will be produced.
+\code{\link[=control_tidyclust]{control_tidyclust()}} is greater than zero, a warning will be produced.
 
 If you would like to use an alternative method for generating contrasts
 when supplying a formula to \code{fit()}, set the global option \code{contrasts} to
@@ -90,18 +90,18 @@ kmeans_mod <- k_means(k = 5)
 
 using_formula <-
   kmeans_mod \%>\%
-  set_engine_celery("stats") \%>\%
+  set_engine_tidyclust("stats") \%>\%
   fit(~., data = mtcars)
 
 using_x <-
   kmeans_mod \%>\%
-  set_engine_celery("stats") \%>\%
+  set_engine_tidyclust("stats") \%>\%
   fit_xy(x = mtcars)
 
 using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine_celery]{set_engine_celery()}}, \code{\link[=control_celery]{control_celery()}}, \code{cluster_spec},
+\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}, \code{\link[=control_tidyclust]{control_tidyclust()}}, \code{cluster_spec},
 \code{cluster_fit}
 }

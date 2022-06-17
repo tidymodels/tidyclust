@@ -15,5 +15,5 @@
 a tibble
 }
 \description{
-This method glances the model in a celery model object, if it exists.
+This method glances the model in a tidyclust model object, if it exists.
 }

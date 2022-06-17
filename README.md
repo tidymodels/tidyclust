@@ -1,31 +1,31 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# celery
+# tidyclust
 
 <!-- badges: start -->
 
 [![Codecov test
-coverage](https://codecov.io/gh/EmilHvitfeldt/celery/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EmilHvitfeldt/celery?branch=main)
-[![R-CMD-check](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml)
+coverage](https://codecov.io/gh/EmilHvitfeldt/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EmilHvitfeldt/tidyclust?branch=main)
+[![R-CMD-check](https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of celery is to provide a tidy, unified interface to clustering
+The goal of tidyclust is to provide a tidy, unified interface to clustering
 models. The packages is closely modeled after the
 [parsnip](https://parsnip.tidymodels.org/) package.
 
 ## Installation
 
-You can install the development version of celery from
+You can install the development version of tidyclust from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("EmilHvitfeldt/celery")
+devtools::install_github("EmilHvitfeldt/tidyclust")
 ```
 
 Please note that this package currently requires a [branch of the
-workflows](https://github.com/tidymodels/workflows/tree/celery) package
+workflows](https://github.com/tidymodels/workflows/tree/tidyclust) package
 to work. Use with caution.
 
 ## Example
@@ -34,10 +34,10 @@ The first thing you do is to create a `cluster specification`. For this
 example we are creating a K-means model, using the `stats` engine.
 
 ``` r
-library(celery)
+library(tidyclust)
 
 kmeans_spec <- k_means(k = 3) %>%
-  set_engine_celery("stats") 
+  set_engine_tidyclust("stats") 
 
 kmeans_spec
 #> K Means Cluster Specification (partition)
@@ -54,7 +54,7 @@ This specification can then be fit using data.
 kmeans_spec_fit <- kmeans_spec %>%
   fit(~., data = mtcars)
 kmeans_spec_fit
-#> celery cluster object
+#> tidyclust cluster object
 #> 
 #> K-means clustering with 3 clusters of sizes 14, 11, 7
 #> 
@@ -96,7 +96,7 @@ kmeans_spec_fit
 #> [6] "betweenss"    "size"         "iter"         "ifault"
 ```
 
-Once you have a fitted celery object, you can do a number of things.
+Once you have a fitted tidyclust object, you can do a number of things.
 `predict()` returns the cluster a new observation belongs to
 
 ``` r

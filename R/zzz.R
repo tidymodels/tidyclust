@@ -29,21 +29,21 @@
     vctrs::s3_register("generics::tunable", "k_means", tunable_k_means)
   }
 
-  ns <- rlang::ns_env("celery")
+  ns <- rlang::ns_env("tidyclust")
   makeActiveBinding(
-    "celery_color",
+    "tidyclust_color",
     function() {
       opt <- getOption("tidymodels.dark", NULL)
 
       if (!is.null(opt)) {
         if (isTRUE(opt)) {
-          return(celery_color_dark)
+          return(tidyclust_color_dark)
         } else {
-          return(celery_color_light)
+          return(tidyclust_color_light)
         }
       }
 
-      celery_color_light
+      tidyclust_color_light
     },
     ns
   )

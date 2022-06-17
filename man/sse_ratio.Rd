@@ -7,7 +7,7 @@
 sse_ratio(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
-\item{object}{A fitted kmeans celery model}
+\item{object}{A fitted kmeans tidyclust model}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
@@ -21,7 +21,7 @@ Compute the ratio of the WSS to the total SSE
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_celery("stats")
+  set_engine_tidyclust("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

@@ -52,7 +52,7 @@ column after \code{model.matrix()} is finished.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
-\code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
+\code{tidyclust::get_encoding_tidyclust()} for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
 
