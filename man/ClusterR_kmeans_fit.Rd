@@ -51,7 +51,9 @@ The higher this value is, the far appart from each other the centroids are.}
 \item{seed}{integer value for random number generator (RNG)}
 }
 \value{
-A \code{keras} model object.
+a list with the following attributes: clusters, fuzzy_clusters (if
+fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
+obs_per_cluster, between.SS_DIV_total.SS
 }
 \description{
 This wrapper runs \code{ClusterR::KMeans_rcpp} and adds column names to the
