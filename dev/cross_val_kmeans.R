@@ -1,6 +1,6 @@
 library(tidymodels)
 library(tidyverse)
-library(celery)
+library(tidyclust)
 
 ## "Cross-validation" for kmeans
 
@@ -19,7 +19,7 @@ res <- data.frame(
 for (k in 2:10) {
 
   km <- k_means(k = k) %>%
-    set_engine_celery("stats")
+    set_engine_tidyclust("stats")
 
 
   for (i in 1:5) {
@@ -67,7 +67,7 @@ res <- data.frame(
 for (k in 2:10) {
 
   km <- k_means(k = k) %>%
-    set_engine_celery("stats")
+    set_engine_tidyclust("stats")
 
   full_fit <- km %>% fit(~., data = ir)
 

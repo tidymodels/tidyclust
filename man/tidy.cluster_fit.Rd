@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidy.R
 \name{tidy.cluster_fit}
 \alias{tidy.cluster_fit}
-\title{Turn a celery model object into a tidy tibble}
+\title{Turn a tidyclust model object into a tidy tibble}
 \usage{
 \method{tidy}{cluster_fit}(x, ...)
 }
@@ -15,5 +15,5 @@
 a tibble
 }
 \description{
-This method tidies the model in a celery model object, if it exists.
+This method tidies the model in a tidyclust model object, if it exists.
 }

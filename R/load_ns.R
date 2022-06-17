@@ -28,6 +28,6 @@ load_namespace <- function(x) {
 }
 
 infra_pkgs <- c(
-  "tune", "recipes", "celery", "yardstick", "purrr", "dplyr", "tibble",
+  "tune", "recipes", "tidyclust", "yardstick", "purrr", "dplyr", "tibble",
   "dials", "rsample", "workflows", "tidyr", "rlang", "vctrs"
 )

@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(celery)
+library(tidyclust)
 library(palmerpenguins)
 library(tidymodels)
 ```
@@ -24,7 +24,7 @@ library(tidymodels)
 
 ```{r}
 kmeans_spec <- k_means(k = 5) %>%
-  set_engine_celery("stats")
+  set_engine_tidyclust("stats")
 
 penguins_rec_1 <- recipe(~ ., data = penguins) %>%
   update_role(species, island, new_role = "demographic") %>%
@@ -66,7 +66,7 @@ kmeans_fit %>%
 
 * Missing values should probably return an NA prediction.  Or for k-means, imputation isn't crazy...
 
-* We want a consistent return, and k-means is randomized.  We should agree to a consistent default ordering throughout celery - maybe by size (number of members) or something?
+* We want a consistent return, and k-means is randomized.  We should agree to a consistent default ordering throughout tidyclust - maybe by size (number of members) or something?
 
 
 ```{r}
@@ -98,7 +98,7 @@ something with indices
 
 ```{r}
 recipe( ~ demo1 + predictor1) %>%
-  step_celery(kmeans_fit) # doesn't quite make sense
+  step_tidyclust(kmeans_fit) # doesn't quite make sense
   
 ```
 

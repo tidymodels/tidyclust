@@ -1,10 +1,10 @@
 test_that("kmeans sse metrics work", {
   kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
-    set_engine_celery("stats", algorithm = "MacQueen") %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
   kmeans_fit_ClusterR <- k_means(k = 3) %>%
-    set_engine_celery("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
+    set_engine_tidyclust("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
   km_orig <- kmeans(mtcars, centers = mtcars[1:3, ], algorithm = "MacQueen")
@@ -35,7 +35,7 @@ test_that("kmeans sse metrics work", {
 
 test_that("kmeans sse metrics work on new data", {
   kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
-    set_engine_celery("stats", algorithm = "MacQueen") %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
   new_data <- mtcars[1:4, ]
@@ -52,11 +52,11 @@ test_that("kmeans sse metrics work on new data", {
 
 test_that("kmeans sihouette metrics work", {
   kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
-    set_engine_celery("stats", algorithm = "MacQueen") %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
   kmeans_fit_ClusterR <- k_means(k = 3) %>%
-    set_engine_celery("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
+    set_engine_tidyclust("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
   new_data <- mtcars[1:4, ]
@@ -80,11 +80,11 @@ test_that("kmeans sihouette metrics work", {
 
 test_that("kmeans sihouette metrics work with new data", {
   kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
-    set_engine_celery("stats", algorithm = "MacQueen") %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
   kmeans_fit_ClusterR <- k_means(k = 3) %>%
-    set_engine_celery("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
+    set_engine_tidyclust("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
   new_data <- mtcars[1:4, ]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster_spec.R
 \name{new_cluster_spec}
 \alias{new_cluster_spec}
-\title{Functions required for celery-adjacent packages}
+\title{Functions required for tidyclust-adjacent packages}
 \usage{
 new_cluster_spec(cls, args, eng_args, mode, method, engine)
 }

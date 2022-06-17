@@ -49,8 +49,8 @@ print.k_means <- function(x, ...) {
 }
 
 #' @export
-translate_celery.k_means <- function(x, engine = x$engine, ...) {
-  x <- translate_celery.default(x, engine, ...)
+translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
+  x <- translate_tidyclust.default(x, engine, ...)
   x
 }
 

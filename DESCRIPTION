@@ -1,4 +1,4 @@
-Package: celery
+Package: tidyclust
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: c(
@@ -9,8 +9,8 @@ Authors@R: c(
   )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
-URL: https://github.com/EmilHvitfeldt/celery
-BugReports: https://github.com/EmilHvitfeldt/celery/issues
+URL: https://github.com/EmilHvitfeldt/tidyclust
+BugReports: https://github.com/EmilHvitfeldt/tidyclust/issues
 Imports: 
     cli,
     cluster,
