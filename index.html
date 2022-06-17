@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="What the package does (one paragraph).">
-<title>What the Package Does (One Line, Title Case) • celery</title>
+<title>What the Package Does (One Line, Title Case) • tidyclust</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -24,7 +24,7 @@
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
-    <a class="navbar-brand me-2" href="index.html">celery</a>
+    <a class="navbar-brand me-2" href="index.html">tidyclust</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
 
@@ -52,7 +52,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/EmilHvitfeldt/celery/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/EmilHvitfeldt/tidyclust/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -65,28 +65,28 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="celery">celery<a class="anchor" aria-label="anchor" href="#celery"></a>
+<div class="page-header"><h1 id="tidyclust">tidyclust<a class="anchor" aria-label="anchor" href="#tidyclust"></a>
 </h1></div>
 <!-- badges: start -->
-<p>The goal of celery is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package.</p>
+<p>The goal of tidyclust is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of celery from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of tidyclust from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EmilHvitfeldt/celery"</span><span class="op">)</span></code></pre></div>
-<p>Please note that this package currently requires a <a href="https://github.com/tidymodels/workflows/tree/celery" class="external-link">branch of the workflows</a> package to work. Use with caution.</p>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EmilHvitfeldt/tidyclust"</span><span class="op">)</span></code></pre></div>
+<p>Please note that this package currently requires a <a href="https://github.com/tidymodels/workflows/tree/tidyclust" class="external-link">branch of the workflows</a> package to work. Use with caution.</p>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>The first thing you do is to create a <code>cluster specification</code>. For this example we are creating a K-means model, using the <code>stats</code> engine.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/celery" class="external-link">celery</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/tidyclust" class="external-link">tidyclust</a></span><span class="op">)</span>
 
 <span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/k_means.html">k_means</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="reference/set_engine_celery.html">set_engine_celery</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span> 
+  <span class="fu"><a href="reference/set_engine_tidyclust.html">set_engine_tidyclust</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span> 
 
 <span class="va">kmeans_spec</span>
 <span class="co">#&gt; K Means Cluster Specification (partition)</span>
@@ -100,91 +100,89 @@
 <code class="sourceCode R"><span class="va">kmeans_spec_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 <span class="va">kmeans_spec_fit</span>
-<span class="co">#&gt; celery cluster object</span>
+<span class="co">#&gt; tidyclust cluster object</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; K-means clustering with 3 clusters of sizes 14, 11, 7</span>
+<span class="co">#&gt; K-means clustering with 3 clusters of sizes 7, 16, 9</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Cluster means:</span>
-<span class="co">#&gt;        mpg cyl     disp        hp     drat       wt     qsec        vs</span>
-<span class="co">#&gt; 1 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000</span>
-<span class="co">#&gt; 2 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909</span>
-<span class="co">#&gt; 3 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286</span>
+<span class="co">#&gt;        mpg      cyl     disp       hp     drat       wt     qsec        vs</span>
+<span class="co">#&gt; 1 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143</span>
+<span class="co">#&gt; 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000</span>
+<span class="co">#&gt; 3 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000</span>
 <span class="co">#&gt;          am     gear     carb</span>
-<span class="co">#&gt; 1 0.1428571 3.285714 3.500000</span>
-<span class="co">#&gt; 2 0.7272727 4.090909 1.545455</span>
-<span class="co">#&gt; 3 0.4285714 3.857143 3.428571</span>
+<span class="co">#&gt; 1 0.0000000 3.000000 2.142857</span>
+<span class="co">#&gt; 2 0.6875000 4.125000 2.437500</span>
+<span class="co">#&gt; 3 0.2222222 3.444444 4.000000</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Clustering vector:</span>
 <span class="co">#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span>
-<span class="co">#&gt;                   3                   3                   2                   3 </span>
+<span class="co">#&gt;                   2                   2                   2                   1 </span>
 <span class="co">#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span>
-<span class="co">#&gt;                   1                   3                   1                   2 </span>
+<span class="co">#&gt;                   3                   1                   3                   2 </span>
 <span class="co">#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE </span>
-<span class="co">#&gt;                   2                   3                   3                   1 </span>
+<span class="co">#&gt;                   2                   2                   2                   1 </span>
 <span class="co">#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span>
-<span class="co">#&gt;                   1                   1                   1                   1 </span>
+<span class="co">#&gt;                   1                   1                   3                   3 </span>
 <span class="co">#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span>
-<span class="co">#&gt;                   1                   2                   2                   2 </span>
+<span class="co">#&gt;                   3                   2                   2                   2 </span>
 <span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
-<span class="co">#&gt;                   2                   1                   1                   1 </span>
+<span class="co">#&gt;                   2                   1                   1                   3 </span>
 <span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span>
-<span class="co">#&gt;                   1                   2                   2                   2 </span>
+<span class="co">#&gt;                   3                   2                   2                   2 </span>
 <span class="co">#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span>
-<span class="co">#&gt;                   1                   3                   1                   2 </span>
+<span class="co">#&gt;                   3                   2                   3                   2 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Within cluster sum of squares by cluster:</span>
-<span class="co">#&gt; [1] 93643.90 11848.37 13954.34</span>
-<span class="co">#&gt;  (between_SS / total_SS =  80.8 %)</span>
+<span class="co">#&gt; [1] 11846.09 32838.00 46659.32</span>
+<span class="co">#&gt;  (between_SS / total_SS =  85.3 %)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Available components:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"</span>
 <span class="co">#&gt; [6] "betweenss"    "size"         "iter"         "ifault"</span></code></pre></div>
-<p>Once you have a fitted celery object, you can do a number of things. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> returns the cluster a new observation belongs to</p>
+<p>Once you have a fitted tidyclust object, you can do a number of things. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> returns the cluster a new observation belongs to</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 × 1</span>
 <span class="co">#&gt;   .pred_cluster</span>
 <span class="co">#&gt;   &lt;fct&gt;        </span>
-<span class="co">#&gt; 1 3            </span>
-<span class="co">#&gt; 2 3            </span>
-<span class="co">#&gt; 3 2            </span>
-<span class="co">#&gt; 4 3</span></code></pre></div>
+<span class="co">#&gt; 1 Cluster_1    </span>
+<span class="co">#&gt; 2 Cluster_1    </span>
+<span class="co">#&gt; 3 Cluster_1    </span>
+<span class="co">#&gt; 4 Cluster_2</span></code></pre></div>
 <p><code><a href="reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> returns the cluster assignments of the training observations</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 32 × 1</span>
-<span class="co">#&gt;    .cluster</span>
-<span class="co">#&gt;    &lt;fct&gt;   </span>
-<span class="co">#&gt;  1 C1      </span>
-<span class="co">#&gt;  2 C1      </span>
-<span class="co">#&gt;  3 C2      </span>
-<span class="co">#&gt;  4 C1      </span>
-<span class="co">#&gt;  5 C3      </span>
-<span class="co">#&gt;  6 C1      </span>
-<span class="co">#&gt;  7 C3      </span>
-<span class="co">#&gt;  8 C2      </span>
-<span class="co">#&gt;  9 C2      </span>
-<span class="co">#&gt; 10 C1      </span>
+<span class="co">#&gt;    .cluster </span>
+<span class="co">#&gt;    &lt;fct&gt;    </span>
+<span class="co">#&gt;  1 Cluster_1</span>
+<span class="co">#&gt;  2 Cluster_1</span>
+<span class="co">#&gt;  3 Cluster_1</span>
+<span class="co">#&gt;  4 Cluster_2</span>
+<span class="co">#&gt;  5 Cluster_3</span>
+<span class="co">#&gt;  6 Cluster_2</span>
+<span class="co">#&gt;  7 Cluster_3</span>
+<span class="co">#&gt;  8 Cluster_1</span>
+<span class="co">#&gt;  9 Cluster_1</span>
+<span class="co">#&gt; 10 Cluster_1</span>
 <span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
 <p>and <code>extract_clusters()</code> returns the locations of the clusters</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span>
-<span class="co">#&gt; New names:</span>
-<span class="co">#&gt; • `` -&gt; `...2`</span>
-<span class="co">#&gt; # A tibble: 3 × 2</span>
-<span class="co">#&gt;   .cluster   ...2</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Cluster_1  19.7</span>
-<span class="co">#&gt; 2 Cluster_2  26.7</span>
-<span class="co">#&gt; 3 Cluster_3  15.1</span></code></pre></div>
+<span class="co">#&gt; # A tibble: 3 × 12</span>
+<span class="co">#&gt;   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Cluster_1  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44</span>
+<span class="co">#&gt; 2 Cluster_2  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14</span>
+<span class="co">#&gt; 3 Cluster_3  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/EmilHvitfeldt/celery/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/EmilHvitfeldt/celery/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/EmilHvitfeldt/tidyclust/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/EmilHvitfeldt/tidyclust/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -206,7 +204,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing celery</a></li>
+<li><a href="authors.html#citation">Citing tidyclust</a></li>
 </ul>
 </div>
 
@@ -222,8 +220,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://app.codecov.io/gh/EmilHvitfeldt/celery?branch=main" class="external-link"><img src="https://codecov.io/gh/EmilHvitfeldt/celery/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/EmilHvitfeldt/celery/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/EmilHvitfeldt/tidyclust?branch=main" class="external-link"><img src="https://codecov.io/gh/EmilHvitfeldt/tidyclust/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 

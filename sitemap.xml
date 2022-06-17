@@ -37,13 +37,10 @@
     <loc>/reference/avg_silhouette.html</loc>
   </url>
   <url>
-    <loc>/reference/celery-package.html</loc>
+    <loc>/reference/check_empty_ellipse_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/check_empty_ellipse_celery.html</loc>
-  </url>
-  <url>
-    <loc>/reference/control_celery.html</loc>
+    <loc>/reference/control_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/convert_helpers.html</loc>
@@ -67,7 +64,7 @@
     <loc>/reference/get_centroid_dists.html</loc>
   </url>
   <url>
-    <loc>/reference/get_model_env_celery.html</loc>
+    <loc>/reference/get_model_env_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/glance.cluster_fit.html</loc>
@@ -82,7 +79,7 @@
     <loc>/reference/k_means.html</loc>
   </url>
   <url>
-    <loc>/reference/make_classes_celery.html</loc>
+    <loc>/reference/make_classes_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/other_predict.html</loc>
@@ -103,10 +100,10 @@
     <loc>/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>/reference/set_engine_celery.html</loc>
+    <loc>/reference/set_engine_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/set_new_model_celery.html</loc>
+    <loc>/reference/set_new_model_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/silhouettes.html</loc>
@@ -118,13 +115,16 @@
     <loc>/reference/tidy.cluster_fit.html</loc>
   </url>
   <url>
+    <loc>/reference/tidyclust-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/tot_sse.html</loc>
   </url>
   <url>
     <loc>/reference/tot_wss.html</loc>
   </url>
   <url>
-    <loc>/reference/translate_celery.html</loc>
+    <loc>/reference/translate_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/tune_cluster.html</loc>
