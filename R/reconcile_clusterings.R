@@ -1,0 +1,85 @@
+#' Relabels clusters to match another cluster assignment
+#'
+#' Retains the cluster labels of the primary assignment, and relabel the alternate assignment
+#'  to match as closely as possible.  The user must decide whether clusters are forced to be
+#'  "one-to-one"; that is, are we allowed to assign multiple labels from the alternate assignment
+#'  to the same primary label?
+#'
+#'  When forcing one-to-one, the user needs to decide what to prioritize:
+#'  *  "accuracy": optimize raw count of all observations with the same label
+#'  across the two assignments
+#'  *  "precision": optimize the average percent of each alt cluster that matches
+#'  the corresponding primary cluster
+#'
+#' @param primary_cluster_assignment A vector containing cluster labels, to be matched
+#' @param alt_cluster_assignment Another vector containing cluster labels, to be changed
+#' @param one_to_one Boolean; should each alt cluster match only one primary cluster?
+#' @param optimize One of "accuracy" or "precision"; see description.
+#'
+#' @return A vector with the new cluster labels
+#' @export
+
+reconcile_clusterings <- function(primary_cluster_assignment,
+                                  alt_cluster_assignment,
+                                  one_to_one = TRUE,
+                                  optimize = "accuracy") {
+
+
+  clusters_1 <- forcats::fct_inorder(as.character(primary_cluster_assignment))
+  clusters_2 <- forcats::fct_inorder(as.character(alt_cluster_assignment))
+
+  nclust_1 <- length(levels(clusters_1))
+  nclust_2 <- length(levels(clusters_2))
+
+  if (one_to_one && nclust_1 != nclust_2) {
+    stop("For one-to-one matching, must have the same number of clusters in
+         primary and alt.")
+  } else if (nclust_1 > nclust_2) {
+    stop("Primary clustering must have equal or fewer clusters to alternate
+         clustering.")
+  }
+
+  ## Use standard names in order for both
+
+  clusters_1_f <- factor(clusters_1, labels = paste0("Cluster_", 1:nclust_1))
+  clusters_2_f <- factor(clusters_2, labels = paste0("Cluster_", 1:nclust_2))
+  clusters_1_f <- factor(clusters_1_f, levels = levels(clusters_2_f))
+
+
+  ## Get counts
+  cross_counts <- table(clusters_1_f, clusters_2_f)
+  cross_counts <- matrix(cross_counts,
+                         ncol = ncol(cross_counts),
+                         dimnames = dimnames(cross_counts))
+
+
+  ## one-to-one and accuracy = hungarian on counts
+  ## one-to-one and precision = hungarian on col-stdized
+
+  if (one_to_one) {
+
+    ## Hungarian solver guarantees max diagonal sum
+    cost <- cross_counts
+
+    if (optimize == "precision") {
+      cost <- t(t(cost)/colSums(cost))
+    }
+
+    matches <- RcppHungarian::HungarianSolver(-cost)
+    reord <- matches$pairs[,2]
+
+  } else {
+      reord <- c(apply(cross_counts, 2, which.max))
+  }
+
+
+  ## Reorder new clusters and then use original labels
+
+  recode_vec <- levels(clusters_2)
+  names(recode_vec) <- levels(clusters_1)[reord]
+
+  c2_new <- forcats::fct_recode(clusters_2, !!!recode_vec)
+
+  return(as.character(c2_new))
+
+}
