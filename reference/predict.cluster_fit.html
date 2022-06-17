@@ -72,32 +72,49 @@ predict() can be used for all types of models and uses the
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
 <dd><p>An object of class <code>cluster_fit</code></p></dd>
+
+
 <dt>new_data</dt>
 <dd><p>A rectangular data object, such as a data frame.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>A single character value or <code>NULL</code>. Possible values
 are "cluster", or "raw". When <code>NULL</code>, <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> will choose an
 appropriate value based on the model's mode.</p></dd>
+
+
 <dt>opts</dt>
 <dd><p>A list of optional arguments to the underlying
 predict function that will be used when <code>type = "raw"</code>. The
 list should not include options for the model object or the
 new data being predicted.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Arguments to the underlying model's prediction
 function cannot be passed here (see <code>opts</code>).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>With the exception of <code>type = "raw"</code>, the results of
+    
+
+<p>With the exception of <code>type = "raw"</code>, the results of
 <code>predict.cluster_fit()</code> will be a tibble as many rows in the output
 as there are rows in <code>new_data</code> and the column names will be
-predictable.
-For clustering results with a single outcome, the tibble will have
-a <code>.pred_cluster</code>.
-Using <code>type = "raw"</code> with <code>predict.cluster_fit()</code> will return
-the unadulterated results of the prediction function.
-When the model fit failed and the error was captured, the
+predictable.</p>
+
+
+<p>For clustering results with a single outcome, the tibble will have
+a <code>.pred_cluster</code>.</p>
+
+
+<p>Using <code>type = "raw"</code> with <code>predict.cluster_fit()</code> will return
+the unadulterated results of the prediction function.</p>
+
+
+<p>When the model fit failed and the error was captured, the
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function will return the same structure as above but
 filled with missing values. This does not currently work for
 multivariate models.</p>
@@ -144,7 +161,7 @@ section below) in a tibble output format.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

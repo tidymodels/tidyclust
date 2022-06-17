@@ -77,39 +77,62 @@ centroids field."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>matrix or data frame</p></dd>
+
+
 <dt>clusters</dt>
 <dd><p>the number of clusters</p></dd>
+
+
 <dt>num_init</dt>
 <dd><p>number of times the algorithm will be run with different
 centroid seeds</p></dd>
+
+
 <dt>max_iters</dt>
 <dd><p>the maximum number of clustering iterations</p></dd>
+
+
 <dt>initializer</dt>
 <dd><p>the method of initialization. One of, optimal_init,
 quantile_init, kmeans++ and random. See details for more information</p></dd>
+
+
 <dt>fuzzy</dt>
 <dd><p>either TRUE or FALSE. If TRUE, then prediction probabilities
 will be calculated using the distance between observations and centroids</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>either TRUE or FALSE, indicating whether progress is printed
 during clustering.</p></dd>
+
+
 <dt>CENTROIDS</dt>
 <dd><p>a matrix of initial cluster centroids. The rows of the
 CENTROIDS matrix should be equal to the number of clusters and the columns
 should be equal to the columns of the data.</p></dd>
+
+
 <dt>tol</dt>
 <dd><p>a float number. If, in case of an iteration (iteration &gt; 1 and
 iteration &lt; max_iters) 'tol' is greater than the squared norm of the
 centroids, then kmeans has converged</p></dd>
+
+
 <dt>tol_optimal_init</dt>
 <dd><p>tolerance value for the 'optimal_init' initializer.
 The higher this value is, the far appart from each other the centroids are.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>integer value for random number generator (RNG)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>keras</code> model object.</p>
+    
+
+<p>A <code>keras</code> model object.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -121,7 +144,7 @@ The higher this value is, the far appart from each other the centroids are.</p><
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
