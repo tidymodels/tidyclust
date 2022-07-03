@@ -73,7 +73,34 @@ within_cluster_sse <- function(object, new_data = NULL,
 #' kmeans_fit %>%
 #'   tot_wss()
 #' @export
-tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+tot_wss <- function(object, ...) {
+  UseMethod("tot_wss")
+}
+
+tot_wss <- new_cluster_metric(tot_wss)
+
+#' @export
+#' @rdname tot_wss
+tot_wss.cluster_fit <- function(object, new_data = NULL,
+                                dist_fun = Rfast::dista, ...) {
+  res <- tot_wss_impl(object, new_data, dist_fun, ...)
+
+  tibble::tibble(
+    .metric = "tot_wss",
+    .estimator = "standard",
+    .estimate = res
+  )
+}
+
+#' @export
+#' @rdname tot_wss
+tot_wss_vec <- function(object, new_data = NULL,
+                                dist_fun = Rfast::dista, ...) {
+  tot_wss_impl(object, new_data, dist_fun, ...)
+}
+
+tot_wss_impl <- function(object, new_data = NULL,
+                                dist_fun = Rfast::dista, ...) {
   sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 }
 
@@ -135,5 +162,5 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'   sse_ratio()
 #' @export
 sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
-  tot_wss(object, new_data, dist_fun) / tot_sse(object, new_data, dist_fun)
+  tot_wss_vec(object, new_data, dist_fun) / tot_sse(object, new_data, dist_fun)
 }

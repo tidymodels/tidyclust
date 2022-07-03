@@ -10,7 +10,7 @@ test_that("tune recipe only", {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   res <- tune_cluster(
     wflow,
@@ -28,7 +28,7 @@ test_that("tune recipe only", {
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
-  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss_vec"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(num_comp, expr(tune())))
   expect_true(res_workflow$trained)
@@ -45,7 +45,7 @@ test_that("tune model only (with recipe)", {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   res <- tune_cluster(
     wflow,
@@ -64,7 +64,7 @@ test_that("tune model only (with recipe)", {
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
-  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss_vec"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(k, expr(tune())))
   expect_true(res_workflow$trained)
@@ -84,7 +84,7 @@ test_that("tune model only (with variables)", {
 
   folds <- rsample::vfold_cv(mtcars)
 
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
@@ -94,7 +94,7 @@ test_that("tune model only (with variables)", {
 
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
-  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss_vec"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
 
@@ -110,7 +110,7 @@ test_that("tune model and recipe", {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   res <- tune_cluster(
     wflow,
@@ -136,7 +136,7 @@ test_that("tune model and recipe", {
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
-  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss_vec"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(k, expr(tune())))
   expect_false(identical(num_comp, expr(tune())))
@@ -155,7 +155,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity, parallel_over = "everything")
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   res <- tune_cluster(
     wflow,
@@ -173,7 +173,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
-  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss_vec"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
 
@@ -198,7 +198,7 @@ test_that("tune recipe only - failure in recipe is caught elegantly", {
     extract = function(x) 1L
   )
 
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
 
   suppressMessages({
     cars_res <- tune_cluster(
@@ -402,7 +402,7 @@ test_that("retain extra attributes", {
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
-  metrics <- list(tot_wss = tot_wss, tot_sse = tot_sse)
+  metrics <- list(tot_wss_vec = tot_wss_vec, tot_sse = tot_sse)
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
   att <- attributes(res)

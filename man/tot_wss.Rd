@@ -2,19 +2,25 @@
 % Please edit documentation in R/metric-sse.R
 \name{tot_wss}
 \alias{tot_wss}
+\alias{tot_wss.cluster_fit}
+\alias{tot_wss_vec}
 \title{Compute the sum of within-cluster SSE}
 \usage{
-tot_wss(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+tot_wss(object, ...)
+
+\method{tot_wss}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+
+tot_wss_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}
+
+\item{...}{Other arguments passed to methods.}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
 \item{dist_fun}{A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.}
-
-\item{...}{Other arguments passed to methods.}
 }
 \description{
 Compute the sum of within-cluster SSE
