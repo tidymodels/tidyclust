@@ -219,4 +219,8 @@ detect_index <- function(.x, .f, ..., .right = FALSE, .p = is_true) {
   idx
 }
 
+imap_dfr <- function(.x, .f, ..., .id = NULL) {
+  res <- map2(.x, names(.x) %||% seq_along(.x), .f, ...)
+  dplyr::bind_rows(res, .id = .id)
+}
 # nocov end

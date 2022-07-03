@@ -41,10 +41,11 @@ within_cluster_sse <- function(object, new_data = NULL,
 
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
-      purrr::map_dfr(~ c(
+      map(~ c(
         .cluster = which.min(.x),
         dist = min(.x)^2
       )) %>%
+      dplyr::bind_rows() %>%
       dplyr::mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%

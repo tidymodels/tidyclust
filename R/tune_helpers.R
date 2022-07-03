@@ -4,12 +4,12 @@ new_bare_tibble <- function(x, ..., class = character()) {
 }
 
 is_cataclysmic <- function(x) {
-  is_err <- purrr::map_lgl(x$.metrics, inherits, c(
+  is_err <- map_lgl(x$.metrics, inherits, c(
     "simpleError",
     "error"
   ))
   if (any(!is_err)) {
-    is_good <- purrr::map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
+    is_good <- map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
       nrow(.x) > 0)
     is_err[!is_err] <- !is_good
   }
@@ -183,7 +183,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = purrr::map(1:nrow(grid), ~ list())
+      .submodels = map(1:nrow(grid), ~ list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -293,7 +293,7 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
   control2$verbose <- TRUE
   wrn <- res$signals
   if (length(wrn) > 0) {
-    wrn_msg <- purrr::map_chr(wrn, ~ .x$message)
+    wrn_msg <- map_chr(wrn, ~ .x$message)
     wrn_msg <- unique(wrn_msg)
     wrn_msg <- paste(wrn_msg, collapse = ", ")
     wrn_msg <- tibble::tibble(
@@ -350,24 +350,24 @@ merger <- function(x, y, ...) {
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
-    res <- tibble::tibble(x = purrr::map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(1:nrow(y), ~x))
     return(res)
   }
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
     updater <- update_recipe
-    step_ids <- purrr::map_chr(x$steps, ~ .x$id)
+    step_ids <- map_chr(x$steps, ~ .x$id)
   } else {
     updater <- update_model
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
-    res <- tibble::tibble(x = purrr::map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(1:nrow(y), ~x))
     return(res)
   }
   y %>%
     dplyr::mutate(
-      ..object = purrr::map(
+      ..object = map(
         1:nrow(y),
         ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
@@ -620,7 +620,7 @@ append_metrics <- function(workflow,
     dplyr::select(dplyr::all_of(param_names)) %>%
     dplyr::distinct()
 
-  tmp_est <- purrr::imap_dfr(metrics,
+  tmp_est <- imap_dfr(metrics,
     ~ list(.estimate = .x(workflow)),
     .id = ".metric"
   ) %>%
@@ -695,11 +695,11 @@ slice_seeds <- function(x, i, n) {
 
 iter_combine <- function(...) {
   results <- list(...)
-  metrics <- purrr::map(results, ~ .x[[".metrics"]])
-  extracts <- purrr::map(results, ~ .x[[".extracts"]])
-  predictions <- purrr::map(results, ~ .x[[".predictions"]])
-  all_outcome_names <- purrr::map(results, ~ .x[[".all_outcome_names"]])
-  notes <- purrr::map(results, ~ .x[[".notes"]])
+  metrics <- map(results, ~ .x[[".metrics"]])
+  extracts <- map(results, ~ .x[[".extracts"]])
+  predictions <- map(results, ~ .x[[".predictions"]])
+  all_outcome_names <- map(results, ~ .x[[".all_outcome_names"]])
+  notes <- map(results, ~ .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
