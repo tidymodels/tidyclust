@@ -19,18 +19,42 @@ test_that("kmeans sse metrics work", {
     tolerance = 0.005
   )
 
-  expect_equal(tot_wss(kmeans_fit_stats)$.estimate, km_orig$tot.withinss, tolerance = 0.005)
-  expect_equal(tot_sse(kmeans_fit_stats)$.estimate, km_orig$totss, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_stats)$.estimate, km_orig$tot.withinss / km_orig$totss, tolerance = 0.005)
+  expect_equal(
+    tot_wss_vec(kmeans_fit_stats),
+    km_orig$tot.withinss,
+    tolerance = 0.005
+  )
+  expect_equal(
+    tot_sse_vec(kmeans_fit_stats),
+    km_orig$totss,
+    tolerance = 0.005
+  )
+  expect_equal(
+    sse_ratio_vec(kmeans_fit_stats),
+    km_orig$tot.withinss / km_orig$totss,
+    tolerance = 0.005
+  )
 
   expect_equal(within_cluster_sse(kmeans_fit_ClusterR)$wss,
     c(56041.432, 4665.041, 42877.103), # hard coded because of order
     tolerance = 0.005
   )
 
-  expect_equal(tot_wss(kmeans_fit_ClusterR)$.estimate, sum(km_orig_2$WCSS_per_cluster), tolerance = 0.005)
-  expect_equal(tot_sse(kmeans_fit_ClusterR)$.estimate, tot_sse(kmeans_fit_stats)$.estimate, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_ClusterR)$.estimate, 0.1661624, tolerance = 0.005)
+  expect_equal(
+    tot_wss_vec(kmeans_fit_ClusterR),
+    sum(km_orig_2$WCSS_per_cluster),
+    tolerance = 0.005
+  )
+  expect_equal(
+    tot_sse_vec(kmeans_fit_ClusterR),
+    tot_sse_vec(kmeans_fit_stats),
+    tolerance = 0.005
+  )
+  expect_equal(
+    sse_ratio_vec(kmeans_fit_ClusterR),
+    0.1661624,
+    tolerance = 0.005
+  )
 })
 
 test_that("kmeans sse metrics work on new data", {
@@ -45,9 +69,21 @@ test_that("kmeans sse metrics work on new data", {
     tolerance = 0.005
   )
 
-  expect_equal(tot_wss(kmeans_fit_stats, new_data)$.estimate, 15654.38, tolerance = 0.005)
-  expect_equal(tot_sse(kmeans_fit_stats, new_data)$.estimate, 32763.7, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_stats, new_data)$.estimate, 15654.38 / 32763.7, tolerance = 0.005)
+  expect_equal(
+    tot_wss_vec(kmeans_fit_stats, new_data),
+    15654.38,
+    tolerance = 0.005
+  )
+  expect_equal(
+    tot_sse_vec(kmeans_fit_stats, new_data),
+    32763.7,
+    tolerance = 0.005
+  )
+  expect_equal(
+    sse_ratio_vec(kmeans_fit_stats, new_data),
+    15654.38 / 32763.7,
+    tolerance = 0.005
+  )
 })
 
 test_that("kmeans sihouette metrics work", {
@@ -70,10 +106,14 @@ test_that("kmeans sihouette metrics work", {
     names(silhouettes(kmeans_fit_ClusterR, dists = dists))
   )
 
-  expect_equal(avg_silhouette(kmeans_fit_stats, dists = dists)$.estimate, 0.4993742,
+  expect_equal(
+    avg_silhouette_vec(kmeans_fit_stats, dists = dists),
+    0.4993742,
     tolerance = 0.005
   )
-  expect_equal(avg_silhouette(kmeans_fit_ClusterR, dists = dists)$.estimate, 0.5473414,
+  expect_equal(
+    avg_silhouette_vec(kmeans_fit_ClusterR, dists = dists),
+    0.5473414,
     tolerance = 0.005
   )
 })
@@ -94,10 +134,14 @@ test_that("kmeans sihouette metrics work with new data", {
     names(silhouettes(kmeans_fit_ClusterR, new_data = new_data))
   )
 
-  expect_equal(avg_silhouette(kmeans_fit_stats, new_data = new_data)$.estimate, 0.5176315,
+  expect_equal(
+    avg_silhouette_vec(kmeans_fit_stats, new_data = new_data),
+    0.5176315,
     tolerance = 0.005
   )
-  expect_equal(avg_silhouette(kmeans_fit_ClusterR, new_data = new_data)$.estimate, 0.5176315,
+  expect_equal(
+    avg_silhouette_vec(kmeans_fit_ClusterR, new_data = new_data),
+    0.5176315,
     tolerance = 0.005
   )
 })
