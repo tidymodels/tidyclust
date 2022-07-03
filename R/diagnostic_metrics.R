@@ -19,8 +19,6 @@
 #' kmeans_fit %>%
 #'   within_cluster_sse()
 #'
-#' @import dplyr
-#'
 #' @export
 within_cluster_sse <- function(object, new_data = NULL,
                                dist_fun = Rfast::dista) {
@@ -49,16 +47,15 @@ within_cluster_sse <- function(object, new_data = NULL,
         .cluster = which.min(.x),
         dist = min(.x)^2
       )) %>%
-      mutate(
+      dplyr::mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
-      group_by(.cluster) %>%
-      summarize(wss = sum(dist))
+      dplyr::group_by(.cluster) %>%
+      dplyr::summarize(wss = sum(dist))
   }
 
   return(res)
 }
-
 
 #' Compute the sum of within-cluster SSE
 #'
@@ -317,8 +314,6 @@ prep_data_dist <- function(object, new_data = NULL,
     dists = dists
   ))
 }
-
-
 
 #' Computes distance from observations to centroids
 #'

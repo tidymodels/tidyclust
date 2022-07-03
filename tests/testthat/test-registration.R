@@ -11,12 +11,12 @@ test_that("adding a new model", {
 
   expect_identical(
     get_from_env_tidyclust("sponge"),
-    tibble(engine = character(0), mode = character(0))
+    tibble::tibble(engine = character(0), mode = character(0))
   )
 
   expect_identical(
     get_from_env_tidyclust("sponge_pkgs"),
-    tibble(engine = character(0), pkg = list(), mode = character(0))
+    tibble::tibble(engine = character(0), pkg = list(), mode = character(0))
   )
 
   expect_identical(
@@ -34,12 +34,12 @@ test_that("adding a new model", {
 
   expect_identical(
     get_from_env_tidyclust("sponge_fit"),
-    tibble(engine = character(0), mode = character(0), value = vector("list"))
+    tibble::tibble(engine = character(0), mode = character(0), value = vector("list"))
   )
 
   expect_identical(
     get_from_env_tidyclust("sponge_predict"),
-    tibble(
+    tibble::tibble(
       engine = character(0), mode = character(0),
       type = character(0), value = vector("list")
     )
@@ -63,7 +63,7 @@ test_that("adding a new engine", {
 
   expect_identical(
     get_from_env_tidyclust("sponge"),
-    tibble(engine = "gum", mode = "partition")
+    tibble::tibble(engine = "gum", mode = "partition")
   )
 
   expect_equal(get_from_env_tidyclust("sponge_modes"), c("unknown", "partition"))
@@ -93,13 +93,13 @@ test_that("adding a new package", {
 
   expect_identical(
     get_from_env_tidyclust("sponge_pkgs"),
-    tibble(engine = "gum", pkg = list("trident"), mode = "partition")
+    tibble::tibble(engine = "gum", pkg = list("trident"), mode = "partition")
   )
 
   set_dependency_tidyclust("sponge", "gum", "juicy-fruit", mode = "partition")
   expect_identical(
     get_from_env_tidyclust("sponge_pkgs"),
-    tibble(
+    tibble::tibble(
       engine = "gum",
       pkg = list(c("trident", "juicy-fruit")),
       mode = "partition"
@@ -108,7 +108,7 @@ test_that("adding a new package", {
 
   expect_identical(
     get_dependency_tidyclust("sponge"),
-    tibble(
+    tibble::tibble(
       engine = "gum",
       pkg = list(c("trident", "juicy-fruit")),
       mode = "partition"
@@ -140,7 +140,7 @@ test_that("adding a new argument", {
 
   expect_identical(
     get_from_env_tidyclust("sponge_args"),
-    tibble(
+    tibble::tibble(
       engine = "gum", tidyclust = "modeling", original = "modelling",
       func = list(list(pkg = "foo", fun = "bar")),
       has_submodel = FALSE
@@ -272,7 +272,7 @@ test_that("adding a new fit", {
   fit_env_data <- get_from_env_tidyclust("sponge_fit")
   expect_identical(
     fit_env_data[1:2],
-    tibble(engine = "gum", mode = "partition")
+    tibble::tibble(engine = "gum", mode = "partition")
   )
 
   expect_equal(
@@ -372,7 +372,7 @@ test_that("adding a new fit", {
 
   expect_identical(
     get_fit_tidyclust("sponge")[, 1:2],
-    tibble(engine = "gum", mode = "partition")
+    tibble::tibble(engine = "gum", mode = "partition")
   )
 
   expect_equal(
@@ -401,7 +401,7 @@ test_that("adding a new predict method", {
   pred_env_data <- get_from_env_tidyclust("sponge_predict")
   expect_identical(
     pred_env_data[1:3],
-    tibble(engine = "gum", mode = "partition", type = "cluster")
+    tibble::tibble(engine = "gum", mode = "partition", type = "cluster")
   )
 
   expect_equal(
@@ -411,7 +411,7 @@ test_that("adding a new predict method", {
 
   expect_identical(
     get_pred_type_tidyclust("sponge", "cluster")[1:3],
-    tibble(engine = "gum", mode = "partition", type = "cluster")
+    tibble::tibble(engine = "gum", mode = "partition", type = "cluster")
   )
 
   expect_equal(

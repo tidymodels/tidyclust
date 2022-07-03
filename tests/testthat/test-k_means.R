@@ -4,8 +4,8 @@ test_that("primary arguments", {
   expect_equal(
     basic_stats$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg())
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg())
     )
   )
 
@@ -14,8 +14,8 @@ test_that("primary arguments", {
   expect_equal(
     k_stats$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg()),
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg()),
       centers = new_empty_quosure(15)
     )
   )
@@ -29,8 +29,8 @@ test_that("engine arguments", {
         set_engine_tidyclust("stats", nstart = 1L)
     )$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg()),
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg()),
       nstart = new_empty_quosure(1L)
     )
   )
