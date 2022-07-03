@@ -33,7 +33,7 @@ eval_call_info <- function(x) {
     }
     res <- try(rlang::eval_tidy(rlang::call2(x$fun, .ns = x$pkg, !!!opts)), silent = TRUE)
     if (inherits(res, "try-error")) {
-      stop(paste0("Error when calling ", x$fun, "(): ", as.character(res)))
+      abort(paste0("Error when calling ", x$fun, "(): ", as.character(res)))
     }
   } else {
     res <- NA
