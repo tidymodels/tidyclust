@@ -132,15 +132,10 @@ validate_function_class <- function(fns) {
 }
 
 make_cluster_metric_function <- function(fns) {
-  metric_function <- function(data, truth, estimate, na_rm = TRUE,
-                              case_weights = NULL, ...) {
+  metric_function <- function(object, new_data = NULL) {
     call_args <- quos(
-      data = data,
-      truth = !!enquo(truth),
-      estimate = !!enquo(estimate),
-      na_rm = na_rm,
-      case_weights = !!enquo(case_weights),
-      ... = ...
+      object = object,
+      new_data = new_data
     )
     calls <- lapply(fns, rlang::call2, !!!call_args)
     metric_list <- mapply(FUN = eval_safely, calls, names(calls),

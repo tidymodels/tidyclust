@@ -72,7 +72,11 @@ avg_silhouette <- new_cluster_metric(avg_silhouette)
 #' @export
 #' @rdname avg_silhouette
 avg_silhouette.cluster_fit <- function(object, new_data = NULL, dists = NULL,
-                                        dist_fun = Rfast::Dist, ...) {
+                                       dist_fun = NULL, ...) {
+  if (is.null(dist_fun)) {
+    dist_fun <- Rfast::Dist
+  }
+
   res <- avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
 
   tibble::tibble(

@@ -8,13 +8,7 @@
 \usage{
 avg_silhouette(object, ...)
 
-\method{avg_silhouette}{cluster_fit}(
-  object,
-  new_data = NULL,
-  dists = NULL,
-  dist_fun = Rfast::Dist,
-  ...
-)
+\method{avg_silhouette}{cluster_fit}(object, new_data = NULL, dists = NULL, dist_fun = NULL, ...)
 
 avg_silhouette_vec(
   object,

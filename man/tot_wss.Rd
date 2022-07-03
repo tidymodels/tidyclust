@@ -8,7 +8,7 @@
 \usage{
 tot_wss(object, ...)
 
-\method{tot_wss}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+\method{tot_wss}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 
 tot_wss_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }

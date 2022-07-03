@@ -85,7 +85,12 @@ tot_wss <- new_cluster_metric(tot_wss)
 #' @export
 #' @rdname tot_wss
 tot_wss.cluster_fit <- function(object, new_data = NULL,
-                                dist_fun = Rfast::dista, ...) {
+                                dist_fun = NULL, ...) {
+
+  if (is.null(dist_fun)) {
+    dist_fun <- Rfast::dista
+  }
+
   res <- tot_wss_impl(object, new_data, dist_fun, ...)
 
   tibble::tibble(
@@ -137,7 +142,11 @@ tot_sse <- new_cluster_metric(tot_sse)
 #' @export
 #' @rdname tot_sse
 tot_sse.cluster_fit <- function(object, new_data = NULL,
-                                dist_fun = Rfast::dista, ...) {
+                                dist_fun = NULL, ...) {
+  if (is.null(dist_fun)) {
+    dist_fun <- Rfast::dista
+  }
+
   res <- tot_sse_impl(object, new_data, dist_fun, ...)
 
   tibble::tibble(
@@ -199,7 +208,10 @@ sse_ratio <- new_cluster_metric(sse_ratio)
 #' @export
 #' @rdname sse_ratio
 sse_ratio.cluster_fit <- function(object, new_data = NULL,
-                                dist_fun = Rfast::dista, ...) {
+                                dist_fun = NULL, ...) {
+  if (is.null(dist_fun)) {
+    dist_fun <- Rfast::dista
+  }
   res <- sse_ratio_impl(object, new_data, dist_fun, ...)
 
   tibble::tibble(

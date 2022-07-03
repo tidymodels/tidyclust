@@ -8,7 +8,7 @@
 \usage{
 tot_sse(object, ...)
 
-\method{tot_sse}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+\method{tot_sse}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 
 tot_sse_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }

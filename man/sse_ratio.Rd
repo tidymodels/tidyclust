@@ -8,7 +8,7 @@
 \usage{
 sse_ratio(object, ...)
 
-\method{sse_ratio}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+\method{sse_ratio}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 
 sse_ratio_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
