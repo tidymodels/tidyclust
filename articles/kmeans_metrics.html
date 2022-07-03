@@ -105,7 +105,7 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">parsnip</span>::<span style="color: #00BB00;">prepare_data()</span> masks <span style="color: #0000BB;">tidyclust</span>::prepare_data()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>       masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>         masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Dig deeper into tidy modeling with R at <span style="color: #00BB00;">https://www.tmwr.org</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -124,9 +124,9 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster  bill_length_mm bill_depth_mm</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Cluster_1           45.5          15.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2           50.9          17.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3           38.4          18.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Cluster_1           50.9          17.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2           38.4          18.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3           45.5          15.7</span></span>
 <span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $cluster_names</span></span>
 <span><span class="co">#&gt; [1] "Cluster_1" "Cluster_2" "Cluster_3"</span></span>
@@ -135,29 +135,29 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   bill_length_mm bill_depth_mm</span></span>
 <span><span class="co">#&gt;            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           45.5          15.7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>           50.9          17.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>           38.4          18.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>           50.9          17.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>           38.4          18.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>           45.5          15.7</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $n_members</span></span>
-<span><span class="co">#&gt; [1] 112  85 136</span></span>
+<span><span class="co">#&gt; [1]  85 136 112</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $within_sse</span></span>
-<span><span class="co">#&gt; [1] 742.0970 617.9859 904.9838</span></span>
+<span><span class="co">#&gt; [1] 617.9859 904.9838 742.0970</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $tot_sse</span></span>
 <span><span class="co">#&gt; [1] 11216.36</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $orig_labels</span></span>
-<span><span class="co">#&gt;   [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
-<span><span class="co">#&gt;  [38] 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 2 2 2 2</span></span>
-<span><span class="co">#&gt;  [75] 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 2 2 2 2 2 2 2 2 3 2 3 2 2 2 3 2</span></span>
-<span><span class="co">#&gt; [112] 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 1</span></span>
-<span><span class="co">#&gt; [149] 3 1 3 3 3 3 3 3 3 1 3 3 3 1 3 1 3 1 1 3 3 3 3 3 3 3 1 3 3 3 1 1 1 3 3 3 1</span></span>
-<span><span class="co">#&gt; [186] 3 1 3 1 1 3 3 1 3 3 3 3 3 1 3 3 3 3 3 1 3 3 3 1 3 1 1 3 1 3 3 3 3 3 1 3 1</span></span>
-<span><span class="co">#&gt; [223] 3 3 1 1 3 1 3 1 3 1 3 1 3 1 3 1 3 1 1 3 3 1 3 1 3 1 3 3 1 3 3 1 1 3 1 3 1</span></span>
-<span><span class="co">#&gt; [260] 1 3 3 1 3 1 3 1 1 3 1 3 3 1 3 1 3 1 3 1 3 1 1 1 3 1 3 1 3 1 3 1 1 1 3 1 2</span></span>
-<span><span class="co">#&gt; [297] 1 3 1 1 3 3 1 3 1 1 3 1 3 1 1 1 1 1 1 3 1 3 1 3 1 3 1 1 3 1 3 3 1 3 1 1 1</span></span>
+<span><span class="co">#&gt;   [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3</span></span>
+<span><span class="co">#&gt;  [38] 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 3 1 3 3 3 3</span></span>
+<span><span class="co">#&gt;  [75] 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 3 3 3 3 3 3 3 3 3 1 3 1 3 3 3 1 3</span></span>
+<span><span class="co">#&gt; [112] 3 3 3 3 3 3 3 3 3 3 3 3 1 3 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2</span></span>
+<span><span class="co">#&gt; [149] 1 2 1 1 1 1 1 1 1 2 1 1 1 2 1 2 1 2 2 1 1 1 1 1 1 1 2 1 1 1 2 2 2 1 1 1 2</span></span>
+<span><span class="co">#&gt; [186] 1 2 1 2 2 1 1 2 1 1 1 1 1 2 1 1 1 1 1 2 1 1 1 2 1 2 2 1 2 1 1 1 1 1 2 1 2</span></span>
+<span><span class="co">#&gt; [223] 1 1 2 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 2 1 1 2 1 2 1 2 1 1 2 1 1 2 2 1 2 1 2</span></span>
+<span><span class="co">#&gt; [260] 2 1 1 2 1 2 1 2 2 1 2 1 1 2 1 2 1 2 1 2 1 2 2 2 1 2 1 2 1 2 1 2 2 2 1 2 3</span></span>
+<span><span class="co">#&gt; [297] 2 1 2 2 1 1 2 1 2 2 1 2 1 2 2 2 2 2 2 1 2 1 2 1 2 1 2 2 1 2 1 1 2 1 2 2 2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $cluster_assignments</span></span>
 <span><span class="co">#&gt;   [1] "Cluster_1" "Cluster_1" "Cluster_1" "Cluster_1" "Cluster_1" "Cluster_1"</span></span>
@@ -225,9 +225,9 @@
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   .cluster    wss</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Cluster_1  742.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2  618.</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3  905.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Cluster_1  618.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2  905.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3  742.</span></span>
 <span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/tot_wss.html">tot_wss</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric .estimator .estimate</span></span>
@@ -337,10 +337,6 @@
 <span>  <span class="va">results_species</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">results_species</span>, <span class="va">res</span><span class="op">)</span></span>
 <span></span>
 <span><span class="op">}</span></span>
-<span><span class="co">#&gt; Warning in stats::chisq.test(.): Chi-squared approximation may be incorrect</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in stats::chisq.test(.): Chi-squared approximation may be incorrect</span></span>
-<span></span>
 <span><span class="co">#&gt; Warning in stats::chisq.test(.): Chi-squared approximation may be incorrect</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">results_species</span><span class="op">)</span></span></code></pre></div>
