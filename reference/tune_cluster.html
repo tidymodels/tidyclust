@@ -61,30 +61,30 @@ recipe across one or more resamples of the data.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tune_cluster</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for cluster_spec</span>
-<span class="fu">tune_cluster</span><span class="op">(</span>
-  <span class="va">object</span>,
-  <span class="va">preprocessor</span>,
-  <span class="va">resamples</span>,
-  <span class="va">...</span>,
-  param_info <span class="op">=</span> <span class="cn">NULL</span>,
-  grid <span class="op">=</span> <span class="fl">10</span>,
-  metrics <span class="op">=</span> <span class="cn">NULL</span>,
-  control <span class="op">=</span> <span class="fu"><a href="control_tidyclust.html">control_tidyclust</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for workflow</span>
-<span class="fu">tune_cluster</span><span class="op">(</span>
-  <span class="va">object</span>,
-  <span class="va">resamples</span>,
-  <span class="va">...</span>,
-  param_info <span class="op">=</span> <span class="cn">NULL</span>,
-  grid <span class="op">=</span> <span class="fl">10</span>,
-  metrics <span class="op">=</span> <span class="cn">NULL</span>,
-  control <span class="op">=</span> <span class="fu">tune</span><span class="fu">::</span><span class="fu"><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tune_cluster</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for cluster_spec</span></span>
+<span><span class="fu">tune_cluster</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">preprocessor</span>,</span>
+<span>  <span class="va">resamples</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  param_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grid <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  metrics <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="control_tidyclust.html">control_tidyclust</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for workflow</span></span>
+<span><span class="fu">tune_cluster</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  <span class="va">resamples</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  param_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grid <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  metrics <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">tune</span><span class="fu">::</span><span class="fu"><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -139,7 +139,7 @@ execution.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fl">1</span> <span class="op">+</span> <span class="fl">1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 </code></pre></div>
     </div>
@@ -152,7 +152,7 @@ execution.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

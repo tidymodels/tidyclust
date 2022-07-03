@@ -74,8 +74,8 @@
 </h2>
 <p>You can install the development version of tidyclust from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EmilHvitfeldt/tidyclust"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EmilHvitfeldt/tidyclust"</span><span class="op">)</span></span></code></pre></div>
 <p>Please note that this package currently requires a <a href="https://github.com/tidymodels/workflows/tree/tidyclust" class="external-link">branch of the workflows</a> package to work. Use with caution.</p>
 </div>
 <div class="section level2">
@@ -83,99 +83,99 @@
 </h2>
 <p>The first thing you do is to create a <code>cluster specification</code>. For this example we are creating a K-means model, using the <code>stats</code> engine.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/tidyclust" class="external-link">tidyclust</a></span><span class="op">)</span>
-
-<span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/k_means.html">k_means</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="reference/set_engine_tidyclust.html">set_engine_tidyclust</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span> 
-
-<span class="va">kmeans_spec</span>
-<span class="co">#&gt; K Means Cluster Specification (partition)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Main Arguments:</span>
-<span class="co">#&gt;   k = 3</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Computational engine: stats</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/tidyclust" class="external-link">tidyclust</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/k_means.html">k_means</a></span><span class="op">(</span>k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="reference/set_engine_tidyclust.html">set_engine_tidyclust</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">kmeans_spec</span></span>
+<span><span class="co">#&gt; K Means Cluster Specification (partition)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Main Arguments:</span></span>
+<span><span class="co">#&gt;   k = 3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Computational engine: stats</span></span></code></pre></div>
 <p>This specification can then be fit using data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">kmeans_spec_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
-<span class="va">kmeans_spec_fit</span>
-<span class="co">#&gt; tidyclust cluster object</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; K-means clustering with 3 clusters of sizes 7, 16, 9</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Cluster means:</span>
-<span class="co">#&gt;        mpg      cyl     disp       hp     drat       wt     qsec        vs</span>
-<span class="co">#&gt; 1 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143</span>
-<span class="co">#&gt; 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000</span>
-<span class="co">#&gt; 3 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000</span>
-<span class="co">#&gt;          am     gear     carb</span>
-<span class="co">#&gt; 1 0.0000000 3.000000 2.142857</span>
-<span class="co">#&gt; 2 0.6875000 4.125000 2.437500</span>
-<span class="co">#&gt; 3 0.2222222 3.444444 4.000000</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Clustering vector:</span>
-<span class="co">#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span>
-<span class="co">#&gt;                   2                   2                   2                   1 </span>
-<span class="co">#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span>
-<span class="co">#&gt;                   3                   1                   3                   2 </span>
-<span class="co">#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE </span>
-<span class="co">#&gt;                   2                   2                   2                   1 </span>
-<span class="co">#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span>
-<span class="co">#&gt;                   1                   1                   3                   3 </span>
-<span class="co">#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span>
-<span class="co">#&gt;                   3                   2                   2                   2 </span>
-<span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
-<span class="co">#&gt;                   2                   1                   1                   3 </span>
-<span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span>
-<span class="co">#&gt;                   3                   2                   2                   2 </span>
-<span class="co">#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span>
-<span class="co">#&gt;                   3                   2                   3                   2 </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Within cluster sum of squares by cluster:</span>
-<span class="co">#&gt; [1] 11846.09 32838.00 46659.32</span>
-<span class="co">#&gt;  (between_SS / total_SS =  85.3 %)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Available components:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"</span>
-<span class="co">#&gt; [6] "betweenss"    "size"         "iter"         "ifault"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">kmeans_spec_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span>
+<span><span class="va">kmeans_spec_fit</span></span>
+<span><span class="co">#&gt; tidyclust cluster object</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 7, 16, 9</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Cluster means:</span></span>
+<span><span class="co">#&gt;        mpg      cyl     disp       hp     drat       wt     qsec        vs</span></span>
+<span><span class="co">#&gt; 1 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143</span></span>
+<span><span class="co">#&gt; 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000</span></span>
+<span><span class="co">#&gt; 3 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000</span></span>
+<span><span class="co">#&gt;          am     gear     carb</span></span>
+<span><span class="co">#&gt; 1 0.0000000 3.000000 2.142857</span></span>
+<span><span class="co">#&gt; 2 0.6875000 4.125000 2.437500</span></span>
+<span><span class="co">#&gt; 3 0.2222222 3.444444 4.000000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Clustering vector:</span></span>
+<span><span class="co">#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span></span>
+<span><span class="co">#&gt;                   2                   2                   2                   1 </span></span>
+<span><span class="co">#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span></span>
+<span><span class="co">#&gt;                   3                   1                   3                   2 </span></span>
+<span><span class="co">#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE </span></span>
+<span><span class="co">#&gt;                   2                   2                   2                   1 </span></span>
+<span><span class="co">#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span></span>
+<span><span class="co">#&gt;                   1                   1                   3                   3 </span></span>
+<span><span class="co">#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span></span>
+<span><span class="co">#&gt;                   3                   2                   2                   2 </span></span>
+<span><span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span></span>
+<span><span class="co">#&gt;                   2                   1                   1                   3 </span></span>
+<span><span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span></span>
+<span><span class="co">#&gt;                   3                   2                   2                   2 </span></span>
+<span><span class="co">#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span></span>
+<span><span class="co">#&gt;                   3                   2                   3                   2 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Within cluster sum of squares by cluster:</span></span>
+<span><span class="co">#&gt; [1] 11846.09 32838.00 46659.32</span></span>
+<span><span class="co">#&gt;  (between_SS / total_SS =  85.3 %)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Available components:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"</span></span>
+<span><span class="co">#&gt; [6] "betweenss"    "size"         "iter"         "ifault"</span></span></code></pre></div>
 <p>Once you have a fitted tidyclust object, you can do a number of things. <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> returns the cluster a new observation belongs to</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 × 1</span>
-<span class="co">#&gt;   .pred_cluster</span>
-<span class="co">#&gt;   &lt;fct&gt;        </span>
-<span class="co">#&gt; 1 Cluster_1    </span>
-<span class="co">#&gt; 2 Cluster_1    </span>
-<span class="co">#&gt; 3 Cluster_1    </span>
-<span class="co">#&gt; 4 Cluster_2</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 1</span></span>
+<span><span class="co">#&gt;   .pred_cluster</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt;        </span></span>
+<span><span class="co">#&gt; 1 Cluster_1    </span></span>
+<span><span class="co">#&gt; 2 Cluster_1    </span></span>
+<span><span class="co">#&gt; 3 Cluster_1    </span></span>
+<span><span class="co">#&gt; 4 Cluster_2</span></span></code></pre></div>
 <p><code><a href="reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> returns the cluster assignments of the training observations</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 32 × 1</span>
-<span class="co">#&gt;    .cluster </span>
-<span class="co">#&gt;    &lt;fct&gt;    </span>
-<span class="co">#&gt;  1 Cluster_1</span>
-<span class="co">#&gt;  2 Cluster_1</span>
-<span class="co">#&gt;  3 Cluster_1</span>
-<span class="co">#&gt;  4 Cluster_2</span>
-<span class="co">#&gt;  5 Cluster_3</span>
-<span class="co">#&gt;  6 Cluster_2</span>
-<span class="co">#&gt;  7 Cluster_3</span>
-<span class="co">#&gt;  8 Cluster_1</span>
-<span class="co">#&gt;  9 Cluster_1</span>
-<span class="co">#&gt; 10 Cluster_1</span>
-<span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 32 × 1</span></span>
+<span><span class="co">#&gt;    .cluster </span></span>
+<span><span class="co">#&gt;    &lt;fct&gt;    </span></span>
+<span><span class="co">#&gt;  1 Cluster_1</span></span>
+<span><span class="co">#&gt;  2 Cluster_1</span></span>
+<span><span class="co">#&gt;  3 Cluster_1</span></span>
+<span><span class="co">#&gt;  4 Cluster_2</span></span>
+<span><span class="co">#&gt;  5 Cluster_3</span></span>
+<span><span class="co">#&gt;  6 Cluster_2</span></span>
+<span><span class="co">#&gt;  7 Cluster_3</span></span>
+<span><span class="co">#&gt;  8 Cluster_1</span></span>
+<span><span class="co">#&gt;  9 Cluster_1</span></span>
+<span><span class="co">#&gt; 10 Cluster_1</span></span>
+<span><span class="co">#&gt; # … with 22 more rows</span></span></code></pre></div>
 <p>and <code>extract_clusters()</code> returns the locations of the clusters</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 3 × 12</span>
-<span class="co">#&gt;   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span>
-<span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Cluster_1  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44</span>
-<span class="co">#&gt; 2 Cluster_2  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14</span>
-<span class="co">#&gt; 3 Cluster_3  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 12</span></span>
+<span><span class="co">#&gt;   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 Cluster_1  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44</span></span>
+<span><span class="co">#&gt; 2 Cluster_2  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14</span></span>
+<span><span class="co">#&gt; 3 Cluster_3  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -236,7 +236,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer>
