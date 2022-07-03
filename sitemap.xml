@@ -43,6 +43,9 @@
     <loc>/reference/check_empty_ellipse_tidyclust.html</loc>
   </url>
   <url>
+    <loc>/reference/cluster_metric_set.html</loc>
+  </url>
+  <url>
     <loc>/reference/control_tidyclust.html</loc>
   </url>
   <url>
@@ -83,6 +86,9 @@
   </url>
   <url>
     <loc>/reference/make_classes_tidyclust.html</loc>
+  </url>
+  <url>
+    <loc>/reference/new_cluster_metric.html</loc>
   </url>
   <url>
     <loc>/reference/other_predict.html</loc>

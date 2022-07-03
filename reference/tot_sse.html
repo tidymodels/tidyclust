@@ -45,7 +45,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Compute the total sum of squares</h1>
-      <small class="dont-index">Source: <a href="https://github.com/EmilHvitfeldt/tidyclust/blob/HEAD/R/diagnostic_metrics.R" class="external-link"><code>R/diagnostic_metrics.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EmilHvitfeldt/tidyclust/blob/HEAD/R/metric-sse.R" class="external-link"><code>R/metric-sse.R</code></a></small>
       <div class="d-none name"><code>tot_sse.Rd</code></div>
     </div>
 
@@ -55,13 +55,22 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tot_sse</span><span class="op">(</span><span class="va">object</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, dist_fun <span class="op">=</span> <span class="fu">Rfast</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rfast/man/dista.html" class="external-link">dista</a></span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tot_sse</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for cluster_fit</span></span>
+<span><span class="fu">tot_sse</span><span class="op">(</span><span class="va">object</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, dist_fun <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tot_sse_vec</span><span class="op">(</span><span class="va">object</span>, new_data <span class="op">=</span> <span class="cn">NULL</span>, dist_fun <span class="op">=</span> <span class="fu">Rfast</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/Rfast/man/dista.html" class="external-link">dista</a></span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
 <dd><p>A fitted kmeans tidyclust model</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Other arguments passed to methods.</p></dd>
 
 
 <dt>new_data</dt>
@@ -71,10 +80,6 @@
 <dt>dist_fun</dt>
 <dd><p>A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.</p></dd>
-
-
-<dt>...</dt>
-<dd><p>Other arguments passed to methods.</p></dd>
 
 </dl></div>
 
@@ -87,6 +92,13 @@ to Euclidean distance on processed data.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">tot_sse</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .metric .estimator .estimate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> tot_sse standard     <span style="text-decoration: underline;">623</span>387.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">tot_sse_vec</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 623387.5</span>
 </code></pre></div>
     </div>
