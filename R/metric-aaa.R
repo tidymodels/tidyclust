@@ -161,7 +161,7 @@ as_tibble.cluster_metric_set <- function(x, ...) {
   metrics <- attributes(x)$metrics
   names <- names(metrics)
   metrics <- unname(metrics)
-  classes <- purrr::map_chr(metrics, class1)
+  classes <- map_chr(metrics, class1)
   dplyr::tibble(metric = names, class = classes)
 }
 

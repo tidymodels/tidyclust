@@ -35,7 +35,7 @@ tunable_cluster_spec <- function(x, ...) {
     )
 
   if (nrow(arg_vals) > 0) {
-    has_info <- purrr::map_lgl(arg_vals$call_info, is.null)
+    has_info <- map_lgl(arg_vals$call_info, is.null)
     rm_list <- !(has_info & (arg_vals$component_id == "main"))
 
     arg_vals <- arg_vals[rm_list, ]

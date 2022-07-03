@@ -23,7 +23,6 @@ Imports:
     magrittr,
     parsnip,
     prettyunits,
-    purrr,
     RcppHungarian,
     rlang,
     rsample,

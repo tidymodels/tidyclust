@@ -5,7 +5,7 @@ pull_metrics <- function(resamples, res, control) {
 }
 
 pull_notes <- function(resamples, res, control) {
-  resamples$.notes <- purrr::map(res, ~ purrr::pluck(.x, ".notes"))
+  resamples$.notes <- map(res, `[[`, ".notes")
   resamples
 }
 
@@ -29,24 +29,24 @@ pull_predictions <- function(resamples, res, control) {
 # Grab the new results, make sure that they align row-wise with the rsample
 # object and then bind columns
 pulley <- function(resamples, res, col) {
-  if (all(purrr::map_lgl(res, inherits, "simpleError"))) {
+  if (all(map_lgl(res, inherits, "simpleError"))) {
     res <-
       resamples %>%
-      dplyr::mutate(col = purrr::map(splits, ~NULL)) %>%
+      dplyr::mutate(col = map(splits, ~NULL)) %>%
       stats::setNames(c(names(resamples), col))
     return(res)
   }
 
-  all_null <- all(purrr::map_lgl(res, is.null))
+  all_null <- all(map_lgl(res, is.null))
 
   id_cols <- grep("^id", names(resamples), value = TRUE)
   resamples <- dplyr::arrange(resamples, !!!rlang::syms(id_cols))
-  pulled_vals <- purrr::map_dfr(res, ~ .x[[col]])
+  pulled_vals <- dplyr::bind_rows(map(res, ~ .x[[col]]))
 
   if (nrow(pulled_vals) == 0) {
     res <-
       resamples %>%
-      dplyr::mutate(col = purrr::map(splits, ~NULL)) %>%
+      dplyr::mutate(col = map(splits, ~NULL)) %>%
       stats::setNames(c(names(resamples), col))
     return(res)
   }
@@ -65,8 +65,8 @@ pulley <- function(resamples, res, col) {
 }
 
 maybe_repair <- function(x) {
-  not_null <- !purrr::map_lgl(x, is.null)
-  is_tibb <- purrr::map_lgl(x, tibble::is_tibble)
+  not_null <- !map_lgl(x, is.null)
+  is_tibb <- map_lgl(x, tibble::is_tibble)
   ok <- not_null & is_tibb
   if (!any(ok)) {
     return(x)
@@ -82,6 +82,6 @@ maybe_repair <- function(x) {
     x
   }
 
-  x <- purrr::map(x, insert_val, y = template)
+  x <- map(x, insert_val, y = template)
   x
 }

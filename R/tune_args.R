@@ -9,11 +9,11 @@ tune_args_cluster_spec <- function(object, full = FALSE, ...) {
   }
 
   # Locate tunable args in spec args and engine specific args
-  object$args <- purrr::map(object$args, convert_args)
-  object$eng_args <- purrr::map(object$eng_args, convert_args)
+  object$args <- map(object$args, convert_args)
+  object$eng_args <- map(object$eng_args, convert_args)
 
-  arg_id <- purrr::map_chr(object$args, find_tune_id)
-  eng_arg_id <- purrr::map_chr(object$eng_args, find_tune_id)
+  arg_id <- map_chr(object$args, find_tune_id)
+  eng_arg_id <- map_chr(object$eng_args, find_tune_id)
   res <- c(arg_id, eng_arg_id)
   res <- ifelse(res == "", names(res), res)
 
@@ -48,9 +48,9 @@ find_tune_id <- function(x) {
   if (rlang::is_quosures(x)) {
     # Try to evaluate to catch things in the global envir. If it is a dplyr
     # selector, it will fail to evaluate.
-    .x <- try(purrr::map(x, rlang::eval_tidy), silent = TRUE)
+    .x <- try(map(x, rlang::eval_tidy), silent = TRUE)
     if (inherits(.x, "try-error")) {
-      x <- purrr::map(x, rlang::quo_get_expr)
+      x <- map(x, rlang::quo_get_expr)
     } else {
       x <- .x
     }
@@ -67,10 +67,10 @@ find_tune_id <- function(x) {
 
   # STEP 2 - Recursion
 
-  # tunable_elems <- purrr::map_lgl(x, find_tune)
+  # tunable_elems <- map_lgl(x, find_tune)
   tunable_elems <- vector("character", length = length(x))
 
-  # use purrr::map_lgl
+  # use map_lgl
   for (i in seq_along(x)) {
     tunable_elems[i] <- find_tune_id(x[[i]])
   }
@@ -101,9 +101,9 @@ tune_id <- function(x) {
   } else {
     if (rlang::is_quosures(x)) {
       # Try to evaluate to catch things in the global envir.
-      .x <- try(purrr::map(x, rlang::eval_tidy), silent = TRUE)
+      .x <- try(map(x, rlang::eval_tidy), silent = TRUE)
       if (inherits(.x, "try-error")) {
-        x <- purrr::map(x, rlang::quo_get_expr)
+        x <- map(x, rlang::quo_get_expr)
       } else {
         x <- .x
       }

@@ -65,7 +65,7 @@ translate_tidyclust.default <- function(x, engine = x$engine, ...) {
   x$eng_args <- check_eng_args(x$eng_args, x$method$fit, arg_key$original)
 
   # keep only modified args
-  modifed_args <- !purrr::map_lgl(actual_args, null_value)
+  modifed_args <- !map_lgl(actual_args, null_value)
   actual_args <- actual_args[modifed_args]
 
   # look for defaults if not modified in other
@@ -95,14 +95,14 @@ get_cluster_spec <- function(model, mode, engine) {
   res$libs <-
     rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
     dplyr::filter(engine == !!engine) %>%
-    purrr::pluck("pkg") %>%
-    purrr::pluck(1)
+    .[["pkg"]] %>%
+    .[[1]]
 
   res$fit <-
     rlang::env_get(m_env, paste0(model, "_fit")) %>%
     dplyr::filter(mode == !!mode & engine == !!engine) %>%
     dplyr::pull(value) %>%
-    purrr::pluck(1)
+    .[[1]]
 
   pred_code <-
     rlang::env_get(m_env, paste0(model, "_predict")) %>%
