@@ -13,8 +13,6 @@ URL: https://github.com/EmilHvitfeldt/tidyclust
 BugReports: https://github.com/EmilHvitfeldt/tidyclust/issues
 Imports: 
     cli,
-    cluster,
-    ClusterR,
     dials,
     dplyr,
     forcats,
@@ -36,6 +34,8 @@ Imports:
     utils,
     vctrs
 Suggests:
+    cluster,
+    ClusterR,
     covr,
     flexclust,
     janitor,
