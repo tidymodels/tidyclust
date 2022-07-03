@@ -2,7 +2,7 @@
 
 #' Calculates Sum of Squared Error in each cluster
 #'
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #' to Euclidean distance on processed data.
@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -62,7 +62,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 
 #' Compute the sum of within-cluster SSE
 #'
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #' to Euclidean distance on processed data.
@@ -71,7 +71,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -84,7 +84,7 @@ tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
 #' Compute the total sum of squares
 #'
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #' to Euclidean distance on processed data.
@@ -93,7 +93,7 @@ tot_wss <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -126,7 +126,7 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
 #' Compute the ratio of the WSS to the total SSE
 #'
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #' to Euclidean distance on processed data.
@@ -134,7 +134,7 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -151,7 +151,7 @@ sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 
 #' Measures silhouettes between clusters
 #'
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
 #' @param dist_fun A function for calculating distances between observations.  Defaults
@@ -161,7 +161,7 @@ sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -192,7 +192,7 @@ silhouettes <- function(object, new_data = NULL,
 
 
 #' Measures average silhouette across all observations
-#' @param object A fitted kmeans celery model
+#' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
 #' @param dist_fun A function for calculating distances between observations.  Defaults
@@ -203,7 +203,7 @@ silhouettes <- function(object, new_data = NULL,
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -279,7 +279,7 @@ prep_data_dist <- function(object, new_data = NULL,
 
   # Sihouettes requires a distance matrix
   if (is.null(new_data) & is.null(dists)) {
-    abort("Must supply either a dataset or distance matrix to compute silhouettes.")
+    stop("Must supply either a dataset or distance matrix to compute silhouettes.")
   }
 
   # If data is blank, we are using the trained cluster assignments
@@ -293,9 +293,9 @@ prep_data_dist <- function(object, new_data = NULL,
   # If they supplied distance, check that it matches the data dimension
   if (!is.null(dists)) {
     if (!is.null(new_data) && nrow(new_data) != attr(dists, "Size")) {
-      abort("Dimensions of dataset and distance matrix must match.")
+      stop("Dimensions of dataset and distance matrix must match.")
     } else if (is.null(new_data) && length(clusters) != attr(dists, "Size")) {
-      abort("Dimensions of training dataset and distance matrix must match.")
+      stop("Dimensions of training dataset and distance matrix must match.")
     }
   }
 
@@ -330,7 +330,7 @@ prep_data_dist <- function(object, new_data = NULL,
 get_centroid_dists <- function(new_data, centroids,
                                dist_fun = Rfast::dista) {
   if (ncol(new_data) != ncol(centroids)) {
-    abort("Centroids must have same columns as data.")
+    stop("Centroids must have same columns as data.")
   }
 
   dist_fun(centroids, new_data)

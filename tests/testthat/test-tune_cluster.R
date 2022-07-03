@@ -1,5 +1,5 @@
 test_that("tune recipe only", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
   wflow <- workflows::workflow() %>%
@@ -35,7 +35,7 @@ test_that("tune recipe only", {
 })
 
 test_that("tune model only (with recipe)", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
   wflow <- workflows::workflow() %>%
@@ -71,7 +71,7 @@ test_that("tune model only (with recipe)", {
 })
 
 test_that("tune model only (with variables)", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
 
@@ -99,7 +99,7 @@ test_that("tune model only (with variables)", {
 })
 
 test_that("tune model and recipe", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
   wflow <- workflows::workflow() %>%
@@ -144,7 +144,7 @@ test_that("tune model and recipe", {
 })
 
 test_that('tune model and recipe (parallel_over = "everything")', {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
   wflow <- workflows::workflow() %>%
@@ -179,7 +179,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
 
 test_that("tune recipe only - failure in recipe is caught elegantly", {
   skip("wait for parameter checking")
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -230,7 +230,7 @@ test_that("tune recipe only - failure in recipe is caught elegantly", {
 
 test_that("tune model only - failure in recipe is caught elegantly", {
   skip("wait for parameter checking")
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -267,7 +267,7 @@ test_that("tune model only - failure in recipe is caught elegantly", {
 })
 
 test_that("tune model only - failure in formula is caught elegantly", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -302,7 +302,7 @@ test_that("tune model only - failure in formula is caught elegantly", {
 
 test_that("tune model and recipe - failure in recipe is caught elegantly", {
   skip("wait for parameter checking")
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -346,7 +346,7 @@ test_that("tune model and recipe - failure in recipe is caught elegantly", {
 })
 
 test_that("argument order gives errors for recipes", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   expect_snapshot(error = TRUE, {
     tune_cluster(
@@ -358,7 +358,7 @@ test_that("argument order gives errors for recipes", {
 })
 
 test_that("argument order gives errors for formula", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   expect_snapshot(error = TRUE, {
     tune_cluster(
@@ -370,7 +370,7 @@ test_that("argument order gives errors for formula", {
 })
 
 test_that("ellipses with tune_cluster", {
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   wflow <- workflows::workflow() %>%
     workflows::add_recipe(helper_objects$rec_tune_1) %>%
@@ -393,7 +393,7 @@ test_that("determining the grid type", {
 
 test_that("retain extra attributes", {
   skip("wait for parameter checking")
-  helper_objects <- helper_objects_celery()
+  helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
   wflow <- workflows::workflow() %>%

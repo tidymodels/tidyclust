@@ -1,6 +1,6 @@
 #' @export
 print.cluster_fit <- function(x, ...) {
-  cat("celery cluster object\n\n")
+  cat("tidyclust cluster object\n\n")
   if (!is.na(x$elapsed[["elapsed"]])) {
     cat(
       "Fit time: ", prettyunits::pretty_sec(x$elapsed[["elapsed"]]),

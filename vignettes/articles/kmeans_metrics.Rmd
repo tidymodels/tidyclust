@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(celery)
+library(tidyclust)
 library(tidyverse)
 library(tidymodels)
 
@@ -28,7 +28,7 @@ penguins <- penguins %>% drop_na()
 
 ```{r}
 kmeans_spec <- k_means(k = 3) %>%
-    set_engine_celery("stats") 
+    set_engine_tidyclust("stats") 
   
 kmeans_fit <- kmeans_spec %>%
   fit(~ bill_length_mm + bill_depth_mm,
@@ -95,7 +95,7 @@ results_ratio <- c()
 for (k in 2:10) {
   
   kmeans_spec_k <- k_means(k = k) %>%
-    set_engine_celery("stats") 
+    set_engine_tidyclust("stats") 
   
   kmeans_fit_k <- kmeans_spec_k %>%
     fit(~ bill_length_mm + bill_depth_mm,
@@ -123,7 +123,7 @@ results_species <- c()
 for (k in 2:10) {
   
   kmeans_spec_k <- k_means(k = k) %>%
-    set_engine_celery("stats") 
+    set_engine_tidyclust("stats") 
   
   kmeans_fit_k <- kmeans_spec_k %>%
     fit(~ bill_length_mm + bill_depth_mm,

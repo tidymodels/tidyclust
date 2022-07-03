@@ -49,8 +49,8 @@ print.k_means <- function(x, ...) {
 }
 
 #' @export
-translate_celery.k_means <- function(x, engine = x$engine, ...) {
-  x <- translate_celery.default(x, engine, ...)
+translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
+  x <- translate_tidyclust.default(x, engine, ...)
   x
 }
 
@@ -146,7 +146,9 @@ translate_celery.k_means <- function(x, engine = x$engine, ...) {
 #'   The higher this value is, the far appart from each other the centroids are.
 #' @param seed integer value for random number generator (RNG)
 #'
-#' @return A `keras` model object.
+#' @return a list with the following attributes: clusters, fuzzy_clusters (if 
+#' fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster, 
+#' obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
 ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,

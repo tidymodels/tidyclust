@@ -1,4 +1,4 @@
 library(testthat)
-library(celery)
+library(tidyclust)
 
-test_check("celery")
+test_check("tidyclust")

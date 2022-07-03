@@ -4,7 +4,7 @@
 #'  for a pre-defined set of tuning parameters that correspond to a model or
 #'  recipe across one or more resamples of the data.
 #'
-#' @param object A `celery` model specification or a [workflows::workflow()].
+#' @param object A `tidyclust` model specification or a [workflows::workflow()].
 #' @param preprocessor A traditional model formula or a recipe created using
 #'   [recipes::recipe()].
 #' @param resamples An `rset()` object.
@@ -44,7 +44,7 @@ tune_cluster.default <- function(object, ...) {
 tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
                                       param_info = NULL, grid = 10,
                                       metrics = NULL,
-                                      control = control_celery()) {
+                                      control = control_tidyclust()) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
     rlang::abort(paste(
       "To tune a model spec, you must preprocess",
@@ -189,7 +189,7 @@ tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) 
         # Extract internal function from tune namespace
         tune_cluster_loop_iter_safely <- utils::getFromNamespace(
           x = "tune_cluster_loop_iter_safely",
-          ns = "celery"
+          ns = "tidyclust"
         )
 
         tune_cluster_loop_iter_safely(
@@ -219,10 +219,10 @@ tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) 
           .errorhandling = "pass",
           .combine = iter_combine
         ) %op% {
-          # Extract internal function from celery namespace
+          # Extract internal function from tidyclust namespace
           tune_grid_loop_iter_safely <- utils::getFromNamespace(
             x = "tune_cluster_loop_iter_safely",
-            ns = "celery"
+            ns = "tidyclust"
           )
 
           grid_info_row <- vctrs::vec_slice(grid_info, row)

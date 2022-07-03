@@ -45,7 +45,7 @@ set_workflow <- function(workflow, control) {
           format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
           "setting `save_workflow = FALSE`."
         )
-        cols <- get_celery_colors()
+        cols <- get_tidyclust_colors()
         msg <- strwrap(msg, prefix = paste0(
           cols$symbol$info(cli::symbol$info),
           " "
@@ -109,14 +109,14 @@ required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
 get_pkgs <- function(x, infra) {
   cls <- class(x)[1]
   pkgs <-
-    get_from_env_celery(paste0(cls, "_pkgs")) %>%
+    get_from_env_tidyclust(paste0(cls, "_pkgs")) %>%
     dplyr::filter(engine == x$engine)
   res <- pkgs$pkg[[1]]
   if (length(res) == 0) {
     res <- character(0)
   }
   if (infra) {
-    infra_pkgs <- c("celery")
+    infra_pkgs <- c("tidyclust")
     res <- c(infra_pkgs, res)
   }
   res <- unique(res)
@@ -264,23 +264,23 @@ catcher <- function(expr) {
 }
 
 siren <- function(x, type = "info") {
-  celery_color <- get_celery_colors()
-  types <- names(celery_color$message)
+  tidyclust_color <- get_tidyclust_colors()
+  types <- names(tidyclust_color$message)
   type <- match.arg(type, types)
   msg <- glue::glue(x)
   symb <- dplyr::case_when(
-    type == "warning" ~ celery_color$symbol$warning("!"),
-    type == "go" ~ celery_color$symbol$go(cli::symbol$pointer),
-    type == "danger" ~ celery_color$symbol$danger("x"), type ==
-      "success" ~ celery_color$symbol$success(celery_symbol$success),
-    type == "info" ~ celery_color$symbol$info("i")
+    type == "warning" ~ tidyclust_color$symbol$warning("!"),
+    type == "go" ~ tidyclust_color$symbol$go(cli::symbol$pointer),
+    type == "danger" ~ tidyclust_color$symbol$danger("x"), type ==
+      "success" ~ tidyclust_color$symbol$success(tidyclust_symbol$success),
+    type == "info" ~ tidyclust_color$symbol$info("i")
   )
   msg <- dplyr::case_when(
-    type == "warning" ~ celery_color$message$warning(msg),
-    type == "go" ~ celery_color$message$go(msg), type == "danger" ~
-      celery_color$message$danger(msg), type == "success" ~
-      celery_color$message$success(msg), type == "info" ~
-      celery_color$message$info(msg)
+    type == "warning" ~ tidyclust_color$message$warning(msg),
+    type == "go" ~ tidyclust_color$message$go(msg), type == "danger" ~
+      tidyclust_color$message$danger(msg), type == "success" ~
+      tidyclust_color$message$success(msg), type == "info" ~
+      tidyclust_color$message$info(msg)
   )
   if (inherits(msg, "character")) {
     msg <- as.character(msg)

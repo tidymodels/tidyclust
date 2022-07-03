@@ -15,9 +15,9 @@ bold   <- function(...) as.character(cli::style_bold(...))
 
 # ------------------------------------------------------------------------------
 
-# For use in setting the `celery_color` active binding in `.onLoad()`
+# For use in setting the `tidyclust_color` active binding in `.onLoad()`
 
-celery_color_dark <- list(
+tidyclust_color_dark <- list(
   symbol = list(
     "warning" = yellow,
     "go" = white,
@@ -34,7 +34,7 @@ celery_color_dark <- list(
   )
 )
 
-celery_color_light <- list(
+tidyclust_color_light <- list(
   symbol = list(
     "warning" = yellow,
     "go" = black,
@@ -52,4 +52,4 @@ celery_color_light <- list(
 )
 
 
-get_celery_colors <- function() celery_color
+get_tidyclust_colors <- function() tidyclust_color

@@ -9,7 +9,6 @@
 #' @importFrom parsnip model_printer
 #' @importFrom parsnip null_value
 #' @importFrom parsnip show_call
-#' @importFrom rlang abort
 #' @importFrom rlang enquo
 #' @importFrom rlang enquos
 #' @importFrom rlang get_expr

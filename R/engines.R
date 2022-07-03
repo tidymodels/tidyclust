@@ -1,6 +1,6 @@
 #' Declare a computational engine and specific arguments
 #'
-#' `set_engine_celery()` is used to specify which package or system will be used
+#' `set_engine_tidyclust()` is used to specify which package or system will be used
 #'  to fit the model, along with any arguments specific to that software.
 #'
 #' @section Engines:
@@ -18,11 +18,11 @@
 #' # First, set general arguments using the standardized names
 #' mod <- k_means(k = 10) %>%
 #'   # now say how you want to fit the model and another other options
-#'   set_engine_celery("stats", iter.max = 15)
+#'   set_engine_tidyclust("stats", iter.max = 15)
 #'
-#' translate_celery(mod, engine = "stats")
+#' translate_tidyclust(mod, engine = "stats")
 #' @export
-set_engine_celery <- function(object, engine, ...) {
+set_engine_tidyclust <- function(object, engine, ...) {
   mod_type <- class(object)[1]
   if (!inherits(object, "cluster_spec")) {
     rlang::abort("`object` should have class 'cluster_spec'.")
@@ -46,7 +46,7 @@ set_engine_celery <- function(object, engine, ...) {
 
 stop_missing_engine <- function(cls) {
   info <-
-    get_from_env_celery(cls) %>%
+    get_from_env_tidyclust(cls) %>%
     dplyr::group_by(mode) %>%
     dplyr::summarize(
       msg = paste0(
@@ -81,7 +81,7 @@ specific_model <- function(x) {
 }
 
 possible_engines <- function(object, ...) {
-  m_env <- get_model_env_celery()
+  m_env <- get_model_env_tidyclust()
   engs <- rlang::env_get(m_env, specific_model(object))
   unique(engs$engine)
 }

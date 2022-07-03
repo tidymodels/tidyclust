@@ -2,7 +2,7 @@
 # Unit tests are in extratests
 # nocov start
 tunable_cluster_spec <- function(x, ...) {
-  mod_env <- rlang::ns_env("celery")$celery
+  mod_env <- rlang::ns_env("tidyclust")$tidyclust
 
   if (is.null(x$engine)) {
     abort("Please declare an engine first using `set_engine()`.", call. = FALSE)
@@ -23,7 +23,7 @@ tunable_cluster_spec <- function(x, ...) {
   arg_vals <-
     mod_env[[arg_name]] %>%
     dplyr::filter(engine == x$engine) %>%
-    dplyr::select(name = celery, call_info = func) %>%
+    dplyr::select(name = tidyclust, call_info = func) %>%
     dplyr::full_join(
       tibble::tibble(name = c(names(x$args), names(x$eng_args))),
       by = "name"
@@ -71,7 +71,7 @@ stats_k_means_engine_args <-
       "centers"
     ),
     call_info = list(
-      list(pkg = "celery", fun = "k")
+      list(pkg = "tidyclust", fun = "k")
     ),
     source = "cluster_spec",
     component = "k_means",

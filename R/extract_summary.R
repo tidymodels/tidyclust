@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'

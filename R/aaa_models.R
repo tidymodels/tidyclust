@@ -31,20 +31,20 @@ pred_types <- c("cluster", "raw")
 
 # ------------------------------------------------------------------------------
 
-celery <- rlang::new_environment()
-celery$models <- NULL
-celery$modes <- c(all_modes, "unknown")
+tidyclust <- rlang::new_environment()
+tidyclust$models <- NULL
+tidyclust$modes <- c(all_modes, "unknown")
 
 # check if class and mode and engine are compatible
 check_spec_mode_engine_val <- function(cls, eng, mode) {
-  all_modes <- get_from_env_celery(paste0(cls, "_modes"))
+  all_modes <- get_from_env_tidyclust(paste0(cls, "_modes"))
   if (!(mode %in% all_modes)) {
     rlang::abort(paste0("'", mode, "' is not a known mode for model `", cls, "()`."))
   }
 
-  model_info <- rlang::env_get(get_model_env_celery(), cls)
+  model_info <- rlang::env_get(get_model_env_tidyclust(), cls)
 
-  # Cases where the model definition is in celery but all of the engines
+  # Cases where the model definition is in tidyclust but all of the engines
   # are contained in a different package
   if (nrow(model_info) == 0) {
     check_mode_with_no_engine(cls, mode)
@@ -95,7 +95,7 @@ check_spec_mode_engine_val <- function(cls, eng, mode) {
   invisible(NULL)
 }
 
-#' Working with the celery model environment
+#' Working with the tidyclust model environment
 #'
 #' These functions read and write to the environment where the package stores
 #'  information about model specifications.
@@ -107,31 +107,31 @@ check_spec_mode_engine_val <- function(cls, eng, mode) {
 #' @keywords internal
 #' @examples
 #' # Access the model data:
-#' current_code <- get_model_env_celery()
+#' current_code <- get_model_env_tidyclust()
 #' ls(envir = current_code)
 #' @keywords internal
 #' @export
-get_model_env_celery <- function() {
-  current <- utils::getFromNamespace("celery", ns = "celery")
+get_model_env_tidyclust <- function() {
+  current <- utils::getFromNamespace("tidyclust", ns = "tidyclust")
   current
 }
 
-#' @rdname get_model_env_celery
+#' @rdname get_model_env_tidyclust
 #' @keywords internal
 #' @export
-get_from_env_celery <- function(items) {
-  mod_env <- get_model_env_celery()
+get_from_env_tidyclust <- function(items) {
+  mod_env <- get_model_env_tidyclust()
   rlang::env_get(mod_env, items, default = NULL)
 }
 
-#' @rdname get_model_env_celery
+#' @rdname get_model_env_tidyclust
 #' @keywords internal
 #' @export
-set_env_val_celery <- function(name, value) {
+set_env_val_tidyclust <- function(name, value) {
   if (length(name) != 1 || !is.character(name)) {
     rlang::abort("`name` should be a single character value.")
   }
-  mod_env <- get_model_env_celery()
+  mod_env <- get_model_env_tidyclust()
   x <- list(value)
   names(x) <- name
   rlang::env_bind(mod_env, !!!x)
@@ -161,13 +161,13 @@ set_env_val_celery <- function(name, value) {
 #'  package's `predict` method.
 #' @param fit_obj A list with elements `interface`, `protect`,
 #'  `func` and `defaults`. See the package vignette "Making a
-#'  `celery` model from scratch".
+#'  `tidyclust` model from scratch".
 #' @param pred_obj A list with elements `pre`, `post`, `func`, and `args`.
 #' @param type A single character value for the type of prediction. Possible
 #'  values are: `cluster` and `raw`.
 #' @param pkg An options character string for a package name.
-#' @param celery A single character string for the "harmonized" argument name
-#'  that `celery` exposes.
+#' @param tidyclust A single character string for the "harmonized" argument name
+#'  that `tidyclust` exposes.
 #' @param original A single character string for the argument name that
 #'  underlying model function uses.
 #' @param value A list that conforms to the `fit_obj` or `pred_obj` description
@@ -181,21 +181,21 @@ set_env_val_celery <- function(name, value) {
 #' @keywords internal
 #' @details These functions are available for users to add their own models or
 #'   engines (in a package or otherwise) so that they can be accessed using
-#'   `celery`.
+#'   `tidyclust`.
 #'
-#'   In short, `celery` stores an environment object that contains all of the
+#'   In short, `tidyclust` stores an environment object that contains all of the
 #'   information and code about how models are used (e.g. fitting, predicting,
 #'   etc). These functions can be used to add models to that environment as well
 #'   as helper functions that can be used to makes sure that the model data is
 #'   in the right format.
 #'
-#'   `check_model_exists_celery()` checks the model value and ensures that the
-#'   model has already been registered. `check_model_doesnt_exist_celery()`
+#'   `check_model_exists_tidyclust()` checks the model value and ensures that the
+#'   model has already been registered. `check_model_doesnt_exist_tidyclust()`
 #'   checks the model value and also checks to see if it is novel in the
 #'   environment.
 #'
 #'   The options for engine-specific encodings dictate how the predictors should
-#'   be handled. These options ensure that the data that `celery` gives to the
+#'   be handled. These options ensure that the data that `tidyclust` gives to the
 #'   underlying model allows for a model fit that is as similar as possible to
 #'   what it would have produced directly.
 #'
@@ -229,38 +229,38 @@ set_env_val_celery <- function(name, value) {
 #'   and tuning.
 #'
 #' @examples
-#' # set_new_model_celery("shallow_learning_model")
+#' # set_new_model_tidyclust("shallow_learning_model")
 #'
 #' # Show the information about a model:
-#' show_model_info_celery("k_means")
+#' show_model_info_tidyclust("k_means")
 #' @keywords internal
 #' @export
-set_new_model_celery <- function(model) {
-  check_model_doesnt_exist_celery(model)
+set_new_model_tidyclust <- function(model) {
+  check_model_doesnt_exist_tidyclust(model)
 
-  current <- get_model_env_celery()
+  current <- get_model_env_tidyclust()
 
-  set_env_val_celery("models", c(current$models, model))
-  set_env_val_celery(
+  set_env_val_tidyclust("models", c(current$models, model))
+  set_env_val_tidyclust(
     model,
     dplyr::tibble(engine = character(0), mode = character(0))
   )
-  set_env_val_celery(
+  set_env_val_tidyclust(
     paste0(model, "_pkgs"),
     dplyr::tibble(engine = character(0), pkg = list(), mode = character(0))
   )
-  set_env_val_celery(paste0(model, "_modes"), "unknown")
-  set_env_val_celery(
+  set_env_val_tidyclust(paste0(model, "_modes"), "unknown")
+  set_env_val_tidyclust(
     paste0(model, "_args"),
     dplyr::tibble(
       engine = character(0),
-      celery = character(0),
+      tidyclust = character(0),
       original = character(0),
       func = list(),
       has_submodel = logical(0)
     )
   )
-  set_env_val_celery(
+  set_env_val_tidyclust(
     paste0(model, "_fit"),
     dplyr::tibble(
       engine = character(0),
@@ -268,7 +268,7 @@ set_new_model_celery <- function(model) {
       value = list()
     )
   )
-  set_env_val_celery(
+  set_env_val_tidyclust(
     paste0(model, "_predict"),
     dplyr::tibble(
       engine = character(0),
@@ -281,14 +281,14 @@ set_new_model_celery <- function(model) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @export
-check_model_doesnt_exist_celery <- function(model) {
+check_model_doesnt_exist_tidyclust <- function(model) {
   if (rlang::is_missing(model) || length(model) != 1 || !is.character(model)) {
     rlang::abort("Please supply a character string for a model name (e.g. `'k_means'`)")
   }
 
-  current <- get_model_env_celery()
+  current <- get_model_env_tidyclust()
 
   if (any(current$models == model)) {
     rlang::abort(glue::glue("Model `{model}` already exists"))
@@ -297,34 +297,34 @@ check_model_doesnt_exist_celery <- function(model) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_model_mode_celery <- function(model, mode) {
-  check_model_exists_celery(model)
+set_model_mode_tidyclust <- function(model, mode) {
+  check_model_exists_tidyclust(model)
   check_mode_val(mode)
 
-  current <- get_model_env_celery()
+  current <- get_model_env_tidyclust()
 
   if (!any(current$modes == mode)) {
     current$modes <- unique(c(current$modes, mode))
   }
 
-  set_env_val_celery(
+  set_env_val_tidyclust(
     paste0(model, "_modes"),
-    unique(c(get_from_env_celery(paste0(model, "_modes")), mode))
+    unique(c(get_from_env_tidyclust(paste0(model, "_modes")), mode))
   )
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @export
-check_model_exists_celery <- function(model) {
+check_model_exists_tidyclust <- function(model) {
   if (rlang::is_missing(model) || length(model) != 1 || !is.character(model)) {
     rlang::abort("Please supply a character string for a model name (e.g. `'k_means'`)")
   }
 
-  current <- get_model_env_celery()
+  current <- get_model_env_tidyclust()
 
   if (!any(current$models == model)) {
     rlang::abort(glue::glue("Model `{model}` has not been registered."))
@@ -342,26 +342,26 @@ check_mode_val <- function(mode) {
 
 # ------------------------------------------------------------------------------
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_model_engine_celery <- function(model, mode, eng) {
-  check_model_exists_celery(model)
+set_model_engine_tidyclust <- function(model, mode, eng) {
+  check_model_exists_tidyclust(model)
   check_mode_val(mode)
   check_eng_val(eng)
   check_mode_val(eng)
   check_mode_for_new_engine(model, eng, mode)
 
   new_eng <- dplyr::tibble(engine = eng, mode = mode)
-  old_eng <- get_from_env_celery(model)
+  old_eng <- get_from_env_tidyclust(model)
 
   engs <-
     old_eng %>%
     dplyr::bind_rows(new_eng) %>%
     dplyr::distinct()
 
-  set_env_val_celery(model, engs)
-  set_model_mode_celery(model, mode)
+  set_env_val_tidyclust(model, engs)
+  set_model_mode_tidyclust(model, mode)
   invisible(NULL)
 }
 
@@ -373,23 +373,23 @@ check_eng_val <- function(eng) {
 }
 
 check_mode_for_new_engine <- function(cls, eng, mode) {
-  all_modes <- get_from_env_celery(paste0(cls, "_modes"))
+  all_modes <- get_from_env_tidyclust(paste0(cls, "_modes"))
   if (!(mode %in% all_modes)) {
     rlang::abort(paste0("'", mode, "' is not a known mode for model `", cls, "()`."))
   }
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
-  check_model_exists_celery(model)
+set_dependency_tidyclust <- function(model, eng, pkg = "tidyclust", mode = NULL) {
+  check_model_exists_tidyclust(model)
   check_eng_val(eng)
   check_pkg_val(pkg)
 
-  model_info <- get_from_env_celery(model)
-  pkg_info <- get_from_env_celery(paste0(model, "_pkgs"))
+  model_info <- get_from_env_tidyclust(model)
+  pkg_info <- get_from_env_tidyclust(paste0(model, "_pkgs"))
 
   # ----------------------------------------------------------------------------
   # Check engine
@@ -443,21 +443,21 @@ set_dependency_celery <- function(model, eng, pkg = "celery", mode = NULL) {
     dplyr::bind_rows(eng_pkgs) %>%
     dplyr::arrange(engine, mode)
 
-  set_env_val_celery(paste0(model, "_pkgs"), pkg_info)
+  set_env_val_tidyclust(paste0(model, "_pkgs"), pkg_info)
 
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-get_dependency_celery <- function(model) {
-  check_model_exists_celery(model)
+get_dependency_tidyclust <- function(model) {
+  check_model_exists_tidyclust(model)
   pkg_name <- paste0(model, "_pkgs")
-  if (!any(pkg_name != rlang::env_names(get_model_env_celery()))) {
-    rlang::abort(glue::glue("`{model}` does not have a dependency list in celery."))
+  if (!any(pkg_name != rlang::env_names(get_model_env_tidyclust()))) {
+    rlang::abort(glue::glue("`{model}` does not have a dependency list in tidyclust."))
   }
-  rlang::env_get(get_model_env_celery(), pkg_name)
+  rlang::env_get(get_model_env_tidyclust(), pkg_name)
 }
 
 check_pkg_val <- function(pkg) {
@@ -467,17 +467,17 @@ check_pkg_val <- function(pkg) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_fit_celery <- function(model, mode, eng, value) {
-  check_model_exists_celery(model)
+set_fit_tidyclust <- function(model, mode, eng, value) {
+  check_model_exists_tidyclust(model)
   check_eng_val(eng)
   check_spec_mode_engine_val(model, eng, mode)
   check_fit_info(value)
 
-  model_info <- get_from_env_celery(model)
-  old_fits <- get_from_env_celery(paste0(model, "_fit"))
+  model_info <- get_from_env_tidyclust(model)
+  old_fits <- get_from_env_tidyclust(paste0(model, "_fit"))
 
   has_engine <-
     model_info %>%
@@ -514,7 +514,7 @@ set_fit_celery <- function(model, mode, eng, value) {
     rlang::abort("An error occured when adding the new fit module.")
   }
 
-  set_env_val_celery(
+  set_env_val_tidyclust(
     paste0(model, "_fit"),
     updated
   )
@@ -522,16 +522,16 @@ set_fit_celery <- function(model, mode, eng, value) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-get_fit_celery <- function(model) {
-  check_model_exists_celery(model)
+get_fit_tidyclust <- function(model) {
+  check_model_exists_tidyclust(model)
   fit_name <- paste0(model, "_fit")
-  if (!any(fit_name != rlang::env_names(get_model_env_celery()))) {
-    rlang::abort(glue::glue("`{model}` does not have a `fit` method in celery."))
+  if (!any(fit_name != rlang::env_names(get_model_env_tidyclust()))) {
+    rlang::abort(glue::glue("`{model}` does not have a `fit` method in tidyclust."))
   }
-  rlang::env_get(get_model_env_celery(), fit_name)
+  rlang::env_get(get_model_env_tidyclust(), fit_name)
 }
 
 check_fit_info <- function(fit_obj) {
@@ -635,17 +635,17 @@ check_func_val <- function(func) {
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-get_encoding_celery <- function(model) {
-  check_model_exists_celery(model)
+get_encoding_tidyclust <- function(model) {
+  check_model_exists_tidyclust(model)
   nm <- paste0(model, "_encoding")
-  res <- try(get_from_env_celery(nm), silent = TRUE)
+  res <- try(get_from_env_tidyclust(nm), silent = TRUE)
   if (inherits(res, "try-error")) {
-    # for objects made before encodings were specified in celery
+    # for objects made before encodings were specified in tidyclust
     res <-
-      get_from_env_celery(model) %>%
+      get_from_env_tidyclust(model) %>%
       dplyr::mutate(
         model = model,
         predictor_indicators = "traditional",
@@ -662,10 +662,10 @@ get_encoding_celery <- function(model) {
 }
 
 #' @export
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
-set_encoding_celery <- function(model, mode, eng, options) {
-  check_model_exists_celery(model)
+set_encoding_tidyclust <- function(model, mode, eng, options) {
+  check_model_exists_tidyclust(model)
   check_eng_val(eng)
   check_mode_val(mode)
   check_encodings(options)
@@ -675,10 +675,10 @@ set_encoding_celery <- function(model, mode, eng, options) {
   new_values <- dplyr::bind_cols(keys, options)
 
 
-  current_db_list <- ls(envir = get_model_env_celery())
+  current_db_list <- ls(envir = get_model_env_tidyclust())
   nm <- paste(model, "encoding", sep = "_")
   if (any(current_db_list == nm)) {
-    current <- get_from_env_celery(nm)
+    current <- get_from_env_tidyclust(nm)
     dup_check <-
       current %>%
       dplyr::inner_join(
@@ -693,7 +693,7 @@ set_encoding_celery <- function(model, mode, eng, options) {
   }
 
   db_values <- dplyr::bind_rows(current, new_values)
-  set_env_val_celery(nm, db_values)
+  set_env_val_tidyclust(nm, db_values)
 
   invisible(NULL)
 }
@@ -713,7 +713,7 @@ check_encodings <- function(x) {
   if (length(missing_args) > 0) {
     rlang::abort(
       glue::glue(
-        "The values passed to `set_encoding_celery()` are missing arguments: ",
+        "The values passed to `set_encoding_tidyclust()` are missing arguments: ",
         paste0("'", missing_args, "'", collapse = ", ")
       )
     )
@@ -722,7 +722,7 @@ check_encodings <- function(x) {
   if (length(extra_args) > 0) {
     rlang::abort(
       glue::glue(
-        "The values passed to `set_encoding_celery()` had extra arguments: ",
+        "The values passed to `set_encoding_tidyclust()` had extra arguments: ",
         paste0("'", extra_args, "'", collapse = ", ")
       )
     )
@@ -731,23 +731,23 @@ check_encodings <- function(x) {
 }
 
 # ------------------------------------------------------------------------------
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_model_arg_celery <- function(model, eng, celery, original, func, has_submodel) {
-  check_model_exists_celery(model)
+set_model_arg_tidyclust <- function(model, eng, tidyclust, original, func, has_submodel) {
+  check_model_exists_tidyclust(model)
   check_eng_val(eng)
-  check_arg_val(celery)
+  check_arg_val(tidyclust)
   check_arg_val(original)
   check_func_val(func)
   check_submodels_val(has_submodel)
 
-  old_args <- get_from_env_celery(paste0(model, "_args"))
+  old_args <- get_from_env_tidyclust(paste0(model, "_args"))
 
   new_arg <-
     dplyr::tibble(
       engine = eng,
-      celery = celery,
+      tidyclust = tidyclust,
       original = original,
       func = list(func),
       has_submodel = has_submodel
@@ -759,7 +759,7 @@ set_model_arg_celery <- function(model, eng, celery, original, func, has_submode
   }
 
   updated <- vctrs::vec_unique(updated)
-  set_env_val_celery(paste0(model, "_args"), updated)
+  set_env_val_tidyclust(paste0(model, "_args"), updated)
 
   invisible(NULL)
 }
@@ -779,7 +779,7 @@ check_submodels_val <- function(has_submodel) {
 }
 
 check_mode_with_no_engine <- function(cls, mode) {
-  spec_modes <- get_from_env_celery(paste0(cls, "_modes"))
+  spec_modes <- get_from_env_tidyclust(paste0(cls, "_modes"))
   if (!(mode %in% spec_modes)) {
     stop_incompatible_mode(spec_modes, cls = cls)
   }
@@ -816,21 +816,21 @@ stop_incompatible_engine <- function(spec_engs, mode) {
 
 # ------------------------------------------------------------------------------
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-show_model_info_celery <- function(model) {
-  check_model_exists_celery(model)
+show_model_info_tidyclust <- function(model) {
+  check_model_exists_tidyclust(model)
 
   cat("Information for `", model, "`\n", sep = "")
 
   cat(
     " modes:",
-    paste0(get_from_env_celery(paste0(model, "_modes")), collapse = ", "),
+    paste0(get_from_env_tidyclust(paste0(model, "_modes")), collapse = ", "),
     "\n\n"
   )
 
-  engines <- get_from_env_celery(model)
+  engines <- get_from_env_tidyclust(model)
   if (nrow(engines) > 0) {
     cat(" engines: \n")
     engines %>%
@@ -852,21 +852,21 @@ show_model_info_celery <- function(model) {
     cat(" no registered engines.\n\n")
   }
 
-  args <- get_from_env_celery(paste0(model, "_args"))
+  args <- get_from_env_tidyclust(paste0(model, "_args"))
   if (nrow(args) > 0) {
     cat(" arguments: \n")
     args %>%
-      dplyr::select(engine, celery, original) %>%
+      dplyr::select(engine, tidyclust, original) %>%
       dplyr::distinct() %>%
       dplyr::mutate(
         engine = format(paste0("   ", engine, ": ")),
-        celery = paste0("      ", format(celery), " --> ", original, "\n")
+        tidyclust = paste0("      ", format(tidyclust), " --> ", original, "\n")
       ) %>%
       dplyr::group_by(engine) %>%
       dplyr::mutate(
         engine2 = ifelse(dplyr::row_number() == 1, engine, ""),
-        celery = ifelse(dplyr::row_number() == 1, paste0("\n", celery), celery),
-        lab = paste0(engine2, celery)
+        tidyclust = ifelse(dplyr::row_number() == 1, paste0("\n", tidyclust), tidyclust),
+        lab = paste0(engine2, tidyclust)
       ) %>%
       dplyr::ungroup() %>%
       dplyr::pull(lab) %>%
@@ -876,7 +876,7 @@ show_model_info_celery <- function(model) {
     cat(" no registered arguments.\n\n")
   }
 
-  fits <- get_from_env_celery(paste0(model, "_fit"))
+  fits <- get_from_env_tidyclust(paste0(model, "_fit"))
   if (nrow(fits) > 0) {
     cat(" fit modules:\n")
     fits %>%
@@ -889,7 +889,7 @@ show_model_info_celery <- function(model) {
     cat(" no registered fit modules.\n\n")
   }
 
-  preds <- get_from_env_celery(paste0(model, "_predict"))
+  preds <- get_from_env_tidyclust(paste0(model, "_predict"))
   if (nrow(preds) > 0) {
     cat(" prediction modules:\n")
     preds %>%
@@ -908,11 +908,11 @@ show_model_info_celery <- function(model) {
 
 # ------------------------------------------------------------------------------
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-set_pred_celery <- function(model, mode, eng, type, value) {
-  check_model_exists_celery(model)
+set_pred_tidyclust <- function(model, mode, eng, type, value) {
+  check_model_exists_tidyclust(model)
   check_eng_val(eng)
   check_spec_mode_engine_val(model, eng, mode)
   check_pred_info(value, type)
@@ -931,29 +931,29 @@ set_pred_celery <- function(model, mode, eng, type, value) {
     return(invisible(NULL))
   }
 
-  old_pred <- get_from_env_celery(paste0(model, "_predict"))
+  old_pred <- get_from_env_tidyclust(paste0(model, "_predict"))
   updated <- try(dplyr::bind_rows(old_pred, new_pred), silent = TRUE)
   if (inherits(updated, "try-error")) {
     rlang::abort("An error occured when adding the new fit module.")
   }
 
-  set_env_val_celery(paste0(model, "_predict"), updated)
+  set_env_val_tidyclust(paste0(model, "_predict"), updated)
 
   invisible(NULL)
 }
 
-#' @rdname set_new_model_celery
+#' @rdname set_new_model_tidyclust
 #' @keywords internal
 #' @export
-get_pred_type_celery <- function(model, type) {
-  check_model_exists_celery(model)
+get_pred_type_tidyclust <- function(model, type) {
+  check_model_exists_tidyclust(model)
   pred_name <- paste0(model, "_predict")
-  if (!any(pred_name != rlang::env_names(get_model_env_celery()))) {
-    rlang::abort(glue::glue("`{model}` does not have any `pred` methods in celery."))
+  if (!any(pred_name != rlang::env_names(get_model_env_tidyclust()))) {
+    rlang::abort(glue::glue("`{model}` does not have any `pred` methods in tidyclust."))
   }
-  all_preds <- rlang::env_get(get_model_env_celery(), pred_name)
+  all_preds <- rlang::env_get(get_model_env_tidyclust(), pred_name)
   if (!any(all_preds$type == type)) {
-    rlang::abort(glue::glue("`{model}` does not have any prediction methods incelery."))
+    rlang::abort(glue::glue("`{model}` does not have any prediction methods intidyclust."))
   }
   dplyr::filter(all_preds, type == !!type)
 }
@@ -996,7 +996,7 @@ check_pred_info <- function(pred_obj, type) {
 }
 
 check_unregistered <- function(model, mode, eng) {
-  model_info <- get_from_env_celery(model)
+  model_info <- get_from_env_tidyclust(model)
   has_engine <-
     model_info %>%
     dplyr::filter(engine == eng & mode == !!mode) %>%
@@ -1017,7 +1017,7 @@ check_unregistered <- function(model, mode, eng) {
 # new information is different, fail with a message. See issue parsnip/#653
 is_discordant_info <- function(model, mode, eng, candidate,
                                pred_type = NULL, component = "fit") {
-  current <- get_from_env_celery(paste0(model, "_", component))
+  current <- get_from_env_tidyclust(paste0(model, "_", component))
 
   # For older versions of parsnip before set_encoding()
   new_encoding <- is.null(current) & component == "encoding"

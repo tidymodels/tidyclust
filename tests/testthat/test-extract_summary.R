@@ -1,10 +1,10 @@
 test_that("extract summary works for kmeans", {
   obj1 <- k_means(k = mtcars[1:3, ]) %>%
-    set_engine_celery("stats", algorithm = "MacQueen") %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
   obj2 <- k_means(k = 3) %>%
-    set_engine_celery("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
+    set_engine_tidyclust("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
   summ1 <- extract_fit_summary(obj1)

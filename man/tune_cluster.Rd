@@ -16,7 +16,7 @@ tune_cluster(object, ...)
   param_info = NULL,
   grid = 10,
   metrics = NULL,
-  control = control_celery()
+  control = control_tidyclust()
 )
 
 \method{tune_cluster}{workflow}(
@@ -30,7 +30,7 @@ tune_cluster(object, ...)
 )
 }
 \arguments{
-\item{object}{A \code{celery} model specification or a \code{\link[workflows:workflow]{workflows::workflow()}}.}
+\item{object}{A \code{tidyclust} model specification or a \code{\link[workflows:workflow]{workflows::workflow()}}.}
 
 \item{...}{Not currently used.}
 

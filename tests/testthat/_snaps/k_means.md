@@ -8,7 +8,7 @@
 ---
 
     Code
-      bt <- k_means(k = -1) %>% set_engine_celery("stats")
+      bt <- k_means(k = -1) %>% set_engine_tidyclust("stats")
       fit(bt, mpg ~ ., mtcars)
     Error <simpleError>
       invalid 'size' argument
@@ -16,14 +16,14 @@
 ---
 
     Code
-      translate_celery(k_means(), engine = NULL)
+      translate_tidyclust(k_means(), engine = NULL)
     Error <rlang_error>
       Please set an engine.
 
 ---
 
     Code
-      translate_celery(k_means(formula = ~x))
+      translate_tidyclust(k_means(formula = ~x))
     Error <simpleError>
       unused argument (formula = ~x)
 
