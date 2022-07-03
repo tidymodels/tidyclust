@@ -72,6 +72,9 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' kmeans_fit %>%
 #'   tot_wss()
+#'
+#' kmeans_fit %>%
+#'   tot_wss_vec()
 #' @export
 tot_wss <- function(object, ...) {
   UseMethod("tot_wss")
@@ -121,10 +124,36 @@ tot_wss_impl <- function(object, new_data = NULL,
 #'
 #' kmeans_fit %>%
 #'   tot_sse()
+#'
+#' kmeans_fit %>%
+#'   tot_sse_vec()
 #' @export
-tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+tot_sse <- function(object, ...) {
+  UseMethod("tot_sse")
+}
 
+tot_sse <- new_cluster_metric(tot_sse)
 
+#' @export
+#' @rdname tot_sse
+tot_sse.cluster_fit <- function(object, new_data = NULL,
+                                dist_fun = Rfast::dista, ...) {
+  res <- tot_sse_impl(object, new_data, dist_fun, ...)
+
+  tibble::tibble(
+    .metric = "tot_sse",
+    .estimator = "standard",
+    .estimate = res
+  )
+}
+
+#' @export
+#' @rdname tot_sse
+tot_sse_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+  tot_sse_impl(object, new_data, dist_fun, ...)
+}
+
+tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
     new_data <- object %>%
@@ -162,5 +191,6 @@ tot_sse <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 #'   sse_ratio()
 #' @export
 sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
-  tot_wss_vec(object, new_data, dist_fun) / tot_sse(object, new_data, dist_fun)
+  tot_wss_vec(object, new_data, dist_fun) /
+    tot_sse_vec(object, new_data, dist_fun)
 }

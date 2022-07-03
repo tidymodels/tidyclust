@@ -2,19 +2,25 @@
 % Please edit documentation in R/metric-sse.R
 \name{tot_sse}
 \alias{tot_sse}
+\alias{tot_sse.cluster_fit}
+\alias{tot_sse_vec}
 \title{Compute the total sum of squares}
 \usage{
-tot_sse(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+tot_sse(object, ...)
+
+\method{tot_sse}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+
+tot_sse_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}
+
+\item{...}{Other arguments passed to methods.}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
 \item{dist_fun}{A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.}
-
-\item{...}{Other arguments passed to methods.}
 }
 \description{
 Compute the total sum of squares
@@ -27,4 +33,7 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
   tot_sse()
+
+kmeans_fit \%>\%
+  tot_sse_vec()
 }

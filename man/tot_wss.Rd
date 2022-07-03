@@ -33,4 +33,7 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
   tot_wss()
+
+kmeans_fit \%>\%
+  tot_wss_vec()
 }
