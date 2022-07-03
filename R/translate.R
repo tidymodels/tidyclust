@@ -95,14 +95,14 @@ get_cluster_spec <- function(model, mode, engine) {
   res$libs <-
     rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
     dplyr::filter(engine == !!engine) %>%
-    purrr::pluck("pkg") %>%
-    purrr::pluck(1)
+    .[["pkg"]] %>%
+    .[[1]]
 
   res$fit <-
     rlang::env_get(m_env, paste0(model, "_fit")) %>%
     dplyr::filter(mode == !!mode & engine == !!engine) %>%
     dplyr::pull(value) %>%
-    purrr::pluck(1)
+    .[[1]]
 
   pred_code <-
     rlang::env_get(m_env, paste0(model, "_predict")) %>%

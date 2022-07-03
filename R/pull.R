@@ -5,7 +5,7 @@ pull_metrics <- function(resamples, res, control) {
 }
 
 pull_notes <- function(resamples, res, control) {
-  resamples$.notes <- purrr::map(res, ~ purrr::pluck(.x, ".notes"))
+  resamples$.notes <- purrr::map(res, `[[`, ".notes")
   resamples
 }
 

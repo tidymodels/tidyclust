@@ -8,7 +8,7 @@ utils::globalVariables(
     "neighbor", "sil_width", "orig_label", ".cluster", ".submodels",
     "data", "tunable", "component_id", "call_info", "..object", "splits",
     "func", "name", "component", "seed", "iteration", ".iter_model",
-    ".iter_config", ".msg_model", ".iter_preprocessor", "id", "dist"
+    ".iter_config", ".msg_model", ".iter_preprocessor", "id", "dist", "."
   )
 )
 
