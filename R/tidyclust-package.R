@@ -15,6 +15,7 @@
 #' @importFrom rlang missing_arg
 #' @importFrom rlang quos
 #' @importFrom rlang sym
+#' @importFrom rlang abort
 #' @importFrom stats .getXlevels
 #' @importFrom stats as.formula
 #' @importFrom stats model.frame
