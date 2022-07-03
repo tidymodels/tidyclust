@@ -70,10 +70,10 @@ test_that("kmeans sihouette metrics work", {
     names(silhouettes(kmeans_fit_ClusterR, dists = dists))
   )
 
-  expect_equal(avg_silhouette(kmeans_fit_stats, dists = dists), 0.4993742,
+  expect_equal(avg_silhouette(kmeans_fit_stats, dists = dists)$.estimate, 0.4993742,
     tolerance = 0.005
   )
-  expect_equal(avg_silhouette(kmeans_fit_ClusterR, dists = dists), 0.5473414,
+  expect_equal(avg_silhouette(kmeans_fit_ClusterR, dists = dists)$.estimate, 0.5473414,
     tolerance = 0.005
   )
 })
@@ -94,10 +94,10 @@ test_that("kmeans sihouette metrics work with new data", {
     names(silhouettes(kmeans_fit_ClusterR, new_data = new_data))
   )
 
-  expect_equal(avg_silhouette(kmeans_fit_stats, new_data = new_data), 0.5176315,
+  expect_equal(avg_silhouette(kmeans_fit_stats, new_data = new_data)$.estimate, 0.5176315,
     tolerance = 0.005
   )
-  expect_equal(avg_silhouette(kmeans_fit_ClusterR, new_data = new_data), 0.5176315,
+  expect_equal(avg_silhouette(kmeans_fit_ClusterR, new_data = new_data)$.estimate, 0.5176315,
     tolerance = 0.005
   )
 })

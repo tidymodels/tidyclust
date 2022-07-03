@@ -61,7 +61,26 @@ silhouettes <- function(object, new_data = NULL, dists = NULL,
 #'
 #' avg_silhouette(kmeans_fit, dists = dists)
 #' @export
-avg_silhouette <- function(object, new_data = NULL, dists = NULL,
+avg_silhouette <- function(object, ...) {
+  UseMethod("avg_silhouette")
+}
+
+avg_silhouette <- new_cluster_metric(avg_silhouette)
+
+#' @export
+#' @rdname avg_silhouette
+avg_silhouette.cluster_fit <- function(object, new_data = NULL, dists = NULL,
+                                        dist_fun = Rfast::Dist, ...) {
+  res <- avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
+
+  tibble::tibble(
+    .metric = "avg_silhouette",
+    .estimator = "standard",
+    .estimate = res
+  )
+}
+
+avg_silhouette_impl <- function(object, new_data = NULL, dists = NULL,
                            dist_fun = Rfast::Dist, ...) {
   mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
 }
