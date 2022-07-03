@@ -190,7 +190,33 @@ tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) 
 #' kmeans_fit %>%
 #'   sse_ratio()
 #' @export
-sse_ratio <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+sse_ratio <- function(object, ...) {
+  UseMethod("sse_ratio")
+}
+
+sse_ratio <- new_cluster_metric(sse_ratio)
+
+#' @export
+#' @rdname sse_ratio
+sse_ratio.cluster_fit <- function(object, new_data = NULL,
+                                dist_fun = Rfast::dista, ...) {
+  res <- sse_ratio_impl(object, new_data, dist_fun, ...)
+
+  tibble::tibble(
+    .metric = "sse_ratio",
+    .estimator = "standard",
+    .estimate = res
+  )
+}
+
+#' @export
+#' @rdname sse_ratio
+sse_ratio_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+  sse_ratio_impl(object, new_data, dist_fun, ...)
+}
+
+
+sse_ratio_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
   tot_wss_vec(object, new_data, dist_fun) /
     tot_sse_vec(object, new_data, dist_fun)
 }

@@ -2,19 +2,25 @@
 % Please edit documentation in R/metric-sse.R
 \name{sse_ratio}
 \alias{sse_ratio}
+\alias{sse_ratio.cluster_fit}
+\alias{sse_ratio_vec}
 \title{Compute the ratio of the WSS to the total SSE}
 \usage{
-sse_ratio(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+sse_ratio(object, ...)
+
+\method{sse_ratio}{cluster_fit}(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+
+sse_ratio_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}
+
+\item{...}{Other arguments passed to methods.}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
 \item{dist_fun}{A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.}
-
-\item{...}{Other arguments passed to methods.}
 }
 \description{
 Compute the ratio of the WSS to the total SSE

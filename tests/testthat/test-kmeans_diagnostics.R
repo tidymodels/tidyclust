@@ -21,7 +21,7 @@ test_that("kmeans sse metrics work", {
 
   expect_equal(tot_wss(kmeans_fit_stats)$.estimate, km_orig$tot.withinss, tolerance = 0.005)
   expect_equal(tot_sse(kmeans_fit_stats)$.estimate, km_orig$totss, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_stats), km_orig$tot.withinss / km_orig$totss, tolerance = 0.005)
+  expect_equal(sse_ratio(kmeans_fit_stats)$.estimate, km_orig$tot.withinss / km_orig$totss, tolerance = 0.005)
 
   expect_equal(within_cluster_sse(kmeans_fit_ClusterR)$wss,
     c(56041.432, 4665.041, 42877.103), # hard coded because of order
@@ -30,7 +30,7 @@ test_that("kmeans sse metrics work", {
 
   expect_equal(tot_wss(kmeans_fit_ClusterR)$.estimate, sum(km_orig_2$WCSS_per_cluster), tolerance = 0.005)
   expect_equal(tot_sse(kmeans_fit_ClusterR)$.estimate, tot_sse(kmeans_fit_stats)$.estimate, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_ClusterR), 0.1661624, tolerance = 0.005)
+  expect_equal(sse_ratio(kmeans_fit_ClusterR)$.estimate, 0.1661624, tolerance = 0.005)
 })
 
 test_that("kmeans sse metrics work on new data", {
@@ -47,7 +47,7 @@ test_that("kmeans sse metrics work on new data", {
 
   expect_equal(tot_wss(kmeans_fit_stats, new_data)$.estimate, 15654.38, tolerance = 0.005)
   expect_equal(tot_sse(kmeans_fit_stats, new_data)$.estimate, 32763.7, tolerance = 0.005)
-  expect_equal(sse_ratio(kmeans_fit_stats, new_data), 15654.38 / 32763.7, tolerance = 0.005)
+  expect_equal(sse_ratio(kmeans_fit_stats, new_data)$.estimate, 15654.38 / 32763.7, tolerance = 0.005)
 })
 
 test_that("kmeans sihouette metrics work", {
