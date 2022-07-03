@@ -12,7 +12,7 @@ tunable_cluster_spec <- function(x, ...) {
   if (!(any(arg_name == names(mod_env)))) {
     abort(
       paste(
-        "The `celery` model database doesn't know about the arguments for ",
+        "The `tidyclust` model database doesn't know about the arguments for ",
         "model `", mod_type(x), "`. Was it registered?",
         sep = ""
         ),
