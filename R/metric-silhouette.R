@@ -60,6 +60,8 @@ silhouettes <- function(object, new_data = NULL, dists = NULL,
 #'   dist()
 #'
 #' avg_silhouette(kmeans_fit, dists = dists)
+#'
+#' avg_silhouette_vec(kmeans_fit, dists = dists)
 #' @export
 avg_silhouette <- function(object, ...) {
   UseMethod("avg_silhouette")
@@ -78,6 +80,14 @@ avg_silhouette.cluster_fit <- function(object, new_data = NULL, dists = NULL,
     .estimator = "standard",
     .estimate = res
   )
+}
+
+#' @export
+#' @rdname avg_silhouette
+avg_silhouette_vec <- function(object, new_data = NULL, dists = NULL,
+                                       dist_fun = Rfast::Dist, ...) {
+  avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
+
 }
 
 avg_silhouette_impl <- function(object, new_data = NULL, dists = NULL,

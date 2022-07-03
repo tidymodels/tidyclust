@@ -3,11 +3,20 @@
 \name{avg_silhouette}
 \alias{avg_silhouette}
 \alias{avg_silhouette.cluster_fit}
+\alias{avg_silhouette_vec}
 \title{Measures average silhouette across all observations}
 \usage{
 avg_silhouette(object, ...)
 
 \method{avg_silhouette}{cluster_fit}(
+  object,
+  new_data = NULL,
+  dists = NULL,
+  dist_fun = Rfast::Dist,
+  ...
+)
+
+avg_silhouette_vec(
   object,
   new_data = NULL,
   dists = NULL,
@@ -44,4 +53,6 @@ dists <- mtcars \%>\%
   dist()
 
 avg_silhouette(kmeans_fit, dists = dists)
+
+avg_silhouette_vec(kmeans_fit, dists = dists)
 }
