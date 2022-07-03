@@ -3,12 +3,15 @@
 \name{sse_ratio}
 \alias{sse_ratio}
 \alias{sse_ratio.cluster_fit}
+\alias{sse_ratio.workflow}
 \alias{sse_ratio_vec}
 \title{Compute the ratio of the WSS to the total SSE}
 \usage{
 sse_ratio(object, ...)
 
 \method{sse_ratio}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
+
+\method{sse_ratio}{workflow}(object, new_data = NULL, dist_fun = NULL, ...)
 
 sse_ratio_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }

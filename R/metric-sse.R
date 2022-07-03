@@ -103,6 +103,10 @@ tot_wss.cluster_fit <- function(object, new_data = NULL,
 
 #' @export
 #' @rdname tot_wss
+tot_wss.workflow <- tot_wss.cluster_fit
+
+#' @export
+#' @rdname tot_wss
 tot_wss_vec <- function(object, new_data = NULL,
                                 dist_fun = Rfast::dista, ...) {
   tot_wss_impl(object, new_data, dist_fun, ...)
@@ -156,6 +160,10 @@ tot_sse.cluster_fit <- function(object, new_data = NULL,
     .estimate = res
   )
 }
+
+#' @export
+#' @rdname tot_sse
+tot_sse.workflow <- tot_sse.cluster_fit
 
 #' @export
 #' @rdname tot_sse
@@ -221,6 +229,10 @@ sse_ratio.cluster_fit <- function(object, new_data = NULL,
     .estimate = res
   )
 }
+
+#' @export
+#' @rdname sse_ratio
+sse_ratio.workflow <- sse_ratio.cluster_fit
 
 #' @export
 #' @rdname sse_ratio

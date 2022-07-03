@@ -3,12 +3,15 @@
 \name{tot_wss}
 \alias{tot_wss}
 \alias{tot_wss.cluster_fit}
+\alias{tot_wss.workflow}
 \alias{tot_wss_vec}
 \title{Compute the sum of within-cluster SSE}
 \usage{
 tot_wss(object, ...)
 
 \method{tot_wss}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
+
+\method{tot_wss}{workflow}(object, new_data = NULL, dist_fun = NULL, ...)
 
 tot_wss_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }

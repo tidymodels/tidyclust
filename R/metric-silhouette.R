@@ -88,6 +88,10 @@ avg_silhouette.cluster_fit <- function(object, new_data = NULL, dists = NULL,
 
 #' @export
 #' @rdname avg_silhouette
+avg_silhouette.workflow <- avg_silhouette.cluster_fit
+
+#' @export
+#' @rdname avg_silhouette
 avg_silhouette_vec <- function(object, new_data = NULL, dists = NULL,
                                        dist_fun = Rfast::Dist, ...) {
   avg_silhouette_impl(object, new_data, dists, dist_fun, ...)

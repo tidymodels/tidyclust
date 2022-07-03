@@ -3,12 +3,15 @@
 \name{tot_sse}
 \alias{tot_sse}
 \alias{tot_sse.cluster_fit}
+\alias{tot_sse.workflow}
 \alias{tot_sse_vec}
 \title{Compute the total sum of squares}
 \usage{
 tot_sse(object, ...)
 
 \method{tot_sse}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
+
+\method{tot_sse}{workflow}(object, new_data = NULL, dist_fun = NULL, ...)
 
 tot_sse_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 }
