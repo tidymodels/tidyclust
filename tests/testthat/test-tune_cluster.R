@@ -344,6 +344,75 @@ test_that("argument order gives errors for formula", {
   })
 })
 
+test_that("metrics can be NULL", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(4400)
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+    workflows::add_model(helper_objects$kmeans_mod_no_tune)
+  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+    update(num_comp = dials::num_comp(c(1, 3)))
+  grid <- dials::grid_regular(pset, levels = 3)
+  folds <- rsample::vfold_cv(mtcars)
+  control <- tune::control_grid(extract = identity)
+  metrics <- cluster_metric_set(tot_wss, tot_sse)
+
+  set.seed(4400)
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control
+  )
+
+  set.seed(4400)
+  res1 <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
+
+  expect_identical(res$.metrics, res1$.metrics)
+})
+
+test_that("tune recipe only", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(4400)
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+    workflows::add_model(helper_objects$kmeans_mod_no_tune)
+  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+    update(num_comp = dials::num_comp(c(1, 3)))
+  grid <- dials::grid_regular(pset, levels = 3)
+  folds <- rsample::vfold_cv(mtcars)
+  control <- tune::control_grid(extract = identity)
+  metrics <- cluster_metric_set(tot_wss)
+
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
+  res_est <- tune::collect_metrics(res)
+  res_workflow <- res$.extracts[[1]]$.extracts[[1]]
+
+  # Ensure tunable parameters in recipe are finalized
+  num_comp <- res_workflow$pre$actions$recipe$recipe$steps[[2]]$num_comp
+
+  expect_equal(res$id, folds$id)
+  expect_equal(nrow(res_est), nrow(grid))
+  expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
+  expect_equal(res_est$n, rep(10, nrow(grid)))
+  expect_false(identical(num_comp, expr(tune())))
+  expect_true(res_workflow$trained)
+})
+
 test_that("ellipses with tune_cluster", {
   helper_objects <- helper_objects_tidyclust()
 
