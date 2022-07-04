@@ -620,11 +620,7 @@ append_metrics <- function(workflow,
     dplyr::select(dplyr::all_of(param_names)) %>%
     dplyr::distinct()
 
-  tmp_est <- imap_dfr(metrics,
-    ~ list(.estimate = .x(workflow)),
-    .id = ".metric"
-  ) %>%
-    dplyr::mutate(.estimator = "standard")
+  tmp_est <- metrics(workflow, new_data = rsample::analysis(split))
 
   tmp_est <- cbind(tmp_est, labels(split))
 
