@@ -106,7 +106,7 @@ tune_cluster_workflow <- function(workflow,
                                   rng = TRUE) {
   tune::check_rset(resamples)
 
-  # metrics <- check_metrics(metrics, workflow)
+  metrics <- check_metrics(metrics, workflow)
 
   # pset <- check_parameters(
   #   workflow = workflow,
@@ -779,4 +779,29 @@ compute_grid_info_preprocessor <- function(workflow,
   )
 
   out
+}
+
+check_metrics <- function(x, object) {
+  mode <- extract_spec_parsnip(object)$mode
+
+  if (is.null(x)) {
+    switch(mode,
+           partition = {
+             x <- cluster_metric_set(tot_wss, tot_sse)
+           },
+           unknown = {
+             rlang::abort("Internal error: `check_installs()` should have caught an `unknown` mode.")
+           },
+           rlang::abort("Unknown `mode` for parsnip model.")
+    )
+
+    return(x)
+  }
+
+  is_cluster_metric_set <- inherits(x, "cluster_metric_set")
+
+  if (!is_cluster_metric_set) {
+    rlang::abort("The `metrics` argument should be the results of [cluster_metric_set()].")
+  }
+  x
 }

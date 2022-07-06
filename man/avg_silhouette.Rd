@@ -3,12 +3,15 @@
 \name{avg_silhouette}
 \alias{avg_silhouette}
 \alias{avg_silhouette.cluster_fit}
+\alias{avg_silhouette.workflow}
 \alias{avg_silhouette_vec}
 \title{Measures average silhouette across all observations}
 \usage{
 avg_silhouette(object, ...)
 
 \method{avg_silhouette}{cluster_fit}(object, new_data = NULL, dists = NULL, dist_fun = NULL, ...)
+
+\method{avg_silhouette}{workflow}(object, new_data = NULL, dists = NULL, dist_fun = NULL, ...)
 
 avg_silhouette_vec(
   object,
