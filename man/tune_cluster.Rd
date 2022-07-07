@@ -59,9 +59,9 @@ An updated version of \code{resamples} with extra list columns for
 execution.
 }
 \description{
-\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics (e.g. accuracy or RMSE)
-for a pre-defined set of tuning parameters that correspond to a model or
-recipe across one or more resamples of the data.
+\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics (e.g. accuracy or
+RMSE) for a pre-defined set of tuning parameters that correspond to a model
+or recipe across one or more resamples of the data.
 }
 \examples{
 1 + 1

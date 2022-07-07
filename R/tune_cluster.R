@@ -1,8 +1,8 @@
 #' Model tuning via grid search
 #'
-#' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or RMSE)
-#'  for a pre-defined set of tuning parameters that correspond to a model or
-#'  recipe across one or more resamples of the data.
+#' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or
+#' RMSE) for a pre-defined set of tuning parameters that correspond to a model
+#' or recipe across one or more resamples of the data.
 #'
 #' @param object A `tidyclust` model specification or a [workflows::workflow()].
 #' @param preprocessor A traditional model formula or a recipe created using
