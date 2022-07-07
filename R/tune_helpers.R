@@ -164,7 +164,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = map(1:nrow(grid), ~ list())
+      .submodels = map(seq_along(nrow(grid)), ~ list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -331,7 +331,7 @@ merger <- function(x, y, ...) {
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
-    res <- tibble::tibble(x = map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   grid_name <- colnames(y)
@@ -343,13 +343,13 @@ merger <- function(x, y, ...) {
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
-    res <- tibble::tibble(x = map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   y %>%
     dplyr::mutate(
       ..object = map(
-        1:nrow(y),
+        seq_along(nrow(y)),
         ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
     ) %>%
