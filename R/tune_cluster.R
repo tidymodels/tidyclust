@@ -140,16 +140,12 @@ tune_cluster_workflow <- function(workflow,
     rlang::warn("All models failed. See the `.notes` column.")
   }
 
-  # outcomes <- reduce_all_outcome_names(resamples)
-  # resamples[[".all_outcome_names"]] <- NULL
-
   workflow <- set_workflow(workflow, control)
 
   new_tune_results(
     x = resamples,
     parameters = pset,
     metrics = metrics,
-    # outcomes = outcomes,
     rset_info = rset_info,
     workflow = workflow
   )
@@ -315,7 +311,6 @@ tune_cluster_loop_iter <- function(split,
   out_metrics <- NULL
   out_extracts <- NULL
   out_predictions <- NULL
-  out_all_outcome_names <- list()
   out_notes <- tibble::tibble(
     location = character(0),
     type = character(0),
@@ -433,14 +428,6 @@ tune_cluster_loop_iter <- function(split,
 
       workflow <- workflows::.fit_finalize(workflow)
 
-      # Extract outcome names from the hardhat mold
-      # outcome_names <- outcome_names(workflow)
-
-      # out_all_outcome_names <- append_outcome_names(
-      #   all_outcome_names = out_all_outcome_names,
-      #   outcome_names = outcome_names
-      # )
-
       # FIXME: I think this might be wrong? Doesn't use submodel parameters,
       # so `extracts` column doesn't list the correct parameters.
       iter_grid <- dplyr::bind_cols(
@@ -508,7 +495,6 @@ tune_cluster_loop_iter <- function(split,
     .metrics = out_metrics,
     .extracts = out_extracts,
     .predictions = out_predictions,
-    # .all_outcome_names = out_all_outcome_names,
     .notes = out_notes
   )
 }
@@ -563,7 +549,6 @@ tune_cluster_loop_iter_safely <- function(split,
       .metrics = NULL,
       .extracts = NULL,
       .predictions = NULL,
-      .all_outcome_names = list(),
       .notes = NULL
     )
   }

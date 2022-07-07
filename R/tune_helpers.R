@@ -16,25 +16,6 @@ is_cataclysmic <- function(x) {
   all(is_err)
 }
 
-reduce_all_outcome_names <- function(resamples) {
-  all_outcome_names <- resamples$.all_outcome_names
-  all_outcome_names <- rlang::flatten(all_outcome_names)
-  all_outcome_names <- vctrs::vec_unique(all_outcome_names)
-  n_unique <- length(all_outcome_names)
-  if (n_unique == 0L) {
-    return(character())
-  }
-  if (n_unique > 1L) {
-    rlang::warn(paste0(
-      "More than one set of outcomes were used when tuning. ",
-      "This should never happen. ",
-      "Review how the outcome is specified in your model."
-    ))
-  }
-  outcome_names <- all_outcome_names[[1L]]
-  outcome_names
-}
-
 set_workflow <- function(workflow, control) {
   if (control$save_workflow) {
     if (!is.null(workflow$pre$actions$recipe)) {
@@ -444,7 +425,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   forged <- forge_from_workflow(split, workflow)
 
   x_vals <- forged$predictors
-  y_vals <- forged$outcomes
 
   orig_rows <- as.integer(split, data = "assessment")
 
@@ -521,10 +501,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
     rm(tmp_res)
   } # end type loop
 
-  # Add outcome data
-  # y_vals <- dplyr::mutate(y_vals, .row = orig_rows)
-  # res <- dplyr::full_join(res, y_vals, by = ".row")
-
   tibble::as_tibble(res)
 }
 
@@ -537,7 +513,7 @@ forge_from_workflow <- function(split, workflow) {
       "Internal error: hardhat should have been installed from the workflows dependency."
     )
   }
-  forged <- hardhat::forge(new_data, blueprint, outcomes = TRUE)
+  forged <- hardhat::forge(new_data, blueprint, outcomes = FALSE)
 
   forged
 }
@@ -694,15 +670,13 @@ iter_combine <- function(...) {
   metrics <- map(results, ~ .x[[".metrics"]])
   extracts <- map(results, ~ .x[[".extracts"]])
   predictions <- map(results, ~ .x[[".predictions"]])
-  all_outcome_names <- map(results, ~ .x[[".all_outcome_names"]])
   notes <- map(results, ~ .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
-  all_outcome_names <- vctrs::vec_c(!!!all_outcome_names)
   notes <- vctrs::vec_c(!!!notes)
   list(
     .metrics = metrics, .extracts = extracts, .predictions = predictions,
-    .all_outcome_names = all_outcome_names, .notes = notes
+    .notes = notes
   )
 }

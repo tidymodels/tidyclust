@@ -28,8 +28,7 @@
 #'  as there are rows in `new_data` and the column names will be
 #'  predictable.
 #'
-#' For clustering results with a single outcome, the tibble will have
-#'  a `.pred_cluster`.
+#' For clustering results the tibble will have a `.pred_cluster` column.
 #'
 #' Using `type = "raw"` with `predict.cluster_fit()` will return
 #'  the unadulterated results of the prediction function.
