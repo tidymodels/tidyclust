@@ -405,7 +405,7 @@ tune_cluster_loop_iter <- function(split,
       workflow <- finalize_workflow_spec(workflow, iter_grid_model)
 
       workflow <- catch_and_log_fit(
-        expr = workflows::.fit_model(workflow, workflows::control_workflow()),
+        expr = workflows::.fit_model(workflow, control_workflow),
         control,
         split,
         iter_msg_model,
