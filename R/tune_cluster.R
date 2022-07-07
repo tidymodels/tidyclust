@@ -155,7 +155,12 @@ tune_cluster_workflow <- function(workflow,
   )
 }
 
-tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) {
+tune_cluster_loop <- function(resamples,
+                              grid,
+                              workflow,
+                              metrics,
+                              control,
+                              rng) {
   `%op%` <- get_operator(control$allow_par, workflow)
   `%:%` <- foreach::`%:%`
 
@@ -273,7 +278,13 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_preprocessor(workflow, grid, parameters_model)
     } else {
-      rlang::abort("Internal error: `workflow` should have some tunable parameters if `grid` is not `NULL`.")
+      rlang::abort(
+        paste0(
+          "Internal error: ",
+          "`workflow` should have some tunable parameters ",
+          "if `grid` is not `NULL`."
+        )
+      )
     }
   }
 }
@@ -297,7 +308,7 @@ tune_cluster_loop_iter <- function(split,
   }
 
   control_parsnip <- parsnip::control_parsnip(verbosity = 0, catch = TRUE)
-  control_workflow <- workflows::control_workflow(control_parsnip = control_parsnip)
+  control_workflow <- workflows::control_workflow(control_parsnip)
 
   event_level <- control$event_level
 
@@ -305,8 +316,11 @@ tune_cluster_loop_iter <- function(split,
   out_extracts <- NULL
   out_predictions <- NULL
   out_all_outcome_names <- list()
-  out_notes <-
-    tibble::tibble(location = character(0), type = character(0), note = character(0))
+  out_notes <- tibble::tibble(
+    location = character(0),
+    type = character(0),
+    note = character(0)
+  )
 
   params <- hardhat::extract_parameter_set_dials(workflow)
   model_params <- dplyr::filter(params, source == "cluster_spec")
@@ -790,7 +804,12 @@ check_metrics <- function(x, object) {
              x <- cluster_metric_set(tot_wss, tot_sse)
            },
            unknown = {
-             rlang::abort("Internal error: `check_installs()` should have caught an `unknown` mode.")
+             rlang::abort(
+               paste0(
+                 "Internal error: ",
+                 "`check_installs()` should have caught an `unknown` mode."
+               )
+             )
            },
            rlang::abort("Unknown `mode` for parsnip model.")
     )
@@ -801,7 +820,12 @@ check_metrics <- function(x, object) {
   is_cluster_metric_set <- inherits(x, "cluster_metric_set")
 
   if (!is_cluster_metric_set) {
-    rlang::abort("The `metrics` argument should be the results of [cluster_metric_set()].")
+    rlang::abort(
+      paste0(
+        "The `metrics` argument should be the results of ",
+        "[cluster_metric_set()]."
+      )
+    )
   }
   x
 }
