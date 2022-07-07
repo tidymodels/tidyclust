@@ -79,8 +79,8 @@ that class): a symbolic description of the model to be fitted.</p></dd>
 
 <dt>data</dt>
 <dd><p>Optional, depending on the interface (see Details below). A data
-frame containing all relevant variables (e.g. outcome(s), predictors, case
-weights, etc). Note: when needed, a <em>named argument</em> should be used.</p></dd>
+frame containing all relevant variables (e.g. predictors, case weights,
+etc). Note: when needed, a <em>named argument</em> should be used.</p></dd>
 
 
 <dt>control</dt>
@@ -111,9 +111,7 @@ examples.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A <code>cluster_fit</code> object that contains several elements:</p><ul><li><p><code>lvl</code>: If the outcome is a factor, this contains the factor
-levels at the time of model fitting.</p></li>
-<li><p><code>spec</code>: The model specification object (<code>object</code> in the
+<p>A <code>cluster_fit</code> object that contains several elements:</p><ul><li><p><code>spec</code>: The model specification object (<code>object</code> in the
 call to <code>fit</code>)</p></li>
 <li><p><code>fit</code>: when the model is executed without error, this is the
 model object. Otherwise, it is a <code>try-error</code>
