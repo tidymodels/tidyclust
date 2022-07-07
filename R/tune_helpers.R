@@ -636,6 +636,12 @@ extract_details <- function(object, extractor) {
   try(extractor(object), silent = TRUE)
 }
 
+extract_metrics_config <- function(param_names, metrics) {
+  metrics_config_names <- c(param_names, ".config")
+  out <- metrics[metrics_config_names]
+  vctrs::vec_unique(out)
+}
+
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)

@@ -479,14 +479,14 @@ tune_cluster_loop_iter <- function(split,
         .config = iter_config
       )
 
-      # iter_config_metrics <- extract_metrics_config(param_names, out_metrics)
+      iter_config_metrics <- extract_metrics_config(param_names, out_metrics)
 
       out_predictions <- append_predictions(
         collection = out_predictions,
         predictions = iter_predictions,
         split = split,
-        control = control # ,
-        # .config = iter_config_metrics
+        control = control,
+        .config = iter_config_metrics
       )
     } # model loop
   } # preprocessor loop
