@@ -115,7 +115,7 @@ tune_cluster_workflow <- function(workflow,
     grid_names = names(grid)
   )
 
-  # check_workflow(workflow, pset = pset)
+  check_workflow(workflow, pset = pset)
 
   # grid <- check_grid(
   #   grid = grid,
@@ -821,7 +821,7 @@ check_parameters <- function(workflow,
   if (is.null(pset)) {
     pset <- hardhat::extract_parameter_set_dials(workflow)
   }
-  unk <- purrr::map_lgl(pset$object, dials::has_unknowns)
+  unk <- map_lgl(pset$object, dials::has_unknowns)
   if (!any(unk)) {
     return(pset)
   }
@@ -850,7 +850,7 @@ check_parameters <- function(workflow,
     tune_log(list(verbose = TRUE), split = NULL, msg, type = "info")
 
     x <- workflows::.fit_pre(workflow, data)$pre$mold$predictors
-    pset$object <- purrr::map(pset$object, dials::finalize, x = x)
+    pset$object <- map(pset$object, dials::finalize, x = x)
   }
   pset
 }
@@ -865,4 +865,53 @@ needs_finalization <- function(x, nms = character(0)) {
     return(FALSE)
   }
   any(dials::has_unknowns(x$object))
+}
+
+check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
+  if (!inherits(x, "workflow")) {
+    rlang::abort("The `object` argument should be a 'workflow' object.")
+  }
+
+  if (!has_preprocessor(x)) {
+    rlang::abort("A formula, recipe, or variables preprocessor is required.")
+  }
+
+  if (!has_spec(x)) {
+    rlang::abort("A parsnip model is required.")
+  }
+
+  if (check_dials) {
+    if (is.null(pset)) {
+      pset <- hardhat::extract_parameter_set_dials(x)
+    }
+
+    check_param_objects(pset)
+
+    incompl <- dials::has_unknowns(pset$object)
+
+    if (any(incompl)) {
+      rlang::abort(paste0(
+        "The workflow has arguments whose ranges are not finalized: ",
+        paste0("'", pset$id[incompl], "'", collapse = ", ")
+      ))
+    }
+  }
+
+  mod <- extract_spec_parsnip(x)
+  check_installs(mod)
+
+  invisible(NULL)
+}
+
+check_param_objects <- function(pset) {
+  params <- map_lgl(pset$object, inherits, "param")
+
+  if (!all(params)) {
+    rlang::abort(paste0(
+      "The workflow has arguments to be tuned that are missing some ",
+      "parameter objects: ",
+      paste0("'", pset$id[!params], "'", collapse = ", ")
+    ))
+  }
+  invisible(pset)
 }
