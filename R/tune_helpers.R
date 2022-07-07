@@ -56,9 +56,9 @@ new_tune_results <- function(x, parameters, metrics,
 
 get_operator <- function(allow = TRUE, object) {
   is_par <- foreach::getDoParWorkers() > 1
-  # pkgs <- required_pkgs(object) # TODO
+  pkgs <- required_pkgs(object)
   blacklist <- c("keras", "rJava")
-  if (is_par & allow && any(pkgs %in% blacklist)) {
+  if (is_par && allow && any(pkgs %in% blacklist)) {
     pkgs <- pkgs[pkgs %in% blacklist]
     msg <- paste0("'", pkgs, "'", collapse = ", ")
     msg <- paste(
