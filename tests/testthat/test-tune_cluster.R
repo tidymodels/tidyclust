@@ -152,95 +152,6 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
 
-test_that("tune recipe only - failure in recipe is caught elegantly", {
-  skip("wait for parameter checking")
-  helper_objects <- helper_objects_tidyclust()
-
-  set.seed(7898)
-  data_folds <- rsample::vfold_cv(mtcars, v = 2)
-
-  rec <- recipes::recipe(mpg ~ ., data = mtcars) %>%
-    recipes::step_bs(disp, deg_free = tune())
-
-  model <- helper_objects$kmeans_mod_no_tune
-
-  # NA values not allowed in recipe
-  cars_grid <- tibble(deg_free = c(3, NA_real_, 4))
-
-  # ask for predictions and extractions
-  control <- tune::control_grid(
-    save_pred = TRUE,
-    extract = function(x) 1L
-  )
-
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
-
-  suppressMessages({
-    cars_res <- tune_cluster(
-      model,
-      preprocessor = rec,
-      resamples = data_folds,
-      grid = cars_grid,
-      control = control,
-      metrics = metrics
-    )
-  })
-
-  notes <- cars_res$.notes
-  note <- notes[[1]]$note
-
-  extract <- cars_res$.extracts[[1]]
-
-  predictions <- cars_res$.predictions[[1]]
-  used_deg_free <- sort(unique(predictions$deg_free))
-
-  expect_length(notes, 2L)
-
-  # failing rows are not in the output
-  expect_equal(nrow(extract), 2L)
-  expect_equal(extract$deg_free, c(3, 4))
-
-  expect_equal(used_deg_free, c(3, 4))
-})
-
-test_that("tune model only - failure in recipe is caught elegantly", {
-  skip("wait for parameter checking")
-  helper_objects <- helper_objects_tidyclust()
-
-  set.seed(7898)
-  data_folds <- rsample::vfold_cv(mtcars, v = 2)
-
-  # NA values not allowed in recipe
-  rec <- recipe(mpg ~ ., data = mtcars) %>%
-    step_bs(disp, deg_free = NA_real_)
-
-  cars_grid <- tibble(cost = c(0.01, 0.02))
-
-  expect_snapshot(
-    cars_res <- tune_cluster(
-      helper_objects$svm_mod,
-      preprocessor = rec,
-      resamples = data_folds,
-      grid = cars_grid,
-      control = tune::control_grid(extract = function(x) {
-        1
-      }, save_pred = TRUE)
-    )
-  )
-
-  notes <- cars_res$.notes
-  note <- notes[[1]]$note
-
-  extracts <- cars_res$.extracts
-  predictions <- cars_res$.predictions
-
-  expect_length(notes, 2L)
-
-  # recipe failed - no models run
-  expect_equal(extracts, list(NULL, NULL))
-  expect_equal(predictions, list(NULL, NULL))
-})
-
 test_that("tune model only - failure in formula is caught elegantly", {
   helper_objects <- helper_objects_tidyclust()
 
@@ -273,51 +184,6 @@ test_that("tune model only - failure in formula is caught elegantly", {
   # formula failed - no models run
   expect_equal(extracts, list(NULL, NULL))
   expect_equal(predictions, list(NULL, NULL))
-})
-
-test_that("tune model and recipe - failure in recipe is caught elegantly", {
-  skip("wait for parameter checking")
-  helper_objects <- helper_objects_tidyclust()
-
-  set.seed(7898)
-  data_folds <- rsample::vfold_cv(mtcars, v = 2)
-
-  rec <- recipe(mpg ~ ., data = mtcars) %>%
-    step_bs(disp, deg_free = tune())
-
-
-  # NA values not allowed in recipe
-  cars_grid <- tibble(deg_free = c(NA_real_, 10L), cost = 0.01)
-
-  suppressMessages({
-    cars_res <- tune_cluster(
-      helper_objects$svm_mod,
-      preprocessor = rec,
-      resamples = data_folds,
-      grid = cars_grid,
-      control = tune::control_grid(extract = function(x) {
-        1
-      }, save_pred = TRUE)
-    )
-  })
-
-  notes <- cars_res$.notes
-  note <- notes[[1]]$note
-
-  extract <- cars_res$.extracts[[1]]
-  prediction <- cars_res$.predictions[[1]]
-
-  expect_length(notes, 2L)
-
-  # recipe failed half of the time, only 1 model passed
-  expect_equal(nrow(extract), 1L)
-  expect_equal(extract$deg_free, 10L)
-  expect_equal(extract$cost, 0.01)
-
-  expect_equal(
-    unique(prediction[, c("deg_free", "cost")]),
-    tibble(deg_free = 10, cost = 0.01)
-  )
 })
 
 test_that("argument order gives errors for recipes", {
@@ -436,7 +302,6 @@ test_that("determining the grid type", {
 })
 
 test_that("retain extra attributes", {
-  skip("wait for parameter checking")
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
@@ -445,6 +310,7 @@ test_that("retain extra attributes", {
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
+  grid$k <- grid$k + 1
   folds <- rsample::vfold_cv(mtcars)
   metrics <- cluster_metric_set(tot_wss, tot_sse)
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
@@ -455,47 +321,5 @@ test_that("retain extra attributes", {
   expect_true(any(att_names == "parameters"))
 
   expect_true(inherits(att$parameters, "parameters"))
-  expect_true(inherits(att$metrics, "metric_set"))
-
-  set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    add_formula(mpg ~ .) %>%
-    workflows::add_model(helper_objects$svm_mod)
-  pset <- hardhat::extract_parameter_set_dials(wflow)
-  grid <- dials::grid_regular(pset, levels = 3)
-  folds <- rsample::vfold_cv(mtcars)
-  res <- tune_cluster(wflow, resamples = folds, grid = grid)
-
-  att <- attributes(res)
-  att_names <- names(att)
-  expect_true(any(att_names == "metrics"))
-  expect_true(any(att_names == "parameters"))
-
-  expect_true(inherits(att$parameters, "parameters"))
-  expect_true(inherits(att$metrics, "metric_set"))
-
-  res2 <- tune_cluster(
-    wflow,
-    resamples = folds,
-    grid = grid,
-    control = tune::control_grid(save_workflow = TRUE)
-  )
-  expect_null(attr(res, "workflow"))
-  expect_true(inherits(attr(res2, "workflow"), "workflow"))
-
-  wflow2 <- workflows::workflow() %>%
-    workflows::add_recipe(recipes::recipe(mpg ~ ., mtcars[rep(1:32, 3000), ])) %>%
-    workflows::add_model(helper_objects$svm_mod)
-  pset2 <- hardhat::extract_parameter_set_dials(wflow2)
-  grid2 <- dials::grid_regular(pset2, levels = 3)
-
-  expect_message(
-    tune_cluster(
-      wflow2,
-      resamples = folds,
-      grid = grid2,
-      control = tune::control_grid(save_workflow = TRUE)
-    ),
-    "being saved contains a recipe, which is"
-  )
+  expect_true(inherits(att$metrics, "cluster_metric_set"))
 })
