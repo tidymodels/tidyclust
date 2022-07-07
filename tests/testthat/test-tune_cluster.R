@@ -247,13 +247,13 @@ test_that("tune model only - failure in formula is caught elegantly", {
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
 
-  cars_grid <- tibble(cost = 0.01)
+  cars_grid <- tibble::tibble(k = 2)
 
   # these terms don't exist!
   expect_snapshot(
     cars_res <- tune_cluster(
       helper_objects$kmeans_mod,
-      y ~ z,
+      ~ z,
       resamples = data_folds,
       grid = cars_grid,
       control = tune::control_grid(extract = function(x) {

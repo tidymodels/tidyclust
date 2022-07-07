@@ -117,11 +117,11 @@ tune_cluster_workflow <- function(workflow,
 
   check_workflow(workflow, pset = pset)
 
-  # grid <- check_grid(
-  #   grid = grid,
-  #   workflow = workflow,
-  #   pset = pset
-  # )
+  grid <- check_grid(
+    grid = grid,
+    workflow = workflow,
+    pset = pset
+  )
 
   # Save rset attributes, then fall back to a bare tibble
   rset_info <- tune::pull_rset_attributes(resamples)
@@ -914,4 +914,93 @@ check_param_objects <- function(pset) {
     ))
   }
   invisible(pset)
+}
+
+grid_msg <- "`grid` should be a positive integer or a data frame."
+
+check_grid <- function(grid, workflow, pset = NULL) {
+  # `NULL` grid is the signal that we are using `fit_resamples()`
+  if (is.null(grid)) {
+    return(grid)
+  }
+
+  if (is.null(pset)) {
+    pset <- hardhat::extract_parameter_set_dials(workflow)
+  }
+
+  if (nrow(pset) == 0L) {
+    msg <- paste0(
+      "No tuning parameters have been detected, ",
+      "performance will be evaluated using the resamples with no tuning. ",
+      "Did you want to [tune()] parameters?"
+    )
+    rlang::warn(msg)
+
+    # Return `NULL` as the new `grid`, like what is used in `fit_resamples()`
+    return(NULL)
+  }
+
+  if (!is.numeric(grid)) {
+    if (!is.data.frame(grid)) {
+      rlang::abort(grid_msg)
+    }
+
+    grid_distinct <- dplyr::distinct(grid)
+    if (!identical(nrow(grid_distinct), nrow(grid))) {
+      rlang::warn(
+        "Duplicate rows in grid of tuning combinations found and removed."
+      )
+    }
+    grid <- grid_distinct
+
+    tune_tbl <- generics::tune_args(workflow)
+    tune_params <- tune_tbl$id
+
+    # when called from [tune_bayes()]
+    tune_params <- tune_params[tune_params != ".iter"]
+
+    grid_params <- names(grid)
+
+    extra_grid_params <- setdiff(grid_params, tune_params)
+    extra_tune_params <- setdiff(tune_params, grid_params)
+
+    if (length(extra_grid_params) != 0L) {
+      extra_grid_params <- glue::single_quote(extra_grid_params)
+      extra_grid_params <- glue::glue_collapse(extra_grid_params, sep = ", ")
+
+      msg <- glue::glue(
+        "The provided `grid` has the following parameter columns that have ",
+        "not been marked for tuning by `tune()`: {extra_grid_params}."
+      )
+
+      rlang::abort(msg)
+    }
+
+    if (length(extra_tune_params) != 0L) {
+      extra_tune_params <- glue::single_quote(extra_tune_params)
+      extra_tune_params <- glue::glue_collapse(extra_tune_params, sep = ", ")
+
+      msg <- glue::glue(
+        "The provided `grid` is missing the following parameter columns that ",
+        "have been marked for tuning by `tune()`: {extra_tune_params}."
+      )
+
+      rlang::abort(msg)
+    }
+  } else {
+    grid <- as.integer(grid[1])
+    if (grid < 1) {
+      rlang::abort(grid_msg)
+    }
+    check_workflow(workflow, pset = pset, check_dials = TRUE)
+
+    grid <- dials::grid_latin_hypercube(pset, size = grid)
+    grid <- dplyr::distinct(grid)
+  }
+
+  if (!tibble::is_tibble(grid)) {
+    grid <- tibble::as_tibble(grid)
+  }
+
+  grid
 }
