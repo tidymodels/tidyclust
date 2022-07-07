@@ -17,8 +17,8 @@
 that class): a symbolic description of the model to be fitted.}
 
 \item{data}{Optional, depending on the interface (see Details below). A data
-frame containing all relevant variables (e.g. outcome(s), predictors, case
-weights, etc). Note: when needed, a \emph{named argument} should be used.}
+frame containing all relevant variables (e.g. predictors, case weights,
+etc). Note: when needed, a \emph{named argument} should be used.}
 
 \item{control}{A named list with elements \code{verbosity} and \code{catch}. See
 \code{\link[=control_tidyclust]{control_tidyclust()}}.}
@@ -39,8 +39,6 @@ examples.}
 \value{
 A \code{cluster_fit} object that contains several elements:
 \itemize{
-\item \code{lvl}: If the outcome is a factor, this contains the factor
-levels at the time of model fitting.
 \item \code{spec}: The model specification object (\code{object} in the
 call to \code{fit})
 \item \code{fit}: when the model is executed without error, this is the

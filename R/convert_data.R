@@ -1,22 +1,21 @@
 #' Helper functions to convert between formula and matrix interface
 #'
-#' @description
-#' Functions to take a formula interface and get the resulting
+#' @description Functions to take a formula interface and get the resulting
 #' objects (y, x, weights, etc) back or the other way around. The functions are
-#' intended for developer use. For the most part, this emulates the internals
-#' of `lm()` (and also see the notes at
+#' intended for developer use. For the most part, this emulates the internals of
+#' `lm()` (and also see the notes at
 #' https://developer.r-project.org/model-fitting-functions.html).
 #'
 #' `.convert_form_to_x_fit()` and `.convert_x_to_form_fit()` are for when the
-#' data are created for modeling.
-#' `.convert_form_to_x_fit()` saves both the data objects as well as the objects
-#' needed when new data are predicted (e.g. `terms`, etc.).
+#' data are created for modeling. `.convert_form_to_x_fit()` saves both the data
+#' objects as well as the objects needed when new data are predicted (e.g.
+#' `terms`, etc.).
 #'
 #' `.convert_form_to_x_new()` and `.convert_x_to_form_new()` are used when new
 #' samples are being predicted and only require the predictors to be available.
 #'
-#' @param data A data frame containing all relevant variables (e.g. outcome(s),
-#'   predictors, case weights, etc).
+#' @param data A data frame containing all relevant variables (e.g. predictors,
+#'   case weights, etc).
 #' @param ... Additional arguments passed to [stats::model.frame()].
 #' @param na.action A function which indicates what should happen when the data
 #'   contain NAs.
@@ -145,7 +144,6 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 
 # TODO slots for other roles
 #' @param weights A numeric vector containing the weights.
-#' @param y_name A string specifying the name of the outcome.
 #' @inheritParams fit.cluster_spec
 #' @inheritParams .convert_form_to_x_fit
 #'

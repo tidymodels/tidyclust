@@ -16,25 +16,6 @@ is_cataclysmic <- function(x) {
   all(is_err)
 }
 
-reduce_all_outcome_names <- function(resamples) {
-  all_outcome_names <- resamples$.all_outcome_names
-  all_outcome_names <- rlang::flatten(all_outcome_names)
-  all_outcome_names <- vctrs::vec_unique(all_outcome_names)
-  n_unique <- length(all_outcome_names)
-  if (n_unique == 0L) {
-    return(character())
-  }
-  if (n_unique > 1L) {
-    rlang::warn(paste0(
-      "More than one set of outcomes were used when tuning. ",
-      "This should never happen. ",
-      "Review how the outcome is specified in your model."
-    ))
-  }
-  outcome_names <- all_outcome_names[[1L]]
-  outcome_names
-}
-
 set_workflow <- function(workflow, control) {
   if (control$save_workflow) {
     if (!is.null(workflow$pre$actions$recipe)) {
@@ -42,7 +23,8 @@ set_workflow <- function(workflow, control) {
       if (w_size / 1024^2 > 5) {
         msg <- paste0(
           "The workflow being saved contains a recipe, which is ",
-          format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
+          format(w_size, units = "Mb", digits = 2),
+          " in memory. If this was not intentional, please set the control ",
           "setting `save_workflow = FALSE`."
         )
         cols <- get_tidyclust_colors()
@@ -74,9 +56,9 @@ new_tune_results <- function(x, parameters, metrics,
 
 get_operator <- function(allow = TRUE, object) {
   is_par <- foreach::getDoParWorkers() > 1
-  # pkgs <- required_pkgs(object) # TODO
+  pkgs <- required_pkgs(object)
   blacklist <- c("keras", "rJava")
-  if (is_par & allow && any(pkgs %in% blacklist)) {
+  if (is_par && allow && any(pkgs %in% blacklist)) {
     pkgs <- pkgs[pkgs %in% blacklist]
     msg <- paste0("'", pkgs, "'", collapse = ", ")
     msg <- paste(
@@ -126,7 +108,11 @@ get_pkgs <- function(x, infra) {
 
 new_grid_info_resamples <- function() {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
-  msgs_model <- new_msgs_model(i = 1L, n = 1L, msgs_preprocessor = msgs_preprocessor)
+  msgs_model <- new_msgs_model(
+    i = 1L,
+    n = 1L,
+    msgs_preprocessor = msgs_preprocessor
+  )
   iter_config <- list("Preprocessor1_Model1")
   out <- tibble::tibble(
     .iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
@@ -183,7 +169,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = map(1:nrow(grid), ~ list())
+      .submodels = map(seq_along(nrow(grid)), ~ list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -350,7 +336,7 @@ merger <- function(x, y, ...) {
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
-    res <- tibble::tibble(x = map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   grid_name <- colnames(y)
@@ -362,13 +348,13 @@ merger <- function(x, y, ...) {
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
-    res <- tibble::tibble(x = map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   y %>%
     dplyr::mutate(
       ..object = map(
-        1:nrow(y),
+        seq_along(nrow(y)),
         ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
     ) %>%
@@ -444,7 +430,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   forged <- forge_from_workflow(split, workflow)
 
   x_vals <- forged$predictors
-  y_vals <- forged$outcomes
 
   orig_rows <- as.integer(split, data = "assessment")
 
@@ -471,8 +456,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   }
 
   # Determine the type of prediction that is required
-  # type_info <- metrics_info(metrics)
-  # types <- unique(type_info$type)
   types <- "cluster"
 
   res <- NULL
@@ -504,7 +487,8 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       #     eval_tidy(mp_call) %>%
       #     mutate(.row = orig_rows) %>%
       #     unnest(cols = dplyr::starts_with(".pred")) %>%
-      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)), row.names = NULL) %>%
+      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)),
+      #           row.names = NULL) %>%
       #     # go back to user-defined name
       #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) %>%
       #     dplyr::select(dplyr::one_of(names(tmp_res))) %>%
@@ -521,10 +505,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
     rm(tmp_res)
   } # end type loop
 
-  # Add outcome data
-  # y_vals <- dplyr::mutate(y_vals, .row = orig_rows)
-  # res <- dplyr::full_join(res, y_vals, by = ".row")
-
   tibble::as_tibble(res)
 }
 
@@ -534,10 +514,13 @@ forge_from_workflow <- function(split, workflow) {
   blueprint <- workflow$pre$mold$blueprint
   if (!rlang::is_installed("hardhat")) {
     rlang::abort(
-      "Internal error: hardhat should have been installed from the workflows dependency."
+      paste0(
+        "Internal error: ",
+        "hardhat should have been installed from the workflows dependency."
+      )
     )
   }
-  forged <- hardhat::forge(new_data, blueprint, outcomes = TRUE)
+  forged <- hardhat::forge(new_data, blueprint, outcomes = FALSE)
 
   forged
 }
@@ -660,6 +643,12 @@ extract_details <- function(object, extractor) {
   try(extractor(object), silent = TRUE)
 }
 
+extract_metrics_config <- function(param_names, metrics) {
+  metrics_config_names <- c(param_names, ".config")
+  out <- metrics[metrics_config_names]
+  vctrs::vec_unique(out)
+}
+
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)
@@ -694,15 +683,13 @@ iter_combine <- function(...) {
   metrics <- map(results, ~ .x[[".metrics"]])
   extracts <- map(results, ~ .x[[".extracts"]])
   predictions <- map(results, ~ .x[[".predictions"]])
-  all_outcome_names <- map(results, ~ .x[[".all_outcome_names"]])
   notes <- map(results, ~ .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
-  all_outcome_names <- vctrs::vec_c(!!!all_outcome_names)
   notes <- vctrs::vec_c(!!!notes)
   list(
     .metrics = metrics, .extracts = extracts, .predictions = predictions,
-    .all_outcome_names = all_outcome_names, .notes = notes
+    .notes = notes
   )
 }
