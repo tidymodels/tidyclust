@@ -530,10 +530,10 @@ tune_cluster_loop_iter_safely <- function(split,
     control,
     seed
   )
-  new.time <- proc.time()
+  new_time <- proc.time()
 
   # Update with elapsed time
-  result$result[[".elapsed"]] <- new.time["elapsed"] - time["elapsed"]
+  result$result[[".elapsed"]] <- new_time["elapsed"] - time["elapsed"]
 
   error <- result$error
   warnings <- result$warnings
