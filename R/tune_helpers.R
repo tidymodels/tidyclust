@@ -456,8 +456,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   }
 
   # Determine the type of prediction that is required
-  # type_info <- metrics_info(metrics)
-  # types <- unique(type_info$type)
   types <- "cluster"
 
   res <- NULL
