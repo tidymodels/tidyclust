@@ -603,7 +603,6 @@ super_safely <- function(fn) {
 compute_grid_info_model <- function(workflow, grid, parameters_model) {
   spec <- extract_spec_parsnip(workflow)
   out <- min_grid(spec, grid)
-  parameter_names_model <- parameters_model[["id"]]
   n_fit_models <- nrow(out)
   seq_fit_models <- seq_len(n_fit_models)
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
