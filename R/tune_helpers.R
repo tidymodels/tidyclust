@@ -23,7 +23,8 @@ set_workflow <- function(workflow, control) {
       if (w_size / 1024^2 > 5) {
         msg <- paste0(
           "The workflow being saved contains a recipe, which is ",
-          format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
+          format(w_size, units = "Mb", digits = 2),
+          " in memory. If this was not intentional, please set the control ",
           "setting `save_workflow = FALSE`."
         )
         cols <- get_tidyclust_colors()
@@ -107,7 +108,11 @@ get_pkgs <- function(x, infra) {
 
 new_grid_info_resamples <- function() {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
-  msgs_model <- new_msgs_model(i = 1L, n = 1L, msgs_preprocessor = msgs_preprocessor)
+  msgs_model <- new_msgs_model(
+    i = 1L,
+    n = 1L,
+    msgs_preprocessor = msgs_preprocessor
+  )
   iter_config <- list("Preprocessor1_Model1")
   out <- tibble::tibble(
     .iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
@@ -484,7 +489,8 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       #     eval_tidy(mp_call) %>%
       #     mutate(.row = orig_rows) %>%
       #     unnest(cols = dplyr::starts_with(".pred")) %>%
-      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)), row.names = NULL) %>%
+      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)),
+      #           row.names = NULL) %>%
       #     # go back to user-defined name
       #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) %>%
       #     dplyr::select(dplyr::one_of(names(tmp_res))) %>%
@@ -510,7 +516,10 @@ forge_from_workflow <- function(split, workflow) {
   blueprint <- workflow$pre$mold$blueprint
   if (!rlang::is_installed("hardhat")) {
     rlang::abort(
-      "Internal error: hardhat should have been installed from the workflows dependency."
+      paste0(
+        "Internal error: ",
+        "hardhat should have been installed from the workflows dependency."
+      )
     )
   }
   forged <- hardhat::forge(new_data, blueprint, outcomes = FALSE)
