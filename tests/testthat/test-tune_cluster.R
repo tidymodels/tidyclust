@@ -323,3 +323,62 @@ test_that("retain extra attributes", {
   expect_true(inherits(att$parameters, "parameters"))
   expect_true(inherits(att$metrics, "cluster_metric_set"))
 })
+
+test_that("select_best() and show_best() works", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(4400)
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(helper_objects$rec_no_tune_1) %>%
+    workflows::add_model(helper_objects$kmeans_mod)
+  pset <- hardhat::extract_parameter_set_dials(wflow)
+  grid <- dials::grid_regular(pset, levels = 10)
+  grid$k <- grid$k + 1
+  folds <- rsample::vfold_cv(mtcars)
+  control <- tune::control_grid(extract = identity)
+  metrics <- cluster_metric_set(tot_wss, tot_sse)
+
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
+
+  expect_snapshot(tmp <- tune::show_best(res))
+
+  expect_equal(
+    tune::show_best(res, metric = "tot_wss"),
+    tune::collect_metrics(res) %>%
+      dplyr::filter(.metric == "tot_wss") %>%
+      dplyr::slice_min(mean, n = 5, with_ties = FALSE)
+  )
+
+  expect_equal(
+    tune::show_best(res, metric = "tot_sse"),
+    tune::collect_metrics(res) %>%
+      dplyr::filter(.metric == "tot_sse") %>%
+      dplyr::slice_min(mean, n = 5, with_ties = FALSE)
+  )
+
+  expect_snapshot(tmp <- tune::select_best(res))
+
+  expect_equal(
+    tune::select_best(res, metric = "tot_wss"),
+    tune::collect_metrics(res) %>%
+      dplyr::filter(.metric == "tot_wss") %>%
+      dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
+      dplyr::select(k, .config)
+  )
+
+  expect_equal(
+    tune::select_best(res, metric = "tot_sse"),
+    tune::collect_metrics(res) %>%
+      dplyr::filter(.metric == "tot_sse") %>%
+      dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
+      dplyr::select(k, .config)
+  )
+
+})
+
