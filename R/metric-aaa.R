@@ -7,16 +7,28 @@
 #' and by [tune_cluster()] when tuning.
 #'
 #' @param fn A function.
+#'
+#' @param direction A string. One of:
+#'   - `"maximize"`
+#'   - `"minimize"`
+#'   - `"zero"`
+#'
 #' @export
-new_cluster_metric <- function(fn) {
+new_cluster_metric <- function(fn, direction) {
   if (!is.function(fn)) {
     rlang::abort("`fn` must be a function.")
   }
+
+  direction <- rlang::arg_match(
+    direction,
+    values = c("maximize", "minimize", "zero")
+  )
 
   class <- c("cluster_metric", "metric", "function")
 
   structure(
     fn,
+    direction = direction,
     class = class
   )
 }

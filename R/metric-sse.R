@@ -81,7 +81,10 @@ tot_wss <- function(object, ...) {
   UseMethod("tot_wss")
 }
 
-tot_wss <- new_cluster_metric(tot_wss)
+tot_wss <- new_cluster_metric(
+  tot_wss,
+  direction = "zero"
+)
 
 #' @export
 #' @rdname tot_wss
@@ -142,7 +145,10 @@ tot_sse <- function(object, ...) {
   UseMethod("tot_sse")
 }
 
-tot_sse <- new_cluster_metric(tot_sse)
+tot_sse <- new_cluster_metric(
+  tot_sse,
+  direction = "zero"
+)
 
 #' @export
 #' @rdname tot_sse
@@ -212,7 +218,10 @@ sse_ratio <- function(object, ...) {
   UseMethod("sse_ratio")
 }
 
-sse_ratio <- new_cluster_metric(sse_ratio)
+sse_ratio <- new_cluster_metric(
+  sse_ratio,
+  direction = "zero"
+)
 
 #' @export
 #' @rdname sse_ratio

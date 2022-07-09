@@ -67,7 +67,10 @@ avg_silhouette <- function(object, ...) {
   UseMethod("avg_silhouette")
 }
 
-avg_silhouette <- new_cluster_metric(avg_silhouette)
+avg_silhouette <- new_cluster_metric(
+  avg_silhouette,
+  direction = "zero"
+)
 
 #' @export
 #' @rdname avg_silhouette

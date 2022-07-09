@@ -4,10 +4,17 @@
 \alias{new_cluster_metric}
 \title{Construct a new clustering metric function}
 \usage{
-new_cluster_metric(fn)
+new_cluster_metric(fn, direction)
 }
 \arguments{
 \item{fn}{A function.}
+
+\item{direction}{A string. One of:
+\itemize{
+\item \code{"maximize"}
+\item \code{"minimize"}
+\item \code{"zero"}
+}}
 }
 \description{
 These functions provide convenient wrappers to create the one type of
