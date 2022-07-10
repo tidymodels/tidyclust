@@ -66,3 +66,63 @@ make_form_call <- function(object, env = NULL) {
   )
   fit_call
 }
+
+#' Change elements of a cluster specification
+#'
+#' `set_args_tidyclust()` can be used to modify the arguments of a cluster
+#' specification while `set_mode()` is used to change the model's mode.
+#'
+#' @param object A cluster specification.
+#' @param ... One or more named model arguments.
+#' @param mode A character string for the model type (e.g. "classification" or
+#'   "regression")
+#' @return An updated model object.
+#' @details `set_args_tidyclust()` will replace existing values of the
+#'   arguments.
+#'
+#' @examples
+#' k_means()
+#'
+#' k_means() %>%
+#'   set_args_tidyclust(k = 3) %>%
+#'   set_mode_tidyclust("partition")
+#'
+#' @export
+set_args_tidyclust <- function(object, ...) {
+  the_dots <- enquos(...)
+  if (length(the_dots) == 0)
+    rlang::abort("Please pass at least one named argument.")
+  main_args <- names(object$args)
+  new_args <- names(the_dots)
+  for (i in new_args) {
+    if (any(main_args == i)) {
+      object$args[[i]] <- the_dots[[i]]
+    } else {
+      object$eng_args[[i]] <- the_dots[[i]]
+    }
+  }
+  new_cluster_spec(
+    cls = class(object)[1],
+    args = object$args,
+    eng_args = object$eng_args,
+    mode = object$mode,
+    method = NULL,
+    engine = object$engine
+  )
+}
+
+#' @rdname set_args_tidyclust
+#' @export
+set_mode_tidyclust <- function(object, mode) {
+  cls <- class(object)[1]
+  if (rlang::is_missing(mode)) {
+    spec_modes <- rlang::env_get(
+      get_model_env_tidyclust(),
+      paste0(cls, "_modes")
+    )
+    stop_incompatible_mode(spec_modes, cls = cls)
+  }
+  check_spec_mode_engine_val(cls, object$engine, mode)
+  object$mode <- mode
+  object
+}

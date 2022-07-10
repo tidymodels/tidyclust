@@ -50,6 +50,7 @@ reference:
   contents:
     - control_cluster
     - set_engine_tidyclust
+    - set_args_tidyclust
     - tune_cluster
 - title: Developer tools
   contents:
