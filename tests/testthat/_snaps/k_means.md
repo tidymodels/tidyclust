@@ -10,8 +10,8 @@
     Code
       bt <- k_means(k = -1) %>% set_engine_tidyclust("stats")
       fit(bt, mpg ~ ., mtcars)
-    Error <simpleError>
-      invalid 'size' argument
+    Error <rlang_error>
+      The number of centers should be >= 0.
 
 ---
 
