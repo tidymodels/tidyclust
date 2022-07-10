@@ -15,3 +15,16 @@ test_that("extract summary works for kmeans", {
   # check order
   expect_equal(summ1$n_members, c(17, 11, 4))
 })
+
+test_that("extract summary works for kmeans when k = 1", {
+  obj1 <- k_means(k = 1) %>%
+    set_engine_tidyclust("stats", algorithm = "MacQueen") %>%
+    fit(~., mtcars)
+
+  summ1 <- extract_fit_summary(obj1)
+
+  expect_equal(
+    summ1$centroids,
+    tibble::as_tibble(lapply(mtcars, mean))
+  )
+})

@@ -36,7 +36,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
 
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centers[reorder_clusts, ]),
+    centroids = tibble::as_tibble(object$centers[reorder_clusts, , drop = FALSE]),
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
