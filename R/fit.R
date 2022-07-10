@@ -11,7 +11,7 @@
 #'   frame containing all relevant variables (e.g. predictors, case weights,
 #'   etc). Note: when needed, a \emph{named argument} should be used.
 #' @param control A named list with elements `verbosity` and `catch`. See
-#'   [control_tidyclust()].
+#'   [control_cluster()].
 #' @param ... Not currently used; values passed here will be ignored. Other
 #'   options required to fit the model should be passed using
 #'   `set_engine_tidyclust()`.
@@ -33,7 +33,7 @@
 #'
 #'   If the model engine has not been set, the model's default engine will be
 #'   used (as discussed on each model page). If the `verbosity` option of
-#'   [control_tidyclust()] is greater than zero, a warning will be produced.
+#'   [control_cluster()] is greater than zero, a warning will be produced.
 #'
 #'   If you would like to use an alternative method for generating contrasts
 #'   when supplying a formula to `fit()`, set the global option `contrasts` to
@@ -71,7 +71,7 @@
 #'  The return value will also have a class related to the fitted model (e.g.
 #'  `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine_tidyclust()], [control_tidyclust()], `cluster_spec`,
+#' @seealso [set_engine_tidyclust()], [control_cluster()], `cluster_spec`,
 #'   `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
@@ -86,13 +86,13 @@
 fit.cluster_spec <- function(object,
                              formula,
                              data,
-                             control = control_tidyclust(),
+                             control = control_cluster(),
                              ...) {
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  # if (!inherits(control, "control_tidyclust")) {
-  #  rlang::abort("The 'control' argument should have class 'control_tidyclust'.")
+  # if (!inherits(control, "control_cluster")) {
+  #  rlang::abort("The 'control' argument should have class 'control_cluster'.")
   # }
   dots <- quos(...)
   if (is.null(object$engine)) {
@@ -226,9 +226,9 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
-  function(object, x, case_weights = NULL, control = control_tidyclust(), ...) {
-    # if (!inherits(control, "control_tidyclust")) {
-    #   rlang::abort("The 'control' argument should have class 'control_tidyclust'.")
+  function(object, x, case_weights = NULL, control = control_cluster(), ...) {
+    # if (!inherits(control, "control_cluster")) {
+    #   rlang::abort("The 'control' argument should have class 'control_cluster'.")
     # }
     if (is.null(colnames(x))) {
       rlang::abort("'x' should have column names.")

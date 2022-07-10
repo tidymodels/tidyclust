@@ -5,9 +5,9 @@
 \alias{fit_xy.cluster_spec}
 \title{Fit a Model Specification to a Data Set}
 \usage{
-\method{fit}{cluster_spec}(object, formula, data, control = control_tidyclust(), ...)
+\method{fit}{cluster_spec}(object, formula, data, control = control_cluster(), ...)
 
-\method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_tidyclust(), ...)
+\method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_cluster(), ...)
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
@@ -21,7 +21,7 @@ frame containing all relevant variables (e.g. predictors, case weights,
 etc). Note: when needed, a \emph{named argument} should be used.}
 
 \item{control}{A named list with elements \code{verbosity} and \code{catch}. See
-\code{\link[=control_tidyclust]{control_tidyclust()}}.}
+\code{\link[=control_cluster]{control_cluster()}}.}
 
 \item{...}{Not currently used; values passed here will be ignored. Other
 options required to fit the model should be passed using
@@ -74,7 +74,7 @@ used to fit the model.
 
 If the model engine has not been set, the model's default engine will be
 used (as discussed on each model page). If the \code{verbosity} option of
-\code{\link[=control_tidyclust]{control_tidyclust()}} is greater than zero, a warning will be produced.
+\code{\link[=control_cluster]{control_cluster()}} is greater than zero, a warning will be produced.
 
 If you would like to use an alternative method for generating contrasts
 when supplying a formula to \code{fit()}, set the global option \code{contrasts} to
@@ -100,6 +100,6 @@ using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}, \code{\link[=control_tidyclust]{control_tidyclust()}}, \code{cluster_spec},
+\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec},
 \code{cluster_fit}
 }

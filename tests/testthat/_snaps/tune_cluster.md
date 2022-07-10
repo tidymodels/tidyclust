@@ -47,3 +47,17 @@
        9 <split [29/3]> Fold09 <tibble [4 x 5]> <tibble [0 x 3]>
       10 <split [29/3]> Fold10 <tibble [4 x 5]> <tibble [0 x 3]>
 
+# select_best() and show_best() works
+
+    Code
+      tmp <- tune::show_best(res)
+    Warning <rlang_warning>
+      No value of `metric` was given; metric 'tot_wss' will be used.
+
+---
+
+    Code
+      tmp <- tune::select_best(res)
+    Warning <rlang_warning>
+      No value of `metric` was given; metric 'tot_wss' will be used.
+

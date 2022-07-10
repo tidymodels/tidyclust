@@ -16,7 +16,7 @@ tune_cluster(object, ...)
   param_info = NULL,
   grid = 10,
   metrics = NULL,
-  control = control_tidyclust()
+  control = control_cluster()
 )
 
 \method{tune_cluster}{workflow}(
