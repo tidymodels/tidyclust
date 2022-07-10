@@ -56,50 +56,48 @@ translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
 
 # ------------------------------------------------------------------------------
 
-# #' @method update k_means
-# #' @rdname parsnip_update
-# #' @export
-# update.k_means <-
-#   function(object,
-#            parameters = NULL,
-#            penalty = NULL, mixture = NULL,
-#            fresh = FALSE, ...) {
-#
-#     eng_args <- update_engine_parameters(object$eng_args, ...)
-#
-#     if (!is.null(parameters)) {
-#       parameters <- check_final_param(parameters)
-#     }
-#     args <- list(
-#       penalty = enquo(penalty),
-#       mixture = enquo(mixture)
-#     )
-#
-#     args <- update_main_parameters(args, parameters)
-#
-#     if (fresh) {
-#       object$args <- args
-#       object$eng_args <- eng_args
-#     } else {
-#       null_args <- map_lgl(args, null_value)
-#       if (any(null_args))
-#         args <- args[!null_args]
-#       if (length(args) > 0)
-#         object$args[names(args)] <- args
-#       if (length(eng_args) > 0)
-#         object$eng_args[names(eng_args)] <- eng_args
-#     }
-#
-#     new_model_spec(
-#       "k_means",
-#       args = object$args,
-#       eng_args = object$eng_args,
-#       mode = object$mode,
-#       method = NULL,
-#       engine = object$engine
-#     )
-#   }
-#
+#' @method update k_means
+#' @rdname tidyclust_update
+#' @export
+update.k_means <- function(object,
+                           parameters = NULL,
+                           k = NULL,
+                           fresh = FALSE, ...) {
+
+  eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
+
+  if (!is.null(parameters)) {
+    parameters <- parsnip::check_final_param(parameters)
+  }
+  args <- list(
+    k = enquo(k)
+  )
+
+  args <- parsnip::update_main_parameters(args, parameters)
+
+  if (fresh) {
+    object$args <- args
+    object$eng_args <- eng_args
+  } else {
+    null_args <- map_lgl(args, null_value)
+    if (any(null_args))
+      args <- args[!null_args]
+    if (length(args) > 0)
+      object$args[names(args)] <- args
+    if (length(eng_args) > 0)
+      object$eng_args[names(eng_args)] <- eng_args
+  }
+
+  new_cluster_spec(
+    "k_means",
+    args = object$args,
+    eng_args = object$eng_args,
+    mode = object$mode,
+    method = NULL,
+    engine = object$engine
+  )
+}
+
 # # ------------------------------------------------------------------------------
 #
 # check_args.k_means <- function(object) {
@@ -146,8 +144,8 @@ translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
 #'   The higher this value is, the far appart from each other the centroids are.
 #' @param seed integer value for random number generator (RNG)
 #'
-#' @return a list with the following attributes: clusters, fuzzy_clusters (if 
-#' fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster, 
+#' @return a list with the following attributes: clusters, fuzzy_clusters (if
+#' fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
 #' obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export

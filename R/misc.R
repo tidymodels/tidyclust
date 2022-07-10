@@ -7,3 +7,4 @@ check_args <- function(object) {
 check_args.default <- function(object) {
   invisible(object)
 }
+
