@@ -15,7 +15,7 @@
 #'   data frame should have columns for each parameter being tuned and rows for
 #'   tuning parameter candidates. An integer denotes the number of candidate
 #'   parameter sets to be created automatically.
-#' @param metrics A [yardstick::metric_set()] or `NULL`.
+#' @param metrics A [cluster_metric_set()] or `NULL`.
 #' @param control An object used to modify the tuning process.
 #' @param ... Not currently used.
 #' @return An updated version of `resamples` with extra list columns for

@@ -48,7 +48,7 @@ data frame should have columns for each parameter being tuned and rows for
 tuning parameter candidates. An integer denotes the number of candidate
 parameter sets to be created automatically.}
 
-\item{metrics}{A \code{\link[yardstick:metric_set]{yardstick::metric_set()}} or \code{NULL}.}
+\item{metrics}{A \code{\link[=cluster_metric_set]{cluster_metric_set()}} or \code{NULL}.}
 
 \item{control}{An object used to modify the tuning process.}
 }
