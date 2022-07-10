@@ -92,3 +92,10 @@ test_that("printing", {
     k_means(k = 10)
   )
 })
+
+test_that('updating', {
+  expect_snapshot(
+    k_means(k = 5) %>%
+      update(k = tune())
+  )
+})

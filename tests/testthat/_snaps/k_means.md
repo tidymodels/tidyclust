@@ -50,3 +50,16 @@
       Computational engine: stats 
       
 
+# updating
+
+    Code
+      k_means(k = 5) %>% update(k = tune())
+    Output
+      K Means Cluster Specification (partition)
+      
+      Main Arguments:
+        k = tune()
+      
+      Computational engine: stats 
+      
+
