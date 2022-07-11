@@ -60,8 +60,8 @@ print.hier_clust <- function(x, ...) {
 }
 
 #' @export
-translate_celery.hier_clust <- function(x, engine = x$engine, ...) {
-  x <- translate_celery.default(x, engine, ...)
+translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
+  x <- translate_tidyclust.default(x, engine, ...)
   x
 }
 

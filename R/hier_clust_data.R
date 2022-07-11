@@ -1,25 +1,25 @@
-set_new_model_celery("hier_clust")
+set_new_model_tidyclust("hier_clust")
 
-set_model_mode_celery("hier_clust", "partition")
+set_model_mode_tidyclust("hier_clust", "partition")
 
 # ------------------------------------------------------------------------------
 
-set_model_engine_celery("hier_clust", "partition", "stats")
-set_dependency_celery("hier_clust", "stats", "stats")
+set_model_engine_tidyclust("hier_clust", "partition", "stats")
+set_dependency_tidyclust("hier_clust", "stats", "stats")
 
-set_fit_celery(
+set_fit_tidyclust(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
   value = list(
     interface = "matrix",
     protect = c("data"),  #### what is this?
-    func = c(pkg = "celery", fun = "hclust_fit"),
+    func = c(pkg = "tidyclust", fun = "hclust_fit"),
     defaults = list(method = "complete")
   )
 )
 
-set_encoding_celery(
+set_encoding_tidyclust(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
@@ -31,25 +31,25 @@ set_encoding_celery(
   )
 )
 
-set_model_arg_celery(
+set_model_arg_tidyclust(
   model = "hier_clust",
   eng = "stats",
-  celery = "k",
+  tidyclust = "k",
   original = "k",
-  func = list(pkg = "celery", fun = "k"),
+  func = list(pkg = "tidyclust", fun = "k"),
   has_submodel = TRUE
 )
 
-set_model_arg_celery(
+set_model_arg_tidyclust(
   model = "hier_clust",
   eng = "stats",
-  celery = "cut_height",
+  tidyclust = "cut_height",
   original = "cut_height",
-  func = list(pkg = "celery", fun = "cut_height"),
+  func = list(pkg = "tidyclust", fun = "cut_height"),
   has_submodel = TRUE
 )
 
-set_pred_celery(
+set_pred_tidyclust(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
@@ -68,10 +68,10 @@ set_pred_celery(
 
 # ------------------------------------------------------------------------------
 #
-# set_model_engine_celery("k_means", "partition", "ClusterR")
-# set_dependency_celery("k_means", "ClusterR", "ClusterR")
+# set_model_engine_tidyclust("k_means", "partition", "ClusterR")
+# set_dependency_tidyclust("k_means", "ClusterR", "ClusterR")
 #
-# set_fit_celery(
+# set_fit_tidyclust(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
@@ -79,12 +79,12 @@ set_pred_celery(
 #     interface = "matrix",
 #     data = c(x = "data"),
 #     protect = c("data", "clusters"),
-#     func = c(pkg = "celery", fun = "ClusterR_kmeans_fit"),
+#     func = c(pkg = "tidyclust", fun = "ClusterR_kmeans_fit"),
 #     defaults = list()
 #   )
 # )
 #
-# set_encoding_celery(
+# set_encoding_tidyclust(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
@@ -96,16 +96,16 @@ set_pred_celery(
 #   )
 # )
 #
-# set_model_arg_celery(
+# set_model_arg_tidyclust(
 #   model = "k_means",
 #   eng = "ClusterR",
-#   celery = "k",
+#   tidyclust = "k",
 #   original = "clusters",
 #   func = list(pkg = "dials", fun = "k"),
 #   has_submodel = TRUE
 # )
 #
-# set_pred_celery(
+# set_pred_tidyclust(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
