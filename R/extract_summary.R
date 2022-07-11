@@ -52,7 +52,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
 
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centroids[reorder_clusts, ]),
+    centroids = tibble::as_tibble(object$centroids[reorder_clusts, , drop = FALSE]),
     n_members = object$obs_per_cluster[reorder_clusts],
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,
