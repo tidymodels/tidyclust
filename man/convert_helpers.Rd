@@ -32,8 +32,8 @@
 \item{formula}{An object of class \code{formula} (or one that can be coerced to
 that class): a symbolic description of the model to be fitted.}
 
-\item{data}{A data frame containing all relevant variables (e.g. outcome(s),
-predictors, case weights, etc).}
+\item{data}{A data frame containing all relevant variables (e.g. predictors,
+case weights, etc).}
 
 \item{...}{Additional arguments passed to \code{\link[stats:model.frame]{stats::model.frame()}}.}
 
@@ -52,27 +52,25 @@ column after \code{model.matrix()} is finished.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
-\code{celery::get_encoding_celery()} for details. \code{x} should have column names.}
+\code{tidyclust::get_encoding_tidyclust()} for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
 
 \item{object}{An object of class \code{cluster_fit}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
-
-\item{y_name}{A string specifying the name of the outcome.}
 }
 \description{
 Functions to take a formula interface and get the resulting
 objects (y, x, weights, etc) back or the other way around. The functions are
-intended for developer use. For the most part, this emulates the internals
-of \code{lm()} (and also see the notes at
+intended for developer use. For the most part, this emulates the internals of
+\code{lm()} (and also see the notes at
 https://developer.r-project.org/model-fitting-functions.html).
 
 \code{.convert_form_to_x_fit()} and \code{.convert_x_to_form_fit()} are for when the
-data are created for modeling.
-\code{.convert_form_to_x_fit()} saves both the data objects as well as the objects
-needed when new data are predicted (e.g. \code{terms}, etc.).
+data are created for modeling. \code{.convert_form_to_x_fit()} saves both the data
+objects as well as the objects needed when new data are predicted (e.g.
+\code{terms}, etc.).
 
 \code{.convert_form_to_x_new()} and \code{.convert_x_to_form_new()} are used when new
 samples are being predicted and only require the predictors to be available.

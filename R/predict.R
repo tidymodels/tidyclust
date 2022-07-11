@@ -28,8 +28,7 @@
 #'  as there are rows in `new_data` and the column names will be
 #'  predictable.
 #'
-#' For clustering results with a single outcome, the tibble will have
-#'  a `.pred_cluster`.
+#' For clustering results the tibble will have a `.pred_cluster` column.
 #'
 #' Using `type = "raw"` with `predict.cluster_fit()` will return
 #'  the unadulterated results of the prediction function.
@@ -41,7 +40,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -119,7 +118,7 @@ prepare_data <- function(object, new_data) {
   }
 
   remove_intercept <-
-    get_encoding_celery(class(object$spec)[1]) %>%
+    get_encoding_tidyclust(class(object$spec)[1]) %>%
     dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
     dplyr::pull(remove_intercept)
   if (remove_intercept & any(grepl("Intercept", names(new_data)))) {

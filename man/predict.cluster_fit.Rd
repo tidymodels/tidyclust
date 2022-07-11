@@ -32,8 +32,7 @@ With the exception of \code{type = "raw"}, the results of
 as there are rows in \code{new_data} and the column names will be
 predictable.
 
-For clustering results with a single outcome, the tibble will have
-a \code{.pred_cluster}.
+For clustering results the tibble will have a \code{.pred_cluster} column.
 
 Using \code{type = "raw"} with \code{predict.cluster_fit()} will return
 the unadulterated results of the prediction function.
@@ -60,7 +59,7 @@ section below) in a tibble output format.
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_celery("stats")
+  set_engine_tidyclust("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

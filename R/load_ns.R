@@ -12,11 +12,11 @@ load_namespace <- function(x) {
     return(invisible(TRUE))
   }
 
-  loaded <- purrr::map_lgl(x, isNamespaceLoaded)
+  loaded <- map_lgl(x, isNamespaceLoaded)
   x <- x[!loaded]
 
   if (length(x) > 0) {
-    did_load <- purrr::map_lgl(x, requireNamespace, quietly = TRUE)
+    did_load <- map_lgl(x, requireNamespace, quietly = TRUE)
     if (any(!did_load)) {
       bad <- x[!did_load]
       msg <- paste0("'", bad, "'", collapse = ", ")
@@ -28,6 +28,6 @@ load_namespace <- function(x) {
 }
 
 infra_pkgs <- c(
-  "tune", "recipes", "celery", "yardstick", "purrr", "dplyr", "tibble",
+  "tune", "recipes", "tidyclust", "yardstick", "purrr", "dplyr", "tibble",
   "dials", "rsample", "workflows", "tidyr", "rlang", "vctrs"
 )

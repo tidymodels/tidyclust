@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(celery)
+library(tidyclust)
 library(tidyverse)
 library(tidymodels)
 set.seed(838383)
@@ -86,14 +86,14 @@ one cluster
 regarding the selection of the observations or the values of the variables.
 
 
-## k-means specification in {celery}
+## k-means specification in {tidyclust}
 
-To specify a k-means model in `celery`, simply choose a value of $k$ and an
+To specify a k-means model in `tidyclust`, simply choose a value of $k$ and an
 engine:
 
 ```{r}
 kmeans_spec <- k_means(k = 3) %>%
-  set_engine_celery("stats") 
+  set_engine_tidyclust("stats") 
 
 kmeans_spec
 ```
@@ -127,7 +127,7 @@ kmeans_spec_fit %>%
   extract_cluster_assignment()
 ```
 
-Note that this function renames clusters in accordance with the standard `celery`
+Note that this function renames clusters in accordance with the standard `tidyclust`
 naming convention and ordering: clusters are named "Cluster_1", "Cluster_2", etc.
 and are numbered by the order they appear in the rows of the training dataset.
 
@@ -180,7 +180,7 @@ penguins_recipe_2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
                             data = penguins)
 
 # wflow_1 <- workflow() %>%
-#   add_celery_model(kmeans_spec) %>%
+#   add_tidyclust_model(kmeans_spec) %>%
 #   add_recipe(penguins_recipe_1)
 ```
 

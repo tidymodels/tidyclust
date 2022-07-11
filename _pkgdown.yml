@@ -2,3 +2,68 @@ url: ~
 template:
   bootstrap: 5
 
+reference:
+- title: Specifications
+  desc: >
+    These cluster specification fucntion are used to specify the type of model
+    you want to do. These functions work in a similar fashion to the [model
+    specification function from parsnip](https://parsnip.tidymodels.org/reference/index.html#models).
+  contents:
+    - k_means
+- title: Fit and Inspect
+  desc: >
+    These Functions are the generics are are supported for specifications
+    created with tidyclust.
+  contents:
+    - fit.cluster_spec
+    - augment.cluster_fit
+    - glance.cluster_fit
+    - tidy.cluster_fit
+- title: Prediction
+  desc: >
+    Once the cluster specification have been fit, you are likely to want to look
+    at where the clusters are and which observations are associated with which
+    cluster.
+  contents:
+    - predict.cluster_fit
+    - extract_cluster_assignment
+    - extract_centroids
+- title: Parameter Objects
+  desc: >
+    Parameter objects for tuning. Similar to
+    [parameter objects from dials package](https://dials.tidymodels.org/reference/index.html#parameter-objects)
+  contents:
+    - k
+- title: Model based performance metrics
+  desc: >
+    These metrics use the fitted clustering model to extract values denoting how
+    well the model works.
+  contents:
+    - cluster_metric_set
+    - avg_silhouette
+    - tot_sse
+    - sse_ratio
+    - tot_wss
+- title: Tuning
+  desc: >
+    Functions to allow multiple cluster specifications to be fit at once.
+  contents:
+    - control_cluster
+    - set_engine_tidyclust
+    - set_args_tidyclust
+    - tidyclust_update
+    - finalize_model_tidyclust
+    - tune_cluster
+- title: Developer tools
+  contents:
+    - extract_fit_summary
+    - get_centroid_dists
+    - new_cluster_metric
+    - prep_data_dist
+    - reconcile_clusterings
+    - translate_tidyclust
+    - within_cluster_sse
+- title: Other
+  contents:
+    - enrichment
+    - silhouettes

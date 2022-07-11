@@ -1,14 +1,14 @@
 #' Resolve a Model Specification for a Computational Engine
 #'
-#' `translate_celery()` will translate_celery a model specification into a code
+#' `translate_tidyclust()` will translate_tidyclust a model specification into a code
 #'  object that is specific to a particular engine (e.g. R package).
-#'  It translate_celerys generic parameters to their counterparts.
+#'  It translate_tidyclusts generic parameters to their counterparts.
 #'
 #' @param x A model specification.
-#' @param engine The computational engine for the model (see `?set_engine_celery`).
+#' @param engine The computational engine for the model (see `?set_engine_tidyclust`).
 #' @param ... Not currently used.
 #' @details
-#' `translate_celery()` produces a _template_ call that lacks the specific
+#' `translate_tidyclust()` produces a _template_ call that lacks the specific
 #'  argument values (such as `data`, etc). These are filled in once
 #'  `fit()` is called with the specifics of the data for the model.
 #'  The call may also include `tune()` arguments if these are in
@@ -20,7 +20,7 @@
 #'  the model fitting function/engine.
 #'
 #' This function can be useful when you need to understand how
-#'  `celery` goes from a generic model specific to a model fitting
+#'  `tidyclust` goes from a generic model specific to a model fitting
 #'  function.
 #'
 #' **Note**: this function is used internally and users should only use it
@@ -28,15 +28,15 @@
 #'  to modify the cluster specification.
 #'
 #' @export
-translate_celery <- function(x, ...) {
-  UseMethod("translate_celery")
+translate_tidyclust <- function(x, ...) {
+  UseMethod("translate_tidyclust")
 }
 
-#' @rdname translate_celery
+#' @rdname translate_tidyclust
 #' @export
-#' @export translate_celery.default
-translate_celery.default <- function(x, engine = x$engine, ...) {
-  check_empty_ellipse_celery(...)
+#' @export translate_tidyclust.default
+translate_tidyclust.default <- function(x, engine = x$engine, ...) {
+  check_empty_ellipse_tidyclust(...)
   if (is.null(engine)) {
     rlang::abort("Please set an engine.")
   }
@@ -65,7 +65,7 @@ translate_celery.default <- function(x, engine = x$engine, ...) {
   x$eng_args <- check_eng_args(x$eng_args, x$method$fit, arg_key$original)
 
   # keep only modified args
-  modifed_args <- !purrr::map_lgl(actual_args, null_value)
+  modifed_args <- !map_lgl(actual_args, null_value)
   actual_args <- actual_args[modifed_args]
 
   # look for defaults if not modified in other
@@ -87,7 +87,7 @@ translate_celery.default <- function(x, engine = x$engine, ...) {
 # new code for revised model data structures
 
 get_cluster_spec <- function(model, mode, engine) {
-  m_env <- get_model_env_celery()
+  m_env <- get_model_env_tidyclust()
   env_obj <- rlang::env_names(m_env)
   env_obj <- grep(model, env_obj, value = TRUE)
 
@@ -95,14 +95,14 @@ get_cluster_spec <- function(model, mode, engine) {
   res$libs <-
     rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
     dplyr::filter(engine == !!engine) %>%
-    purrr::pluck("pkg") %>%
-    purrr::pluck(1)
+    .[["pkg"]] %>%
+    .[[1]]
 
   res$fit <-
     rlang::env_get(m_env, paste0(model, "_fit")) %>%
     dplyr::filter(mode == !!mode & engine == !!engine) %>%
     dplyr::pull(value) %>%
-    purrr::pluck(1)
+    .[[1]]
 
   pred_code <-
     rlang::env_get(m_env, paste0(model, "_predict")) %>%
@@ -116,7 +116,7 @@ get_cluster_spec <- function(model, mode, engine) {
 }
 
 get_args <- function(model, engine) {
-  m_env <- get_model_env_celery()
+  m_env <- get_model_env_tidyclust()
   rlang::env_get(m_env, paste0(model, "_args")) %>%
     dplyr::filter(engine == !!engine) %>%
     dplyr::select(-engine)
@@ -127,9 +127,9 @@ deharmonize <- function(args, key) {
   if (length(args) == 0) {
     return(args)
   }
-  parsn <- tibble::tibble(celery = names(args), order = seq_along(args))
+  parsn <- tibble::tibble(tidyclust = names(args), order = seq_along(args))
   merged <-
-    dplyr::left_join(parsn, key, by = "celery") %>%
+    dplyr::left_join(parsn, key, by = "tidyclust") %>%
     dplyr::arrange(order)
   # TODO correct for bad merge?
 
@@ -142,10 +142,10 @@ deharmonize <- function(args, key) {
 #' @return If an error is not thrown (from non-empty ellipses), a NULL list.
 #' @keywords internal
 #' @export
-check_empty_ellipse_celery <- function(...) {
+check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {
-    rlang::abort("Please pass other arguments to the model function via `set_engine_celery()`.")
+    rlang::abort("Please pass other arguments to the model function via `set_engine_tidyclust()`.")
   }
   terms
 }

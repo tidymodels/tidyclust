@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_celery("stats")
+#'   set_engine_tidyclust("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -36,7 +36,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
 
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centers[reorder_clusts, ]),
+    centroids = tibble::as_tibble(object$centers[reorder_clusts, , drop = FALSE]),
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
@@ -52,7 +52,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
 
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centroids[reorder_clusts, ]),
+    centroids = tibble::as_tibble(object$centroids[reorder_clusts, , drop = FALSE]),
     n_members = object$obs_per_cluster[reorder_clusts],
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,

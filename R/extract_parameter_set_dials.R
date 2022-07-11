@@ -10,7 +10,7 @@ extract_parameter_set_dials.cluster_spec <- function(x, ...) {
       all_args,
       by = c("name", "source", "component")
     ) %>%
-    dplyr::mutate(object = purrr::map(call_info, eval_call_info))
+    dplyr::mutate(object = map(call_info, eval_call_info))
 
   dials::parameters_constr(
     res$name,
@@ -33,7 +33,7 @@ eval_call_info <- function(x) {
     }
     res <- try(rlang::eval_tidy(rlang::call2(x$fun, .ns = x$pkg, !!!opts)), silent = TRUE)
     if (inherits(res, "try-error")) {
-      stop(paste0("Error when calling ", x$fun, "(): ", as.character(res)))
+      abort(paste0("Error when calling ", x$fun, "(): ", as.character(res)))
     }
   } else {
     res <- NA

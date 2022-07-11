@@ -16,7 +16,7 @@ tune_cluster(object, ...)
   param_info = NULL,
   grid = 10,
   metrics = NULL,
-  control = control_celery()
+  control = control_cluster()
 )
 
 \method{tune_cluster}{workflow}(
@@ -30,7 +30,7 @@ tune_cluster(object, ...)
 )
 }
 \arguments{
-\item{object}{A \code{celery} model specification or a \code{\link[workflows:workflow]{workflows::workflow()}}.}
+\item{object}{A \code{tidyclust} model specification or a \code{\link[workflows:workflow]{workflows::workflow()}}.}
 
 \item{...}{Not currently used.}
 
@@ -48,7 +48,7 @@ data frame should have columns for each parameter being tuned and rows for
 tuning parameter candidates. An integer denotes the number of candidate
 parameter sets to be created automatically.}
 
-\item{metrics}{A \code{\link[yardstick:metric_set]{yardstick::metric_set()}} or \code{NULL}.}
+\item{metrics}{A \code{\link[=cluster_metric_set]{cluster_metric_set()}} or \code{NULL}.}
 
 \item{control}{An object used to modify the tuning process.}
 }
@@ -59,9 +59,9 @@ An updated version of \code{resamples} with extra list columns for
 execution.
 }
 \description{
-\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics (e.g. accuracy or RMSE)
-for a pre-defined set of tuning parameters that correspond to a model or
-recipe across one or more resamples of the data.
+\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics (e.g. accuracy or
+RMSE) for a pre-defined set of tuning parameters that correspond to a model
+or recipe across one or more resamples of the data.
 }
 \examples{
 1 + 1

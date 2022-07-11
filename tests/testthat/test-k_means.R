@@ -1,21 +1,21 @@
 test_that("primary arguments", {
   basic <- k_means(mode = "partition")
-  basic_stats <- translate_celery(basic %>% set_engine_celery("stats"))
+  basic_stats <- translate_tidyclust(basic %>% set_engine_tidyclust("stats"))
   expect_equal(
     basic_stats$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg())
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg())
     )
   )
 
   k <- k_means(k = 15, mode = "partition")
-  k_stats <- translate_celery(k %>% set_engine_celery("stats"))
+  k_stats <- translate_tidyclust(k %>% set_engine_tidyclust("stats"))
   expect_equal(
     k_stats$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg()),
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg()),
       centers = new_empty_quosure(15)
     )
   )
@@ -24,13 +24,13 @@ test_that("primary arguments", {
 test_that("engine arguments", {
   stats_print <- k_means(mode = "partition")
   expect_equal(
-    translate_celery(
+    translate_tidyclust(
       stats_print %>%
-        set_engine_celery("stats", nstart = 1L)
+        set_engine_tidyclust("stats", nstart = 1L)
     )$method$fit$args,
     list(
-      x = expr(missing_arg()),
-      centers = expr(missing_arg()),
+      x = rlang::expr(missing_arg()),
+      centers = rlang::expr(missing_arg()),
       nstart = new_empty_quosure(1L)
     )
   )
@@ -39,17 +39,17 @@ test_that("engine arguments", {
 test_that("bad input", {
   expect_snapshot(error = TRUE, k_means(mode = "bogus"))
   expect_snapshot(error = TRUE, {
-    bt <- k_means(k = -1) %>% set_engine_celery("stats")
+    bt <- k_means(k = -1) %>% set_engine_tidyclust("stats")
     fit(bt, mpg ~ ., mtcars)
   })
-  expect_snapshot(error = TRUE, translate_celery(k_means(), engine = NULL))
-  expect_snapshot(error = TRUE, translate_celery(k_means(formula = ~x)))
+  expect_snapshot(error = TRUE, translate_tidyclust(k_means(), engine = NULL))
+  expect_snapshot(error = TRUE, translate_tidyclust(k_means(formula = ~x)))
 })
 
 test_that("predictions", {
   set.seed(1234)
   kmeans_fit <- k_means(k = 4) %>%
-    set_engine_celery("stats") %>%
+    set_engine_tidyclust("stats") %>%
     fit(~., mtcars)
 
   set.seed(1234)
@@ -90,5 +90,12 @@ test_that("printing", {
   )
   expect_snapshot(
     k_means(k = 10)
+  )
+})
+
+test_that('updating', {
+  expect_snapshot(
+    k_means(k = 5) %>%
+      update(k = tune())
   )
 })

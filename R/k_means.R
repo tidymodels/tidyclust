@@ -49,74 +49,66 @@ print.k_means <- function(x, ...) {
 }
 
 #' @export
-translate_celery.k_means <- function(x, engine = x$engine, ...) {
-  x <- translate_celery.default(x, engine, ...)
+translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
+  x <- translate_tidyclust.default(x, engine, ...)
   x
 }
 
 # ------------------------------------------------------------------------------
 
-# #' @method update k_means
-# #' @rdname parsnip_update
-# #' @export
-# update.k_means <-
-#   function(object,
-#            parameters = NULL,
-#            penalty = NULL, mixture = NULL,
-#            fresh = FALSE, ...) {
-#
-#     eng_args <- update_engine_parameters(object$eng_args, ...)
-#
-#     if (!is.null(parameters)) {
-#       parameters <- check_final_param(parameters)
-#     }
-#     args <- list(
-#       penalty = enquo(penalty),
-#       mixture = enquo(mixture)
-#     )
-#
-#     args <- update_main_parameters(args, parameters)
-#
-#     if (fresh) {
-#       object$args <- args
-#       object$eng_args <- eng_args
-#     } else {
-#       null_args <- map_lgl(args, null_value)
-#       if (any(null_args))
-#         args <- args[!null_args]
-#       if (length(args) > 0)
-#         object$args[names(args)] <- args
-#       if (length(eng_args) > 0)
-#         object$eng_args[names(eng_args)] <- eng_args
-#     }
-#
-#     new_model_spec(
-#       "k_means",
-#       args = object$args,
-#       eng_args = object$eng_args,
-#       mode = object$mode,
-#       method = NULL,
-#       engine = object$engine
-#     )
-#   }
-#
-# # ------------------------------------------------------------------------------
-#
-# check_args.k_means <- function(object) {
-#
-#   args <- lapply(object$args, rlang::eval_tidy)
-#
-#   if (all(is.numeric(args$penalty)) && any(args$penalty < 0))
-#     rlang::abort("The amount of regularization should be >= 0.")
-#   if (is.numeric(args$mixture) && (args$mixture < 0 | args$mixture > 1))
-#     rlang::abort("The mixture proportion should be within [0,1].")
-#   if (is.numeric(args$mixture) && length(args$mixture) > 1)
-#     rlang::abort("Only one value of `mixture` is allowed.")
-#
-#   invisible(object)
-# }
+#' @method update k_means
+#' @rdname tidyclust_update
+#' @export
+update.k_means <- function(object,
+                           parameters = NULL,
+                           k = NULL,
+                           fresh = FALSE, ...) {
 
-# ------------------------------------------------------------------------------
+  eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
+
+  if (!is.null(parameters)) {
+    parameters <- parsnip::check_final_param(parameters)
+  }
+  args <- list(
+    k = enquo(k)
+  )
+
+  args <- parsnip::update_main_parameters(args, parameters)
+
+  if (fresh) {
+    object$args <- args
+    object$eng_args <- eng_args
+  } else {
+    null_args <- map_lgl(args, null_value)
+    if (any(null_args))
+      args <- args[!null_args]
+    if (length(args) > 0)
+      object$args[names(args)] <- args
+    if (length(eng_args) > 0)
+      object$eng_args[names(eng_args)] <- eng_args
+  }
+
+  new_cluster_spec(
+    "k_means",
+    args = object$args,
+    eng_args = object$eng_args,
+    mode = object$mode,
+    method = NULL,
+    engine = object$engine
+  )
+}
+
+# # ------------------------------------------------------------------------------
+
+check_args.k_means <- function(object) {
+
+  args <- lapply(object$args, rlang::eval_tidy)
+
+  if (all(is.numeric(args$k)) && any(args$k < 0))
+    rlang::abort("The number of centers should be >= 0.")
+
+  invisible(object)
+}
 
 # ------------------------------------------------------------------------------
 
@@ -146,7 +138,9 @@ translate_celery.k_means <- function(x, engine = x$engine, ...) {
 #'   The higher this value is, the far appart from each other the centroids are.
 #' @param seed integer value for random number generator (RNG)
 #'
-#' @return A `keras` model object.
+#' @return a list with the following attributes: clusters, fuzzy_clusters (if
+#' fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
+#' obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
 ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,

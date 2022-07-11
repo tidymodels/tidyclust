@@ -1,25 +1,25 @@
 #' Fit a Model Specification to a Data Set
 #'
-#' `fit()` and `fit_xy()` take a model specification, translate_celery the
+#' `fit()` and `fit_xy()` take a model specification, translate_tidyclust the
 #' required code by substituting arguments, and execute the model fit routine.
 #'
 #' @param object An object of class `cluster_spec` that has a chosen engine (via
-#'   [set_engine_celery()]).
+#'   [set_engine_tidyclust()]).
 #' @param formula An object of class `formula` (or one that can be coerced to
 #'   that class): a symbolic description of the model to be fitted.
 #' @param data Optional, depending on the interface (see Details below). A data
-#'   frame containing all relevant variables (e.g. outcome(s), predictors, case
-#'   weights, etc). Note: when needed, a \emph{named argument} should be used.
+#'   frame containing all relevant variables (e.g. predictors, case weights,
+#'   etc). Note: when needed, a \emph{named argument} should be used.
 #' @param control A named list with elements `verbosity` and `catch`. See
-#'   [control_celery()].
+#'   [control_cluster()].
 #' @param ... Not currently used; values passed here will be ignored. Other
 #'   options required to fit the model should be passed using
-#'   `set_engine_celery()`.
+#'   `set_engine_tidyclust()`.
 #' @details  `fit()` and `fit_xy()` substitute the current arguments in the
 #'   model specification into the computational engine's code, check them for
 #'   validity, then fit the model using the data and the engine-specific code.
 #'   Different model functions have different interfaces (e.g. formula or
-#'   `x`/`y`) and these functions translate_celery between the interface used
+#'   `x`/`y`) and these functions translate_tidyclust between the interface used
 #'   when `fit()` or `fit_xy()` was invoked and the one required by the
 #'   underlying model.
 #'
@@ -33,7 +33,7 @@
 #'
 #'   If the model engine has not been set, the model's default engine will be
 #'   used (as discussed on each model page). If the `verbosity` option of
-#'   [control_celery()] is greater than zero, a warning will be produced.
+#'   [control_cluster()] is greater than zero, a warning will be produced.
 #'
 #'   If you would like to use an alternative method for generating contrasts
 #'   when supplying a formula to `fit()`, set the global option `contrasts` to
@@ -47,20 +47,18 @@
 #'
 #' using_formula <-
 #'   kmeans_mod %>%
-#'   set_engine_celery("stats") %>%
+#'   set_engine_tidyclust("stats") %>%
 #'   fit(~., data = mtcars)
 #'
 #' using_x <-
 #'   kmeans_mod %>%
-#'   set_engine_celery("stats") %>%
+#'   set_engine_tidyclust("stats") %>%
 #'   fit_xy(x = mtcars)
 #'
 #' using_formula
 #' using_x
 #' @return A `cluster_fit` object that contains several elements:
 #'   \itemize{
-#'     \item \code{lvl}: If the outcome is a factor, this contains the factor
-#'                       levels at the time of model fitting.
 #'     \item \code{spec}: The model specification object (\code{object} in the
 #'                        call to \code{fit})
 #'     \item \code{fit}: when the model is executed without error, this is the
@@ -73,11 +71,11 @@
 #'  The return value will also have a class related to the fitted model (e.g.
 #'  `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine_celery()], [control_celery()], `cluster_spec`,
+#' @seealso [set_engine_tidyclust()], [control_cluster()], `cluster_spec`,
 #'   `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
-#'   `celery::get_encoding_celery()` for details. `x` should have column names.
+#'   `tidyclust::get_encoding_tidyclust()` for details. `x` should have column names.
 #' @param case_weights An optional classed vector of numeric case weights. This
 #'   must return `TRUE` when [hardhat::is_case_weights()] is run on it. See
 #'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
@@ -88,13 +86,13 @@
 fit.cluster_spec <- function(object,
                              formula,
                              data,
-                             control = control_celery(),
+                             control = control_cluster(),
                              ...) {
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  # if (!inherits(control, "control_celery")) {
-  #  rlang::abort("The 'control' argument should have class 'control_celery'.")
+  # if (!inherits(control, "control_cluster")) {
+  #  rlang::abort("The 'control' argument should have class 'control_cluster'.")
   # }
   dots <- quos(...)
   if (is.null(object$engine)) {
@@ -228,9 +226,9 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
-  function(object, x, case_weights = NULL, control = control_celery(), ...) {
-    # if (!inherits(control, "control_celery")) {
-    #   rlang::abort("The 'control' argument should have class 'control_celery'.")
+  function(object, x, case_weights = NULL, control = control_cluster(), ...) {
+    # if (!inherits(control, "control_cluster")) {
+    #   rlang::abort("The 'control' argument should have class 'control_cluster'.")
     # }
     if (is.null(colnames(x))) {
       rlang::abort("'x' should have column names.")
@@ -331,6 +329,6 @@ check_x_interface <- function(x, cl, model) {
 }
 
 allow_sparse <- function(x) {
-  res <- get_from_env_celery(paste0(class(x)[1], "_encoding"))
+  res <- get_from_env_tidyclust(paste0(class(x)[1], "_encoding"))
   all(res$allow_sparse_x[res$engine == x$engine])
 }

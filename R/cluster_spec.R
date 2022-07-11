@@ -1,4 +1,4 @@
-#' Functions required for celery-adjacent packages
+#' Functions required for tidyclust-adjacent packages
 #'
 #' These functions are helpful when creating new packages that will register
 #' new cluster specifications.
@@ -13,7 +13,7 @@ new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
     args = args, eng_args = eng_args,
     mode = mode, method = method, engine = engine
   )
-  class(out) <- make_classes_celery(cls)
+  class(out) <- make_classes_tidyclust(cls)
   out
 }
 
@@ -25,6 +25,6 @@ new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
 #' @return A character vector.
 #' @keywords internal
 #' @export
-make_classes_celery <- function(prefix) {
+make_classes_tidyclust <- function(prefix) {
   c(prefix, "cluster_spec")
 }

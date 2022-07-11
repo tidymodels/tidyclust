@@ -1,10 +1,10 @@
 #' Model tuning via grid search
 #'
-#' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or RMSE)
-#'  for a pre-defined set of tuning parameters that correspond to a model or
-#'  recipe across one or more resamples of the data.
+#' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or
+#' RMSE) for a pre-defined set of tuning parameters that correspond to a model
+#' or recipe across one or more resamples of the data.
 #'
-#' @param object A `celery` model specification or a [workflows::workflow()].
+#' @param object A `tidyclust` model specification or a [workflows::workflow()].
 #' @param preprocessor A traditional model formula or a recipe created using
 #'   [recipes::recipe()].
 #' @param resamples An `rset()` object.
@@ -15,7 +15,7 @@
 #'   data frame should have columns for each parameter being tuned and rows for
 #'   tuning parameter candidates. An integer denotes the number of candidate
 #'   parameter sets to be created automatically.
-#' @param metrics A [yardstick::metric_set()] or `NULL`.
+#' @param metrics A [cluster_metric_set()] or `NULL`.
 #' @param control An object used to modify the tuning process.
 #' @param ... Not currently used.
 #' @return An updated version of `resamples` with extra list columns for
@@ -44,7 +44,7 @@ tune_cluster.default <- function(object, ...) {
 tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
                                       param_info = NULL, grid = 10,
                                       metrics = NULL,
-                                      control = control_celery()) {
+                                      control = control_cluster()) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
     rlang::abort(paste(
       "To tune a model spec, you must preprocess",
@@ -106,22 +106,22 @@ tune_cluster_workflow <- function(workflow,
                                   rng = TRUE) {
   tune::check_rset(resamples)
 
-  # metrics <- check_metrics(metrics, workflow)
+  metrics <- check_metrics(metrics, workflow)
 
-  # pset <- check_parameters(
-  #   workflow = workflow,
-  #   pset = pset,
-  #   data = resamples$splits[[1]]$data,
-  #   grid_names = names(grid)
-  # )
+  pset <- check_parameters(
+    workflow = workflow,
+    pset = pset,
+    data = resamples$splits[[1]]$data,
+    grid_names = names(grid)
+  )
 
-  # check_workflow(workflow, pset = pset)
+  check_workflow(workflow, pset = pset)
 
-  # grid <- check_grid(
-  #   grid = grid,
-  #   workflow = workflow,
-  #   pset = pset
-  # )
+  grid <- check_grid(
+    grid = grid,
+    workflow = workflow,
+    pset = pset
+  )
 
   # Save rset attributes, then fall back to a bare tibble
   rset_info <- tune::pull_rset_attributes(resamples)
@@ -140,22 +140,23 @@ tune_cluster_workflow <- function(workflow,
     rlang::warn("All models failed. See the `.notes` column.")
   }
 
-  # outcomes <- reduce_all_outcome_names(resamples)
-  # resamples[[".all_outcome_names"]] <- NULL
-
   workflow <- set_workflow(workflow, control)
 
   new_tune_results(
     x = resamples,
     parameters = pset,
     metrics = metrics,
-    # outcomes = outcomes,
     rset_info = rset_info,
     workflow = workflow
   )
 }
 
-tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) {
+tune_cluster_loop <- function(resamples,
+                              grid,
+                              workflow,
+                              metrics,
+                              control,
+                              rng) {
   `%op%` <- get_operator(control$allow_par, workflow)
   `%:%` <- foreach::`%:%`
 
@@ -189,7 +190,7 @@ tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) 
         # Extract internal function from tune namespace
         tune_cluster_loop_iter_safely <- utils::getFromNamespace(
           x = "tune_cluster_loop_iter_safely",
-          ns = "celery"
+          ns = "tidyclust"
         )
 
         tune_cluster_loop_iter_safely(
@@ -219,10 +220,10 @@ tune_cluster_loop <- function(resamples, grid, workflow, metrics, control, rng) 
           .errorhandling = "pass",
           .combine = iter_combine
         ) %op% {
-          # Extract internal function from celery namespace
+          # Extract internal function from tidyclust namespace
           tune_grid_loop_iter_safely <- utils::getFromNamespace(
             x = "tune_cluster_loop_iter_safely",
-            ns = "celery"
+            ns = "tidyclust"
           )
 
           grid_info_row <- vctrs::vec_slice(grid_info, row)
@@ -273,7 +274,13 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_preprocessor(workflow, grid, parameters_model)
     } else {
-      rlang::abort("Internal error: `workflow` should have some tunable parameters if `grid` is not `NULL`.")
+      rlang::abort(
+        paste0(
+          "Internal error: ",
+          "`workflow` should have some tunable parameters ",
+          "if `grid` is not `NULL`."
+        )
+      )
     }
   }
 }
@@ -297,16 +304,18 @@ tune_cluster_loop_iter <- function(split,
   }
 
   control_parsnip <- parsnip::control_parsnip(verbosity = 0, catch = TRUE)
-  control_workflow <- workflows::control_workflow(control_parsnip = control_parsnip)
+  control_workflow <- workflows::control_workflow(control_parsnip)
 
   event_level <- control$event_level
 
   out_metrics <- NULL
   out_extracts <- NULL
   out_predictions <- NULL
-  out_all_outcome_names <- list()
-  out_notes <-
-    tibble::tibble(location = character(0), type = character(0), note = character(0))
+  out_notes <- tibble::tibble(
+    location = character(0),
+    type = character(0),
+    note = character(0)
+  )
 
   params <- hardhat::extract_parameter_set_dials(workflow)
   model_params <- dplyr::filter(params, source == "cluster_spec")
@@ -405,7 +414,7 @@ tune_cluster_loop_iter <- function(split,
       workflow <- finalize_workflow_spec(workflow, iter_grid_model)
 
       workflow <- catch_and_log_fit(
-        expr = workflows::.fit_model(workflow, workflows::control_workflow()),
+        expr = workflows::.fit_model(workflow, control_workflow),
         control,
         split,
         iter_msg_model,
@@ -418,14 +427,6 @@ tune_cluster_loop_iter <- function(split,
       }
 
       workflow <- workflows::.fit_finalize(workflow)
-
-      # Extract outcome names from the hardhat mold
-      # outcome_names <- outcome_names(workflow)
-
-      # out_all_outcome_names <- append_outcome_names(
-      #   all_outcome_names = out_all_outcome_names,
-      #   outcome_names = outcome_names
-      # )
 
       # FIXME: I think this might be wrong? Doesn't use submodel parameters,
       # so `extracts` column doesn't list the correct parameters.
@@ -478,14 +479,14 @@ tune_cluster_loop_iter <- function(split,
         .config = iter_config
       )
 
-      # iter_config_metrics <- extract_metrics_config(param_names, out_metrics)
+      iter_config_metrics <- extract_metrics_config(param_names, out_metrics)
 
       out_predictions <- append_predictions(
         collection = out_predictions,
         predictions = iter_predictions,
         split = split,
-        control = control # ,
-        # .config = iter_config_metrics
+        control = control,
+        .config = iter_config_metrics
       )
     } # model loop
   } # preprocessor loop
@@ -494,7 +495,6 @@ tune_cluster_loop_iter <- function(split,
     .metrics = out_metrics,
     .extracts = out_extracts,
     .predictions = out_predictions,
-    # .all_outcome_names = out_all_outcome_names,
     .notes = out_notes
   )
 }
@@ -516,10 +516,10 @@ tune_cluster_loop_iter_safely <- function(split,
     control,
     seed
   )
-  new.time <- proc.time()
+  new_time <- proc.time()
 
   # Update with elapsed time
-  result$result[[".elapsed"]] <- new.time["elapsed"] - time["elapsed"]
+  result$result[[".elapsed"]] <- new_time["elapsed"] - time["elapsed"]
 
   error <- result$error
   warnings <- result$warnings
@@ -549,7 +549,6 @@ tune_cluster_loop_iter_safely <- function(split,
       .metrics = NULL,
       .extracts = NULL,
       .predictions = NULL,
-      .all_outcome_names = list(),
       .notes = NULL
     )
   }
@@ -589,7 +588,6 @@ super_safely <- function(fn) {
 compute_grid_info_model <- function(workflow, grid, parameters_model) {
   spec <- extract_spec_parsnip(workflow)
   out <- min_grid(spec, grid)
-  parameter_names_model <- parameters_model[["id"]]
   n_fit_models <- nrow(out)
   seq_fit_models <- seq_len(n_fit_models)
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
@@ -779,4 +777,230 @@ compute_grid_info_preprocessor <- function(workflow,
   )
 
   out
+}
+
+check_metrics <- function(x, object) {
+  mode <- extract_spec_parsnip(object)$mode
+
+  if (is.null(x)) {
+    switch(mode,
+           partition = {
+             x <- cluster_metric_set(tot_wss, tot_sse)
+           },
+           unknown = {
+             rlang::abort(
+               paste0(
+                 "Internal error: ",
+                 "`check_installs()` should have caught an `unknown` mode."
+               )
+             )
+           },
+           rlang::abort("Unknown `mode` for parsnip model.")
+    )
+
+    return(x)
+  }
+
+  is_cluster_metric_set <- inherits(x, "cluster_metric_set")
+
+  if (!is_cluster_metric_set) {
+    rlang::abort(
+      paste0(
+        "The `metrics` argument should be the results of ",
+        "[cluster_metric_set()]."
+      )
+    )
+  }
+  x
+}
+
+check_parameters <- function(workflow,
+                             pset = NULL,
+                             data,
+                             grid_names = character(0)) {
+  if (is.null(pset)) {
+    pset <- hardhat::extract_parameter_set_dials(workflow)
+  }
+  unk <- map_lgl(pset$object, dials::has_unknowns)
+  if (!any(unk)) {
+    return(pset)
+  }
+  tune_param <- generics::tune_args(workflow)
+  tune_recipe <- tune_param$id[tune_param$source == "recipe"]
+  tune_recipe <- length(tune_recipe) > 0
+
+  if (needs_finalization(pset, grid_names)) {
+    if (tune_recipe) {
+      rlang::abort(
+        paste(
+          "Some tuning parameters require finalization but there are recipe",
+          "parameters that require tuning. Please use `parameters()` to",
+          "finalize the parameter ranges."
+        )
+      )
+    }
+    msg <- "Creating pre-processing data to finalize unknown parameter"
+    unk_names <- pset$id[unk]
+    if (length(unk_names) == 1) {
+      msg <- paste0(msg, ": ", unk_names)
+    } else {
+      msg <- paste0(msg, "s: ", paste0("'", unk_names, "'", collapse = ", "))
+    }
+
+    tune_log(list(verbose = TRUE), split = NULL, msg, type = "info")
+
+    x <- workflows::.fit_pre(workflow, data)$pre$mold$predictors
+    pset$object <- map(pset$object, dials::finalize, x = x)
+  }
+  pset
+}
+
+needs_finalization <- function(x, nms = character(0)) {
+  # If an unknown engine-specific parameter, the object column is missing and
+  # no need for finalization
+  x <- x[!is.na(x$object), ]
+  # If the parameter is in a pre-defined grid, then no need to finalize
+  x <- x[!(x$id %in% nms), ]
+  if (length(x) == 0) {
+    return(FALSE)
+  }
+  any(dials::has_unknowns(x$object))
+}
+
+check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
+  if (!inherits(x, "workflow")) {
+    rlang::abort("The `object` argument should be a 'workflow' object.")
+  }
+
+  if (!has_preprocessor(x)) {
+    rlang::abort("A formula, recipe, or variables preprocessor is required.")
+  }
+
+  if (!has_spec(x)) {
+    rlang::abort("A parsnip model is required.")
+  }
+
+  if (check_dials) {
+    if (is.null(pset)) {
+      pset <- hardhat::extract_parameter_set_dials(x)
+    }
+
+    check_param_objects(pset)
+
+    incompl <- dials::has_unknowns(pset$object)
+
+    if (any(incompl)) {
+      rlang::abort(paste0(
+        "The workflow has arguments whose ranges are not finalized: ",
+        paste0("'", pset$id[incompl], "'", collapse = ", ")
+      ))
+    }
+  }
+
+  mod <- extract_spec_parsnip(x)
+  check_installs(mod)
+
+  invisible(NULL)
+}
+
+check_param_objects <- function(pset) {
+  params <- map_lgl(pset$object, inherits, "param")
+
+  if (!all(params)) {
+    rlang::abort(paste0(
+      "The workflow has arguments to be tuned that are missing some ",
+      "parameter objects: ",
+      paste0("'", pset$id[!params], "'", collapse = ", ")
+    ))
+  }
+  invisible(pset)
+}
+
+grid_msg <- "`grid` should be a positive integer or a data frame."
+
+check_grid <- function(grid, workflow, pset = NULL) {
+  # `NULL` grid is the signal that we are using `fit_resamples()`
+  if (is.null(grid)) {
+    return(grid)
+  }
+
+  if (is.null(pset)) {
+    pset <- hardhat::extract_parameter_set_dials(workflow)
+  }
+
+  if (nrow(pset) == 0L) {
+    msg <- paste0(
+      "No tuning parameters have been detected, ",
+      "performance will be evaluated using the resamples with no tuning. ",
+      "Did you want to [tune()] parameters?"
+    )
+    rlang::warn(msg)
+
+    # Return `NULL` as the new `grid`, like what is used in `fit_resamples()`
+    return(NULL)
+  }
+
+  if (!is.numeric(grid)) {
+    if (!is.data.frame(grid)) {
+      rlang::abort(grid_msg)
+    }
+
+    grid_distinct <- dplyr::distinct(grid)
+    if (!identical(nrow(grid_distinct), nrow(grid))) {
+      rlang::warn(
+        "Duplicate rows in grid of tuning combinations found and removed."
+      )
+    }
+    grid <- grid_distinct
+
+    tune_tbl <- generics::tune_args(workflow)
+    tune_params <- tune_tbl$id
+
+    # when called from [tune_bayes()]
+    tune_params <- tune_params[tune_params != ".iter"]
+
+    grid_params <- names(grid)
+
+    extra_grid_params <- setdiff(grid_params, tune_params)
+    extra_tune_params <- setdiff(tune_params, grid_params)
+
+    if (length(extra_grid_params) != 0L) {
+      extra_grid_params <- glue::single_quote(extra_grid_params)
+      extra_grid_params <- glue::glue_collapse(extra_grid_params, sep = ", ")
+
+      msg <- glue::glue(
+        "The provided `grid` has the following parameter columns that have ",
+        "not been marked for tuning by `tune()`: {extra_grid_params}."
+      )
+
+      rlang::abort(msg)
+    }
+
+    if (length(extra_tune_params) != 0L) {
+      extra_tune_params <- glue::single_quote(extra_tune_params)
+      extra_tune_params <- glue::glue_collapse(extra_tune_params, sep = ", ")
+
+      msg <- glue::glue(
+        "The provided `grid` is missing the following parameter columns that ",
+        "have been marked for tuning by `tune()`: {extra_tune_params}."
+      )
+
+      rlang::abort(msg)
+    }
+  } else {
+    grid <- as.integer(grid[1])
+    if (grid < 1) {
+      rlang::abort(grid_msg)
+    }
+    check_workflow(workflow, pset = pset, check_dials = TRUE)
+
+    grid <- dials::grid_latin_hypercube(pset, size = grid)
+    grid <- dplyr::distinct(grid)
+  }
+
+  if (!tibble::is_tibble(grid)) {
+    grid <- tibble::as_tibble(grid)
+  }
+
+  grid
 }

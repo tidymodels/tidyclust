@@ -4,35 +4,16 @@ new_bare_tibble <- function(x, ..., class = character()) {
 }
 
 is_cataclysmic <- function(x) {
-  is_err <- purrr::map_lgl(x$.metrics, inherits, c(
+  is_err <- map_lgl(x$.metrics, inherits, c(
     "simpleError",
     "error"
   ))
   if (any(!is_err)) {
-    is_good <- purrr::map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
+    is_good <- map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
       nrow(.x) > 0)
     is_err[!is_err] <- !is_good
   }
   all(is_err)
-}
-
-reduce_all_outcome_names <- function(resamples) {
-  all_outcome_names <- resamples$.all_outcome_names
-  all_outcome_names <- rlang::flatten(all_outcome_names)
-  all_outcome_names <- vctrs::vec_unique(all_outcome_names)
-  n_unique <- length(all_outcome_names)
-  if (n_unique == 0L) {
-    return(character())
-  }
-  if (n_unique > 1L) {
-    rlang::warn(paste0(
-      "More than one set of outcomes were used when tuning. ",
-      "This should never happen. ",
-      "Review how the outcome is specified in your model."
-    ))
-  }
-  outcome_names <- all_outcome_names[[1L]]
-  outcome_names
 }
 
 set_workflow <- function(workflow, control) {
@@ -42,10 +23,11 @@ set_workflow <- function(workflow, control) {
       if (w_size / 1024^2 > 5) {
         msg <- paste0(
           "The workflow being saved contains a recipe, which is ",
-          format(w_size, units = "Mb", digits = 2), " in memory. If this was not intentional, please set the control ",
+          format(w_size, units = "Mb", digits = 2),
+          " in memory. If this was not intentional, please set the control ",
           "setting `save_workflow = FALSE`."
         )
-        cols <- get_celery_colors()
+        cols <- get_tidyclust_colors()
         msg <- strwrap(msg, prefix = paste0(
           cols$symbol$info(cli::symbol$info),
           " "
@@ -74,9 +56,9 @@ new_tune_results <- function(x, parameters, metrics,
 
 get_operator <- function(allow = TRUE, object) {
   is_par <- foreach::getDoParWorkers() > 1
-  # pkgs <- required_pkgs(object) # TODO
+  pkgs <- required_pkgs(object)
   blacklist <- c("keras", "rJava")
-  if (is_par & allow && any(pkgs %in% blacklist)) {
+  if (is_par && allow && any(pkgs %in% blacklist)) {
     pkgs <- pkgs[pkgs %in% blacklist]
     msg <- paste0("'", pkgs, "'", collapse = ", ")
     msg <- paste(
@@ -109,14 +91,14 @@ required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
 get_pkgs <- function(x, infra) {
   cls <- class(x)[1]
   pkgs <-
-    get_from_env_celery(paste0(cls, "_pkgs")) %>%
+    get_from_env_tidyclust(paste0(cls, "_pkgs")) %>%
     dplyr::filter(engine == x$engine)
   res <- pkgs$pkg[[1]]
   if (length(res) == 0) {
     res <- character(0)
   }
   if (infra) {
-    infra_pkgs <- c("celery")
+    infra_pkgs <- c("tidyclust")
     res <- c(infra_pkgs, res)
   }
   res <- unique(res)
@@ -126,7 +108,11 @@ get_pkgs <- function(x, infra) {
 
 new_grid_info_resamples <- function() {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
-  msgs_model <- new_msgs_model(i = 1L, n = 1L, msgs_preprocessor = msgs_preprocessor)
+  msgs_model <- new_msgs_model(
+    i = 1L,
+    n = 1L,
+    msgs_preprocessor = msgs_preprocessor
+  )
   iter_config <- list("Preprocessor1_Model1")
   out <- tibble::tibble(
     .iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
@@ -183,7 +169,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = purrr::map(1:nrow(grid), ~ list())
+      .submodels = map(seq_along(nrow(grid)), ~ list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -264,23 +250,23 @@ catcher <- function(expr) {
 }
 
 siren <- function(x, type = "info") {
-  celery_color <- get_celery_colors()
-  types <- names(celery_color$message)
+  tidyclust_color <- get_tidyclust_colors()
+  types <- names(tidyclust_color$message)
   type <- match.arg(type, types)
   msg <- glue::glue(x)
   symb <- dplyr::case_when(
-    type == "warning" ~ celery_color$symbol$warning("!"),
-    type == "go" ~ celery_color$symbol$go(cli::symbol$pointer),
-    type == "danger" ~ celery_color$symbol$danger("x"), type ==
-      "success" ~ celery_color$symbol$success(celery_symbol$success),
-    type == "info" ~ celery_color$symbol$info("i")
+    type == "warning" ~ tidyclust_color$symbol$warning("!"),
+    type == "go" ~ tidyclust_color$symbol$go(cli::symbol$pointer),
+    type == "danger" ~ tidyclust_color$symbol$danger("x"), type ==
+      "success" ~ tidyclust_color$symbol$success(tidyclust_symbol$success),
+    type == "info" ~ tidyclust_color$symbol$info("i")
   )
   msg <- dplyr::case_when(
-    type == "warning" ~ celery_color$message$warning(msg),
-    type == "go" ~ celery_color$message$go(msg), type == "danger" ~
-      celery_color$message$danger(msg), type == "success" ~
-      celery_color$message$success(msg), type == "info" ~
-      celery_color$message$info(msg)
+    type == "warning" ~ tidyclust_color$message$warning(msg),
+    type == "go" ~ tidyclust_color$message$go(msg), type == "danger" ~
+      tidyclust_color$message$danger(msg), type == "success" ~
+      tidyclust_color$message$success(msg), type == "info" ~
+      tidyclust_color$message$info(msg)
   )
   if (inherits(msg, "character")) {
     msg <- as.character(msg)
@@ -293,7 +279,7 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
   control2$verbose <- TRUE
   wrn <- res$signals
   if (length(wrn) > 0) {
-    wrn_msg <- purrr::map_chr(wrn, ~ .x$message)
+    wrn_msg <- map_chr(wrn, ~ .x$message)
     wrn_msg <- unique(wrn_msg)
     wrn_msg <- paste(wrn_msg, collapse = ", ")
     wrn_msg <- tibble::tibble(
@@ -350,25 +336,25 @@ merger <- function(x, y, ...) {
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
-    res <- tibble::tibble(x = purrr::map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
     updater <- update_recipe
-    step_ids <- purrr::map_chr(x$steps, ~ .x$id)
+    step_ids <- map_chr(x$steps, ~ .x$id)
   } else {
     updater <- update_model
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
-    res <- tibble::tibble(x = purrr::map(1:nrow(y), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
   y %>%
     dplyr::mutate(
-      ..object = purrr::map(
-        1:nrow(y),
+      ..object = map(
+        seq_along(nrow(y)),
         ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
     ) %>%
@@ -444,7 +430,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   forged <- forge_from_workflow(split, workflow)
 
   x_vals <- forged$predictors
-  y_vals <- forged$outcomes
 
   orig_rows <- as.integer(split, data = "assessment")
 
@@ -471,8 +456,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   }
 
   # Determine the type of prediction that is required
-  # type_info <- metrics_info(metrics)
-  # types <- unique(type_info$type)
   types <- "cluster"
 
   res <- NULL
@@ -504,7 +487,8 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       #     eval_tidy(mp_call) %>%
       #     mutate(.row = orig_rows) %>%
       #     unnest(cols = dplyr::starts_with(".pred")) %>%
-      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)), row.names = NULL) %>%
+      #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)),
+      #           row.names = NULL) %>%
       #     # go back to user-defined name
       #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) %>%
       #     dplyr::select(dplyr::one_of(names(tmp_res))) %>%
@@ -521,10 +505,6 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
     rm(tmp_res)
   } # end type loop
 
-  # Add outcome data
-  # y_vals <- dplyr::mutate(y_vals, .row = orig_rows)
-  # res <- dplyr::full_join(res, y_vals, by = ".row")
-
   tibble::as_tibble(res)
 }
 
@@ -534,10 +514,13 @@ forge_from_workflow <- function(split, workflow) {
   blueprint <- workflow$pre$mold$blueprint
   if (!rlang::is_installed("hardhat")) {
     rlang::abort(
-      "Internal error: hardhat should have been installed from the workflows dependency."
+      paste0(
+        "Internal error: ",
+        "hardhat should have been installed from the workflows dependency."
+      )
     )
   }
-  forged <- hardhat::forge(new_data, blueprint, outcomes = TRUE)
+  forged <- hardhat::forge(new_data, blueprint, outcomes = FALSE)
 
   forged
 }
@@ -620,11 +603,7 @@ append_metrics <- function(workflow,
     dplyr::select(dplyr::all_of(param_names)) %>%
     dplyr::distinct()
 
-  tmp_est <- purrr::imap_dfr(metrics,
-    ~ list(.estimate = .x(workflow)),
-    .id = ".metric"
-  ) %>%
-    dplyr::mutate(.estimator = "standard")
+  tmp_est <- metrics(workflow, new_data = rsample::analysis(split))
 
   tmp_est <- cbind(tmp_est, labels(split))
 
@@ -664,6 +643,12 @@ extract_details <- function(object, extractor) {
   try(extractor(object), silent = TRUE)
 }
 
+extract_metrics_config <- function(param_names, metrics) {
+  metrics_config_names <- c(param_names, ".config")
+  out <- metrics[metrics_config_names]
+  vctrs::vec_unique(out)
+}
+
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)
@@ -695,18 +680,16 @@ slice_seeds <- function(x, i, n) {
 
 iter_combine <- function(...) {
   results <- list(...)
-  metrics <- purrr::map(results, ~ .x[[".metrics"]])
-  extracts <- purrr::map(results, ~ .x[[".extracts"]])
-  predictions <- purrr::map(results, ~ .x[[".predictions"]])
-  all_outcome_names <- purrr::map(results, ~ .x[[".all_outcome_names"]])
-  notes <- purrr::map(results, ~ .x[[".notes"]])
+  metrics <- map(results, ~ .x[[".metrics"]])
+  extracts <- map(results, ~ .x[[".extracts"]])
+  predictions <- map(results, ~ .x[[".predictions"]])
+  notes <- map(results, ~ .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
-  all_outcome_names <- vctrs::vec_c(!!!all_outcome_names)
   notes <- vctrs::vec_c(!!!notes)
   list(
     .metrics = metrics, .extracts = extracts, .predictions = predictions,
-    .all_outcome_names = all_outcome_names, .notes = notes
+    .notes = notes
   )
 }
