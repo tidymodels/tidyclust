@@ -31,11 +31,4 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
   extract_fit_summary()
-kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_celery("stats")
-
-kmeans_fit <- fit(kmeans_spec, ~., mtcars)
-
-kmeans_fit \%>\%
-  extract_fit_summary()
 }
