@@ -48,35 +48,36 @@ stats_hier_clust_predict <- function(object, new_data) {
 
     ## Centroid linkage_method, dist to center
 
-    cluster_centers <- extract_centroids(object)
+    cluster_centers <- extract_centroids(object) %>% select(-.cluster)
     dists_means <- Rfast::dista(new_data, cluster_centers)
 
-    pred_clusts_num <- apply(dists_means, 2, which.min)
+    pred_clusts_num <- apply(dists_means, 1, which.min)
 
-  } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {
-
-    ## Ward linkage_method: lowest change in ESS
-    ## dendrograms created from already-squared distances
-    ## use Ward.D2 on these plain distances for Ward.D
-
-    cluster_centers <- extract_centroids(object)
-
-    d_means <- purrr::map(1:nrow(cluster_centers),
-                          ~training_data - .x)
-
-    n <- nrow(training_data)
-
-    d_new_list <- purrr::map(1:nrow(new_data),
-                             ~ training_data - new_data[.x,])
-
-    change_in_ess <- purrr::map(d_new_list,
-                                function(v) {
-                                  purrr_map_dbl(d_means,
-                                            ~ sum((n*.x + v2)^2/(n+1)^2 - .x^2)
-                                  )}
-    )
-
-    pred_clusts_num <- purrr::map_dbl(change_in_ess, which.min)
+  # } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {
+  #
+  #   ## Ward linkage_method: lowest change in ESS
+  #   ## dendrograms created from already-squared distances
+  #   ## use Ward.D2 on these plain distances for Ward.D
+  #
+  #   cluster_centers <- extract_centroids(object)
+  #   cluster_centers <- as.matrix(cluster_centers[, -1])
+  #
+  #   d_means <- purrr::map(1:nrow(cluster_centers),
+  #                         ~t(t(training_data) - cluster_centers[.x, ]))
+  #
+  #   n <- nrow(training_data)
+  #
+  #   d_new_list <- purrr::map(1:nrow(new_data),
+  #                            ~ training_data - new_data[.x,])
+  #
+  #   change_in_ess <- purrr::map(d_new_list,
+  #                               function(v) {
+  #                                 purrr::map_dbl(d_means,
+  #                                           ~ sum((n*.x + v)^2/(n+1)^2 - .x^2)
+  #                                 )}
+  #   )
+  #
+  #   pred_clusts_num <- purrr::map_dbl(change_in_ess, which.min)
 
   } else {
 
@@ -85,7 +86,7 @@ stats_hier_clust_predict <- function(object, new_data) {
   }
 
 
-  pred_clusts = unique(clusters$.cluster)[pred_clusts_num]
+  pred_clusts <- unique(clusters$.cluster)[pred_clusts_num]
 
   return(factor(pred_clusts))
 

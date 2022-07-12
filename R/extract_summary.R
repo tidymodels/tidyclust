@@ -72,7 +72,10 @@ extract_fit_summary.hclust <- function(object, ...) {
   overall_centroid <- colMeans(training_data)
 
   by_clust <- training_data %>%
-    bind_cols(clusts) %>%
+    tibble::tibble() %>%
+    mutate(
+      .cluster = clusts
+    ) %>%
     group_by(.cluster) %>%
     nest()
 
@@ -88,7 +91,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     centroids = centroids,
     n_members = unname(table(clusts)),
     within_sse = within_sse,
-    tot_sse = sum(Rfast::dista(overall_centroid, training_data)),
+    tot_sse = sum(Rfast::dista(t(overall_centroid), training_data)),
     orig_labels = NULL,
     cluster_assignments = clusts
   )
