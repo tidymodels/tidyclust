@@ -14,17 +14,19 @@ clusterR_kmeans_predict <- function(object, new_data) {
 
 stats_hier_clust_predict <- function(object, new_data) {
 
-  method <- object$fit$method
+  linkage_method <- object$fit$method
 
-  old_data <- attr(object, "training_data")
+  new_data <- as.matrix(new_data)
+
+  training_data <- as.matrix(attr(object$fit, "training_data"))
   clusters <- extract_cluster_assignment(object)
 
-  if (method %in% c("single", "complete", "average", "median")) {
+  if (linkage_method %in% c("single", "complete", "average", "median")) {
 
-    ## complete, single, average, and median methods are basically the same idea,
+    ## complete, single, average, and median linkage_methods are basically the same idea,
     ## just different summary distance to cluster
 
-    cluster_dist_fun <- switch(method,
+    cluster_dist_fun <- switch(linkage_method,
       "single" = min,
       "complete" = max,
       "average" = mean,
@@ -32,26 +34,28 @@ stats_hier_clust_predict <- function(object, new_data) {
     )
 
     # need this to be obs on rows, dist to new data on cols
-    dists_new <- fastR::dist(new_data, training_data)
+    dists_new <- Rfast::dista(new_data, training_data, trans = TRUE)
 
-    cluster_dists <- bind_cols(dists_new, clusters) %>%
+    cluster_dists <- bind_cols(data.frame(dists_new), clusters) %>%
       group_by(.cluster) %>%
-      summarize(cluster_dist_fun)
+      summarize_all(cluster_dist_fun)
 
-    pred_clusts_num <- apply(cluster_dists, 2, which.min)
+    pred_clusts_num <- cluster_dists %>%
+      select(-.cluster) %>%
+      purrr::map_dbl(which.min)
 
-  } else if (method == "centroid") {
+  } else if (linkage_method == "centroid") {
 
-    ## Centroid method, dist to center
+    ## Centroid linkage_method, dist to center
 
     cluster_centers <- extract_centroids(object)
-    dists_means <- fastR::dist(new_data, cluster_centers)
+    dists_means <- Rfast::dista(new_data, cluster_centers)
 
     pred_clusts_num <- apply(dists_means, 2, which.min)
 
-  } else if (method %in% c("ward.D", "ward", "ward.D2")) {
+  } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {
 
-    ## Ward method: lowest change in ESS
+    ## Ward linkage_method: lowest change in ESS
     ## dendrograms created from already-squared distances
     ## use Ward.D2 on these plain distances for Ward.D
 
@@ -76,14 +80,13 @@ stats_hier_clust_predict <- function(object, new_data) {
 
   } else {
 
-    stop(glue::glue("Method {method} is not supported for prediction."))
+    stop(glue::glue("linkage_method {linkage_method} is not supported for prediction."))
 
   }
 
 
-  pred_clusts <- clusters$.cluster[pred_clusts_num]
+  pred_clusts = unique(clusters$.cluster)[pred_clusts_num]
 
-  return(pred_clusts)
-
+  return(factor(pred_clusts))
 
 }

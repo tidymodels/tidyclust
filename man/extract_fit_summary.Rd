@@ -5,8 +5,6 @@
 \title{S3 method to get fitted model summary info depending on engine}
 \usage{
 extract_fit_summary(object, ...)
-
-extract_fit_summary(object, ...)
 }
 \arguments{
 \item{object}{a fitted cluster_spec object}
@@ -15,12 +13,8 @@ extract_fit_summary(object, ...)
 }
 \value{
 A list with various summary elements
-
-A list with various summary elements
 }
 \description{
-S3 method to get fitted model summary info depending on engine
-
 S3 method to get fitted model summary info depending on engine
 }
 \examples{

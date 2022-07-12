@@ -15,7 +15,7 @@ set_fit_tidyclust(
     interface = "matrix",
     protect = c("data"),  #### what is this?
     func = c(pkg = "tidyclust", fun = "hclust_fit"),
-    defaults = list(method = "complete")
+    defaults = list()
   )
 )
 
@@ -37,6 +37,15 @@ set_model_arg_tidyclust(
   tidyclust = "k",
   original = "k",
   func = list(pkg = "tidyclust", fun = "k"),
+  has_submodel = TRUE
+)
+
+set_model_arg_tidyclust(
+  model = "hier_clust",
+  eng = "stats",
+  tidyclust = "linkage_method",
+  original = "linkage_method",
+  func = list(pkg = "tidyclust", fun = "linkage_method"),
   has_submodel = TRUE
 )
 

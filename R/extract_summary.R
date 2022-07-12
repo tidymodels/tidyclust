@@ -62,16 +62,33 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
 }
 
 #' @export
-extract_fit_summary.hier_clust <- function(object, ...) {
+extract_fit_summary.hclust <- function(object, ...) {
 
   clusts <- extract_cluster_assignment(object, ...)$.cluster
+  n_clust <- n_distinct(clusts)
+
+  training_data <- attr(object, "training_data")
+
+  overall_centroid <- colMeans(training_data)
+
+  by_clust <- training_data %>%
+    bind_cols(clusts) %>%
+    group_by(.cluster) %>%
+    nest()
+
+  centroids <- by_clust$data %>%
+    purrr::map_dfr(colMeans)
+
+  within_sse <- by_clust$data %>%
+    purrr::map2_dbl(1:n_clust,
+                ~ sum(Rfast::dista(centroids[.y,], .x)))
 
   list(
     cluster_names = unique(clusts),
-    centroids = NULL,
+    centroids = centroids,
     n_members = unname(table(clusts)),
-    within_sse = NULL,
-    tot_sse = NULL,
+    within_sse = within_sse,
+    tot_sse = sum(Rfast::dista(overall_centroid, training_data)),
     orig_labels = NULL,
     cluster_assignments = clusts
   )

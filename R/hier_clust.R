@@ -13,7 +13,7 @@
 #' @param k Positive integer, number of clusters in model (optional).
 #' @param h Positive double, height at which to cut dendrogram to obtain cluster
 #' assignments (only used if `k` is `NULL`)
-#' @param method the agglomeration method to be used. This should be (an
+#' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
 #' (= WPGMC) or `"centroid"` (= UPGMC).
@@ -29,11 +29,11 @@ hier_clust <-
            engine = "stats",
            k = NULL,
            h = NULL,
-           method = "complete") {
+           linkage_method = "complete") {
     args <- list(
       k = enquo(k),
       h = enquo(h),
-      method = enquo(method)
+      linkage_method = enquo(linkage_method)
     )
 
     new_cluster_spec(
@@ -75,7 +75,7 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @param x matrix or data frame
 #' @param k the number of clusters
 #' @param h the height to cut the dendrogram
-#' @param method the agglomeration method to be used. This should be (an
+#' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
 #' (= WPGMC) or `"centroid"` (= UPGMC).
@@ -84,12 +84,13 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-hclust_fit <- function(x, k = NULL, h = NULL,
-                       method = "complete",
+hclust_fit <- function(x, k = NULL, cut_height = NULL,
+                       linkage_method = NULL,
                        dist_fun = Rfast::Dist) {
   dmat <- dist_fun(x)
-  res <- hclust(as.dist(dmat), method = method)
+  res <- hclust(as.dist(dmat), method = linkage_method)
   attr(res, "k") <- k
-  attr(res, "h") <- h
+  attr(res, "cut_height") <- cut_height
+  attr(res, "training_data") <- x
   return(res)
 }
