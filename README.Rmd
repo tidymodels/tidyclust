@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tidyclust
+# tidyclust <img src="man/figures/logo.svg" align="right" height="139" />
 
 <!-- badges: start -->
 [![Codecov test coverage](https://codecov.io/gh/EmilHvitfeldt/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EmilHvitfeldt/tidyclust?branch=main)
