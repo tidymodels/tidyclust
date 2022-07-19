@@ -27,7 +27,7 @@ penguins <- penguins %>% drop_na()
 ## Setup
 
 ```{r}
-kmeans_spec <- k_means(k = 3) %>%
+kmeans_spec <- k_means(num_clusters = 3) %>%
     set_engine("stats") 
   
 kmeans_fit <- kmeans_spec %>%
@@ -94,7 +94,7 @@ results_ratio <- c()
 
 for (k in 2:10) {
   
-  kmeans_spec_k <- k_means(k = k) %>%
+  kmeans_spec_k <- k_means(num_clusters = k) %>%
     set_engine("stats") 
   
   kmeans_fit_k <- kmeans_spec_k %>%
@@ -122,7 +122,7 @@ results_species <- c()
 
 for (k in 2:10) {
   
-  kmeans_spec_k <- k_means(k = k) %>%
+  kmeans_spec_k <- k_means(num_clusters = k) %>%
     set_engine("stats") 
   
   kmeans_fit_k <- kmeans_spec_k %>%

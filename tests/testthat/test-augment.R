@@ -1,5 +1,5 @@
 test_that('partition models', {
-  x <- k_means(k = 2)
+  x <- k_means(num_clusters = 2)
 
   set.seed(1234)
   reg_form <- x %>% fit(~ ., data = mtcars)

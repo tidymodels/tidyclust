@@ -43,7 +43,7 @@ test_that("tune model only (with recipe)", {
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
-  grid$k <- grid$k + 1
+  grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(tot_wss, tot_sse)
@@ -59,15 +59,15 @@ test_that("tune model only (with recipe)", {
   res_workflow <- res$.extracts[[1]]$.extracts[[1]]
 
   # Ensure tunable parameters in spec are finalized
-  k_quo <- res_workflow$fit$fit$spec$args$k
-  k <- rlang::quo_get_expr(k_quo)
+  num_clusters_quo <- res_workflow$fit$fit$spec$args$num_clusters
+  num_clusters <- rlang::quo_get_expr(num_clusters_quo)
 
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
-  expect_false(identical(k, expr(tune())))
+  expect_false(identical(num_clusters, expr(tune())))
   expect_true(res_workflow$trained)
 })
 
@@ -81,7 +81,7 @@ test_that("tune model and recipe", {
   pset <- hardhat::extract_parameter_set_dials(wflow) %>%
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
-  grid$k <- grid$k + 1
+  grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(tot_wss, tot_sse)
@@ -97,8 +97,8 @@ test_that("tune model and recipe", {
   res_workflow <- res$.extracts[[1]]$.extracts[[1]]
 
   # Ensure tunable parameters in spec are finalized
-  k_quo <- res_workflow$fit$fit$spec$args$k
-  k <- rlang::quo_get_expr(k_quo)
+  num_clusters_quo <- res_workflow$fit$fit$spec$args$num_clusters
+  num_clusters <- rlang::quo_get_expr(num_clusters_quo)
 
   # Ensure tunable parameters in recipe are finalized
   num_comp <- res_workflow$pre$actions$recipe$recipe$steps[[2]]$num_comp
@@ -106,13 +106,13 @@ test_that("tune model and recipe", {
   expect_equal(res$id, folds$id)
   expect_equal(
     colnames(res$.metrics[[1]]),
-    c("k", "num_comp", ".metric", ".estimator", ".estimate", ".config")
+    c("num_clusters", "num_comp", ".metric", ".estimator", ".estimate", ".config")
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
-  expect_false(identical(k, expr(tune())))
+  expect_false(identical(num_clusters, expr(tune())))
   expect_false(identical(num_comp, expr(tune())))
   expect_true(res_workflow$trained)
 })
@@ -127,7 +127,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   pset <- hardhat::extract_parameter_set_dials(wflow) %>%
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
-  grid$k <- grid$k + 1
+  grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity, parallel_over = "everything")
   metrics <- cluster_metric_set(tot_wss, tot_sse)
@@ -144,7 +144,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   expect_equal(res$id, folds$id)
   expect_equal(
     colnames(res$.metrics[[1]]),
-    c("k", "num_comp", ".metric", ".estimator", ".estimate", ".config")
+    c("num_clusters", "num_comp", ".metric", ".estimator", ".estimate", ".config")
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
@@ -158,7 +158,7 @@ test_that("tune model only - failure in formula is caught elegantly", {
   set.seed(7898)
   data_folds <- rsample::vfold_cv(mtcars, v = 2)
 
-  cars_grid <- tibble::tibble(k = 2)
+  cars_grid <- tibble::tibble(num_clusters = 2)
 
   # these terms don't exist!
   expect_snapshot(
@@ -310,7 +310,7 @@ test_that("retain extra attributes", {
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
-  grid$k <- grid$k + 1
+  grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   metrics <- cluster_metric_set(tot_wss, tot_sse)
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
@@ -333,7 +333,7 @@ test_that("select_best() and show_best() works", {
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 10)
-  grid$k <- grid$k + 1
+  grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(tot_wss, tot_sse)
@@ -369,7 +369,7 @@ test_that("select_best() and show_best() works", {
     tune::collect_metrics(res) %>%
       dplyr::filter(.metric == "tot_wss") %>%
       dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
-      dplyr::select(k, .config)
+      dplyr::select(num_clusters, .config)
   )
 
   expect_equal(
@@ -377,8 +377,7 @@ test_that("select_best() and show_best() works", {
     tune::collect_metrics(res) %>%
       dplyr::filter(.metric == "tot_sse") %>%
       dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
-      dplyr::select(k, .config)
+      dplyr::select(num_clusters, .config)
   )
-
 })
 

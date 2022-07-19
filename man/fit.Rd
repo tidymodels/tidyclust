@@ -84,7 +84,7 @@ page for \code{\link[stats:contrast]{stats::contr.treatment()}} for more possibl
 \examples{
 library(dplyr)
 
-kmeans_mod <- k_means(k = 5)
+kmeans_mod <- k_means(num_clusters = 5)
 
 using_formula <-
   kmeans_mod \%>\%

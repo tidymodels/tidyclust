@@ -5,7 +5,7 @@
 \alias{tidyclust_update}
 \title{Update a cluster specification}
 \usage{
-\method{update}{k_means}(object, parameters = NULL, k = NULL, fresh = FALSE, ...)
+\method{update}{k_means}(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
 }
 \arguments{
 \item{object}{A cluster specification.}
@@ -16,7 +16,7 @@ directly when updating. If the main arguments are used,
 these will supersede the values in \code{parameters}. Also, using
 engine arguments in this object will result in an error.}
 
-\item{k}{Positive integer, number of clusters in model.}
+\item{num_clusters}{Positive integer, number of clusters in model.}
 
 \item{fresh}{A logical for whether the arguments should be
 modified in-place or replaced wholesale.}
@@ -31,12 +31,12 @@ If parameters of a cluster specification need to be modified, \code{update()} ca
 be used in lieu of recreating the object from scratch.
 }
 \examples{
-kmeans_spec <- k_means(k = 5)
+kmeans_spec <- k_means(num_clusters = 5)
 kmeans_spec
-update(kmeans_spec, k = 1)
-update(kmeans_spec, k = 1, fresh = TRUE)
+update(kmeans_spec, num_clusters = 1)
+update(kmeans_spec, num_clusters = 1, fresh = TRUE)
 
-param_values <- tibble::tibble(k = 10)
+param_values <- tibble::tibble(num_clusters = 10)
 
 kmeans_spec \%>\% update(param_values)
 }

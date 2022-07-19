@@ -1,26 +1,26 @@
 test_that('pipe arguments', {
   mod_1 <- k_means() %>%
-    set_args(k = 1)
+    set_args(num_clusters = 1)
   expect_equal(
-    rlang::quo_get_expr(mod_1$args$k),
+    rlang::quo_get_expr(mod_1$args$num_clusters),
     1
   )
   expect_equal(
-    rlang::quo_get_env(mod_1$args$k),
+    rlang::quo_get_env(mod_1$args$num_clusters),
     rlang::empty_env()
   )
 
-  mod_2 <- k_means(k = 2) %>%
-    set_args(k = 1)
+  mod_2 <- k_means(num_clusters = 2) %>%
+    set_args(num_clusters = 1)
 
   var_env <- rlang::current_env()
 
   expect_equal(
-    rlang::quo_get_expr(mod_2$args$k),
+    rlang::quo_get_expr(mod_2$args$num_clusters),
     1
   )
   expect_equal(
-    rlang::quo_get_env(mod_2$args$k),
+    rlang::quo_get_env(mod_2$args$num_clusters),
     rlang::empty_env()
   )
 

@@ -25,9 +25,9 @@ The \verb{finalize_*} functions take a list or tibble of tuning parameter values
 update objects with those values.
 }
 \examples{
-kmeans_spec <- k_means(k = tune())
+kmeans_spec <- k_means(num_clusters = tune())
 
-best_params <- data.frame(k = 5)
+best_params <- data.frame(num_clusters = 5)
 best_params
 
 kmeans_spec

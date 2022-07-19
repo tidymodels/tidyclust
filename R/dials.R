@@ -2,15 +2,15 @@
 #'
 #' @inheritParams dials::Laplace
 #' @examples
-#' k()
+#' num_clusters()
 #' @export
-k <- function(range = c(1L, 10L), trans = NULL) {
+num_clusters <- function(range = c(1L, 10L), trans = NULL) {
   dials::new_quant_param(
     type = "integer",
     range = range,
     inclusive = c(TRUE, TRUE),
     trans = trans,
-    label = c(k = "# Clusters"),
+    label = c(num_clusters = "# Clusters"),
     finalize = NULL
   )
 }

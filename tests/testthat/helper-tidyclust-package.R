@@ -10,9 +10,9 @@ helper_objects_tidyclust <- function() {
     recipes::recipe(~ ., data = mtcars) %>%
     recipes::step_normalize(recipes::all_predictors())
 
-  kmeans_mod_no_tune <- k_means(k = 2)
+  kmeans_mod_no_tune <- k_means(num_clusters = 2)
 
-  kmeans_mod <- k_means(k = tune())
+  kmeans_mod <- k_means(num_clusters = tune())
 
   list(
     rec_tune_1 = rec_tune_1,
