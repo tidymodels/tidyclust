@@ -71,7 +71,7 @@ stats_k_means_engine_args <-
       "centers"
     ),
     call_info = list(
-      list(pkg = "tidyclust", fun = "k")
+      list(pkg = "tidyclust", fun = "num_clusters")
     ),
     source = "cluster_spec",
     component = "k_means",

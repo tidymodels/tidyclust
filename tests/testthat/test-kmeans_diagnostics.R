@@ -1,9 +1,9 @@
 test_that("kmeans sse metrics work", {
-  kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
+  kmeans_fit_stats <- k_means(num_clusters = mtcars[1:3, ]) %>%
     set_engine("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
-  kmeans_fit_ClusterR <- k_means(k = 3) %>%
+  kmeans_fit_ClusterR <- k_means(num_clusters = 3) %>%
     set_engine("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
@@ -58,7 +58,7 @@ test_that("kmeans sse metrics work", {
 })
 
 test_that("kmeans sse metrics work on new data", {
-  kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
+  kmeans_fit_stats <- k_means(num_clusters = mtcars[1:3, ]) %>%
     set_engine("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
@@ -87,11 +87,11 @@ test_that("kmeans sse metrics work on new data", {
 })
 
 test_that("kmeans sihouette metrics work", {
-  kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
+  kmeans_fit_stats <- k_means(num_clusters = mtcars[1:3, ]) %>%
     set_engine("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
-  kmeans_fit_ClusterR <- k_means(k = 3) %>%
+  kmeans_fit_ClusterR <- k_means(num_clusters = 3) %>%
     set_engine("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 
@@ -119,11 +119,11 @@ test_that("kmeans sihouette metrics work", {
 })
 
 test_that("kmeans sihouette metrics work with new data", {
-  kmeans_fit_stats <- k_means(k = mtcars[1:3, ]) %>%
+  kmeans_fit_stats <- k_means(num_clusters = mtcars[1:3, ]) %>%
     set_engine("stats", algorithm = "MacQueen") %>%
     fit(~., mtcars)
 
-  kmeans_fit_ClusterR <- k_means(k = 3) %>%
+  kmeans_fit_ClusterR <- k_means(num_clusters = 3) %>%
     set_engine("ClusterR", CENTROIDS = as.matrix(mtcars[1:3, ])) %>%
     fit(~., mtcars)
 

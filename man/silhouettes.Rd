@@ -23,7 +23,7 @@ A tibble giving the silhouettes for each observation.
 Measures silhouettes between clusters
 }
 \examples{
-kmeans_spec <- k_means(k = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) \%>\%
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)

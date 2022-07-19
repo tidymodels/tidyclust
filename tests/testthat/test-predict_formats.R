@@ -1,6 +1,6 @@
 test_that("partition predictions", {
   kmeans_fit <-
-    k_means(k = 3, mode = "partition") %>%
+    k_means(num_clusters = 3, mode = "partition") %>%
     set_engine("stats") %>%
     fit(~., data = mtcars)
 

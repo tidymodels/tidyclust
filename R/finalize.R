@@ -11,9 +11,9 @@
 #' @return An updated version of `x`.
 #' @export
 #' @examples
-#' kmeans_spec <- k_means(k = tune())
+#' kmeans_spec <- k_means(num_clusters = tune())
 #'
-#' best_params <- data.frame(k = 5)
+#' best_params <- data.frame(num_clusters = 5)
 #' best_params
 #'
 #' kmeans_spec

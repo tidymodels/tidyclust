@@ -10,7 +10,7 @@
 #' @param engine A single character string specifying what computational engine
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"stats"`.
-#' @param k Positive integer, number of clusters in model.
+#' @param num_clusters Positive integer, number of clusters in model.
 #'
 #' @examples
 #' # show_engines("k_means")
@@ -20,9 +20,9 @@
 k_means <-
   function(mode = "partition",
            engine = "stats",
-           k = NULL) {
+           num_clusters = NULL) {
     args <- list(
-      k = enquo(k)
+      num_clusters = enquo(num_clusters)
     )
 
     new_cluster_spec(
@@ -61,7 +61,7 @@ translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
 #' @export
 update.k_means <- function(object,
                            parameters = NULL,
-                           k = NULL,
+                           num_clusters = NULL,
                            fresh = FALSE, ...) {
 
   eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
@@ -70,7 +70,7 @@ update.k_means <- function(object,
     parameters <- parsnip::check_final_param(parameters)
   }
   args <- list(
-    k = enquo(k)
+    num_clusters = enquo(num_clusters)
   )
 
   args <- parsnip::update_main_parameters(args, parameters)
@@ -104,7 +104,7 @@ check_args.k_means <- function(object) {
 
   args <- lapply(object$args, rlang::eval_tidy)
 
-  if (all(is.numeric(args$k)) && any(args$k < 0))
+  if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0))
     rlang::abort("The number of centers should be >= 0.")
 
   invisible(object)

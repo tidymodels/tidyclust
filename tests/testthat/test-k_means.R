@@ -9,7 +9,7 @@ test_that("primary arguments", {
     )
   )
 
-  k <- k_means(k = 15, mode = "partition")
+  k <- k_means(num_clusters = 15, mode = "partition")
   k_stats <- translate_tidyclust(k %>% set_engine("stats"))
   expect_equal(
     k_stats$method$fit$args,
@@ -39,7 +39,7 @@ test_that("engine arguments", {
 test_that("bad input", {
   expect_snapshot(error = TRUE, k_means(mode = "bogus"))
   expect_snapshot(error = TRUE, {
-    bt <- k_means(k = -1) %>% set_engine("stats")
+    bt <- k_means(num_clusters = -1) %>% set_engine("stats")
     fit(bt, mpg ~ ., mtcars)
   })
   expect_snapshot(error = TRUE, translate_tidyclust(k_means(), engine = NULL))
@@ -48,7 +48,7 @@ test_that("bad input", {
 
 test_that("predictions", {
   set.seed(1234)
-  kmeans_fit <- k_means(k = 4) %>%
+  kmeans_fit <- k_means(num_clusters = 4) %>%
     set_engine("stats") %>%
     fit(~., mtcars)
 
@@ -89,13 +89,13 @@ test_that("printing", {
     k_means()
   )
   expect_snapshot(
-    k_means(k = 10)
+    k_means(num_clusters = 10)
   )
 })
 
 test_that('updating', {
   expect_snapshot(
-    k_means(k = 5) %>%
-      update(k = tune())
+    k_means(num_clusters = 5) %>%
+      update(num_clusters = tune())
   )
 })
