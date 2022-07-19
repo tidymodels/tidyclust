@@ -14,7 +14,7 @@ translate_tidyclust(x, ...)
 
 \item{...}{Not currently used.}
 
-\item{engine}{The computational engine for the model (see \code{?set_engine_tidyclust}).}
+\item{engine}{The computational engine for the model (see \code{?set_engine}).}
 }
 \description{
 \code{translate_tidyclust()} will translate_tidyclust a model specification into a code

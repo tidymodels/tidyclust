@@ -1,32 +1,6 @@
-#' Declare a computational engine and specific arguments
-#'
-#' `set_engine_tidyclust()` is used to specify which package or system will be used
-#'  to fit the model, along with any arguments specific to that software.
-#'
-#' @section Engines:
-#' Based on the currently loaded packages, the following lists the set of
-#' engines available to each model specification.
-
-#' @param object A model specification.
-#' @param engine A character string for the software that should
-#'  be used to fit the model. This is highly dependent on the type
-#'  of model (e.g. K-means, etc.).
-#' @param ... Any optional arguments associated with the chosen computational
-#'  engine. These are captured as quosures and can be `tune()`.
-#' @return An updated model specification.
-#' @examples
-#' # First, set general arguments using the standardized names
-#' mod <- k_means(k = 10) %>%
-#'   # now say how you want to fit the model and another other options
-#'   set_engine_tidyclust("stats", iter.max = 15)
-#'
-#' translate_tidyclust(mod, engine = "stats")
 #' @export
-set_engine_tidyclust <- function(object, engine, ...) {
+set_engine.cluster_spec <- function(object, engine, ...) {
   mod_type <- class(object)[1]
-  if (!inherits(object, "cluster_spec")) {
-    rlang::abort("`object` should have class 'cluster_spec'.")
-  }
 
   if (rlang::is_missing(engine)) {
     stop_missing_engine(mod_type)

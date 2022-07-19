@@ -8,7 +8,7 @@
 ---
 
     Code
-      bt <- k_means(k = -1) %>% set_engine_tidyclust("stats")
+      bt <- k_means(k = -1) %>% set_engine("stats")
       fit(bt, mpg ~ ., mtcars)
     Error <rlang_error>
       The number of centers should be >= 0.
