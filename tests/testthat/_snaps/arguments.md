@@ -1,7 +1,7 @@
 # pipe arguments
 
     Code
-      k_means() %>% set_args_tidyclust()
+      k_means() %>% set_args()
     Error <rlang_error>
       Please pass at least one named argument.
 

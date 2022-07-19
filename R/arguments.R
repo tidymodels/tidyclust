@@ -67,28 +67,8 @@ make_form_call <- function(object, env = NULL) {
   fit_call
 }
 
-#' Change elements of a cluster specification
-#'
-#' `set_args_tidyclust()` can be used to modify the arguments of a cluster
-#' specification while `set_mode()` is used to change the model's mode.
-#'
-#' @param object A cluster specification.
-#' @param ... One or more named model arguments.
-#' @param mode A character string for the model type (e.g. "classification" or
-#'   "regression")
-#' @return An updated model object.
-#' @details `set_args_tidyclust()` will replace existing values of the
-#'   arguments.
-#'
-#' @examples
-#' k_means()
-#'
-#' k_means() %>%
-#'   set_args_tidyclust(k = 3) %>%
-#'   set_mode_tidyclust("partition")
-#'
 #' @export
-set_args_tidyclust <- function(object, ...) {
+set_args.cluster_spec <- function(object, ...) {
   the_dots <- enquos(...)
   if (length(the_dots) == 0)
     rlang::abort("Please pass at least one named argument.")
@@ -111,7 +91,6 @@ set_args_tidyclust <- function(object, ...) {
   )
 }
 
-#' @rdname set_args_tidyclust
 #' @export
 set_mode_tidyclust <- function(object, mode) {
   cls <- class(object)[1]
