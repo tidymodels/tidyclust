@@ -1,8 +1,8 @@
 pandoc: 2.14.2
-pkgdown: 2.0.5
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   kmeans: kmeans.html
   kmeans_metrics: kmeans_metrics.html
-last_built: 2022-07-07T05:32Z
+last_built: 2022-07-19T16:31Z
 

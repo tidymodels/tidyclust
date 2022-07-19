@@ -46,7 +46,7 @@
     <loc>/reference/cluster_metric_set.html</loc>
   </url>
   <url>
-    <loc>/reference/control_tidyclust.html</loc>
+    <loc>/reference/control_cluster.html</loc>
   </url>
   <url>
     <loc>/reference/convert_helpers.html</loc>
@@ -62,6 +62,9 @@
   </url>
   <url>
     <loc>/reference/extract_fit_summary.html</loc>
+  </url>
+  <url>
+    <loc>/reference/finalize_model_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/fit.html</loc>
@@ -109,6 +112,9 @@
     <loc>/reference/reexports.html</loc>
   </url>
   <url>
+    <loc>/reference/set_args_tidyclust.html</loc>
+  </url>
+  <url>
     <loc>/reference/set_engine_tidyclust.html</loc>
   </url>
   <url>
@@ -125,6 +131,9 @@
   </url>
   <url>
     <loc>/reference/tidyclust-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tidyclust_update.html</loc>
   </url>
   <url>
     <loc>/reference/tot_sse.html</loc>
