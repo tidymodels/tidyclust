@@ -48,7 +48,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    tidymodels/parsnip
+    tidymodels/parsnip,
     tidymodels/workflows@celery
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins
 Config/testthat/edition: 3
