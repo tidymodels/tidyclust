@@ -22,6 +22,11 @@ extract_cluster_assignment.cluster_fit <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.workflow <- function(object, ...) {
+  extract_cluster_assignment(object$fit$fit$fit)
+}
+
+#' @export
 extract_cluster_assignment.kmeans <- function(object, ...) {
   cluster_assignment_tibble(object$cluster, length(object$size))
 }
