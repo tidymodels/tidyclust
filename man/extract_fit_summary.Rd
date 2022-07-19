@@ -18,8 +18,8 @@ A list with various summary elements
 S3 method to get fitted model summary info depending on engine
 }
 \examples{
-kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_tidyclust("stats")
+kmeans_spec <- k_means(num_clusters = 5) \%>\%
+  set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

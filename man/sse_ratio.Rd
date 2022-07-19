@@ -29,8 +29,8 @@ to Euclidean distance on processed data.}
 Compute the ratio of the WSS to the total SSE
 }
 \examples{
-kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_tidyclust("stats")
+kmeans_spec <- k_means(num_clusters = 5) \%>\%
+  set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

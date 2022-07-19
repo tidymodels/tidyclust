@@ -17,12 +17,12 @@
 #' @return An updated cluster specification.
 #' @name tidyclust_update
 #' @examples
-#' kmeans_spec <- k_means(k = 5)
+#' kmeans_spec <- k_means(num_clusters = 5)
 #' kmeans_spec
-#' update(kmeans_spec, k = 1)
-#' update(kmeans_spec, k = 1, fresh = TRUE)
+#' update(kmeans_spec, num_clusters = 1)
+#' update(kmeans_spec, num_clusters = 1, fresh = TRUE)
 #'
-#' param_values <- tibble::tibble(k = 10)
+#' param_values <- tibble::tibble(num_clusters = 10)
 #'
 #' kmeans_spec %>% update(param_values)
 NULL

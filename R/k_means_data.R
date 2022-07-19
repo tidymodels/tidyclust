@@ -34,9 +34,9 @@ set_encoding_tidyclust(
 set_model_arg_tidyclust(
   model = "k_means",
   eng = "stats",
-  tidyclust = "k",
+  tidyclust = "num_clusters",
   original = "centers",
-  func = list(pkg = "tidyclust", fun = "k"),
+  func = list(pkg = "tidyclust", fun = "num_clusters"),
   has_submodel = TRUE
 )
 
@@ -90,9 +90,9 @@ set_encoding_tidyclust(
 set_model_arg_tidyclust(
   model = "k_means",
   eng = "ClusterR",
-  tidyclust = "k",
+  tidyclust = "num_clusters",
   original = "clusters",
-  func = list(pkg = "tidyclust", fun = "k"),
+  func = list(pkg = "tidyclust", fun = "num_clusters"),
   has_submodel = TRUE
 )
 

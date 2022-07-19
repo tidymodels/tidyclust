@@ -8,7 +8,7 @@
 ---
 
     Code
-      bt <- k_means(k = -1) %>% set_engine_tidyclust("stats")
+      bt <- k_means(num_clusters = -1) %>% set_engine("stats")
       fit(bt, mpg ~ ., mtcars)
     Error <rlang_error>
       The number of centers should be >= 0.
@@ -40,12 +40,12 @@
 ---
 
     Code
-      k_means(k = 10)
+      k_means(num_clusters = 10)
     Output
       K Means Cluster Specification (partition)
       
       Main Arguments:
-        k = 10
+        num_clusters = 10
       
       Computational engine: stats 
       
@@ -53,12 +53,12 @@
 # updating
 
     Code
-      k_means(k = 5) %>% update(k = tune())
+      k_means(num_clusters = 5) %>% update(num_clusters = tune())
     Output
       K Means Cluster Specification (partition)
       
       Main Arguments:
-        k = tune()
+        num_clusters = tune()
       
       Computational engine: stats 
       

@@ -15,8 +15,8 @@ extract_cluster_assignment(object, ...)
 Extract cluster assignments from model
 }
 \examples{
-kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_tidyclust("stats")
+kmeans_spec <- k_means(num_clusters = 5) \%>\%
+  set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

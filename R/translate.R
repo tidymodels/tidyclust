@@ -5,7 +5,7 @@
 #'  It translate_tidyclusts generic parameters to their counterparts.
 #'
 #' @param x A model specification.
-#' @param engine The computational engine for the model (see `?set_engine_tidyclust`).
+#' @param engine The computational engine for the model (see `?set_engine`).
 #' @param ... Not currently used.
 #' @details
 #' `translate_tidyclust()` produces a _template_ call that lacks the specific
@@ -145,7 +145,7 @@ deharmonize <- function(args, key) {
 check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {
-    rlang::abort("Please pass other arguments to the model function via `set_engine_tidyclust()`.")
+    rlang::abort("Please pass other arguments to the model function via `set_engine()`.")
   }
   terms
 }

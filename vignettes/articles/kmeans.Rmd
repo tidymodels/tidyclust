@@ -92,8 +92,8 @@ To specify a k-means model in `tidyclust`, simply choose a value of $k$ and an
 engine:
 
 ```{r}
-kmeans_spec <- k_means(k = 3) %>%
-  set_engine_tidyclust("stats") 
+kmeans_spec <- k_means(num_clusters = 3) %>%
+  set_engine("stats") 
 
 kmeans_spec
 ```

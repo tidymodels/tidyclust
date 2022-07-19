@@ -4,7 +4,7 @@
 \alias{k_means}
 \title{K-Means}
 \usage{
-k_means(mode = "partition", engine = "stats", k = NULL)
+k_means(mode = "partition", engine = "stats", num_clusters = NULL)
 }
 \arguments{
 \item{mode}{A single character string for the type of model.
@@ -14,7 +14,7 @@ The only possible value for this model is "partition".}
 to use for fitting. Possible engines are listed below. The default for this
 model is \code{"stats"}.}
 
-\item{k}{Positive integer, number of clusters in model.}
+\item{num_clusters}{Positive integer, number of clusters in model.}
 }
 \description{
 \code{k_means()} defines a model that fits clusters based on distances to a number

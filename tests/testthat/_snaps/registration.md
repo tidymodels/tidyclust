@@ -322,9 +322,9 @@
       
        arguments: 
          stats:    
-            k --> centers
+            num_clusters --> centers
          ClusterR: 
-            k --> clusters
+            num_clusters --> clusters
       
        fit modules:
            engine      mode

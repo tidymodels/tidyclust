@@ -33,7 +33,7 @@ reference:
     Parameter objects for tuning. Similar to
     [parameter objects from dials package](https://dials.tidymodels.org/reference/index.html#parameter-objects)
   contents:
-    - k
+    - num_clusters
 - title: Model based performance metrics
   desc: >
     These metrics use the fitted clustering model to extract values denoting how
@@ -49,8 +49,6 @@ reference:
     Functions to allow multiple cluster specifications to be fit at once.
   contents:
     - control_cluster
-    - set_engine_tidyclust
-    - set_args_tidyclust
     - tidyclust_update
     - finalize_model_tidyclust
     - tune_cluster

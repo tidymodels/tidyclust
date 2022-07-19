@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tidyclust
+# tidyclust <img src="man/figures/logo.svg" align="right" height="139" />
 
 <!-- badges: start -->
 
@@ -36,14 +36,14 @@ example we are creating a K-means model, using the `stats` engine.
 ``` r
 library(tidyclust)
 
-kmeans_spec <- k_means(k = 3) %>%
-  set_engine_tidyclust("stats") 
+kmeans_spec <- k_means(num_clusters = 3) %>%
+  set_engine("stats") 
 
 kmeans_spec
 #> K Means Cluster Specification (partition)
 #> 
 #> Main Arguments:
-#>   k = 3
+#>   num_clusters = 3
 #> 
 #> Computational engine: stats
 ```
@@ -56,38 +56,38 @@ kmeans_spec_fit <- kmeans_spec %>%
 kmeans_spec_fit
 #> tidyclust cluster object
 #> 
-#> K-means clustering with 3 clusters of sizes 7, 16, 9
+#> K-means clustering with 3 clusters of sizes 9, 16, 7
 #> 
 #> Cluster means:
 #>        mpg      cyl     disp       hp     drat       wt     qsec        vs
-#> 1 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143
+#> 1 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000
 #> 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000
-#> 3 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000
+#> 3 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143
 #>          am     gear     carb
-#> 1 0.0000000 3.000000 2.142857
+#> 1 0.2222222 3.444444 4.000000
 #> 2 0.6875000 4.125000 2.437500
-#> 3 0.2222222 3.444444 4.000000
+#> 3 0.0000000 3.000000 2.142857
 #> 
 #> Clustering vector:
 #>           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
-#>                   2                   2                   2                   1 
+#>                   2                   2                   2                   3 
 #>   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
-#>                   3                   1                   3                   2 
+#>                   1                   3                   1                   2 
 #>            Merc 230            Merc 280           Merc 280C          Merc 450SE 
-#>                   2                   2                   2                   1 
+#>                   2                   2                   2                   3 
 #>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
-#>                   1                   1                   3                   3 
+#>                   3                   3                   1                   1 
 #>   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
-#>                   3                   2                   2                   2 
+#>                   1                   2                   2                   2 
 #>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
-#>                   2                   1                   1                   3 
+#>                   2                   3                   3                   1 
 #>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
-#>                   3                   2                   2                   2 
+#>                   1                   2                   2                   2 
 #>      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
-#>                   3                   2                   3                   2 
+#>                   1                   2                   1                   2 
 #> 
 #> Within cluster sum of squares by cluster:
-#> [1] 11846.09 32838.00 46659.32
+#> [1] 46659.32 32838.00 11846.09
 #>  (between_SS / total_SS =  85.3 %)
 #> 
 #> Available components:
@@ -129,6 +129,7 @@ extract_cluster_assignment(kmeans_spec_fit)
 #>  9 Cluster_1
 #> 10 Cluster_1
 #> # … with 22 more rows
+#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
 and `extract_clusters()` returns the locations of the clusters
@@ -138,7 +139,7 @@ extract_centroids(kmeans_spec_fit)
 #> # A tibble: 3 × 12
 #>   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #>   <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 Cluster_1  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44
-#> 2 Cluster_2  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14
-#> 3 Cluster_3  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4
+#> 1 Cluster_1  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14
+#> 2 Cluster_2  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4   
+#> 3 Cluster_3  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44
 ```

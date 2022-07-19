@@ -18,6 +18,9 @@
 \alias{load_pkgs}
 \alias{required_pkgs}
 \alias{predict_raw}
+\alias{set_args}
+\alias{set_engine}
+\alias{set_mode}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -31,7 +34,7 @@ below to see their documentation.
 
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{parsnip}{\code{\link[parsnip:predict.model_fit]{predict_raw}}}
+  \item{parsnip}{\code{\link[parsnip:predict.model_fit]{predict_raw}}, \code{\link[parsnip]{set_args}}, \code{\link[parsnip]{set_engine}}, \code{\link[parsnip:set_args]{set_mode}}}
 
   \item{tune}{\code{\link[tune]{load_pkgs}}}
 }}

@@ -4,8 +4,8 @@
 #' @param ... Other arguments passed to methods.
 #'
 #' @examples
-#' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_tidyclust("stats")
+#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -19,6 +19,11 @@ extract_cluster_assignment <- function(object, ...) {
 #' @export
 extract_cluster_assignment.cluster_fit <- function(object, ...) {
   extract_cluster_assignment(object$fit, ...)
+}
+
+#' @export
+extract_cluster_assignment.workflow <- function(object, ...) {
+  extract_cluster_assignment(object$fit$fit$fit)
 }
 
 #' @export

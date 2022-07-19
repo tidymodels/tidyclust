@@ -11,7 +11,7 @@
 }
 \arguments{
 \item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
-\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}).}
+\code{\link[=set_engine]{set_engine()}}).}
 
 \item{formula}{An object of class \code{formula} (or one that can be coerced to
 that class): a symbolic description of the model to be fitted.}
@@ -25,7 +25,7 @@ etc). Note: when needed, a \emph{named argument} should be used.}
 
 \item{...}{Not currently used; values passed here will be ignored. Other
 options required to fit the model should be passed using
-\code{set_engine_tidyclust()}.}
+\code{set_engine()}.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
@@ -84,22 +84,22 @@ page for \code{\link[stats:contrast]{stats::contr.treatment()}} for more possibl
 \examples{
 library(dplyr)
 
-kmeans_mod <- k_means(k = 5)
+kmeans_mod <- k_means(num_clusters = 5)
 
 using_formula <-
   kmeans_mod \%>\%
-  set_engine_tidyclust("stats") \%>\%
+  set_engine("stats") \%>\%
   fit(~., data = mtcars)
 
 using_x <-
   kmeans_mod \%>\%
-  set_engine_tidyclust("stats") \%>\%
+  set_engine("stats") \%>\%
   fit_xy(x = mtcars)
 
 using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine_tidyclust]{set_engine_tidyclust()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec},
+\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec},
 \code{cluster_fit}
 }
