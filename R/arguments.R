@@ -92,7 +92,7 @@ set_args.cluster_spec <- function(object, ...) {
 }
 
 #' @export
-set_mode_tidyclust <- function(object, mode) {
+set_mode.cluster_spec <- function(object, mode) {
   cls <- class(object)[1]
   if (rlang::is_missing(mode)) {
     spec_modes <- rlang::env_get(
