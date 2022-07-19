@@ -7,12 +7,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="What the package does (one paragraph).">
 <title>What the Package Does (One Line, Title Case) • tidyclust</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="What the Package Does (One Line, Title Case)">
 <meta property="og:description" content="What the package does (one paragraph).">
+<meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -65,8 +72,10 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="tidyclust">tidyclust<a class="anchor" aria-label="anchor" href="#tidyclust"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.svg" class="logo" alt=""><h1 id="tidyclust-">tidyclust <a class="anchor" aria-label="anchor" href="#tidyclust-"></a>
+</h1>
+</div>
 <!-- badges: start -->
 <p>The goal of tidyclust is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package.</p>
 <div class="section level2">
@@ -102,38 +111,38 @@
 <span><span class="va">kmeans_spec_fit</span></span>
 <span><span class="co">#&gt; tidyclust cluster object</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 9, 7, 16</span></span>
+<span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 9, 16, 7</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Cluster means:</span></span>
 <span><span class="co">#&gt;        mpg      cyl     disp       hp     drat       wt     qsec        vs</span></span>
 <span><span class="co">#&gt; 1 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000</span></span>
-<span><span class="co">#&gt; 2 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143</span></span>
-<span><span class="co">#&gt; 3 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000</span></span>
+<span><span class="co">#&gt; 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000</span></span>
+<span><span class="co">#&gt; 3 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143</span></span>
 <span><span class="co">#&gt;          am     gear     carb</span></span>
 <span><span class="co">#&gt; 1 0.2222222 3.444444 4.000000</span></span>
-<span><span class="co">#&gt; 2 0.0000000 3.000000 2.142857</span></span>
-<span><span class="co">#&gt; 3 0.6875000 4.125000 2.437500</span></span>
+<span><span class="co">#&gt; 2 0.6875000 4.125000 2.437500</span></span>
+<span><span class="co">#&gt; 3 0.0000000 3.000000 2.142857</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Clustering vector:</span></span>
 <span><span class="co">#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span></span>
-<span><span class="co">#&gt;                   3                   3                   3                   2 </span></span>
+<span><span class="co">#&gt;                   2                   2                   2                   3 </span></span>
 <span><span class="co">#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span></span>
-<span><span class="co">#&gt;                   1                   2                   1                   3 </span></span>
+<span><span class="co">#&gt;                   1                   3                   1                   2 </span></span>
 <span><span class="co">#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE </span></span>
-<span><span class="co">#&gt;                   3                   3                   3                   2 </span></span>
+<span><span class="co">#&gt;                   2                   2                   2                   3 </span></span>
 <span><span class="co">#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span></span>
-<span><span class="co">#&gt;                   2                   2                   1                   1 </span></span>
+<span><span class="co">#&gt;                   3                   3                   1                   1 </span></span>
 <span><span class="co">#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span></span>
-<span><span class="co">#&gt;                   1                   3                   3                   3 </span></span>
+<span><span class="co">#&gt;                   1                   2                   2                   2 </span></span>
 <span><span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span></span>
-<span><span class="co">#&gt;                   3                   2                   2                   1 </span></span>
+<span><span class="co">#&gt;                   2                   3                   3                   1 </span></span>
 <span><span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span></span>
-<span><span class="co">#&gt;                   1                   3                   3                   3 </span></span>
+<span><span class="co">#&gt;                   1                   2                   2                   2 </span></span>
 <span><span class="co">#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span></span>
-<span><span class="co">#&gt;                   1                   3                   1                   3 </span></span>
+<span><span class="co">#&gt;                   1                   2                   1                   2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Within cluster sum of squares by cluster:</span></span>
-<span><span class="co">#&gt; [1] 46659.32 11846.09 32838.00</span></span>
+<span><span class="co">#&gt; [1] 46659.32 32838.00 11846.09</span></span>
 <span><span class="co">#&gt;  (between_SS / total_SS =  85.3 %)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Available components:</span></span>
@@ -174,9 +183,9 @@
 <span><span class="co">#&gt; # A tibble: 3 × 12</span></span>
 <span><span class="co">#&gt;   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 Cluster_1  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44</span></span>
-<span><span class="co">#&gt; 2 Cluster_2  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14</span></span>
-<span><span class="co">#&gt; 3 Cluster_3  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 Cluster_1  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14</span></span>
+<span><span class="co">#&gt; 2 Cluster_2  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4   </span></span>
+<span><span class="co">#&gt; 3 Cluster_3  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
