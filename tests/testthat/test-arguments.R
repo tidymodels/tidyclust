@@ -1,6 +1,6 @@
 test_that('pipe arguments', {
   mod_1 <- k_means() %>%
-    set_args_tidyclust(k = 1)
+    set_args(k = 1)
   expect_equal(
     rlang::quo_get_expr(mod_1$args$k),
     1
@@ -11,7 +11,7 @@ test_that('pipe arguments', {
   )
 
   mod_2 <- k_means(k = 2) %>%
-    set_args_tidyclust(k = 1)
+    set_args(k = 1)
 
   var_env <- rlang::current_env()
 
@@ -24,22 +24,22 @@ test_that('pipe arguments', {
     rlang::empty_env()
   )
 
-  expect_snapshot(error = TRUE, k_means() %>% set_args_tidyclust())
+  expect_snapshot(error = TRUE, k_means() %>% set_args())
 })
 
 
 test_that('pipe engine', {
   mod_1 <- k_means() %>%
-    set_mode_tidyclust("partition")
+    set_mode("partition")
   expect_equal(mod_1$mode, "partition")
 
-  expect_snapshot(error = TRUE, k_means() %>% set_mode_tidyclust())
-  expect_snapshot(error = TRUE, k_means() %>% set_mode_tidyclust(2))
-  expect_snapshot(error = TRUE, k_means() %>% set_mode_tidyclust("haberdashery"))
+  expect_snapshot(error = TRUE, k_means() %>% set_mode())
+  expect_snapshot(error = TRUE, k_means() %>% set_mode(2))
+  expect_snapshot(error = TRUE, k_means() %>% set_mode("haberdashery"))
 })
 
 test_that("can't set a mode that isn't allowed by the model spec", {
   expect_snapshot(error = TRUE,
-    set_mode_tidyclust(k_means(), "classification")
+    set_mode(k_means(), "classification")
   )
 })

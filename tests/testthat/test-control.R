@@ -1,6 +1,6 @@
 test_that("control class", {
   skip("waiting for workflow PR")
-  x <- k_means(k = 5) %>% set_engine_tidyclust("stats")
+  x <- k_means(k = 5) %>% set_engine("stats")
   ctrl <- control_cluster()
   class(ctrl) <- c("potato", "chair")
   expect_snapshot(

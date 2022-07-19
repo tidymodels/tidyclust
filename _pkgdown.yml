@@ -49,8 +49,6 @@ reference:
     Functions to allow multiple cluster specifications to be fit at once.
   contents:
     - control_cluster
-    - set_engine_tidyclust
-    - set_args_tidyclust
     - tidyclust_update
     - finalize_model_tidyclust
     - tune_cluster

@@ -22,7 +22,7 @@ For partition models, a \code{.pred_cluster} column is added.
 }
 \examples{
 kmeans_spec <- k_means(k = 5) \%>\%
-  set_engine_tidyclust("stats")
+  set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 

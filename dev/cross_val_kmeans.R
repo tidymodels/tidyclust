@@ -19,7 +19,7 @@ res <- data.frame(
 for (k in 2:10) {
 
   km <- k_means(k = k) %>%
-    set_engine_tidyclust("stats")
+    set_engine("stats")
 
 
   for (i in 1:5) {
@@ -67,7 +67,7 @@ res <- data.frame(
 for (k in 2:10) {
 
   km <- k_means(k = k) %>%
-    set_engine_tidyclust("stats")
+    set_engine("stats")
 
   full_fit <- km %>% fit(~., data = ir)
 

@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_tidyclust("stats")
+#'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -67,7 +67,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_tidyclust("stats")
+#'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -131,7 +131,7 @@ tot_wss_impl <- function(object, new_data = NULL,
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_tidyclust("stats")
+#'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
@@ -207,7 +207,7 @@ tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) 
 #'
 #' @examples
 #' kmeans_spec <- k_means(k = 5) %>%
-#'   set_engine_tidyclust("stats")
+#'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'

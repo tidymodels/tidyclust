@@ -57,3 +57,16 @@ generics::required_pkgs
 #' @importFrom parsnip predict_raw
 #' @export
 parsnip::predict_raw
+
+#' @importFrom parsnip set_args
+#' @export
+parsnip::set_args
+
+#' @importFrom parsnip set_engine
+#' @export
+parsnip::set_engine
+
+#' @importFrom parsnip set_mode
+#' @export
+parsnip::set_mode
+

@@ -4,7 +4,7 @@
 #' required code by substituting arguments, and execute the model fit routine.
 #'
 #' @param object An object of class `cluster_spec` that has a chosen engine (via
-#'   [set_engine_tidyclust()]).
+#'   [set_engine()]).
 #' @param formula An object of class `formula` (or one that can be coerced to
 #'   that class): a symbolic description of the model to be fitted.
 #' @param data Optional, depending on the interface (see Details below). A data
@@ -14,7 +14,7 @@
 #'   [control_cluster()].
 #' @param ... Not currently used; values passed here will be ignored. Other
 #'   options required to fit the model should be passed using
-#'   `set_engine_tidyclust()`.
+#'   `set_engine()`.
 #' @details  `fit()` and `fit_xy()` substitute the current arguments in the
 #'   model specification into the computational engine's code, check them for
 #'   validity, then fit the model using the data and the engine-specific code.
@@ -47,12 +47,12 @@
 #'
 #' using_formula <-
 #'   kmeans_mod %>%
-#'   set_engine_tidyclust("stats") %>%
+#'   set_engine("stats") %>%
 #'   fit(~., data = mtcars)
 #'
 #' using_x <-
 #'   kmeans_mod %>%
-#'   set_engine_tidyclust("stats") %>%
+#'   set_engine("stats") %>%
 #'   fit_xy(x = mtcars)
 #'
 #' using_formula
@@ -71,7 +71,7 @@
 #'  The return value will also have a class related to the fitted model (e.g.
 #'  `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine_tidyclust()], [control_cluster()], `cluster_spec`,
+#' @seealso [set_engine()], [control_cluster()], `cluster_spec`,
 #'   `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
