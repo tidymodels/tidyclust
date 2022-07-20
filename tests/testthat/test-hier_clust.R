@@ -1,6 +1,6 @@
 test_that("primary arguments", {
   basic <- hier_clust(mode = "partition")
-  basic_stats <- translate_tidyclust(basic %>% set_engine_tidyclust("stats"))
+  basic_stats <- translate_tidyclust(basic %>% set_engine("stats"))
   expect_equal(
     basic_stats$method$fit$args,
     list(
@@ -14,7 +14,7 @@ test_that("engine arguments", {
   expect_equal(
     translate_tidyclust(
       stats_print %>%
-        set_engine_tidyclust("stats", linkage_method = "single")
+        set_engine("stats", linkage_method = "single")
     )$method$fit$args,
     list(
       x = rlang::expr(missing_arg()),
@@ -26,7 +26,7 @@ test_that("engine arguments", {
 test_that("bad input", {
   expect_snapshot(error = TRUE, hier_clust(mode = "bogus"))
   expect_snapshot(error = TRUE, {
-    bt <- hier_clust(linkage_method = "bogus") %>% set_engine_tidyclust("stats")
+    bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
     fit(bt, mpg ~ ., mtcars)
   })
   expect_snapshot(error = TRUE, translate_tidyclust(hier_clust(), engine = NULL))
@@ -36,7 +36,7 @@ test_that("bad input", {
 test_that("predictions", {
   set.seed(1234)
   hclust_fit <- hier_clust(k = 4) %>%
-    set_engine_tidyclust("stats") %>%
+    set_engine("stats") %>%
     fit(~., mtcars)
 
   set.seed(1234)

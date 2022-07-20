@@ -7,7 +7,7 @@
 silhouettes(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
 }
 \arguments{
-\item{object}{A fitted kmeans tidyclust model}
+\item{object}{A fitted tidyclust model}
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
