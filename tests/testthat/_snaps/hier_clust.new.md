@@ -8,9 +8,9 @@
 ---
 
     Code
-      bt <- hier_clust(method = "bogus") %>% set_engine("stats")
-    Error <simpleError>
-      unused argument (method = "bogus")
+      bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
+    Error <rlang_error>
+      `object` should have class 'model_spec'.
     Code
       fit(bt, mpg ~ ., mtcars)
     Error <simpleError>

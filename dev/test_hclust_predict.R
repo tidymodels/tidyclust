@@ -33,4 +33,7 @@ my_mod <- hier_clust(k = 3, linkage_method = "ward.D") %>% fit(~., mtcars)
 # extract_fit_summary.hclust(my_mod)
 
 #debugonce(tidyclust:::stats_hier_clust_predict)
-tidyclust:::stats_hier_clust_predict(my_mod, mtcars)
+tidyclust:::stats_hier_clust_predict(my_mod$fit, mtcars)
+predict(my_mod, mtcars)
+
+avg_silhouette(my_mod)
