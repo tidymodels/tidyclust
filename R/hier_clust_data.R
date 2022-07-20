@@ -13,7 +13,7 @@ set_fit_tidyclust(
   mode = "partition",
   value = list(
     interface = "matrix",
-    protect = c("data"),  #### what is this?
+    protect = c("data"),
     func = c(pkg = "tidyclust", fun = "hclust_fit"),
     defaults = list()
   )
@@ -66,7 +66,7 @@ set_pred_tidyclust(
   value = list(
     pre = NULL,
     post = NULL,
-    func = c(fun = "stats_hclust_predict"),
+    func = c(fun = "stats_hier_clust_predict"),
     args =
       list(
         object = rlang::expr(object$fit),

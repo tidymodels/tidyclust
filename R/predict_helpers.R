@@ -14,11 +14,11 @@ clusterR_kmeans_predict <- function(object, new_data) {
 
 stats_hier_clust_predict <- function(object, new_data) {
 
-  linkage_method <- object$fit$method
+  linkage_method <- object$method
 
   new_data <- as.matrix(new_data)
 
-  training_data <- as.matrix(attr(object$fit, "training_data"))
+  training_data <- as.matrix(attr(object, "training_data"))
   clusters <- extract_cluster_assignment(object)
 
   if (linkage_method %in% c("single", "complete", "average", "median")) {
