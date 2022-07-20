@@ -14,7 +14,7 @@ test_that("engine arguments", {
   expect_equal(
     translate_tidyclust(
       stats_print %>%
-        set_engine_tidyclust("stats", method = "single")
+        set_engine_tidyclust("stats", linkage_method = "single")
     )$method$fit$args,
     list(
       x = rlang::expr(missing_arg()),
@@ -26,7 +26,7 @@ test_that("engine arguments", {
 test_that("bad input", {
   expect_snapshot(error = TRUE, hier_clust(mode = "bogus"))
   expect_snapshot(error = TRUE, {
-    bt <- hier_clust(method = "bogus") %>% set_engine_tidyclust("stats")
+    bt <- hier_clust(linkage_method = "bogus") %>% set_engine_tidyclust("stats")
     fit(bt, mpg ~ ., mtcars)
   })
   expect_snapshot(error = TRUE, translate_tidyclust(hier_clust(), engine = NULL))
