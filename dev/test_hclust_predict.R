@@ -29,6 +29,8 @@ my_mod <- hier_clust(k = 3, linkage_method = "centroid") %>% fit(~., mtcars)
 tidyclust:::stats_hier_clust_predict(my_mod, mtcars)
 
 my_mod <- hier_clust(k = 3, linkage_method = "ward.D") %>% fit(~., mtcars)
+# debugonce(extract_fit_summary.hclust)
+# extract_fit_summary.hclust(my_mod)
 
-debugonce(tidyclust:::stats_hier_clust_predict)
+#debugonce(tidyclust:::stats_hier_clust_predict)
 tidyclust:::stats_hier_clust_predict(my_mod, mtcars)

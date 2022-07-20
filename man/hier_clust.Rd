@@ -9,7 +9,7 @@ hier_clust(
   engine = "stats",
   k = NULL,
   h = NULL,
-  method = "complete"
+  linkage_method = "complete"
 )
 }
 \arguments{
@@ -25,7 +25,7 @@ model is \code{"stats"}.}
 \item{h}{Positive double, height at which to cut dendrogram to obtain cluster
 assignments (only used if \code{k} is \code{NULL})}
 
-\item{method}{the agglomeration method to be used. This should be (an
+\item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
 (= WPGMC) or \code{"centroid"} (= UPGMC).}

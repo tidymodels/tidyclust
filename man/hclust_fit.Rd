@@ -4,21 +4,27 @@
 \alias{hclust_fit}
 \title{Simple Wrapper around hclust function}
 \usage{
-hclust_fit(x, k = NULL, h = NULL, method = "complete", dist_fun = Rfast::Dist)
+hclust_fit(
+  x,
+  k = NULL,
+  cut_height = NULL,
+  linkage_method = NULL,
+  dist_fun = Rfast::Dist
+)
 }
 \arguments{
 \item{x}{matrix or data frame}
 
 \item{k}{the number of clusters}
 
-\item{h}{the height to cut the dendrogram}
-
-\item{method}{the agglomeration method to be used. This should be (an
+\item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
 (= WPGMC) or \code{"centroid"} (= UPGMC).}
 
 \item{dist_fun}{A distance function to use}
+
+\item{h}{the height to cut the dendrogram}
 }
 \value{
 A dendrogram

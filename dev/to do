@@ -1,0 +1,21 @@
+* similarity metrics
+- for comparison to external variable
+- for stability between runs
+- for reconciliation
+
+
+metrics for hclust
+parameter object ofr hclust
+
+sticker
+
+kmeans tutorial - autoplot!
+hclust tutorial
+
+tuning
+
+predicting and reconciling
+
+
+later:
+* augment with response variable, then compute metrics

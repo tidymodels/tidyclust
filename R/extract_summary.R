@@ -65,22 +65,22 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
 extract_fit_summary.hclust <- function(object, ...) {
 
   clusts <- extract_cluster_assignment(object, ...)$.cluster
-  n_clust <- n_distinct(clusts)
+  n_clust <- dplyr::n_distinct(clusts)
 
   training_data <- attr(object, "training_data")
 
   overall_centroid <- colMeans(training_data)
 
   by_clust <- training_data %>%
-    tibble::tibble() %>%
-    mutate(
+    tibble::as_tibble() %>%
+    dplyr::mutate(
       .cluster = clusts
     ) %>%
-    group_by(.cluster) %>%
-    nest()
+    dplyr::group_by(.cluster) %>%
+    tidyr::nest()
 
   centroids <- by_clust$data %>%
-    purrr::map_dfr(colMeans)
+    purrr::map_dfr(~ .x %>% dplyr::summarize_all(mean))
 
   within_sse <- by_clust$data %>%
     purrr::map2_dbl(1:n_clust,
