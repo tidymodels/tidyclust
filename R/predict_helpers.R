@@ -36,19 +36,19 @@ stats_hier_clust_predict <- function(object, new_data) {
     # need this to be obs on rows, dist to new data on cols
     dists_new <- Rfast::dista(new_data, training_data, trans = TRUE)
 
-    cluster_dists <- bind_cols(data.frame(dists_new), clusters) %>%
-      group_by(.cluster) %>%
-      summarize_all(cluster_dist_fun)
+    cluster_dists <- dplyr::bind_cols(data.frame(dists_new), clusters) %>%
+      dplyr::group_by(.cluster) %>%
+      dplyr::summarize_all(cluster_dist_fun)
 
     pred_clusts_num <- cluster_dists %>%
-      select(-.cluster) %>%
+      dplyr::select(-.cluster) %>%
       purrr::map_dbl(which.min)
 
   } else if (linkage_method == "centroid") {
 
     ## Centroid linkage_method, dist to center
 
-    cluster_centers <- extract_centroids(object) %>% select(-.cluster)
+    cluster_centers <- extract_centroids(object) %>% dplyr::select(-.cluster)
     dists_means <- Rfast::dista(new_data, cluster_centers)
 
     pred_clusts_num <- apply(dists_means, 1, which.min)
