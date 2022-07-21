@@ -4,7 +4,8 @@ test_that("primary arguments", {
   expect_equal(
     basic_stats$method$fit$args,
     list(
-      x = rlang::expr(missing_arg())
+      data = rlang::expr(missing_arg()),
+      linkage_method = new_empty_quosure("complete")
     )
   )
 })
@@ -14,11 +15,12 @@ test_that("engine arguments", {
   expect_equal(
     translate_tidyclust(
       stats_print %>%
-        set_engine("stats", linkage_method = "single")
+        set_engine("stats", members = NULL)
     )$method$fit$args,
     list(
-      x = rlang::expr(missing_arg()),
-      nstart = new_empty_quosure("single")
+      data = rlang::expr(missing_arg()),
+      linkage_method = new_empty_quosure("complete"),
+      members = new_empty_quosure(NULL)
     )
   )
 })
@@ -49,17 +51,17 @@ test_that("predictions", {
   }
 
   expect_equal(
-    relevel_preds(ref_predictions),
+    relevel_preds(predict(hclust_fit, mtcars)$.pred_cluster),
     predict(hclust_fit, mtcars)$.pred_cluster %>% as.numeric()
   )
 
   expect_equal(
-    relevel_preds(unname(ref_res$cluster)),
+    relevel_preds(unname(ref_res)),
     extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
   )
 
   expect_equal(
-    relevel_preds(predict(hclust_fit, mtcars)$.pred_cluster),
+    relevel_preds(ref_predictions),
     extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
   )
 })

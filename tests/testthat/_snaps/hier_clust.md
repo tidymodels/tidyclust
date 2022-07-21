@@ -8,13 +8,10 @@
 ---
 
     Code
-      bt <- hier_clust(method = "bogus") %>% set_engine("stats")
-    Error <simpleError>
-      unused argument (method = "bogus")
-    Code
+      bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
       fit(bt, mpg ~ ., mtcars)
     Error <simpleError>
-      object 'bt' not found
+      invalid clustering method bogus
 
 ---
 
