@@ -10,6 +10,7 @@ reference:
     specification function from parsnip](https://parsnip.tidymodels.org/reference/index.html#models).
   contents:
     - k_means
+    - hier_clust
 - title: Fit and Inspect
   desc: >
     These Functions are the generics are are supported for specifications
