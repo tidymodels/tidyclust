@@ -60,3 +60,40 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     cluster_assignments = names[reorder_clusts][object$clusters]
   )
 }
+
+#' @export
+extract_fit_summary.hclust <- function(object, ...) {
+
+  clusts <- extract_cluster_assignment(object, ...)$.cluster
+  n_clust <- dplyr::n_distinct(clusts)
+
+  training_data <- attr(object, "training_data")
+
+  overall_centroid <- colMeans(training_data)
+
+  by_clust <- training_data %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(
+      .cluster = clusts
+    ) %>%
+    dplyr::group_by(.cluster) %>%
+    tidyr::nest()
+
+  centroids <- by_clust$data %>%
+    map(~ .x %>% dplyr::summarize_all(mean)) %>%
+    dplyr::bind_rows()
+
+  within_sse <- by_clust$data %>%
+    map2_dbl(seq_len(n_clust),
+              ~ sum(Rfast::dista(centroids[.y,], .x)))
+
+  list(
+    cluster_names = unique(clusts),
+    centroids = centroids,
+    n_members = unname(table(clusts)),
+    within_sse = within_sse,
+    tot_sse = sum(Rfast::dista(t(overall_centroid), training_data)),
+    orig_labels = NULL,
+    cluster_assignments = clusts
+  )
+}

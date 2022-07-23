@@ -15,8 +15,8 @@ test_that("kmeans sse metrics work", {
   )
 
   expect_equal(within_cluster_sse(kmeans_fit_stats)$wss,
-    c(42877.103, 76954.010, 7654.146), # hard coded because of order
-    tolerance = 0.005
+               c(42877.103, 76954.010, 7654.146), # hard coded because of order
+               tolerance = 0.005
   )
 
   expect_equal(
@@ -36,8 +36,8 @@ test_that("kmeans sse metrics work", {
   )
 
   expect_equal(within_cluster_sse(kmeans_fit_ClusterR)$wss,
-    c(56041.432, 4665.041, 42877.103), # hard coded because of order
-    tolerance = 0.005
+               c(56041.432, 4665.041, 42877.103), # hard coded because of order
+               tolerance = 0.005
   )
 
   expect_equal(
@@ -65,8 +65,8 @@ test_that("kmeans sse metrics work on new data", {
   new_data <- mtcars[1:4, ]
 
   expect_equal(within_cluster_sse(kmeans_fit_stats, new_data)$wss,
-    c(2799.21, 12855.17),
-    tolerance = 0.005
+               c(2799.21, 12855.17),
+               tolerance = 0.005
   )
 
   expect_equal(

@@ -1,6 +1,6 @@
 #' Measures silhouettes between clusters
 #'
-#' @param object A fitted kmeans tidyclust model
+#' @param object A fitted tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
 #' @param dist_fun A function for calculating distances between observations.

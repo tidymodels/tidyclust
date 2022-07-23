@@ -41,8 +41,8 @@ reconcile_clusterings <- function(primary_cluster_assignment,
 
   ## Use standard names in order for both
 
-  clusters_1_f <- factor(clusters_1, labels = paste0("Cluster_", 1:nclust_1))
-  clusters_2_f <- factor(clusters_2, labels = paste0("Cluster_", 1:nclust_2))
+  clusters_1_f <- factor(clusters_1, labels = paste0("Cluster_", seq_len(nclust_1)))
+  clusters_2_f <- factor(clusters_2, labels = paste0("Cluster_", seq_len(nclust_2)))
   clusters_1_f <- factor(clusters_1_f, levels = levels(clusters_2_f))
 
 
