@@ -1,5 +1,5 @@
 Package: tidyclust
-Title: What the Package Does (One Line, Title Case)
+Title: A Common API to Clustering
 Version: 0.0.0.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emilhhvitfeldt@gmail.com", role = c("aut", "cre"),
@@ -7,7 +7,9 @@ Authors@R: c(
     person("Kelly", "Bodwin", , "kelly@bodwin.us", role = "aut"),
     person("RStudio", role = c("cph", "fnd"))
   )
-Description: What the package does (one paragraph).
+Description: A common interface to specifying clustering models, in the same
+    style as `parsnip`. Creates unified interface across different functions 
+    and computational engines.
 License: MIT + file LICENSE
 URL: https://github.com/EmilHvitfeldt/tidyclust
 BugReports: https://github.com/EmilHvitfeldt/tidyclust/issues
