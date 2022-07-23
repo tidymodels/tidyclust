@@ -106,6 +106,18 @@ update.hier_clust <- function(object,
   )
 }
 
+# # ------------------------------------------------------------------------------
+
+check_args.hier_clust <- function(object) {
+
+  args <- lapply(object$args, rlang::eval_tidy)
+
+  if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0))
+    rlang::abort("The number of centers should be >= 0.")
+
+  invisible(object)
+}
+
 #' @export
 translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
   x <- translate_tidyclust.default(x, engine, ...)
