@@ -17,7 +17,6 @@
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
 #' (= WPGMC) or `"centroid"` (= UPGMC).
-#' @param dist_fun A distance function to use
 #'
 #' @examples
 #' # show_engines("hier_clust")
@@ -136,7 +135,7 @@ hclust_fit <- function(x, k = NULL, cut_height = NULL,
                        linkage_method = NULL,
                        dist_fun = Rfast::Dist) {
   dmat <- dist_fun(x)
-  res <- hclust(as.dist(dmat), method = linkage_method)
+  res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
   attr(res, "k") <- k
   attr(res, "cut_height") <- cut_height
   attr(res, "training_data") <- x

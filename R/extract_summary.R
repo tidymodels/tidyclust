@@ -80,11 +80,12 @@ extract_fit_summary.hclust <- function(object, ...) {
     tidyr::nest()
 
   centroids <- by_clust$data %>%
-    purrr::map_dfr(~ .x %>% dplyr::summarize_all(mean))
+    map(~ .x %>% dplyr::summarize_all(mean)) %>%
+    dplyr::bind_rows()
 
   within_sse <- by_clust$data %>%
-    purrr::map2_dbl(1:n_clust,
-                ~ sum(Rfast::dista(centroids[.y,], .x)))
+    map2_dbl(1:n_clust,
+              ~ sum(Rfast::dista(centroids[.y,], .x)))
 
   list(
     cluster_names = unique(clusts),

@@ -29,8 +29,6 @@ assignments (only used if \code{k} is \code{NULL})}
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
 (= WPGMC) or \code{"centroid"} (= UPGMC).}
-
-\item{dist_fun}{A distance function to use}
 }
 \description{
 \code{hier_clust()} defines a model that fits clusters based on a distance-based

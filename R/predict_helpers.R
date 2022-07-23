@@ -30,7 +30,7 @@ stats_hier_clust_predict <- function(object, new_data) {
       "single" = min,
       "complete" = max,
       "average" = mean,
-      "median" = median
+      "median" = stats::median
     )
 
     # need this to be obs on rows, dist to new data on cols
@@ -42,7 +42,7 @@ stats_hier_clust_predict <- function(object, new_data) {
 
     pred_clusts_num <- cluster_dists %>%
       dplyr::select(-.cluster) %>%
-      purrr::map_dbl(which.min)
+      map_dbl(which.min)
 
   } else if (linkage_method == "centroid") {
 
@@ -64,28 +64,28 @@ stats_hier_clust_predict <- function(object, new_data) {
     cluster_names <- cluster_centers[[1]]
     cluster_centers <- as.matrix(cluster_centers[, -1])
 
-    d_means <- purrr::map(1:n_clust,
-                          ~t(t(training_data[clusters$.cluster == cluster_names[.x],]) - cluster_centers[.x, ]))
+    d_means <- map(1:n_clust,
+                   ~t(t(training_data[clusters$.cluster == cluster_names[.x],]) - cluster_centers[.x, ]))
 
     n <- nrow(training_data)
 
-    d_new_list <- purrr::map(1:nrow(new_data),
+    d_new_list <- map(1:nrow(new_data),
                              function(new_obs) {
-                               purrr::map(1:n_clust,
+                               map(1:n_clust,
                                           ~ t(t(training_data[clusters$.cluster == cluster_names[.x],])
                                               - new_data[new_obs,])
                                           )
                              }
     )
 
-    change_in_ess <- purrr::map(d_new_list,
+    change_in_ess <- map(d_new_list,
                                 function(v) {
-                                  purrr::map2_dbl(d_means, v,
+                                  map2_dbl(d_means, v,
                                             ~ sum((n*.x + .y)^2/(n+1)^2 - .x^2)
                                   )}
     )
 
-    pred_clusts_num <- purrr::map_dbl(change_in_ess, which.min)
+    pred_clusts_num <- map_dbl(change_in_ess, which.min)
 
   } else {
 
