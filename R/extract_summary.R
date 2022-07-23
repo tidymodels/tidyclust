@@ -84,7 +84,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     dplyr::bind_rows()
 
   within_sse <- by_clust$data %>%
-    map2_dbl(1:n_clust,
+    map2_dbl(seq_len(n_clust),
               ~ sum(Rfast::dista(centroids[.y,], .x)))
 
   list(

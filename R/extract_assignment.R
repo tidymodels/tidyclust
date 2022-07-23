@@ -54,7 +54,7 @@ extract_cluster_assignment.hclust <- function(object, ...) {
 
 cluster_assignment_tibble <- function(clusters, n_clusters) {
   reorder_clusts <- order(unique(clusters))
-  names <- paste0("Cluster_", 1:n_clusters)
+  names <- paste0("Cluster_", seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]
 
   tibble::tibble(.cluster = factor(res))

@@ -64,14 +64,14 @@ stats_hier_clust_predict <- function(object, new_data) {
     cluster_names <- cluster_centers[[1]]
     cluster_centers <- as.matrix(cluster_centers[, -1])
 
-    d_means <- map(1:n_clust,
+    d_means <- map(seq_len(n_clust),
                    ~t(t(training_data[clusters$.cluster == cluster_names[.x],]) - cluster_centers[.x, ]))
 
     n <- nrow(training_data)
 
-    d_new_list <- map(1:nrow(new_data),
+    d_new_list <- map(seq_len(nrow(new_data)),
                              function(new_obs) {
-                               map(1:n_clust,
+                               map(seq_len(n_clust),
                                           ~ t(t(training_data[clusters$.cluster == cluster_names[.x],])
                                               - new_data[new_obs,])
                                           )
