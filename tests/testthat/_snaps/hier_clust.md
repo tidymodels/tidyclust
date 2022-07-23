@@ -43,12 +43,26 @@
 ---
 
     Code
-      hier_clust(k = 10)
+      hier_clust(num_clusters = 10)
     Output
       Hierarchical Clustering Specification (partition)
       
       Main Arguments:
-        k = 10
+        num_clusters = 10
+        linkage_method = complete
+      
+      Computational engine: stats 
+      
+
+# updating
+
+    Code
+      hier_clust(num_clusters = 5) %>% update(num_clusters = tune())
+    Output
+      Hierarchical Clustering Specification (partition)
+      
+      Main Arguments:
+        num_clusters = tune()
         linkage_method = complete
       
       Computational engine: stats 

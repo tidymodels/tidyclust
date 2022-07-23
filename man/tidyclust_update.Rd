@@ -9,7 +9,7 @@
 \method{update}{hier_clust}(
   object,
   parameters = NULL,
-  k = NULL,
+  num_clusters = NULL,
   h = NULL,
   linkage_method = NULL,
   fresh = FALSE,
@@ -27,10 +27,10 @@ directly when updating. If the main arguments are used,
 these will supersede the values in \code{parameters}. Also, using
 engine arguments in this object will result in an error.}
 
-\item{k}{Positive integer, number of clusters in model (optional).}
+\item{num_clusters}{Positive integer, number of clusters in model.}
 
 \item{h}{Positive double, height at which to cut dendrogram to obtain cluster
-assignments (only used if \code{k} is \code{NULL})}
+assignments (only used if \code{num_clusters} is \code{NULL})}
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
@@ -41,8 +41,6 @@ unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"si
 modified in-place or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
-
-\item{num_clusters}{Positive integer, number of clusters in model.}
 }
 \value{
 An updated cluster specification.

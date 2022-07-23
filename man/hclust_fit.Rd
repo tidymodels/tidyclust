@@ -6,7 +6,7 @@
 \usage{
 hclust_fit(
   x,
-  k = NULL,
+  num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
   dist_fun = Rfast::Dist
@@ -15,7 +15,7 @@ hclust_fit(
 \arguments{
 \item{x}{matrix or data frame}
 
-\item{k}{the number of clusters}
+\item{num_clusters}{the number of clusters}
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
@@ -31,6 +31,6 @@ A dendrogram
 }
 \description{
 This wrapper prepares the data into a distance matrix to send to
-\code{stats::hclust} and retains the parameters \code{k} or \code{h} as an attribute.
+\code{stats::hclust} and retains the parameters \code{num_clusters} or \code{h} as an attribute.
 }
 \keyword{internal}

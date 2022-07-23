@@ -10,9 +10,9 @@
 #' @param engine A single character string specifying what computational engine
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"stats"`.
-#' @param k Positive integer, number of clusters in model (optional).
+#' @param num_clusters Positive integer, number of clusters in model (optional).
 #' @param h Positive double, height at which to cut dendrogram to obtain cluster
-#' assignments (only used if `k` is `NULL`)
+#' assignments (only used if `num_clusters` is `NULL`)
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
@@ -26,11 +26,11 @@
 hier_clust <-
   function(mode = "partition",
            engine = "stats",
-           k = NULL,
+           num_clusters = NULL,
            h = NULL,
            linkage_method = "complete") {
     args <- list(
-      k = enquo(k),
+      num_clusters = enquo(num_clusters),
       h = enquo(h),
       linkage_method = enquo(linkage_method)
     )
@@ -65,7 +65,7 @@ print.hier_clust <- function(x, ...) {
 #' @export
 update.hier_clust <- function(object,
                               parameters = NULL,
-                              k = NULL,
+                              num_clusters = NULL,
                               h = NULL,
                               linkage_method = NULL,
                               fresh = FALSE, ...) {
@@ -76,7 +76,7 @@ update.hier_clust <- function(object,
     parameters <- parsnip::check_final_param(parameters)
   }
   args <- list(
-    k = enquo(k),
+    num_clusters = enquo(num_clusters),
     h = enquo(h),
     linkage_method = enquo(linkage_method)
   )
@@ -117,10 +117,10 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' Simple Wrapper around hclust function
 #'
 #' This wrapper prepares the data into a distance matrix to send to
-#' `stats::hclust` and retains the parameters `k` or `h` as an attribute.
+#' `stats::hclust` and retains the parameters `num_clusters` or `h` as an attribute.
 #'
 #' @param x matrix or data frame
-#' @param k the number of clusters
+#' @param num_clusters the number of clusters
 #' @param h the height to cut the dendrogram
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
@@ -131,12 +131,12 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-hclust_fit <- function(x, k = NULL, cut_height = NULL,
+hclust_fit <- function(x, num_clusters = NULL, cut_height = NULL,
                        linkage_method = NULL,
                        dist_fun = Rfast::Dist) {
   dmat <- dist_fun(x)
   res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
-  attr(res, "k") <- k
+  attr(res, "num_clusters") <- num_clusters
   attr(res, "cut_height") <- cut_height
   attr(res, "training_data") <- x
   return(res)

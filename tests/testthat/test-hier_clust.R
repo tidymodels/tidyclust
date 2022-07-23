@@ -37,7 +37,7 @@ test_that("bad input", {
 
 test_that("predictions", {
   set.seed(1234)
-  hclust_fit <- hier_clust(k = 4) %>%
+  hclust_fit <- hier_clust(num_clusters = 4) %>%
     set_engine("stats") %>%
     fit(~., mtcars)
 
@@ -75,13 +75,13 @@ test_that("printing", {
     hier_clust()
   )
   expect_snapshot(
-    hier_clust(k = 10)
+    hier_clust(num_clusters = 10)
   )
 })
 
 test_that('updating', {
   expect_snapshot(
-    hier_clust(k = 5) %>%
-      update(k = tune())
+    hier_clust(num_clusters = 5) %>%
+      update(num_clusters = tune())
   )
 })
