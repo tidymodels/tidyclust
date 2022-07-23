@@ -11,8 +11,8 @@
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"stats"`.
 #' @param num_clusters Positive integer, number of clusters in model (optional).
-#' @param h Positive double, height at which to cut dendrogram to obtain cluster
-#' assignments (only used if `num_clusters` is `NULL`)
+#' @param cut_height Positive double, height at which to cut dendrogram to
+#'   obtain cluster assignments (only used if `num_clusters` is `NULL`)
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
@@ -27,11 +27,11 @@ hier_clust <-
   function(mode = "partition",
            engine = "stats",
            num_clusters = NULL,
-           h = NULL,
+           cut_height = NULL,
            linkage_method = "complete") {
     args <- list(
       num_clusters = enquo(num_clusters),
-      h = enquo(h),
+      cut_height = enquo(cut_height),
       linkage_method = enquo(linkage_method)
     )
 
@@ -66,7 +66,7 @@ print.hier_clust <- function(x, ...) {
 update.hier_clust <- function(object,
                               parameters = NULL,
                               num_clusters = NULL,
-                              h = NULL,
+                              cut_height = NULL,
                               linkage_method = NULL,
                               fresh = FALSE, ...) {
 
@@ -77,7 +77,7 @@ update.hier_clust <- function(object,
   }
   args <- list(
     num_clusters = enquo(num_clusters),
-    h = enquo(h),
+    cut_height = enquo(cut_height),
     linkage_method = enquo(linkage_method)
   )
 
