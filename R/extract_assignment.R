@@ -47,14 +47,14 @@ extract_cluster_assignment.hclust <- function(object, ...) {
     cut_height <- attr(object, "cut_height")
   }
   clusters <- stats::cutree(object, k = num_clusters, h = cut_height)
-  cluster_assignment_tibble(clusters, length(unique(clusters)))
+  cluster_assignment_tibble(clusters, length(unique(clusters)), ...)
 }
 
 # ------------------------------------------------------------------------------
 
-cluster_assignment_tibble <- function(clusters, n_clusters) {
+cluster_assignment_tibble <- function(clusters, n_clusters, prefix = "Cluster_") {
   reorder_clusts <- order(unique(clusters))
-  names <- paste0("Cluster_", seq_len(n_clusters))
+  names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]
 
   tibble::tibble(.cluster = factor(res))

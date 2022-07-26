@@ -4,9 +4,9 @@
 \name{tidyclust-package}
 \alias{tidyclust}
 \alias{tidyclust-package}
-\title{tidyclust: What the Package Does (One Line, Title Case)}
+\title{tidyclust: A Common API to Clustering}
 \description{
-What the package does (one paragraph).
+A common interface to specifying clustering models, in the same style as `parsnip`. Creates unified interface across different functions and computational engines.
 }
 \seealso{
 Useful links:

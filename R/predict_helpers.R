@@ -1,25 +1,25 @@
-stats_kmeans_predict <- function(object, new_data) {
+stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
   reorder_clusts <- unique(object$cluster)
   res <- apply(flexclust::dist2(object$centers[reorder_clusts, , drop = FALSE], new_data), 2, which.min)
-  res <- paste0("Cluster_", res)
+  res <- paste0(prefix, res)
   factor(res)
 }
 
-clusterR_kmeans_predict <- function(object, new_data) {
+clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
   reorder_clusts <- unique(object$clusters)
   res <- apply(flexclust::dist2(object$centroids[reorder_clusts, , drop = FALSE], new_data), 2, which.min)
-  res <- paste0("Cluster_", res)
+  res <- paste0(prefix, res)
   factor(res)
 }
 
-stats_hier_clust_predict <- function(object, new_data) {
+stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
 
   linkage_method <- object$method
 
   new_data <- as.matrix(new_data)
 
   training_data <- as.matrix(attr(object, "training_data"))
-  clusters <- extract_cluster_assignment(object)
+  clusters <- extract_cluster_assignment(object, prefix = prefix)
 
   if (linkage_method %in% c("single", "complete", "average", "median")) {
 

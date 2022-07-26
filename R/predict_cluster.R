@@ -33,6 +33,7 @@ predict_cluster.cluster_fit <- function(object, new_data, ...) {
 
   # create prediction call
   pred_call <- make_pred_call(object$spec$method$pred$cluster)
+  pred_call <- rlang::call_modify(pred_call, ...)
 
   res <- rlang::eval_tidy(pred_call)
   # post-process the predictions
