@@ -80,7 +80,7 @@ reconcile_clusterings <- function(primary_cluster_assignment,
 
   c2_new <- forcats::fct_recode(clusters_2, !!!recode_vec)
 
-  return(tibble(
+  return(tibble::tibble(
     primary = primary_cluster_assignment,
     alt = alt_cluster_assignment,
     alt_recoded = as.character(c2_new)
