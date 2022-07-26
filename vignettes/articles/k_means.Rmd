@@ -18,11 +18,17 @@ knitr::opts_chunk$set(
 
 ## Setup
 
-**Important:** Make sure to install the developer version of `parsnip` to access
-all current functionality of `tidyclust`:
+**Important:** Make sure to install the developer version of `parsnip` and
+`workflows` to access all current functionality of `tidyclust`:
 
 ```{r, eval = FALSE}
 remotes::install_github("tidymodels/parsnip")
+remotes::install_github("tidymodels/workflows@celery")
+```
+
+```{r}
+library(workflows)
+library(parsnip)
 ```
 
 Load libraries:
@@ -30,7 +36,6 @@ Load libraries:
 ```{r setup}
 library(tidyclust)
 library(tidyverse)
-library(parsnip)
 library(tidymodels)
 ```
 
@@ -293,22 +298,37 @@ kmeans_fit %>% avg_silhouette(penguins, dist_fun = my_dist_1)
 
 For more on using metrics for cluster model selection, see the Tuning vignette.
 
-<!-- ## Workflows -->
+## Workflows
 
-<!-- The workflow structure of `tidymodels` is also usable with `tidyclust` objects. -->
+The workflow structure of `tidymodels` is also usable with `tidyclust` objects.
+In the following example, we try two recipes for clustering penguins by bill
+dimensions.  In the second recipe, we log-scale both predictors before 
+clustering.
 
-<!-- ```{r} -->
-<!-- penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm, -->
-<!--                             data = penguins) -->
+```{r}
+penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
+                            data = penguins)
 
-<!-- penguins_recipe_2 <- recipe(~ bill_length_mm + bill_depth_mm, -->
-<!--                             data = penguins) %>% -->
-<!--   step_log(all_numeric_predictors()) -->
+penguins_recipe_2 <- recipe(~ bill_length_mm + bill_depth_mm,
+                            data = penguins) %>%
+  step_log(all_numeric_predictors())
 
-<!-- wflow_1 <- workflow() %>% -->
-<!--   add_model(kmeans_spec) %>% -->
-<!--   add_recipe(penguins_recipe_1) -->
-<!-- ``` -->
+wflow_1 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_recipe_1)
+
+wflow_2 <- workflow() %>%
+  add_model(kmeans_spec) %>%
+  add_recipe(penguins_recipe_2)
+
+wflow_1 %>%
+  fit(penguins) %>%
+  extract_centroids()
+
+wflow_2 %>%
+  fit(penguins) %>%
+  extract_centroids()
+```
 
 
 ## A brief introduction to the k-means algorithm
