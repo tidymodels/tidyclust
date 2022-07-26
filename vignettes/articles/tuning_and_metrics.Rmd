@@ -10,17 +10,24 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  cache = TRUE,
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
 ## Setup
 
-**Important:** Make sure to install the developer version of `parsnip` to access
-all current functionality of `tidyclust`:
+**Important:** Make sure to install the developer version of `parsnip` and
+`workflows` to access all current functionality of `tidyclust`:
 
 ```{r, eval = FALSE}
 remotes::install_github("tidymodels/parsnip")
+remotes::install_github("tidymodels/workflows@celery")
+
+library(parsnip)
+library(workflows)
 ```
 
 Load libraries:
@@ -28,7 +35,6 @@ Load libraries:
 ```{r setup}
 library(tidyclust)
 library(tidyverse)
-library(parsnip)
 library(tidymodels)
 ```
 
@@ -43,7 +49,6 @@ Load and clean a dataset:
 data("penguins", package = "modeldata")
 
 penguins <- penguins %>%
-  select(bill_length_mm, bill_depth_mm) %>%
   drop_na()
 ```
 
@@ -75,7 +80,7 @@ based on metrics.
 First, we set up cross-validation samples for our data:
 
 ```{r}
-pen_cv <- vfold_cv(penguins)
+penguins_cv <- vfold_cv(penguins, v = 5)
 ```
 
 Next, we specify our model with a tuning parameter, make a workflow,
@@ -84,9 +89,10 @@ and establish a range of possible values of `num_clusters` to try:
 ```{r}
 kmeans_spec <- k_means(num_clusters = tune()) 
 
-pens_rec <- recipe(~., data = penguins)
+penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm, 
+                       data = penguins)
 
-kmeans_wflow <- workflow(pens_rec, kmeans_spec)
+kmeans_wflow <- workflow(penguins_rec, kmeans_spec)
 
 clust_num_grid <- grid_regular(num_clusters(), 
                                levels = 10)
@@ -100,27 +106,58 @@ split, for each possible choice of number of clusters.
 
 ```{r}
 res <- tune_cluster(
-  kmenas_wflow,
-  resamples = pens_cv,
+  kmeans_wflow,
+  resamples = penguins_cv,
   grid = clust_num_grid,
   control = control_grid(save_pred = TRUE, extract = identity),
-  metrics = cluster_metric_set(tot_wss, tot_sse)
+  metrics = cluster_metric_set(tot_wss, tot_sse, sse_ratio)
 ) 
+
+res
 ```
 
-
-
-#### Comparison to auxilary variables
-
-```{r, eval=FALSE}
-penguins <- penguins %>%
-  drop_na(bill_length_mm, bill_depth_mm) 
-
-penguins %>%
-  cbind(extract_cluster_assignment(kmeans_fit)) %>%
-  enrichment(.cluster, species)
+```{r}
+res_metrics <- res %>% collect_metrics()
+res_metrics
 ```
 
-## Choosing the number of clusters
+### Choosing hyperparameters
 
-Traditional "elbow" plot:
+In supervised learning, we would choose the model with the best value of a
+target metric.  However, clustering models in general have no such local maxima 
+or minima.  With more clusters in the model, we would always expect the within
+sum-of-squares to be smaller.
+
+A common approach to choosing a number of clusters is to look for an "elbow",
+or notable bend, in the plot of WSS/TSS ratio by cluster number:
+
+```{r}
+res_metrics %>%
+  filter(.metric == "sse_ratio") %>%
+  ggplot(aes(x = num_clusters, y = mean)) +
+  geom_point() + 
+  geom_line() + 
+  theme_minimal() +
+  ylab("mean WSS/TSS ratio, over 5 folds") +
+  xlab("Number of clusters") +
+  scale_x_continuous(breaks = 1:10)
+```
+
+At each increase in the number of clusters, the WSS/TSS ratio decreases, with the
+amount of decrease getting smaller as the number of clusters grows.  We might
+argue that the drop from two clusters to three, or from three to four, is a bit
+more extreme than the subsequent drops, so we should probably choose three or
+four clusters.
+
+
+
+<!-- ## Comparison to auxilary variables -->
+
+<!-- It is sometimes of interest to compare to external variables -->
+
+<!-- ```{r, eval=FALSE} -->
+<!-- kmeans_fit %>% -->
+<!--   augment(penguins) %>% -->
+<!--   enrichment(.pred_cluster, species) -->
+<!-- ``` -->
+
