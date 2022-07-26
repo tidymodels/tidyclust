@@ -32,7 +32,7 @@ finalize_model_tidyclust <- function(x, parameters) {
 
   discordant <- dplyr::filter(pset, id != name & id %in% names(parameters))
   if (nrow(discordant) > 0) {
-    for (i in 1:nrow(discordant)) {
+    for (i in seq_len(nrow(discordant))) {
       names(parameters)[names(parameters) == discordant$id[i]] <-
         discordant$name[i]
     }

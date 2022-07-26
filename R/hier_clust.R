@@ -10,14 +10,13 @@
 #' @param engine A single character string specifying what computational engine
 #'  to use for fitting. Possible engines are listed below. The default for this
 #'  model is `"stats"`.
-#' @param k Positive integer, number of clusters in model (optional).
-#' @param h Positive double, height at which to cut dendrogram to obtain cluster
-#' assignments (only used if `k` is `NULL`)
+#' @param num_clusters Positive integer, number of clusters in model (optional).
+#' @param cut_height Positive double, height at which to cut dendrogram to
+#'   obtain cluster assignments (only used if `num_clusters` is `NULL`)
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
 #' (= WPGMC) or `"centroid"` (= UPGMC).
-#' @param dist_fun A distance function to use
 #'
 #' @examples
 #' # show_engines("hier_clust")
@@ -27,12 +26,12 @@
 hier_clust <-
   function(mode = "partition",
            engine = "stats",
-           k = NULL,
-           h = NULL,
+           num_clusters = NULL,
+           cut_height = NULL,
            linkage_method = "complete") {
     args <- list(
-      k = enquo(k),
-      h = enquo(h),
+      num_clusters = enquo(num_clusters),
+      cut_height = enquo(cut_height),
       linkage_method = enquo(linkage_method)
     )
 
@@ -59,6 +58,66 @@ print.hier_clust <- function(x, ...) {
   invisible(x)
 }
 
+# ------------------------------------------------------------------------------
+
+#' @method update hier_clust
+#' @rdname tidyclust_update
+#' @export
+update.hier_clust <- function(object,
+                              parameters = NULL,
+                              num_clusters = NULL,
+                              cut_height = NULL,
+                              linkage_method = NULL,
+                              fresh = FALSE, ...) {
+
+  eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
+
+  if (!is.null(parameters)) {
+    parameters <- parsnip::check_final_param(parameters)
+  }
+  args <- list(
+    num_clusters = enquo(num_clusters),
+    cut_height = enquo(cut_height),
+    linkage_method = enquo(linkage_method)
+  )
+
+  args <- parsnip::update_main_parameters(args, parameters)
+
+  if (fresh) {
+    object$args <- args
+    object$eng_args <- eng_args
+  } else {
+    null_args <- map_lgl(args, null_value)
+    if (any(null_args))
+      args <- args[!null_args]
+    if (length(args) > 0)
+      object$args[names(args)] <- args
+    if (length(eng_args) > 0)
+      object$eng_args[names(eng_args)] <- eng_args
+  }
+
+  new_cluster_spec(
+    "hier_clust",
+    args = object$args,
+    eng_args = object$eng_args,
+    mode = object$mode,
+    method = NULL,
+    engine = object$engine
+  )
+}
+
+# # ------------------------------------------------------------------------------
+
+check_args.hier_clust <- function(object) {
+
+  args <- lapply(object$args, rlang::eval_tidy)
+
+  if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0))
+    rlang::abort("The number of centers should be >= 0.")
+
+  invisible(object)
+}
+
 #' @export
 translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
   x <- translate_tidyclust.default(x, engine, ...)
@@ -70,10 +129,10 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' Simple Wrapper around hclust function
 #'
 #' This wrapper prepares the data into a distance matrix to send to
-#' `stats::hclust` and retains the parameters `k` or `h` as an attribute.
+#' `stats::hclust` and retains the parameters `num_clusters` or `h` as an attribute.
 #'
 #' @param x matrix or data frame
-#' @param k the number of clusters
+#' @param num_clusters the number of clusters
 #' @param h the height to cut the dendrogram
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
@@ -84,12 +143,12 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-hclust_fit <- function(x, k = NULL, cut_height = NULL,
+hclust_fit <- function(x, num_clusters = NULL, cut_height = NULL,
                        linkage_method = NULL,
                        dist_fun = Rfast::Dist) {
   dmat <- dist_fun(x)
-  res <- hclust(as.dist(dmat), method = linkage_method)
-  attr(res, "k") <- k
+  res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
+  attr(res, "num_clusters") <- num_clusters
   attr(res, "cut_height") <- cut_height
   attr(res, "training_data") <- x
   return(res)

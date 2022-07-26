@@ -7,8 +7,8 @@
 hier_clust(
   mode = "partition",
   engine = "stats",
-  k = NULL,
-  h = NULL,
+  num_clusters = NULL,
+  cut_height = NULL,
   linkage_method = "complete"
 )
 }
@@ -20,17 +20,15 @@ The only possible value for this model is "partition".}
 to use for fitting. Possible engines are listed below. The default for this
 model is \code{"stats"}.}
 
-\item{k}{Positive integer, number of clusters in model (optional).}
+\item{num_clusters}{Positive integer, number of clusters in model (optional).}
 
-\item{h}{Positive double, height at which to cut dendrogram to obtain cluster
-assignments (only used if \code{k} is \code{NULL})}
+\item{cut_height}{Positive double, height at which to cut dendrogram to
+obtain cluster assignments (only used if \code{num_clusters} is \code{NULL})}
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
 (= WPGMC) or \code{"centroid"} (= UPGMC).}
-
-\item{dist_fun}{A distance function to use}
 }
 \description{
 \code{hier_clust()} defines a model that fits clusters based on a distance-based

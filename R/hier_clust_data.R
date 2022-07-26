@@ -34,9 +34,9 @@ set_encoding_tidyclust(
 set_model_arg_tidyclust(
   model = "hier_clust",
   eng = "stats",
-  tidyclust = "k",
-  original = "k",
-  func = list(pkg = "tidyclust", fun = "k"),
+  tidyclust = "num_clusters",
+  original = "num_clusters",
+  func = list(pkg = "tidyclust", fun = "num_clusters"),
   has_submodel = TRUE
 )
 
