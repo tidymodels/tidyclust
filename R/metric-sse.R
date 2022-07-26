@@ -50,7 +50,8 @@ within_cluster_sse <- function(object, new_data = NULL,
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
       dplyr::group_by(.cluster) %>%
-      dplyr::summarize(wss = sum(dist))
+      dplyr::summarize(wss = sum(dist),
+                       n_obs = n())
   }
 
   return(res)
