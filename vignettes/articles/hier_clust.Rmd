@@ -23,6 +23,108 @@ set.seed(838383)
 data("penguins", package = "modeldata")
 ```
 
+
+## Setup
+
+**Important:** Make sure to install the developer version of `parsnip` and
+`workflows` to access all current functionality of `tidyclust`:
+
+```{r, eval = FALSE}
+remotes::install_github("tidymodels/parsnip")
+remotes::install_github("tidymodels/workflows@celery")
+```
+
+```{r}
+library(workflows)
+library(parsnip)
+```
+
+Load libraries:
+
+```{r setup}
+library(tidyclust)
+library(tidyverse)
+library(tidymodels)
+```
+
+```{r setup_secret, echo = FALSE}
+library(ggforce)
+set.seed(838383)
+```
+
+Load and clean a dataset:
+
+```{r}
+data("penguins", package = "modeldata")
+
+penguins <- penguins %>%
+  select(bill_length_mm, bill_depth_mm) %>%
+  drop_na()
+```
+
+At the end of this vignette, you will find a brief overview of the hierarchical
+clustering
+algorithm, as well as some further algorithmic variant details, for those who
+would like a reference.
+
+If you have not yet read the `k_means` vignette, we recommend reading that first;
+functions that are used in this vignette are explained in more detail there.
+
+## `hier_clust` specification in {tidyclust}
+
+To specify a hierarchical clustering model in `tidyclust`, 
+simply choose a value of `num_clusters` and a linkage method:
+
+```{r}
+hc_spec <- hier_clust(num_clusters = 3,
+                       linkage_method = "average") 
+
+hc_spec
+```
+
+There are currently two engines: `stats::kmeans` (default) and 
+`ClusterR::KMeans_rcpp`.
+
+It is also possible to change the algorithmic details of the implementation, by
+changing the engine and/or using the corresponding arguments from the engine 
+functions:
+
+```{r}
+kmeans_spec_lloyd <- k_means(num_clusters = 3) %>%
+  parsnip::set_engine("stats", algorithm = "Lloyd")
+
+kmeans_spec_cr <- k_means(num_clusters = 3) %>%
+  parsnip::set_engine("ClusterR", initializer = "random")
+```
+
+Note that the `stats::kmeans` and the `ClusterR::KMeans_rcpp` implementations have
+very different default settings for the algorithmic details, so it is recommended
+to be deliberate and explicit in choosing these options. (See the end of this
+document for detail on the algorithmic options and defaults.)
+
+## Fitting k-means models
+
+Once specified, a model may be "fit" to a dataset by providing a formula and 
+data frame in the same manner as a `tidymodels` model fit.  
+Note that unlike in supervised modeling, the formula should not include a 
+response variable.
+
+```{r}
+kmeans_fit <- kmeans_spec %>%
+  fit(~ bill_length_mm + bill_depth_mm, 
+      data = penguins)
+
+kmeans_fit %>% 
+  summary()
+```
+
+To access the only the results produced by the engine - in this case, 
+`stats::kmeans` - simply extract the fit from the fitted model object:
+
+```{r}
+kmeans_fit$fit
+```
+
 ## A brief introduction to hierarchical clustering
 
 *Hierarchical Clustering*, sometimes called *Agglomerative Clustering*, is a 
@@ -32,29 +134,105 @@ to partition observations into clusters.
 The hierarchical clustering process begins with each observation in it's own
 cluster; i.e., *n* clusters for *n* observations.
 
-```{r}
+```{r, echo = FALSE}
+fake_dat <- tibble(
+  x = sort(runif(5)),
+  y = runif(5),
+  lab = letters[1:5]
+)
 
+fake_dat %>%
+  ggplot(aes(x,y)) +
+  geom_point(shape = fake_dat$lab, size = 4) +
+  geom_point(shape = 1, size = 7, stroke = 1, color = "dark grey") +
+  theme_minimal() +
+  ylim(c(-0.1, 1.1)) +
+  xlim(c(-0.1, 1.1))
 ```
 
 The closest two observations are then joined together into a single cluster.
 
-```{r}
 
+```{r, echo = FALSE}
+fake_dat_2 <- bind_rows(
+  fake_dat[-c(1:2),],
+  summarize_all(fake_dat[1:2,], mean)
+) %>%
+  mutate(
+    size = c(rep(1, 3), dist(fake_dat)[1])
+  )
+
+
+fake_dat %>%
+  ggplot(aes(x,y)) +
+  geom_point(shape = fake_dat$lab, size = 4) +
+  geom_point(data = fake_dat_2,
+             aes(x=x, y=y), 
+             shape = 1, size = 7/fake_dat_2$size, stroke = 1, color = "dark grey") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(c(-0.1, 1.1)) +
+  xlim(c(-0.1, 1.1))
 ```
 
 This process continues, with the closest two clusters being joined (or 
 "aggolermated") at each step.
 
-```{r}
 
+```{r, echo = FALSE}
+fake_dat_3 <- bind_rows(
+  fake_dat[-c(1:3),],
+  summarize_all(fake_dat[1:3,], mean)
+) %>%
+  mutate(
+    size = c(rep(1, 2), 0.09)
+  )
+
+
+p1 <- fake_dat %>%
+  ggplot(aes(x,y)) +
+  geom_point(shape = fake_dat$lab, size = 4) +
+  geom_point(data = fake_dat_3,
+             aes(x=x, y=y), 
+             shape = 1, size = 7/fake_dat_3$size, stroke = 1, color = "dark grey") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(c(-0.1, 1.1)) +
+  xlim(c(-0.1, 1.1))
+
+
+fake_dat_4 <- bind_rows(
+  summarize_all(fake_dat[1:3,], mean),
+  summarize_all(fake_dat[4:5,], mean),
+) %>%
+  mutate(
+    size = c(0.09, 0.09)
+  )
+
+
+p2 <- fake_dat %>%
+  ggplot(aes(x,y)) +
+  geom_point(shape = fake_dat$lab, size = 4) +
+  geom_point(data = fake_dat_4,
+             aes(x=x, y=y), 
+             shape = 1, size = 7/fake_dat_4$size, stroke = 1, color = "dark grey") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(c(-0.1, 1.1)) +
+  xlim(c(-0.1, 1.1))
+
+library(patchwork)
+p1 + p2
 ```
 
 
 The result of the process is a **dendrogram**, which shows the joining of clusters
 in tree form:
 
-```{r}
+```{r, echo = FALSE}
+hc <- hclust(dist(fake_dat))
 
+plot(hc, labels = fake_dat$lab)
 ```
 
 ### Clusters from dendrogram
@@ -62,9 +240,21 @@ in tree form:
 To produce a partition-style cluster assignment from the dendrogram, one must
 "cut" the tree at a chosen height:
 
-```{r}
-
+```{r, echo = FALSE}
+plot(hc, labels = fake_dat$lab)
+abline(h = 0.6, lty = 2, col = "dark grey")
 ```
+
+The observations that remain joined in the dendrogram below the cut height are
+considered to be in a cluster together:
+
+```{r, echo = FALSE}
+tibble(
+  observation = fake_dat$lab,
+  cluster_assignment = cutree(hc, h = 0.6)
+)
+```
+
 
 ### Methods of aggolmeration
 
@@ -96,138 +286,3 @@ It is also worth mentioning the **McQuitty method**, which retains information
 about previously joined clusters to measure future linkage distance.  This 
 method is currently supported for model fitting, but not for prediction, in
 `tidyclust`.
-
-## Hierarchical clustering specification in {tidyclust}
-
-To specify a `hier_clust` model in `tidyclust`, simply choose a value of 
-`num_clusters`, and (optionally) a linkage method.  The default linkage method
-is *complete*.
-
-```{r}
-hclust_spec <- hier_clust(num_clusters = 3, 
-                          linkage_method = "single")
-
-hclust_spec
-```
-
-Once specified, a model may be "fit" to a dataset by providing a formula and 
-data frame.  Note that unlike in supervised modeling, the formula should not
-include a response variable.
-
-```{r}
-hclust_fit <- hclust_spec %>%
-  fit(~ bill_length_mm + bill_depth_mm, 
-      data = penguins)
-
-hclust_fit
-```
-
-To access the only the results produced by the engine - in this case, `stats::kmeans` -
-simply extract the fit from the fitted model object:
-
-```{r}
-hclust_fit$fit
-```
-
-To access summary information about the clustering results in a format that is
-consistent across `tidyclust` methods, use `extract_fit_summay()`
-
-```{r}
-hclust_fit %>%
-  extract_fit_summary()
-```
-
-
-#### Cluster assignments and predictions
-
-Of the information provided from the model fit, the primary objective is typically
-the cluster assignments of each observation.  These can be accessed via the
-`extract_cluster_assignment()` function:
-
-```{r}
-hclust_fit %>%
-  extract_cluster_assignment()
-```
-
-Note that this function renames clusters in accordance with the standard `tidyclust`
-naming convention and ordering: clusters are named "Cluster_1", "Cluster_2", etc.
-and are numbered by the order they appear in the rows of the training dataset.
-
-Similarly, you can "predict" the cluster membership of new data using the 
-`predict_cluster()` function:
-
-```{r}
-new_penguin <- tibble(
-  bill_length_mm = 40,
-  bill_depth_mm = 15
-)
-
-hclust_fit %>%
-  predict_cluster(new_penguin)
-```
-
-In the case of `kmeans`, the cluster assignment is predicted by finding the closest
-final centroid to the new observation.
-
-
-#### Augmenting datasets
-
-To attach cluster assignments or predictions to a dataset, use `augment_cluster()`:
-
-```{r}
-### add this
-```
-
-
-#### Cluster centroids
-
-A cluster is typically characterized by the location of its
-final centroid.  These can be accessed by:
-
-```{r}
-hclust_fit %>%
-  extract_centroids()
-```
-
-[interpretation]
-
-
-## Workflows
-
-```{r}
-penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
-                            data = penguins)
-
-penguins_recipe_2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                            data = penguins)
-
-wflow_1 <- workflow() %>%
-  add_model(hclust_spec) %>%
-  add_recipe(penguins_recipe_1)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
