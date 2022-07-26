@@ -1,0 +1,233 @@
+---
+title: "Hierarchical Clustering"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{hier_clust}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyclust)
+library(tidyverse)
+library(tidymodels)
+set.seed(838383)
+
+data("penguins", package = "modeldata")
+```
+
+## A brief introduction to hierarchical clustering
+
+*Hierarchical Clustering*, sometimes called *Agglomerative Clustering*, is a 
+method of *unsupervised* learning that produces a *dendrogram*, which can be used
+to partition observations into clusters.  
+
+The hierarchical clustering process begins with each observation in it's own
+cluster; i.e., *n* clusters for *n* observations.
+
+```{r}
+
+```
+
+The closest two observations are then joined together into a single cluster.
+
+```{r}
+
+```
+
+This process continues, with the closest two clusters being joined (or 
+"aggolermated") at each step.
+
+```{r}
+
+```
+
+
+The result of the process is a **dendrogram**, which shows the joining of clusters
+in tree form:
+
+```{r}
+
+```
+
+### Clusters from dendrogram
+
+To produce a partition-style cluster assignment from the dendrogram, one must
+"cut" the tree at a chosen height:
+
+```{r}
+
+```
+
+### Methods of aggolmeration
+
+At the every step of the agglomeration, we measure distances between current
+clusters.  With each cluster containing (possibly) multiple points, what does
+it mean to measure distance?
+
+There are four common approaches to cluster-cluster distancing, aka "linkage":
+
+1. **single linkage:** The distance between two clusters is the distance between
+the two **closest** observations.
+
+2. **average linkage:** The distance between two clusters is the average of all
+distances between observations in one cluster and observations in the other.
+
+3. **complete linkage:** The distance between two clusters is the distance between
+the two **furthest** observations.
+
+4. **centroid method:** The distance between two clusters is the distance between
+their centroids (geometric mean or median).
+
+5. **Ward's method:** The distance between two clusters is proportional to the 
+increase in **error sum of squares (ESS)** that would result from joining them.
+The ESS is computed as the sum of squared distances between observations in a
+cluster, and the centroid of the cluster.
+
+
+It is also worth mentioning the **McQuitty method**, which retains information
+about previously joined clusters to measure future linkage distance.  This 
+method is currently supported for model fitting, but not for prediction, in
+`tidyclust`.
+
+## Hierarchical clustering specification in {tidyclust}
+
+To specify a `hier_clust` model in `tidyclust`, simply choose a value of 
+`num_clusters`, and (optionally) a linkage method.  The default linkage method
+is *complete*.
+
+```{r}
+hclust_spec <- hier_clust(num_clusters = 3, 
+                          linkage_method = "single")
+
+hclust_spec
+```
+
+Once specified, a model may be "fit" to a dataset by providing a formula and 
+data frame.  Note that unlike in supervised modeling, the formula should not
+include a response variable.
+
+```{r}
+hclust_fit <- hclust_spec %>%
+  fit(~ bill_length_mm + bill_depth_mm, 
+      data = penguins)
+
+hclust_fit
+```
+
+To access the only the results produced by the engine - in this case, `stats::kmeans` -
+simply extract the fit from the fitted model object:
+
+```{r}
+hclust_fit$fit
+```
+
+To access summary information about the clustering results in a format that is
+consistent across `tidyclust` methods, use `extract_fit_summay()`
+
+```{r}
+hclust_fit %>%
+  extract_fit_summary()
+```
+
+
+#### Cluster assignments and predictions
+
+Of the information provided from the model fit, the primary objective is typically
+the cluster assignments of each observation.  These can be accessed via the
+`extract_cluster_assignment()` function:
+
+```{r}
+hclust_fit %>%
+  extract_cluster_assignment()
+```
+
+Note that this function renames clusters in accordance with the standard `tidyclust`
+naming convention and ordering: clusters are named "Cluster_1", "Cluster_2", etc.
+and are numbered by the order they appear in the rows of the training dataset.
+
+Similarly, you can "predict" the cluster membership of new data using the 
+`predict_cluster()` function:
+
+```{r}
+new_penguin <- tibble(
+  bill_length_mm = 40,
+  bill_depth_mm = 15
+)
+
+hclust_fit %>%
+  predict_cluster(new_penguin)
+```
+
+In the case of `kmeans`, the cluster assignment is predicted by finding the closest
+final centroid to the new observation.
+
+
+#### Augmenting datasets
+
+To attach cluster assignments or predictions to a dataset, use `augment_cluster()`:
+
+```{r}
+### add this
+```
+
+
+#### Cluster centroids
+
+A cluster is typically characterized by the location of its
+final centroid.  These can be accessed by:
+
+```{r}
+hclust_fit %>%
+  extract_centroids()
+```
+
+[interpretation]
+
+
+## Workflows
+
+```{r}
+penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
+                            data = penguins)
+
+penguins_recipe_2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                            data = penguins)
+
+wflow_1 <- workflow() %>%
+  add_model(hclust_spec) %>%
+  add_recipe(penguins_recipe_1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
