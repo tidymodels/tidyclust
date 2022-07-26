@@ -52,6 +52,11 @@ data("penguins", package = "modeldata")
 penguins <- penguins %>%
   select(bill_length_mm, bill_depth_mm) %>%
   drop_na()
+
+  
+# shuffle rows
+penguins <- penguins %>%
+  sample_n(nrow(penguins))
 ```
 
 At the end of this vignette, you will find a brief overview of the k-means

@@ -14,15 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(tidyclust)
-library(tidyverse)
-library(tidymodels)
-set.seed(838383)
-
-data("penguins", package = "modeldata")
-```
-
 
 ## Setup
 
@@ -60,70 +51,17 @@ data("penguins", package = "modeldata")
 penguins <- penguins %>%
   select(bill_length_mm, bill_depth_mm) %>%
   drop_na()
-```
 
-At the end of this vignette, you will find a brief overview of the hierarchical
-clustering
-algorithm, as well as some further algorithmic variant details, for those who
-would like a reference.
+  
+# shuffle rows
+penguins <- penguins %>%
+  sample_n(nrow(penguins))
+```
 
 If you have not yet read the `k_means` vignette, we recommend reading that first;
 functions that are used in this vignette are explained in more detail there.
 
-## `hier_clust` specification in {tidyclust}
 
-To specify a hierarchical clustering model in `tidyclust`, 
-simply choose a value of `num_clusters` and a linkage method:
-
-```{r}
-hc_spec <- hier_clust(num_clusters = 3,
-                       linkage_method = "average") 
-
-hc_spec
-```
-
-There are currently two engines: `stats::kmeans` (default) and 
-`ClusterR::KMeans_rcpp`.
-
-It is also possible to change the algorithmic details of the implementation, by
-changing the engine and/or using the corresponding arguments from the engine 
-functions:
-
-```{r}
-kmeans_spec_lloyd <- k_means(num_clusters = 3) %>%
-  parsnip::set_engine("stats", algorithm = "Lloyd")
-
-kmeans_spec_cr <- k_means(num_clusters = 3) %>%
-  parsnip::set_engine("ClusterR", initializer = "random")
-```
-
-Note that the `stats::kmeans` and the `ClusterR::KMeans_rcpp` implementations have
-very different default settings for the algorithmic details, so it is recommended
-to be deliberate and explicit in choosing these options. (See the end of this
-document for detail on the algorithmic options and defaults.)
-
-## Fitting k-means models
-
-Once specified, a model may be "fit" to a dataset by providing a formula and 
-data frame in the same manner as a `tidymodels` model fit.  
-Note that unlike in supervised modeling, the formula should not include a 
-response variable.
-
-```{r}
-kmeans_fit <- kmeans_spec %>%
-  fit(~ bill_length_mm + bill_depth_mm, 
-      data = penguins)
-
-kmeans_fit %>% 
-  summary()
-```
-
-To access the only the results produced by the engine - in this case, 
-`stats::kmeans` - simply extract the fit from the fitted model object:
-
-```{r}
-kmeans_fit$fit
-```
 
 ## A brief introduction to hierarchical clustering
 
@@ -155,8 +93,8 @@ The closest two observations are then joined together into a single cluster.
 
 ```{r, echo = FALSE}
 fake_dat_2 <- bind_rows(
-  fake_dat[-c(1:2),],
-  summarize_all(fake_dat[1:2,], mean)
+  fake_dat[-c(1:2),-3],
+  summarize_all(fake_dat[1:2,-3], mean)
 ) %>%
   mutate(
     size = c(rep(1, 3), dist(fake_dat)[1])
@@ -181,8 +119,8 @@ This process continues, with the closest two clusters being joined (or
 
 ```{r, echo = FALSE}
 fake_dat_3 <- bind_rows(
-  fake_dat[-c(1:3),],
-  summarize_all(fake_dat[1:3,], mean)
+  fake_dat[-c(1:3),-3],
+  summarize_all(fake_dat[1:3,-3], mean)
 ) %>%
   mutate(
     size = c(rep(1, 2), 0.09)
@@ -202,8 +140,8 @@ p1 <- fake_dat %>%
 
 
 fake_dat_4 <- bind_rows(
-  summarize_all(fake_dat[1:3,], mean),
-  summarize_all(fake_dat[4:5,], mean),
+  summarize_all(fake_dat[1:3,-3], mean),
+  summarize_all(fake_dat[4:5,-3], mean),
 ) %>%
   mutate(
     size = c(0.09, 0.09)
@@ -286,3 +224,172 @@ It is also worth mentioning the **McQuitty method**, which retains information
 about previously joined clusters to measure future linkage distance.  This 
 method is currently supported for model fitting, but not for prediction, in
 `tidyclust`.
+
+
+## `hier_clust` specification in {tidyclust}
+
+To specify a hierarchical clustering model in `tidyclust`, 
+simply choose a value of `num_clusters` and (optionally) a linkage method:
+
+```{r}
+hc_spec <- hier_clust(num_clusters = 3,
+                       linkage_method = "average") 
+
+hc_spec
+```
+
+Currently, the only supported engine is `stats::hclust()`.  The default linkage
+<!-- method of this method is *complete linkage*. -->
+
+<!-- Note that the hierarchical clustering algorithm does not need a number of clusters -->
+<!-- specified to perform the aggomeration and produce a dendrogram, only to determine -->
+<!-- a cut of the tree, so this parameter -->
+<!-- does not actually need to be specified in advance. -->
+
+
+<!-- ```{r} -->
+<!-- hc_spec_blank <- hier_clust()  -->
+
+<!-- hc_spec_blank -->
+<!-- ``` -->
+
+
+## Fitting `hier_clust` models
+
+We fit the model to data in the usual way:
+
+```{r}
+hc_fit <- hc_spec %>%
+  fit(~ bill_length_mm + bill_depth_mm, 
+      data = penguins)
+
+hc_fit %>% 
+  summary()
+```
+
+To produce a dendrogram plot, access the engine fit:
+(Although as we see below, dendrograms are often not very informative for moderate
+to large size datasets.)
+
+```{r}
+hc_fit$fit %>% plot()
+```
+
+We can also extract the standard `tidyclust` summary list:
+
+```{r}
+hc_summary <- hc_fit %>% extract_fit_summary() 
+
+hc_summary %>% str()
+```
+
+Note that, although the hierarchical clustering algorithm is not focused on 
+cluster centroids in the same way $k$-means is, we are still able to compute
+the geometric mean over the predictors for each cluster:
+
+```{r}
+hc_fit %>% extract_centroids()
+```
+
+
+## Prediction
+
+To predict the cluster assignment for a new observation, we find the closest
+cluster.  How we measure "closeness" is dependent on the specified type of
+linkage in the model:
+
+* *single linkage*:  The new observation is assigned to the same cluster as its 
+nearest observation from the training data.
+
+* *complete linkage*:  The new observation is assigned to the cluster with the
+smallest maximum distances between training observations and the new observation.
+
+* *average linkage*: The new observation is assigned to the cluster with the
+smallest average distances between training observations and the new observation.
+
+* *centroid method:* The new observation is assigned to the cluster with the
+closest centroid, as in prediction for `k_means`.
+
+* *Ward's method:* The new observation is assigned to the cluster with the 
+smallest increase in **error sum of squares (ESS)** due to the new addition.
+The ESS is computed as the sum of squared distances between observations in a
+cluster, and the centroid of the cluster.
+
+```{r}
+hc_preds <- hc_fit %>% predict(penguins)
+
+hc_preds
+```
+
+It's important to note that there is no guarantee that `predict()` on the 
+training data will produce the same results as `extract_cluster_assignments()`.
+The process by which clusters are created during the aggolmerations results in
+a particular partition; but if a training observation is treated as new data, it
+is predicted in the same manner as truly new information.
+
+```{r}
+cbind(
+  hc_preds,
+  extract_cluster_assignment(hc_fit)
+)
+```
+
+
+<!-- Overriding cluster partition: -->
+
+<!-- ```{r} -->
+<!-- hc_fit %>% extract_cluster_assignment(num_clusters = 5) -->
+<!-- hc_fit %>% extract_cluster_assignment(cut_height = 5) -->
+<!-- ``` -->
+
+
+## Reconciling partitions
+
+Suppose we have produced cluster assignments from two models:  a hierarchical
+clustering model with three clusters (as above) and a $k$-means clustering model
+ with five clusters (below).  How can we combine these assignments?
+
+```{r}
+km_spec <- k_means(num_clusters = 5)
+km_fit <- km_spec %>%
+  fit(~., data = penguins)
+
+km_preds <- predict(km_fit, penguins, prefix = "KM_")
+hc_preds <- predict(hc_fit, penguins, prefix = "HC_")
+```
+
+We notice that the three-cluster assignments from `hier_clust` do not line up
+perfectly with the five-cluster assignments from `k_means`.  
+
+```{r}
+tibble(
+  hc = hc_preds$.pred_cluster,
+  km = km_preds$.pred_cluster
+) %>% 
+  count(hc, km)
+```
+
+However, they are not fully unrelated assignments.  For example, all of 
+`KM_2` in the $k$-means assignment fell inside `HC_1` for the hierarchical
+assignments.
+
+Our goal is to relabel the five $k$-means clusters to match the three cluster names
+in the hierarchical output.  This can be accomplished with `reconcile_clusterings()`.
+
+This function expects as input two vectors of cluster labels.  The first is the
+labels that will be matches, and the second is the labels that will be recoded
+to the first.
+
+If we are not trying to simply match names across two same-size clusterings,
+the option `one_to_one` must be set to `FALSE`.
+
+```{r}
+reconcile_clusterings(primary_cluster_assignment = hc_preds$.pred_cluster, 
+                      alt_cluster_assignment = km_preds$.pred_cluster,
+                      one_to_one = FALSE)
+```
+
+In this example, we can see that `KM_1`, `KM_2`, `KM_5` have been matched to 
+`HC_1`; and `KM_3` and `KM_4` have been matched to `HC_2`.  Notice that no
+clusters from the `KM` set were matched to `HC_3`; evidently, this is a small
+cluster that did not manifest clearly in the $k$-means clustering.
