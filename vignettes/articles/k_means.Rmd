@@ -2,7 +2,7 @@
 title: "k-means"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{k_means}
+  %\VignetteIndexEntry{k-means}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

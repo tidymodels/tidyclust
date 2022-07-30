@@ -2,7 +2,7 @@
 title: "Tuning Cluster Models"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{tuning_and_metrics}
+  %\VignetteIndexEntry{Tuning Cluster Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
