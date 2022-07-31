@@ -13,13 +13,16 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
+    <loc>/articles/hier_clust.html</loc>
+  </url>
+  <url>
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/kmeans.html</loc>
+    <loc>/articles/k_means.html</loc>
   </url>
   <url>
-    <loc>/articles/kmeans_metrics.html</loc>
+    <loc>/articles/tuning_and_metrics.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>

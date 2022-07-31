@@ -2,7 +2,8 @@ pandoc: 2.14.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  kmeans: kmeans.html
-  kmeans_metrics: kmeans_metrics.html
-last_built: 2022-07-23T05:04Z
+  hier_clust: hier_clust.html
+  k_means: k_means.html
+  tuning_and_metrics: tuning_and_metrics.html
+last_built: 2022-07-31T01:50Z
 
