@@ -34,7 +34,8 @@ within_cluster_sse <- function(object, new_data = NULL,
   if (is.null(new_data)) {
     res <- tibble::tibble(
       .cluster = factor(summ$cluster_names),
-      wss = summ$within_sse
+      wss = summ$within_sse,
+      n_members = summ$n_members
     )
   } else {
     dist_to_centroids <- dist_fun(summ$centroids, new_data)
@@ -50,7 +51,8 @@ within_cluster_sse <- function(object, new_data = NULL,
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
       dplyr::group_by(.cluster) %>%
-      dplyr::summarize(wss = sum(dist))
+      dplyr::summarize(wss = sum(dist),
+                       n_obs = dplyr::n())
   }
 
   return(res)

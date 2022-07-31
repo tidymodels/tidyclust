@@ -1,0 +1,163 @@
+---
+title: "Tuning Cluster Models"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tuning Cluster Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+## Setup
+
+**Important:** Make sure to install the developer version of `parsnip` and
+`workflows` to access all current functionality of `tidyclust`:
+
+```{r, eval = FALSE}
+remotes::install_github("tidymodels/parsnip")
+remotes::install_github("tidymodels/workflows@celery")
+
+library(parsnip)
+library(workflows)
+```
+
+Load libraries:
+
+```{r setup}
+library(tidyclust)
+library(tidyverse)
+library(tidymodels)
+```
+
+```{r setup_secret, echo = FALSE}
+library(ggforce)
+set.seed(838383)
+```
+
+Load and clean a dataset:
+
+```{r}
+data("penguins", package = "modeldata")
+
+penguins <- penguins %>%
+  drop_na()
+```
+
+## Tuning in unsupervised settings
+
+In *supervised modeling* scenarios, we observe values of a target (or "response")
+variable, and we measure the success of our model based on how well it predicts
+future response values.  To select hyperparameter values, we **tune** them, trying
+many possible values and measuring how well each performs when predicting
+target values of test data.
+
+In the *unsupervised modeling* setting of `tidyclust`, there is no such objective
+measure of success.  Clustering analyses are typically exploratory rather than
+testable.  Nonetheless, the core tuning principle of varying inputs and quantifying
+results is still applicable.
+
+
+## Specify and fit a model
+
+In this example, we will fit a $k$-means cluster model to the `palmerpenguins`
+dataset, using only the bill length and bill depth of penguins as predictors.
+
+(Please refer to the k-means vignette for an in-depth discussion of this model
+specification.)
+
+Our goal will be to select an appropriate number of clusters for the model 
+based on metrics.
+
+First, we set up cross-validation samples for our data:
+
+```{r}
+penguins_cv <- vfold_cv(penguins, v = 5)
+```
+
+Next, we specify our model with a tuning parameter, make a workflow,
+and establish a range of possible values of `num_clusters` to try:
+
+```{r}
+kmeans_spec <- k_means(num_clusters = tune()) 
+
+penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm, 
+                       data = penguins)
+
+kmeans_wflow <- workflow(penguins_rec, kmeans_spec)
+
+clust_num_grid <- grid_regular(num_clusters(), 
+                               levels = 10)
+  
+clust_num_grid
+
+```
+
+Then, we can use `tune_cluster()` to compute metrics on each cross-validation
+split, for each possible choice of number of clusters.
+
+```{r}
+res <- tune_cluster(
+  kmeans_wflow,
+  resamples = penguins_cv,
+  grid = clust_num_grid,
+  control = control_grid(save_pred = TRUE, extract = identity),
+  metrics = cluster_metric_set(tot_wss, tot_sse, sse_ratio)
+) 
+
+res
+```
+
+```{r}
+res_metrics <- res %>% collect_metrics()
+res_metrics
+```
+
+### Choosing hyperparameters
+
+In supervised learning, we would choose the model with the best value of a
+target metric.  However, clustering models in general have no such local maxima 
+or minima.  With more clusters in the model, we would always expect the within
+sum-of-squares to be smaller.
+
+A common approach to choosing a number of clusters is to look for an "elbow",
+or notable bend, in the plot of WSS/TSS ratio by cluster number:
+
+```{r}
+res_metrics %>%
+  filter(.metric == "sse_ratio") %>%
+  ggplot(aes(x = num_clusters, y = mean)) +
+  geom_point() + 
+  geom_line() + 
+  theme_minimal() +
+  ylab("mean WSS/TSS ratio, over 5 folds") +
+  xlab("Number of clusters") +
+  scale_x_continuous(breaks = 1:10)
+```
+
+At each increase in the number of clusters, the WSS/TSS ratio decreases, with the
+amount of decrease getting smaller as the number of clusters grows.  We might
+argue that the drop from two clusters to three, or from three to four, is a bit
+more extreme than the subsequent drops, so we should probably choose three or
+four clusters.
+
+
+
+<!-- ## Comparison to auxilary variables -->
+
+<!-- It is sometimes of interest to compare to external variables -->
+
+<!-- ```{r, eval=FALSE} -->
+<!-- kmeans_fit %>% -->
+<!--   augment(penguins) %>% -->
+<!--   enrichment(.pred_cluster, species) -->
+<!-- ``` -->
+
