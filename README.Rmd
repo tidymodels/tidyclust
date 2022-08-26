@@ -66,7 +66,7 @@ predict(kmeans_spec_fit, mtcars[1:4, ])
 extract_cluster_assignment(kmeans_spec_fit)
 ```
 
-and `extract_clusters()` returns the locations of the clusters
+and `extract_centroids()` returns the locations of the clusters
 
 ```{r}
 extract_centroids(kmeans_spec_fit)
