@@ -35,6 +35,7 @@ example we are creating a K-means model, using the `stats` engine.
 
 ``` r
 library(tidyclust)
+set.seed(1234)
 
 kmeans_spec <- k_means(num_clusters = 3) %>%
   set_engine("stats") 
@@ -56,38 +57,38 @@ kmeans_spec_fit <- kmeans_spec %>%
 kmeans_spec_fit
 #> tidyclust cluster object
 #> 
-#> K-means clustering with 3 clusters of sizes 11, 7, 14
+#> K-means clustering with 3 clusters of sizes 7, 14, 11
 #> 
 #> Cluster means:
 #>        mpg cyl     disp        hp     drat       wt     qsec        vs
-#> 1 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909
-#> 2 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286
-#> 3 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000
+#> 1 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286
+#> 2 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000
+#> 3 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909
 #>          am     gear     carb
-#> 1 0.7272727 4.090909 1.545455
-#> 2 0.4285714 3.857143 3.428571
-#> 3 0.1428571 3.285714 3.500000
+#> 1 0.4285714 3.857143 3.428571
+#> 2 0.1428571 3.285714 3.500000
+#> 3 0.7272727 4.090909 1.545455
 #> 
 #> Clustering vector:
 #>           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
-#>                   2                   2                   1                   2 
+#>                   1                   1                   3                   1 
 #>   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
-#>                   3                   2                   3                   1 
+#>                   2                   1                   2                   3 
 #>            Merc 230            Merc 280           Merc 280C          Merc 450SE 
-#>                   1                   2                   2                   3 
+#>                   3                   1                   1                   2 
 #>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
-#>                   3                   3                   3                   3 
+#>                   2                   2                   2                   2 
 #>   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
-#>                   3                   1                   1                   1 
+#>                   2                   3                   3                   3 
 #>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
-#>                   1                   3                   3                   3 
+#>                   3                   2                   2                   2 
 #>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
-#>                   3                   1                   1                   1 
+#>                   2                   3                   3                   3 
 #>      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
-#>                   3                   2                   3                   1 
+#>                   2                   1                   2                   3 
 #> 
 #> Within cluster sum of squares by cluster:
-#> [1] 11848.37 13954.34 93643.90
+#> [1] 13954.34 93643.90 11848.37
 #>  (between_SS / total_SS =  80.8 %)
 #> 
 #> Available components:
@@ -137,7 +138,7 @@ and `extract_centroids()` returns the locations of the clusters
 extract_centroids(kmeans_spec_fit)
 #> # A tibble: 3 × 12
 #>   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#>   <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#>   <fct>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 Cluster_1  19.7     6  183. 122.   3.59  3.12  18.0 0.571 0.429  3.86  3.43
 #> 2 Cluster_2  26.7     4  105.  82.6  4.07  2.29  19.1 0.909 0.727  4.09  1.55
 #> 3 Cluster_3  15.1     8  353. 209.   3.23  4.00  16.8 0     0.143  3.29  3.5
