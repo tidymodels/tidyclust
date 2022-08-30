@@ -17,6 +17,9 @@ test_that("extract summary works for kmeans", {
 
   expect_true(is.factor(summ1$cluster_names))
   expect_true(is.factor(summ1$cluster_assignments))
+
+  expect_true(is.factor(summ2$cluster_names))
+  expect_true(is.factor(summ2$cluster_assignments))
 })
 
 test_that("extract summary works for kmeans when num_clusters = 1", {

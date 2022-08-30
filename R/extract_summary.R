@@ -58,6 +58,12 @@ extract_fit_summary.kmeans <- function(object, ...) {
 extract_fit_summary.KMeansCluster <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
   names <- paste0("Cluster_", seq_len(nrow(object$centroids)))
+  names <- factor(names)
+
+  cluster_asignments <- factor(
+    names[reorder_clusts][object$clusters],
+    levels = levels(names)
+  )
 
   list(
     cluster_names = names,
@@ -66,7 +72,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,
     orig_labels = object$clusters,
-    cluster_assignments = names[reorder_clusts][object$clusters]
+    cluster_assignments = cluster_asignments
   )
 }
 
