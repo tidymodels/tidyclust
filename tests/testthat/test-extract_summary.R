@@ -14,6 +14,12 @@ test_that("extract summary works for kmeans", {
 
   # check order
   expect_equal(summ1$n_members, c(17, 11, 4))
+
+  expect_true(is.factor(summ1$cluster_names))
+  expect_true(is.factor(summ1$cluster_assignments))
+
+  expect_true(is.factor(summ2$cluster_names))
+  expect_true(is.factor(summ2$cluster_assignments))
 })
 
 test_that("extract summary works for kmeans when num_clusters = 1", {
@@ -37,4 +43,15 @@ test_that("extract summary works for kmeans when num_clusters = 1", {
     summ2$centroids,
     tibble::as_tibble(lapply(mtcars, mean))
   )
+})
+
+test_that("extract summary works for hier_clust", {
+  obj1 <- tidyclust::hier_clust(num_clusters = 4) %>%
+    fit(~., mtcars)
+
+  summ1 <- extract_fit_summary(obj1)
+
+  expect_true(is.factor(summ1$cluster_names))
+  expect_true(is.factor(summ1$cluster_assignments))
+
 })

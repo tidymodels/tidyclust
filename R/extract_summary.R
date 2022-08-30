@@ -1,10 +1,13 @@
-
 #' S3 method to get fitted model summary info depending on engine
 #'
 #' @param object a fitted cluster_spec object
 #' @param ... other arguments passed to methods
 #'
 #' @return A list with various summary elements
+#'
+#' @details
+#'
+#' The elements `cluster_names` and `cluster_assignments` will be factors.
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
@@ -33,6 +36,12 @@ extract_fit_summary.workflow <- function(object, ...) {
 extract_fit_summary.kmeans <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
   names <- paste0("Cluster_", seq_len(nrow(object$centers)))
+  names <- factor(names)
+
+  cluster_asignments <- factor(
+    names[reorder_clusts][object$cluster],
+    levels = levels(names)
+  )
 
   list(
     cluster_names = names,
@@ -41,7 +50,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
     orig_labels = unname(object$cluster),
-    cluster_assignments = names[reorder_clusts][object$cluster]
+    cluster_assignments = cluster_asignments
   )
 }
 
@@ -49,6 +58,12 @@ extract_fit_summary.kmeans <- function(object, ...) {
 extract_fit_summary.KMeansCluster <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
   names <- paste0("Cluster_", seq_len(nrow(object$centroids)))
+  names <- factor(names)
+
+  cluster_asignments <- factor(
+    names[reorder_clusts][object$clusters],
+    levels = levels(names)
+  )
 
   list(
     cluster_names = names,
@@ -57,7 +72,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,
     orig_labels = object$clusters,
-    cluster_assignments = names[reorder_clusts][object$clusters]
+    cluster_assignments = cluster_asignments
   )
 }
 
