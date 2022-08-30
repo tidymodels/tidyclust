@@ -56,39 +56,39 @@ kmeans_spec_fit <- kmeans_spec %>%
 kmeans_spec_fit
 #> tidyclust cluster object
 #> 
-#> K-means clustering with 3 clusters of sizes 9, 16, 7
+#> K-means clustering with 3 clusters of sizes 11, 7, 14
 #> 
 #> Cluster means:
-#>        mpg      cyl     disp       hp     drat       wt     qsec        vs
-#> 1 14.64444 8.000000 388.2222 232.1111 3.343333 4.161556 16.40444 0.0000000
-#> 2 24.50000 4.625000 122.2937  96.8750 4.002500 2.518000 18.54312 0.7500000
-#> 3 17.01429 7.428571 276.0571 150.7143 2.994286 3.601429 18.11857 0.2857143
+#>        mpg cyl     disp        hp     drat       wt     qsec        vs
+#> 1 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909
+#> 2 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286
+#> 3 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000
 #>          am     gear     carb
-#> 1 0.2222222 3.444444 4.000000
-#> 2 0.6875000 4.125000 2.437500
-#> 3 0.0000000 3.000000 2.142857
+#> 1 0.7272727 4.090909 1.545455
+#> 2 0.4285714 3.857143 3.428571
+#> 3 0.1428571 3.285714 3.500000
 #> 
 #> Clustering vector:
 #>           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
-#>                   2                   2                   2                   3 
+#>                   2                   2                   1                   2 
 #>   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
-#>                   1                   3                   1                   2 
+#>                   3                   2                   3                   1 
 #>            Merc 230            Merc 280           Merc 280C          Merc 450SE 
-#>                   2                   2                   2                   3 
+#>                   1                   2                   2                   3 
 #>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
-#>                   3                   3                   1                   1 
+#>                   3                   3                   3                   3 
 #>   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
-#>                   1                   2                   2                   2 
+#>                   3                   1                   1                   1 
 #>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
-#>                   2                   3                   3                   1 
+#>                   1                   3                   3                   3 
 #>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
-#>                   1                   2                   2                   2 
+#>                   3                   1                   1                   1 
 #>      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
-#>                   1                   2                   1                   2 
+#>                   3                   2                   3                   1 
 #> 
 #> Within cluster sum of squares by cluster:
-#> [1] 46659.32 32838.00 11846.09
-#>  (between_SS / total_SS =  85.3 %)
+#> [1] 11848.37 13954.34 93643.90
+#>  (between_SS / total_SS =  80.8 %)
 #> 
 #> Available components:
 #> 
@@ -106,8 +106,8 @@ predict(kmeans_spec_fit, mtcars[1:4, ])
 #>   <fct>        
 #> 1 Cluster_1    
 #> 2 Cluster_1    
-#> 3 Cluster_1    
-#> 4 Cluster_2
+#> 3 Cluster_2    
+#> 4 Cluster_1
 ```
 
 `extract_cluster_assignment()` returns the cluster assignments of the
@@ -120,26 +120,25 @@ extract_cluster_assignment(kmeans_spec_fit)
 #>    <fct>    
 #>  1 Cluster_1
 #>  2 Cluster_1
-#>  3 Cluster_1
-#>  4 Cluster_2
+#>  3 Cluster_2
+#>  4 Cluster_1
 #>  5 Cluster_3
-#>  6 Cluster_2
+#>  6 Cluster_1
 #>  7 Cluster_3
-#>  8 Cluster_1
-#>  9 Cluster_1
+#>  8 Cluster_2
+#>  9 Cluster_2
 #> 10 Cluster_1
 #> # … with 22 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
 ```
 
-and `extract_clusters()` returns the locations of the clusters
+and `extract_centroids()` returns the locations of the clusters
 
 ``` r
 extract_centroids(kmeans_spec_fit)
 #> # A tibble: 3 × 12
 #>   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #>   <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 Cluster_1  17.0  7.43  276. 151.   2.99  3.60  18.1 0.286 0      3     2.14
-#> 2 Cluster_2  14.6  8     388. 232.   3.34  4.16  16.4 0     0.222  3.44  4   
-#> 3 Cluster_3  24.5  4.62  122.  96.9  4.00  2.52  18.5 0.75  0.688  4.12  2.44
+#> 1 Cluster_1  19.7     6  183. 122.   3.59  3.12  18.0 0.571 0.429  3.86  3.43
+#> 2 Cluster_2  26.7     4  105.  82.6  4.07  2.29  19.1 0.909 0.727  4.09  1.55
+#> 3 Cluster_3  15.1     8  353. 209.   3.23  4.00  16.8 0     0.143  3.29  3.5
 ```
