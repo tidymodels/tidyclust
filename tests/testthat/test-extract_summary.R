@@ -14,6 +14,9 @@ test_that("extract summary works for kmeans", {
 
   # check order
   expect_equal(summ1$n_members, c(17, 11, 4))
+
+  expect_true(is.factor(summ1$cluster_names))
+  expect_true(is.factor(summ1$cluster_assignments))
 })
 
 test_that("extract summary works for kmeans when num_clusters = 1", {

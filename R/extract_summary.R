@@ -33,6 +33,12 @@ extract_fit_summary.workflow <- function(object, ...) {
 extract_fit_summary.kmeans <- function(object, ...) {
   reorder_clusts <- order(unique(object$cluster))
   names <- paste0("Cluster_", seq_len(nrow(object$centers)))
+  names <- factor(names)
+
+  cluster_asignments <- factor(
+    names[reorder_clusts][object$cluster],
+    levels = levels(names)
+  )
 
   list(
     cluster_names = names,
@@ -41,7 +47,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
     orig_labels = unname(object$cluster),
-    cluster_assignments = names[reorder_clusts][object$cluster]
+    cluster_assignments = cluster_asignments
   )
 }
 
