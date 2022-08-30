@@ -250,8 +250,7 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Cluster_2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Cluster_1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Cluster_3</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
 <p>Note that this function renames clusters in accordance with the standard <code>tidyclust</code> naming convention and ordering: clusters are named “Cluster_1”, “Cluster_2”, etc. and are numbered by the order they appear in the rows of the training dataset.</p>
 <p>To reconcile these standardized cluster labels with the engine output, refer back to the full model fit summary:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -272,8 +271,7 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>           3 Cluster_2      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>           2 Cluster_1      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>           1 Cluster_3      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
 <p>In this example, we see that the cluster labelled “3” by the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> engine function - a label that is assigned randomly by this implementation - is the first to appear in the training data, so it is converted to “Cluster_1” in the standardized labels.</p>
 <div class="section level3">
 <h3 id="centroids">Centroids<a class="anchor" aria-label="anchor" href="#centroids"></a>
@@ -345,8 +343,7 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>           46.6          14.2 Cluster_2    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>           34.4          18.4 Cluster_1    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>           49.8          15.9 Cluster_3    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a>
