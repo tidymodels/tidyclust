@@ -17,6 +17,9 @@ A list with various summary elements
 \description{
 S3 method to get fitted model summary info depending on engine
 }
+\details{
+The elements \code{cluster_names} and \code{cluster_assignments} will be factors.
+}
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%
   set_engine("stats")

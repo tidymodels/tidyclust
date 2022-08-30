@@ -1,10 +1,13 @@
-
 #' S3 method to get fitted model summary info depending on engine
 #'
 #' @param object a fitted cluster_spec object
 #' @param ... other arguments passed to methods
 #'
 #' @return A list with various summary elements
+#'
+#' @details
+#'
+#' The elements `cluster_names` and `cluster_assignments` will be factors.
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
