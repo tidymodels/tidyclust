@@ -380,4 +380,3 @@ test_that("select_best() and show_best() works", {
       dplyr::select(num_clusters, .config)
   )
 })
-
