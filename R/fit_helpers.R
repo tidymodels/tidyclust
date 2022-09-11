@@ -68,6 +68,9 @@ form_x <- function(object, control, env, target = "none", ...) {
 }
 
 x_x <- function(object, env, control, target = "none", y = NULL, ...) {
+  if (!is.null(y) && length(y) > 0) {
+    rlang::abort("Outcomes are not used in `cluster_spec` objects.")
+  }
   encoding_info <-
     get_encoding_tidyclust(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
