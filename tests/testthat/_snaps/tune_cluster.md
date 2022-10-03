@@ -5,6 +5,11 @@
       grid = cars_grid, control = tune::control_grid(extract = function(x) {
         1
       }, save_pred = TRUE))
+    Message <simpleMessage>
+      x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
+      ! The following predi...
+      x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
+      ! The following predi...
     Warning <rlang_warning>
       All models failed. See the `.notes` column.
 
