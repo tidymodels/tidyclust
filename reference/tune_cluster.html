@@ -73,7 +73,7 @@ or recipe across one or more resamples of the data.</p>
 <span>  param_info <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  grid <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  metrics <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  control <span class="op">=</span> <span class="fu"><a href="control_cluster.html">control_cluster</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  control <span class="op">=</span> <span class="fu">tune</span><span class="fu">::</span><span class="fu"><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for workflow</span></span>
@@ -125,7 +125,8 @@ parameter sets to be created automatically.</p></dd>
 
 
 <dt>control</dt>
-<dd><p>An object used to modify the tuning process.</p></dd>
+<dd><p>An object used to modify the tuning process. Defaults to
+<code><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">tune::control_grid()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
