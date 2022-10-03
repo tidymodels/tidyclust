@@ -117,6 +117,32 @@ test_that("tune model and recipe", {
   expect_true(res_workflow$trained)
 })
 
+test_that("verbose argument works", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(4400)
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+    workflows::add_model(helper_objects$kmeans_mod)
+  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+    update(num_comp = dials::num_comp(c(1, 3)))
+  grid <- dials::grid_regular(pset, levels = 3)
+  grid$num_clusters <- grid$num_clusters + 1
+  folds <- rsample::vfold_cv(mtcars)
+  control <- tune::control_grid(extract = identity, verbose = TRUE)
+  metrics <- cluster_metric_set(tot_wss, tot_sse)
+
+  expect_snapshot(
+    res <- tune_cluster(
+      wflow,
+      resamples = folds,
+      grid = grid,
+      control = control,
+      metrics = metrics
+    )
+  )
+})
+
 test_that('tune model and recipe (parallel_over = "everything")', {
   helper_objects <- helper_objects_tidyclust()
 

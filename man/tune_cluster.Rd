@@ -16,7 +16,7 @@ tune_cluster(object, ...)
   param_info = NULL,
   grid = 10,
   metrics = NULL,
-  control = control_cluster()
+  control = tune::control_grid()
 )
 
 \method{tune_cluster}{workflow}(
@@ -50,7 +50,8 @@ parameter sets to be created automatically.}
 
 \item{metrics}{A \code{\link[=cluster_metric_set]{cluster_metric_set()}} or \code{NULL}.}
 
-\item{control}{An object used to modify the tuning process.}
+\item{control}{An object used to modify the tuning process. Defaults to
+\code{tune::control_grid()}.}
 }
 \value{
 An updated version of \code{resamples} with extra list columns for
