@@ -16,7 +16,8 @@
 #'   tuning parameter candidates. An integer denotes the number of candidate
 #'   parameter sets to be created automatically.
 #' @param metrics A [cluster_metric_set()] or `NULL`.
-#' @param control An object used to modify the tuning process.
+#' @param control An object used to modify the tuning process. Defaults to
+#'   `tune::control_grid()`.
 #' @param ... Not currently used.
 #' @return An updated version of `resamples` with extra list columns for
 #'   `.metrics` and `.notes` (optional columns are `.predictions` and
@@ -44,7 +45,7 @@ tune_cluster.default <- function(object, ...) {
 tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
                                       param_info = NULL, grid = 10,
                                       metrics = NULL,
-                                      control = control_cluster()) {
+                                      control = tune::control_grid()) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
     rlang::abort(paste(
       "To tune a model spec, you must preprocess",
