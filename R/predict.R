@@ -118,7 +118,7 @@ prepare_data <- function(object, new_data) {
   }
 
   remove_intercept <-
-    get_encoding_tidyclust(class(object$spec)[1]) %>%
+    modelenv::get_encoding(class(object$spec)[1]) %>%
     dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
     dplyr::pull(remove_intercept)
   if (remove_intercept & any(grepl("Intercept", names(new_data)))) {

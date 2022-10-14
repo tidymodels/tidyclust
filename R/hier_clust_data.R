@@ -1,13 +1,15 @@
-set_new_model_tidyclust("hier_clust")
+make_hier_clust <- function() {
+modelenv::set_new_model("hier_clust")
 
-set_model_mode_tidyclust("hier_clust", "partition")
+modelenv::set_model_mode("hier_clust", "partition")
 
 # ------------------------------------------------------------------------------
 
-set_model_engine_tidyclust("hier_clust", "partition", "stats")
-set_dependency_tidyclust("hier_clust", "stats", "stats")
+modelenv::set_model_engine("hier_clust", "partition", "stats")
+modelenv::set_dependency(model = "hier_clust", mode = "partition", eng = "stats", pkg = "stats")
+modelenv::set_dependency(model = "hier_clust", mode = "partition", eng = "stats", pkg = "tidyclust")
 
-set_fit_tidyclust(
+modelenv::set_fit(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
@@ -19,7 +21,7 @@ set_fit_tidyclust(
   )
 )
 
-set_encoding_tidyclust(
+modelenv::set_encoding(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
@@ -31,34 +33,34 @@ set_encoding_tidyclust(
   )
 )
 
-set_model_arg_tidyclust(
+modelenv::set_model_arg(
   model = "hier_clust",
   eng = "stats",
-  tidyclust = "num_clusters",
+  exposed = "num_clusters",
   original = "num_clusters",
   func = list(pkg = "tidyclust", fun = "num_clusters"),
   has_submodel = TRUE
 )
 
-set_model_arg_tidyclust(
+modelenv::set_model_arg(
   model = "hier_clust",
   eng = "stats",
-  tidyclust = "linkage_method",
+  exposed = "linkage_method",
   original = "linkage_method",
   func = list(pkg = "tidyclust", fun = "linkage_method"),
   has_submodel = TRUE
 )
 
-set_model_arg_tidyclust(
+modelenv::set_model_arg(
   model = "hier_clust",
   eng = "stats",
-  tidyclust = "cut_height",
+  exposed = "cut_height",
   original = "cut_height",
   func = list(pkg = "tidyclust", fun = "cut_height"),
   has_submodel = TRUE
 )
 
-set_pred_tidyclust(
+modelenv::set_pred(
   model = "hier_clust",
   eng = "stats",
   mode = "partition",
@@ -77,10 +79,10 @@ set_pred_tidyclust(
 
 # ------------------------------------------------------------------------------
 #
-# set_model_engine_tidyclust("k_means", "partition", "ClusterR")
-# set_dependency_tidyclust("k_means", "ClusterR", "ClusterR")
+# modelenv::set_model_engine("k_means", "partition", "ClusterR")
+# modelenv::set_dependency("k_means", "ClusterR", "ClusterR")
 #
-# set_fit_tidyclust(
+# modelenv::set_fit(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
@@ -93,7 +95,7 @@ set_pred_tidyclust(
 #   )
 # )
 #
-# set_encoding_tidyclust(
+# modelenv::set_encoding(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
@@ -105,7 +107,7 @@ set_pred_tidyclust(
 #   )
 # )
 #
-# set_model_arg_tidyclust(
+# modelenv::set_model_arg(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   tidyclust = "k",
@@ -114,7 +116,7 @@ set_pred_tidyclust(
 #   has_submodel = TRUE
 # )
 #
-# set_pred_tidyclust(
+# modelenv::set_pred(
 #   model = "k_means",
 #   eng = "ClusterR",
 #   mode = "partition",
@@ -130,3 +132,4 @@ set_pred_tidyclust(
 #       )
 #   )
 # )
+}

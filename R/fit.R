@@ -75,7 +75,7 @@
 #'   `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See
-#'   `tidyclust::get_encoding_tidyclust()` for details. `x` should have column names.
+#'   `modelenv::get_encoding()` for details. `x` should have column names.
 #' @param case_weights An optional classed vector of numeric case weights. This
 #'   must return `TRUE` when [hardhat::is_case_weights()] is run on it. See
 #'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
@@ -196,7 +196,11 @@ inher <- function(x, cls, cl) {
 
 add_methods <- function(x, engine) {
   x$engine <- engine
-  check_spec_mode_engine_val(class(x)[1], x$engine, x$mode)
+  modelenv:::check_spec_mode_engine_val(
+    model = class(x)[1],
+    mode = x$mode,
+    eng = x$engine
+  )
   x$method <- get_cluster_spec(specific_model(x), x$mode, x$engine)
   x
 }
@@ -329,6 +333,6 @@ check_x_interface <- function(x, cl, model) {
 }
 
 allow_sparse <- function(x) {
-  res <- get_from_env_tidyclust(paste0(class(x)[1], "_encoding"))
+  res <- modelenv::get_from_env(paste0(class(x)[1], "_encoding"))
   all(res$allow_sparse_x[res$engine == x$engine])
 }

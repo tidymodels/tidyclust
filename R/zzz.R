@@ -1,6 +1,9 @@
 # nocov start
 
 .onLoad <- function(libname, pkgname) {
+  make_hier_clust()
+  make_k_means()
+
   s3_register("generics::required_pkgs", "cluster_fit")
   s3_register("generics::required_pkgs", "cluster_spec")
 

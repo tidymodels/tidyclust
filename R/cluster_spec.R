@@ -7,7 +7,7 @@
 #' @keywords internal
 #' @rdname add_on_exports
 new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
-  check_spec_mode_engine_val(cls, engine, mode)
+  modelenv:::check_spec_mode_engine_val(model = cls, mode = mode, eng = engine)
 
   out <- list(
     args = args, eng_args = eng_args,

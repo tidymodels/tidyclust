@@ -48,7 +48,11 @@ translate_tidyclust.default <- function(x, engine = x$engine, ...) {
     rlang::abort("Model code depends on the mode; please specify one.")
   }
 
-  check_spec_mode_engine_val(class(x)[1], x$engine, x$mode)
+  modelenv:::check_spec_mode_engine_val(
+    model = class(x)[1],
+    mode = x$mode,
+    eng = x$engine
+  )
 
   if (is.null(x$method)) {
     x$method <- get_cluster_spec(mod_name, x$mode, engine)
@@ -87,7 +91,7 @@ translate_tidyclust.default <- function(x, engine = x$engine, ...) {
 # new code for revised model data structures
 
 get_cluster_spec <- function(model, mode, engine) {
-  m_env <- get_model_env_tidyclust()
+  m_env <- modelenv::get_model_env()
   env_obj <- rlang::env_names(m_env)
   env_obj <- grep(model, env_obj, value = TRUE)
 
@@ -116,7 +120,7 @@ get_cluster_spec <- function(model, mode, engine) {
 }
 
 get_args <- function(model, engine) {
-  m_env <- get_model_env_tidyclust()
+  m_env <- modelenv::get_model_env()
   rlang::env_get(m_env, paste0(model, "_args")) %>%
     dplyr::filter(engine == !!engine) %>%
     dplyr::select(-engine)
@@ -127,9 +131,9 @@ deharmonize <- function(args, key) {
   if (length(args) == 0) {
     return(args)
   }
-  parsn <- tibble::tibble(tidyclust = names(args), order = seq_along(args))
+  parsn <- tibble::tibble(exposed = names(args), order = seq_along(args))
   merged <-
-    dplyr::left_join(parsn, key, by = "tidyclust") %>%
+    dplyr::left_join(parsn, key, by = "exposed") %>%
     dplyr::arrange(order)
   # TODO correct for bad merge?
 

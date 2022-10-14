@@ -29,7 +29,7 @@ options required to fit the model should be passed using
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
 models have support for sparse matrix input. See
-\code{tidyclust::get_encoding_tidyclust()} for details. \code{x} should have column names.}
+\code{modelenv::get_encoding()} for details. \code{x} should have column names.}
 
 \item{case_weights}{An optional classed vector of numeric case weights. This
 must return \code{TRUE} when \code{\link[hardhat:is_case_weights]{hardhat::is_case_weights()}} is run on it. See
