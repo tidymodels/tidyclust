@@ -52,7 +52,7 @@ VignetteBuilder:
     knitr
 Remotes:
     tidymodels/parsnip,
-    tidymodels/workflows@celery,
+    tidymodels/workflows@modelenv,
     emilhvitfeldt/modelenv
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins, patchwork, ggforce
 Config/testthat/edition: 3
