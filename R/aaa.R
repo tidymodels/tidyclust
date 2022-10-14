@@ -13,3 +13,11 @@ utils::globalVariables(
 )
 
 # nocov end
+
+# ------------------------------------------------------------------------------
+
+# Initialize model environments
+
+all_modes <- c("partition")
+
+pred_types <- c("cluster", "raw")
