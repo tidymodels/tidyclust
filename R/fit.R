@@ -159,6 +159,7 @@ fit.cluster_spec <- function(object,
     )
   model_classes <- class(res$fit)
   class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
+  res <- modelenv::new_unsupervised_fit(res)
   res
 }
 
