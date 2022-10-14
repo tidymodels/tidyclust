@@ -6,7 +6,7 @@ set_engine.cluster_spec <- function(object, engine, ...) {
     stop_missing_engine(mod_type)
   }
   object$engine <- engine
-  modelenv:::check_spec_mode_engine_val(
+  modelenv::check_spec_mode_engine_val(
     model = mod_type,
     mode = object$mode,
     eng = object$engine

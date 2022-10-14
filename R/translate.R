@@ -48,7 +48,7 @@ translate_tidyclust.default <- function(x, engine = x$engine, ...) {
     rlang::abort("Model code depends on the mode; please specify one.")
   }
 
-  modelenv:::check_spec_mode_engine_val(
+  modelenv::check_spec_mode_engine_val(
     model = class(x)[1],
     mode = x$mode,
     eng = x$engine

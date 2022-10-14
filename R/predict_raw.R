@@ -13,7 +13,7 @@ predict_raw.cluster_fit <- function(object, new_data, opts = list(), ...) {
       c(object$spec$method$pred$raw$args, opts)
   }
 
-  modelenv:::check_spec_pred_type(object, "raw")
+  check_spec_pred_type(object, "raw")
 
   if (inherits(object$fit, "try-error")) {
     rlang::warn("Cluster fit failed; cannot make predictions.")

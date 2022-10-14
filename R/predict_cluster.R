@@ -17,7 +17,7 @@ predict_cluster <- function(object, ...) {
 #' @export predict_cluster.cluster_fit
 #' @export
 predict_cluster.cluster_fit <- function(object, new_data, ...) {
-  modelenv:::check_spec_pred_type(object, "cluster")
+  check_spec_pred_type(object, "cluster")
 
   if (inherits(object$fit, "try-error")) {
     rlang::warn("Model fit failed; cannot make predictions.")

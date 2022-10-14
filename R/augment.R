@@ -21,7 +21,7 @@
 augment.cluster_fit <- function(x, new_data, ...) {
   ret <- new_data
   if (x$spec$mode == "partition") {
-    modelenv:::check_spec_pred_type(x, "cluster")
+    check_spec_pred_type(x, "cluster")
     ret <- dplyr::bind_cols(
       ret,
       stats::predict(x, new_data = new_data)

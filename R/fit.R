@@ -196,7 +196,7 @@ inher <- function(x, cls, cl) {
 
 add_methods <- function(x, engine) {
   x$engine <- engine
-  modelenv:::check_spec_mode_engine_val(
+  modelenv::check_spec_mode_engine_val(
     model = class(x)[1],
     mode = x$mode,
     eng = x$engine

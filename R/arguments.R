@@ -99,9 +99,9 @@ set_mode.cluster_spec <- function(object, mode) {
       modelenv::get_model_env(),
       paste0(cls, "_modes")
     )
-    modelenv:::stop_incompatible_mode(spec_modes, cls = cls)
+    modelenv::stop_incompatible_mode(spec_modes, model = cls)
   }
-  modelenv:::check_spec_mode_engine_val(
+  modelenv::check_spec_mode_engine_val(
     model = cls,
     mode = mode,
     eng = object$engine
