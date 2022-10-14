@@ -14,6 +14,7 @@ new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
     mode = mode, method = method, engine = engine
   )
   class(out) <- make_classes_tidyclust(cls)
+  out <- modelenv::new_unsupervised_spec(out)
   out
 }
 

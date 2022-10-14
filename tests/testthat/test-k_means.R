@@ -81,7 +81,10 @@ test_that("predictions", {
 })
 
 test_that("Right classes", {
-  expect_equal(class(k_means()), c("k_means", "cluster_spec"))
+  expect_equal(
+    class(k_means()),
+    c("k_means", "cluster_spec", "unsupervised_spec")
+  )
 })
 
 test_that("printing", {

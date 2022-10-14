@@ -55,7 +55,7 @@ load_libs <- function(x, quiet, attach = FALSE) {
 
 specific_model <- function(x) {
   cls <- class(x)
-  cls[cls != "cluster_spec"]
+  cls[!cls %in% c("cluster_spec", "unsupervised_spec")]
 }
 
 possible_engines <- function(object, ...) {
