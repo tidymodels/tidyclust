@@ -24,6 +24,7 @@ Imports:
     glue,
     hardhat (>= 0.1.6.9001),
     magrittr,
+    modelenv,
     parsnip,
     prettyunits,
     RcppHungarian,
@@ -51,7 +52,7 @@ VignetteBuilder:
     knitr
 Remotes:
     tidymodels/parsnip,
-    tidymodels/workflows@celery
+    tidymodels/workflows
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins, patchwork, ggforce
 Config/testthat/edition: 3
 Encoding: UTF-8

@@ -39,7 +39,7 @@ form_form <- function(object, control, env, ...) {
 
 form_x <- function(object, control, env, target = "none", ...) {
   encoding_info <-
-    get_encoding_tidyclust(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   indicators <- encoding_info %>% dplyr::pull(predictor_indicators)
@@ -72,7 +72,7 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
     rlang::abort("Outcomes are not used in `cluster_spec` objects.")
   }
   encoding_info <-
-    get_encoding_tidyclust(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
@@ -118,7 +118,7 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
 
 x_form <- function(object, env, control, ...) {
   encoding_info <-
-    get_encoding_tidyclust(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) %>%
     dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)

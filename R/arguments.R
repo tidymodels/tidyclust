@@ -96,12 +96,16 @@ set_mode.cluster_spec <- function(object, mode) {
   cls <- class(object)[1]
   if (rlang::is_missing(mode)) {
     spec_modes <- rlang::env_get(
-      get_model_env_tidyclust(),
+      modelenv::get_model_env(),
       paste0(cls, "_modes")
     )
-    stop_incompatible_mode(spec_modes, cls = cls)
+    modelenv::stop_incompatible_mode(spec_modes, model = cls)
   }
-  check_spec_mode_engine_val(cls, object$engine, mode)
+  modelenv::check_spec_mode_engine_val(
+    model = cls,
+    mode = mode,
+    eng = object$engine
+  )
   object$mode <- mode
   object
 }

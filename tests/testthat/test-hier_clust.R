@@ -67,7 +67,10 @@ test_that("predictions", {
 })
 
 test_that("Right classes", {
-  expect_equal(class(hier_clust()), c("hier_clust", "cluster_spec"))
+  expect_equal(
+    class(hier_clust()),
+    c("hier_clust", "cluster_spec", "unsupervised_spec")
+  )
 })
 
 test_that("printing", {

@@ -3,13 +3,22 @@
 
 utils::globalVariables(
   c(
-    "engine", "predictor_indicators", "compute_intercept", "remove_intercept",
-    "value", "x", "y", "engine2", "lab", "original", "type", "cluster",
-    "neighbor", "sil_width", "orig_label", ".cluster", ".submodels",
-    "data", "tunable", "component_id", "call_info", "..object", "splits",
-    "func", "name", "component", "seed", "iteration", ".iter_model",
-    ".iter_config", ".msg_model", ".iter_preprocessor", "id", "dist", "."
+    ".", "..object", ".cluster", ".iter_config", ".iter_model",
+    ".iter_preprocessor", ".msg_model", ".submodels", "call_info", "cluster",
+    "component", "component_id", "compute_intercept", "data", "dist", "engine",
+    "engine2", "exposed", "func", "id", "iteration", "lab", "name", "neighbor",
+    "new_data", "object", "orig_label", "original", "predictor_indicators",
+    "remove_intercept", "seed", "sil_width", "splits", "tunable", "type",
+    "value", "x", "y"
   )
 )
 
 # nocov end
+
+# ------------------------------------------------------------------------------
+
+# Initialize model environments
+
+all_modes <- c("partition")
+
+pred_types <- c("cluster", "raw")

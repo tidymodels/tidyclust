@@ -6,7 +6,11 @@ set_engine.cluster_spec <- function(object, engine, ...) {
     stop_missing_engine(mod_type)
   }
   object$engine <- engine
-  check_spec_mode_engine_val(mod_type, object$engine, object$mode)
+  modelenv::check_spec_mode_engine_val(
+    model = mod_type,
+    mode = object$mode,
+    eng = object$engine
+  )
 
   new_cluster_spec(
     cls = mod_type,
@@ -20,7 +24,7 @@ set_engine.cluster_spec <- function(object, engine, ...) {
 
 stop_missing_engine <- function(cls) {
   info <-
-    get_from_env_tidyclust(cls) %>%
+    modelenv::get_from_env(cls) %>%
     dplyr::group_by(mode) %>%
     dplyr::summarize(
       msg = paste0(
@@ -51,11 +55,11 @@ load_libs <- function(x, quiet, attach = FALSE) {
 
 specific_model <- function(x) {
   cls <- class(x)
-  cls[cls != "cluster_spec"]
+  cls[!cls %in% c("cluster_spec", "unsupervised_spec")]
 }
 
 possible_engines <- function(object, ...) {
-  m_env <- get_model_env_tidyclust()
+  m_env <- modelenv::get_model_env()
   engs <- rlang::env_get(m_env, specific_model(object))
   unique(engs$engine)
 }
