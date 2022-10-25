@@ -79,9 +79,6 @@
     <loc>/reference/get_centroid_dists.html</loc>
   </url>
   <url>
-    <loc>/reference/get_model_env_tidyclust.html</loc>
-  </url>
-  <url>
     <loc>/reference/glance.cluster_fit.html</loc>
   </url>
   <url>
@@ -122,9 +119,6 @@
   </url>
   <url>
     <loc>/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>/reference/set_new_model_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/silhouettes.html</loc>
