@@ -66,6 +66,27 @@ test_that("predictions", {
   )
 })
 
+test_that("predictions with new data", {
+  set.seed(1234)
+  hclust_fit <- hier_clust(num_clusters = 4) %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  set.seed(1234)
+  ref_res <- cutree(hclust(dist(mtcars)), k = 4)
+
+  ref_predictions <- ref_res %>% unname()
+
+  relevel_preds <- function(x) {
+    factor(unname(x), unique(unname(x))) %>% as.numeric()
+  }
+
+  expect_equal(
+    relevel_preds(predict(hclust_fit, mtcars[1:10, ])$.pred_cluster),
+    predict(hclust_fit, mtcars[1:10, ])$.pred_cluster %>% as.numeric()
+  )
+})
+
 test_that("Right classes", {
   expect_equal(
     class(hier_clust()),
