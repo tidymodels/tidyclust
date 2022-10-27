@@ -34,7 +34,7 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
     )
 
     # need this to be obs on rows, dist to new data on cols
-    dists_new <- Rfast::dista(new_data, training_data, trans = TRUE)
+    dists_new <- Rfast::dista(xnew = training_data, x = new_data, trans = TRUE)
 
     cluster_dists <- dplyr::bind_cols(data.frame(dists_new), clusters) %>%
       dplyr::group_by(.cluster) %>%
