@@ -187,3 +187,18 @@ print.cluster_metric_set <- function(x, ...) {
   print(info)
   invisible(x)
 }
+
+extract_post_preprocessor <- function(object, new_data) {
+  preprocessor <- hardhat::extract_preprocessor(object)
+
+  if (inherits(preprocessor, "workflow_variables")) {
+    new_data <- dplyr::select(new_data, !!preprocessor$predictors)
+  } else if (rlang::is_formula(preprocessor)) {
+    new_data <- hardhat::mold(preprocessor, new_data)$predictors
+  } else if (inherits(preprocessor, "recipe")) {
+    new_data <- object %>%
+      hardhat::extract_recipe() %>%
+      recipes::bake(new_data)
+  }
+  new_data
+}

@@ -21,12 +21,9 @@
 within_cluster_sse <- function(object, new_data = NULL,
                                dist_fun = Rfast::dista) {
 
-
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-    new_data <- object %>%
-      hardhat::extract_recipe() %>%
-      recipes::bake(new_data)
+    new_data <- extract_post_preprocessor(object, new_data)
   }
 
   summ <- extract_fit_summary(object)
@@ -182,9 +179,7 @@ tot_sse_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
 tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-    new_data <- object %>%
-      hardhat::extract_recipe() %>%
-      recipes::bake(new_data)
+    new_data <- extract_post_preprocessor(object, new_data)
   }
 
   summ <- extract_fit_summary(object)
