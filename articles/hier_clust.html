@@ -89,7 +89,9 @@
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p><strong>Important:</strong> Make sure to install the developer version of <code>parsnip</code> and <code>workflows</code> to access all current functionality of <code>tidyclust</code>:</p>
+<p><strong>Important:</strong> Make sure to install the developer
+version of <code>parsnip</code> and <code>workflows</code> to access all
+current functionality of <code>tidyclust</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/parsnip"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/workflows@celery"</span><span class="op">)</span></span></code></pre></div>
@@ -130,7 +132,7 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">tidyclust</span>::<span style="color: #00BB00;">prepare_data()</span> masks <span style="color: #0000BB;">parsnip</span>::prepare_data()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>         masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>           masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Learn how to get started at <span style="color: #00BB00;">https://www.tidymodels.org/start/</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
@@ -143,28 +145,40 @@
 <span><span class="co"># shuffle rows</span></span>
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>If you have not yet read the <code>k_means</code> vignette, we recommend reading that first; functions that are used in this vignette are explained in more detail there.</p>
+<p>If you have not yet read the <code>k_means</code> vignette, we
+recommend reading that first; functions that are used in this vignette
+are explained in more detail there.</p>
 </div>
 <div class="section level2">
 <h2 id="a-brief-introduction-to-hierarchical-clustering">A brief introduction to hierarchical clustering<a class="anchor" aria-label="anchor" href="#a-brief-introduction-to-hierarchical-clustering"></a>
 </h2>
-<p><em>Hierarchical Clustering</em>, sometimes called <em>Agglomerative Clustering</em>, is a method of <em>unsupervised</em> learning that produces a <em>dendrogram</em>, which can be used to partition observations into clusters.</p>
-<p>The hierarchical clustering process begins with each observation in it’s own cluster; i.e., <em>n</em> clusters for <em>n</em> observations.</p>
+<p><em>Hierarchical Clustering</em>, sometimes called <em>Agglomerative
+Clustering</em>, is a method of <em>unsupervised</em> learning that
+produces a <em>dendrogram</em>, which can be used to partition
+observations into clusters.</p>
+<p>The hierarchical clustering process begins with each observation in
+it’s own cluster; i.e., <em>n</em> clusters for <em>n</em>
+observations.</p>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>The closest two observations are then joined together into a single cluster.</p>
+<p>The closest two observations are then joined together into a single
+cluster.</p>
 <pre><code><span><span class="co">#&gt; Warning in dist(fake_dat): NAs introduced by coercion</span></span></code></pre>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>This process continues, with the closest two clusters being joined (or “aggolermated”) at each step.</p>
+<p>This process continues, with the closest two clusters being joined
+(or “aggolermated”) at each step.</p>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>The result of the process is a <strong>dendrogram</strong>, which shows the joining of clusters in tree form:</p>
+<p>The result of the process is a <strong>dendrogram</strong>, which
+shows the joining of clusters in tree form:</p>
 <pre><code><span><span class="co">#&gt; Warning in dist(fake_dat): NAs introduced by coercion</span></span></code></pre>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <div class="section level3">
 <h3 id="clusters-from-dendrogram">Clusters from dendrogram<a class="anchor" aria-label="anchor" href="#clusters-from-dendrogram"></a>
 </h3>
-<p>To produce a partition-style cluster assignment from the dendrogram, one must “cut” the tree at a chosen height:</p>
+<p>To produce a partition-style cluster assignment from the dendrogram,
+one must “cut” the tree at a chosen height:</p>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>The observations that remain joined in the dendrogram below the cut height are considered to be in a cluster together:</p>
+<p>The observations that remain joined in the dendrogram below the cut
+height are considered to be in a cluster together:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 2</span></span></span>
 <span><span class="co">#&gt;   observation cluster_assignment</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -177,23 +191,43 @@
 <div class="section level3">
 <h3 id="methods-of-aggolmeration">Methods of aggolmeration<a class="anchor" aria-label="anchor" href="#methods-of-aggolmeration"></a>
 </h3>
-<p>At the every step of the agglomeration, we measure distances between current clusters. With each cluster containing (possibly) multiple points, what does it mean to measure distance?</p>
-<p>There are four common approaches to cluster-cluster distancing, aka “linkage”:</p>
+<p>At the every step of the agglomeration, we measure distances between
+current clusters. With each cluster containing (possibly) multiple
+points, what does it mean to measure distance?</p>
+<p>There are four common approaches to cluster-cluster distancing, aka
+“linkage”:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>single linkage:</strong> The distance between two clusters is the distance between the two <strong>closest</strong> observations.</p></li>
-<li><p><strong>average linkage:</strong> The distance between two clusters is the average of all distances between observations in one cluster and observations in the other.</p></li>
-<li><p><strong>complete linkage:</strong> The distance between two clusters is the distance between the two <strong>furthest</strong> observations.</p></li>
-<li><p><strong>centroid method:</strong> The distance between two clusters is the distance between their centroids (geometric mean or median).</p></li>
-<li><p><strong>Ward’s method:</strong> The distance between two clusters is proportional to the increase in <strong>error sum of squares (ESS)</strong> that would result from joining them. The ESS is computed as the sum of squared distances between observations in a cluster, and the centroid of the cluster.</p></li>
+<li><p><strong>single linkage:</strong> The distance between two
+clusters is the distance between the two <strong>closest</strong>
+observations.</p></li>
+<li><p><strong>average linkage:</strong> The distance between two
+clusters is the average of all distances between observations in one
+cluster and observations in the other.</p></li>
+<li><p><strong>complete linkage:</strong> The distance between two
+clusters is the distance between the two <strong>furthest</strong>
+observations.</p></li>
+<li><p><strong>centroid method:</strong> The distance between two
+clusters is the distance between their centroids (geometric mean or
+median).</p></li>
+<li><p><strong>Ward’s method:</strong> The distance between two clusters
+is proportional to the increase in <strong>error sum of squares
+(ESS)</strong> that would result from joining them. The ESS is computed
+as the sum of squared distances between observations in a cluster, and
+the centroid of the cluster.</p></li>
 </ol>
-<p>It is also worth mentioning the <strong>McQuitty method</strong>, which retains information about previously joined clusters to measure future linkage distance. This method is currently supported for model fitting, but not for prediction, in <code>tidyclust</code>.</p>
+<p>It is also worth mentioning the <strong>McQuitty method</strong>,
+which retains information about previously joined clusters to measure
+future linkage distance. This method is currently supported for model
+fitting, but not for prediction, in <code>tidyclust</code>.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="hier_clust-specification-in-tidyclust">
 <code>hier_clust</code> specification in {tidyclust}<a class="anchor" aria-label="anchor" href="#hier_clust-specification-in-tidyclust"></a>
 </h2>
-<p>To specify a hierarchical clustering model in <code>tidyclust</code>, simply choose a value of <code>num_clusters</code> and (optionally) a linkage method:</p>
+<p>To specify a hierarchical clustering model in <code>tidyclust</code>,
+simply choose a value of <code>num_clusters</code> and (optionally) a
+linkage method:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_clust.html">hier_clust</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                       linkage_method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> </span>
@@ -206,7 +240,9 @@
 <span><span class="co">#&gt;   linkage_method = average</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Computational engine: stats</span></span></code></pre></div>
-<p>Currently, the only supported engine is <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code>. The default linkage <!-- method of this method is *complete linkage*. --></p>
+<p>Currently, the only supported engine is <code><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">stats::hclust()</a></code>.
+The default linkage
+<!-- method of this method is *complete linkage*. --></p>
 <!-- Note that the hierarchical clustering algorithm does not need a number of clusters -->
 <!-- specified to perform the aggomeration and produce a dendrogram, only to determine -->
 <!-- a cut of the tree, so this parameter -->
@@ -232,11 +268,14 @@
 <span><span class="co">#&gt; fit     7      hclust     list</span></span>
 <span><span class="co">#&gt; elapsed 1      -none-     list</span></span>
 <span><span class="co">#&gt; preproc 4      -none-     list</span></span></code></pre></div>
-<p>To produce a dendrogram plot, access the engine fit: (Although as we see below, dendrograms are often not very informative for moderate to large size datasets.)</p>
+<p>To produce a dendrogram plot, access the engine fit: (Although as we
+see below, dendrograms are often not very informative for moderate to
+large size datasets.)</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_fit</span><span class="op">$</span><span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<p>We can also extract the standard <code>tidyclust</code> summary list:</p>
+<p>We can also extract the standard <code>tidyclust</code> summary
+list:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_summary</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span> </span>
 <span></span>
@@ -251,7 +290,9 @@
 <span><span class="co">#&gt;  $ tot_sse            : num 1803</span></span>
 <span><span class="co">#&gt;  $ orig_labels        : NULL</span></span>
 <span><span class="co">#&gt;  $ cluster_assignments: Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 1 1 2 2 2 2 2 1 2 ...</span></span></code></pre></div>
-<p>Note that, although the hierarchical clustering algorithm is not focused on cluster centroids in the same way <span class="math inline">\(k\)</span>-means is, we are still able to compute the geometric mean over the predictors for each cluster:</p>
+<p>Note that, although the hierarchical clustering algorithm is not
+focused on cluster centroids in the same way <span class="math inline">\(k\)</span>-means is, we are still able to compute
+the geometric mean over the predictors for each cluster:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -264,13 +305,26 @@
 <div class="section level2">
 <h2 id="prediction">Prediction<a class="anchor" aria-label="anchor" href="#prediction"></a>
 </h2>
-<p>To predict the cluster assignment for a new observation, we find the closest cluster. How we measure “closeness” is dependent on the specified type of linkage in the model:</p>
+<p>To predict the cluster assignment for a new observation, we find the
+closest cluster. How we measure “closeness” is dependent on the
+specified type of linkage in the model:</p>
 <ul>
-<li><p><em>single linkage</em>: The new observation is assigned to the same cluster as its nearest observation from the training data.</p></li>
-<li><p><em>complete linkage</em>: The new observation is assigned to the cluster with the smallest maximum distances between training observations and the new observation.</p></li>
-<li><p><em>average linkage</em>: The new observation is assigned to the cluster with the smallest average distances between training observations and the new observation.</p></li>
-<li><p><em>centroid method:</em> The new observation is assigned to the cluster with the closest centroid, as in prediction for <code>k_means</code>.</p></li>
-<li><p><em>Ward’s method:</em> The new observation is assigned to the cluster with the smallest increase in <strong>error sum of squares (ESS)</strong> due to the new addition. The ESS is computed as the sum of squared distances between observations in a cluster, and the centroid of the cluster.</p></li>
+<li><p><em>single linkage</em>: The new observation is assigned to the
+same cluster as its nearest observation from the training data.</p></li>
+<li><p><em>complete linkage</em>: The new observation is assigned to the
+cluster with the smallest maximum distances between training
+observations and the new observation.</p></li>
+<li><p><em>average linkage</em>: The new observation is assigned to the
+cluster with the smallest average distances between training
+observations and the new observation.</p></li>
+<li><p><em>centroid method:</em> The new observation is assigned to the
+cluster with the closest centroid, as in prediction for
+<code>k_means</code>.</p></li>
+<li><p><em>Ward’s method:</em> The new observation is assigned to the
+cluster with the smallest increase in <strong>error sum of squares
+(ESS)</strong> due to the new addition. The ESS is computed as the sum
+of squared distances between observations in a cluster, and the centroid
+of the cluster.</p></li>
 </ul>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_preds</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
@@ -290,7 +344,12 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Cluster_1    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Cluster_2    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
-<p>It’s important to note that there is no guarantee that <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on the training data will produce the same results as <code>extract_cluster_assignments()</code>. The process by which clusters are created during the aggolmerations results in a particular partition; but if a training observation is treated as new data, it is predicted in the same manner as truly new information.</p>
+<p>It’s important to note that there is no guarantee that
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on the training data will produce the same
+results as <code>extract_cluster_assignments()</code>. The process by
+which clusters are created during the aggolmerations results in a
+particular partition; but if a training observation is treated as new
+data, it is predicted in the same manner as truly new information.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
 <span>  <span class="va">hc_preds</span>,</span>
@@ -648,7 +707,9 @@
 <div class="section level2">
 <h2 id="reconciling-partitions">Reconciling partitions<a class="anchor" aria-label="anchor" href="#reconciling-partitions"></a>
 </h2>
-<p>Suppose we have produced cluster assignments from two models: a hierarchical clustering model with three clusters (as above) and a <span class="math inline">\(k\)</span>-means clustering model with five clusters (below). How can we combine these assignments?</p>
+<p>Suppose we have produced cluster assignments from two models: a
+hierarchical clustering model with three clusters (as above) and a <span class="math inline">\(k\)</span>-means clustering model with five
+clusters (below). How can we combine these assignments?</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">km_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="va">km_fit</span> <span class="op">&lt;-</span> <span class="va">km_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -656,7 +717,9 @@
 <span></span>
 <span><span class="va">km_preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">km_fit</span>, <span class="va">penguins</span>, prefix <span class="op">=</span> <span class="st">"KM_"</span><span class="op">)</span></span>
 <span><span class="va">hc_preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">hc_fit</span>, <span class="va">penguins</span>, prefix <span class="op">=</span> <span class="st">"HC_"</span><span class="op">)</span></span></code></pre></div>
-<p>We notice that the three-cluster assignments from <code>hier_clust</code> do not line up perfectly with the five-cluster assignments from <code>k_means</code>.</p>
+<p>We notice that the three-cluster assignments from
+<code>hier_clust</code> do not line up perfectly with the five-cluster
+assignments from <code>k_means</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  hc <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
@@ -674,10 +737,19 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> HC_2  KM_4     64</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> HC_2  KM_5     76</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> HC_3  KM_4     18</span></span></code></pre></div>
-<p>However, they are not fully unrelated assignments. For example, all of <code>KM_2</code> in the <span class="math inline">\(k\)</span>-means assignment fell inside <code>HC_1</code> for the hierarchical assignments.</p>
-<p>Our goal is to relabel the five <span class="math inline">\(k\)</span>-means clusters to match the three cluster names in the hierarchical output. This can be accomplished with <code><a href="../reference/reconcile_clusterings.html">reconcile_clusterings()</a></code>.</p>
-<p>This function expects as input two vectors of cluster labels. The first is the labels that will be matches, and the second is the labels that will be recoded to the first.</p>
-<p>If we are not trying to simply match names across two same-size clusterings, the option <code>one_to_one</code> must be set to <code>FALSE</code>.</p>
+<p>However, they are not fully unrelated assignments. For example, all
+of <code>KM_2</code> in the <span class="math inline">\(k\)</span>-means
+assignment fell inside <code>HC_1</code> for the hierarchical
+assignments.</p>
+<p>Our goal is to relabel the five <span class="math inline">\(k\)</span>-means clusters to match the three
+cluster names in the hierarchical output. This can be accomplished with
+<code><a href="../reference/reconcile_clusterings.html">reconcile_clusterings()</a></code>.</p>
+<p>This function expects as input two vectors of cluster labels. The
+first is the labels that will be matches, and the second is the labels
+that will be recoded to the first.</p>
+<p>If we are not trying to simply match names across two same-size
+clusterings, the option <code>one_to_one</code> must be set to
+<code>FALSE</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/reconcile_clusterings.html">reconcile_clusterings</a></span><span class="op">(</span>primary_cluster_assignment <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>, </span>
 <span>                      alt_cluster_assignment <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
@@ -696,7 +768,12 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> HC_1    KM_2  HC_1       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> HC_2    KM_4  HC_2       </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
-<p>In this example, we can see that <code>KM_1</code>, <code>KM_2</code>, <code>KM_5</code> have been matched to <code>HC_1</code>; and <code>KM_3</code> and <code>KM_4</code> have been matched to <code>HC_2</code>. Notice that no clusters from the <code>KM</code> set were matched to <code>HC_3</code>; evidently, this is a small cluster that did not manifest clearly in the <span class="math inline">\(k\)</span>-means clustering.</p>
+<p>In this example, we can see that <code>KM_1</code>,
+<code>KM_2</code>, <code>KM_5</code> have been matched to
+<code>HC_1</code>; and <code>KM_3</code> and <code>KM_4</code> have been
+matched to <code>HC_2</code>. Notice that no clusters from the
+<code>KM</code> set were matched to <code>HC_3</code>; evidently, this
+is a small cluster that did not manifest clearly in the <span class="math inline">\(k\)</span>-means clustering.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

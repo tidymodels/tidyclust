@@ -89,7 +89,9 @@
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p><strong>Important:</strong> Make sure to install the developer version of <code>parsnip</code> and <code>workflows</code> to access all current functionality of <code>tidyclust</code>:</p>
+<p><strong>Important:</strong> Make sure to install the developer
+version of <code>parsnip</code> and <code>workflows</code> to access all
+current functionality of <code>tidyclust</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/parsnip"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/workflows@celery"</span><span class="op">)</span></span></code></pre></div>
@@ -113,12 +115,15 @@
 <span><span class="co"># shuffle rows</span></span>
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>At the end of this vignette, you will find a brief overview of the k-means algorithm, as well as some further algorithmic variant details, for those who would like a reference.</p>
+<p>At the end of this vignette, you will find a brief overview of the
+k-means algorithm, as well as some further algorithmic variant details,
+for those who would like a reference.</p>
 </div>
 <div class="section level2">
 <h2 id="k-means-specification-in-tidyclust">k-means specification in {tidyclust}<a class="anchor" aria-label="anchor" href="#k-means-specification-in-tidyclust"></a>
 </h2>
-<p>To specify a k-means model in <code>tidyclust</code>, simply choose a value of <code>num_clusters</code>:</p>
+<p>To specify a k-means model in <code>tidyclust</code>, simply choose a
+value of <code>num_clusters</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </span>
 <span></span>
@@ -129,21 +134,31 @@
 <span><span class="co">#&gt;   num_clusters = 3</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Computational engine: stats</span></span></code></pre></div>
-<p>There are currently two engines: <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> (default) and <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code>.</p>
-<p>It is also possible to change the algorithmic details of the implementation, by changing the engine and/or using the corresponding arguments from the engine functions:</p>
+<p>There are currently two engines: <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> (default)
+and <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code>.</p>
+<p>It is also possible to change the algorithmic details of the
+implementation, by changing the engine and/or using the corresponding
+arguments from the engine functions:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_spec_lloyd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">parsnip</span><span class="fu">::</span><span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"stats"</span>, algorithm <span class="op">=</span> <span class="st">"Lloyd"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kmeans_spec_cr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">parsnip</span><span class="fu">::</span><span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ClusterR"</span>, initializer <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span></code></pre></div>
-<p>Note that the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> and the <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code> implementations have very different default settings for the algorithmic details, so it is recommended to be deliberate and explicit in choosing these options. (See the end of this document for detail on the algorithmic options and defaults.)</p>
+<p>Note that the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> and the
+<code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code> implementations have very different
+default settings for the algorithmic details, so it is recommended to be
+deliberate and explicit in choosing these options. (See the end of this
+document for detail on the algorithmic options and defaults.)</p>
 </div>
 <div class="section level2">
 <h2 id="fitting-k-means-models">Fitting k-means models<a class="anchor" aria-label="anchor" href="#fitting-k-means-models"></a>
 </h2>
-<p>Once specified, a model may be “fit” to a dataset by providing a formula and data frame in the same manner as a <code>tidymodels</code> model fit.<br>
-Note that unlike in supervised modeling, the formula should not include a response variable.</p>
+<p>Once specified, a model may be “fit” to a dataset by providing a
+formula and data frame in the same manner as a <code>tidymodels</code>
+model fit.<br>
+Note that unlike in supervised modeling, the formula should not include
+a response variable.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>, </span>
@@ -156,7 +171,9 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; fit     9      kmeans  list</span></span>
 <span><span class="co">#&gt; elapsed 1      -none-  list</span></span>
 <span><span class="co">#&gt; preproc 4      -none-  list</span></span></code></pre></div>
-<p>To access the only the results produced by the engine - in this case, <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> - simply extract the fit from the fitted model object:</p>
+<p>To access the only the results produced by the engine - in this case,
+<code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> - simply extract the fit from the fitted
+model object:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span><span class="op">$</span><span class="va">fit</span></span>
 <span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 85, 141, 116</span></span>
@@ -213,7 +230,10 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"</span></span>
 <span><span class="co">#&gt; [6] "betweenss"    "size"         "iter"         "ifault"</span></span></code></pre></div>
-<p><code>tidyclust</code> also provides a function, <code><a href="../reference/extract_fit_summary.html">extract_fit_summary()</a></code>, to produce a list of model summary information in a format that is consistent across all cluster model specifications and engines</p>
+<p><code>tidyclust</code> also provides a function,
+<code><a href="../reference/extract_fit_summary.html">extract_fit_summary()</a></code>, to produce a list of model summary
+information in a format that is consistent across all cluster model
+specifications and engines</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span> <span class="op">&lt;-</span> <span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span> </span>
@@ -233,7 +253,9 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <div class="section level2">
 <h2 id="cluster-assignments-and-centers">Cluster assignments and centers<a class="anchor" aria-label="anchor" href="#cluster-assignments-and-centers"></a>
 </h2>
-<p>The primary objective of fitting a clustering model is typically to assign observations to clusters. To access these, use <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> function:</p>
+<p>The primary objective of fitting a clustering model is typically to
+assign observations to clusters. To access these, use
+<code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> function:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -251,8 +273,12 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Cluster_1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Cluster_3</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
-<p>Note that this function renames clusters in accordance with the standard <code>tidyclust</code> naming convention and ordering: clusters are named “Cluster_1”, “Cluster_2”, etc. and are numbered by the order they appear in the rows of the training dataset.</p>
-<p>To reconcile these standardized cluster labels with the engine output, refer back to the full model fit summary:</p>
+<p>Note that this function renames clusters in accordance with the
+standard <code>tidyclust</code> naming convention and ordering: clusters
+are named “Cluster_1”, “Cluster_2”, etc. and are numbered by the order
+they appear in the rows of the training dataset.</p>
+<p>To reconcile these standardized cluster labels with the engine
+output, refer back to the full model fit summary:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  orig_labels <span class="op">=</span> <span class="va">kmeans_summary</span><span class="op">$</span><span class="va">orig_labels</span>,</span>
@@ -272,11 +298,17 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>           2 Cluster_1      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>           1 Cluster_3      </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
-<p>In this example, we see that the cluster labelled “3” by the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> engine function - a label that is assigned randomly by this implementation - is the first to appear in the training data, so it is converted to “Cluster_1” in the standardized labels.</p>
+<p>In this example, we see that the cluster labelled “3” by the
+<code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> engine function - a label that is assigned
+randomly by this implementation - is the first to appear in the training
+data, so it is converted to “Cluster_1” in the standardized labels.</p>
 <div class="section level3">
 <h3 id="centroids">Centroids<a class="anchor" aria-label="anchor" href="#centroids"></a>
 </h3>
-<p>A secondary output of interest is often the characterization of the clusters; i.e., what data feature trends does each cluster seem to represent? Most commonly, clusters are characterized by their mean values in the predictor space, a.k.a. the centroids.</p>
+<p>A secondary output of interest is often the characterization of the
+clusters; i.e., what data feature trends does each cluster seem to
+represent? Most commonly, clusters are characterized by their mean
+values in the predictor space, a.k.a. the centroids.</p>
 <p>These can be accessed from the full summary:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">centroids</span></span>
@@ -296,7 +328,9 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Cluster_1           45.5          15.6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2           50.9          17.3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3           38.4          18.3</span></span></code></pre></div>
-<p>Based on the above output, we might say that Cluster_1 is penguins with smaller bill lengths, Cluster_2 has smaller bill depths, and Cluster_3 is penguins with large bills in both dimensions.</p>
+<p>Based on the above output, we might say that Cluster_1 is penguins
+with smaller bill lengths, Cluster_2 has smaller bill depths, and
+Cluster_3 is penguins with large bills in both dimensions.</p>
 </div>
 </div>
 <div class="section level2">
@@ -304,8 +338,13 @@ Note that unlike in supervised modeling, the formula should not include a respon
 </h2>
 <!-- Since unsupervised methods are not designed for prediction, the notion of  -->
 <!-- predicting the cluster assignment is not always obvious. -->
-<p>Since the <span class="math inline">\(k\)</span>-means algorithm ultimately assigns training observations to the cluster with the closest centroid, it is natural to “predict” that test observations also belong to the closest centroid cluster.</p>
-<p>The <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function behaves as expected, producing cluster assignment predictions on new data based on distance to the fitted model centroids.</p>
+<p>Since the <span class="math inline">\(k\)</span>-means algorithm
+ultimately assigns training observations to the cluster with the closest
+centroid, it is natural to “predict” that test observations also belong
+to the closest centroid cluster.</p>
+<p>The <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function behaves as expected, producing
+cluster assignment predictions on new data based on distance to the
+fitted model centroids.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new_penguin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  bill_length_mm <span class="op">=</span> <span class="fl">42</span>,</span>
@@ -326,7 +365,8 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <!--   predict(new_penguin, -->
 <!--           dist_fun = dist(., method = "manhattan")) -->
 <!-- ``` -->
-<p>To attach all predictions to a dataset as a column, use <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>:</p>
+<p>To attach all predictions to a dataset as a column, use
+<code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
@@ -348,13 +388,24 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <div class="section level2">
 <h2 id="metrics">Metrics<a class="anchor" aria-label="anchor" href="#metrics"></a>
 </h2>
-<p>Since clustering is an unsupervised method, with no target/outcome variable, there is no objective notion of predictive success.</p>
-<p>However, many common approaches exist for quantifying the quality of a particular cluster partition or structure.</p>
+<p>Since clustering is an unsupervised method, with no target/outcome
+variable, there is no objective notion of predictive success.</p>
+<p>However, many common approaches exist for quantifying the quality of
+a particular cluster partition or structure.</p>
 <div class="section level3">
 <h3 id="sum-of-squared-error">Sum of squared error<a class="anchor" aria-label="anchor" href="#sum-of-squared-error"></a>
 </h3>
-<p>One simple metric is the <strong>within cluster sum-of-squared error (WSS)</strong>, which measures the sum of all distances from observations to their cluster center. This is sometimes scaled with the <strong>total sum-of-squared error (TSS)</strong>, the distance from all observations to the global centroid; in particular, the ratio <strong>WSS/TSS</strong> is often computed. In principle, small values of WSS or of the WSS/TSS ratio suggest that the observations within clusters are closer (more similar) to each other than they are to the other clusters.</p>
-<p>The WSS and TSS come “for free” with the model fit summary, or they can be accessed directly from the model fit:</p>
+<p>One simple metric is the <strong>within cluster sum-of-squared error
+(WSS)</strong>, which measures the sum of all distances from
+observations to their cluster center. This is sometimes scaled with the
+<strong>total sum-of-squared error (TSS)</strong>, the distance from all
+observations to the global centroid; in particular, the ratio
+<strong>WSS/TSS</strong> is often computed. In principle, small values
+of WSS or of the WSS/TSS ratio suggest that the observations within
+clusters are closer (more similar) to each other than they are to the
+other clusters.</p>
+<p>The WSS and TSS come “for free” with the model fit summary, or they
+can be accessed directly from the model fit:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">within_sse</span></span>
 <span><span class="co">#&gt; [1] 754.7437 617.9859 944.4986</span></span>
@@ -377,7 +428,8 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <span><span class="co">#&gt;   .metric   .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_ratio standard       0.202</span></span></code></pre></div>
-<p>We can also see the within sum-of-squares by cluster, rather than totalled, with <code><a href="../reference/within_cluster_sse.html">within_cluster_sse()</a></code>:</p>
+<p>We can also see the within sum-of-squares by cluster, rather than
+totalled, with <code><a href="../reference/within_cluster_sse.html">within_cluster_sse()</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/within_cluster_sse.html">within_cluster_sse</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -391,9 +443,19 @@ Note that unlike in supervised modeling, the formula should not include a respon
 <div class="section level3">
 <h3 id="silhouette">Silhouette<a class="anchor" aria-label="anchor" href="#silhouette"></a>
 </h3>
-<p>Another common measure of cluster structure is called the <strong>silhouette</strong>. The silhouette of a single observation is proportional to the average distance from that observation to within-cluster observations minus the average distance to outside-cluster observations; normalized by the greater of these two average.<br>
-In principle, a large silhouette (close to 1) suggests that an observation is more similar to those within its cluster than those outside its cluster.</p>
-<p>We can average all silhouettes to get a metric for the full clustering fit. Beause the computation of the silhouette depends on the original observation values, a dataset must also be supplied to the function.</p>
+<p>Another common measure of cluster structure is called the
+<strong>silhouette</strong>. The silhouette of a single observation is
+proportional to the average distance from that observation to
+within-cluster observations minus the average distance to
+outside-cluster observations; normalized by the greater of these two
+average.<br>
+In principle, a large silhouette (close to 1) suggests that an
+observation is more similar to those within its cluster than those
+outside its cluster.</p>
+<p>We can average all silhouettes to get a metric for the full
+clustering fit. Beause the computation of the silhouette depends on the
+original observation values, a dataset must also be supplied to the
+function.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/avg_silhouette.html">avg_silhouette</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
@@ -405,8 +467,14 @@ In principle, a large silhouette (close to 1) suggests that an observation is mo
 <div class="section level3">
 <h3 id="changing-distance-measures">Changing distance measures<a class="anchor" aria-label="anchor" href="#changing-distance-measures"></a>
 </h3>
-<p>These metrics all depend on measuring the distance between points and/or centroids. By default, ordinary Euclidean distance is used. However, it is possible to select a different distance function.</p>
-<p>For sum of squares metrics, the distance function supplied must take two arguments (i.e., the observation locations and the centroid locations). For the sihouette metric, the distance function must find pairwise distances from a single matrix (i.e., all pairwise distances between observations).</p>
+<p>These metrics all depend on measuring the distance between points
+and/or centroids. By default, ordinary Euclidean distance is used.
+However, it is possible to select a different distance function.</p>
+<p>For sum of squares metrics, the distance function supplied must take
+two arguments (i.e., the observation locations and the centroid
+locations). For the sihouette metric, the distance function must find
+pairwise distances from a single matrix (i.e., all pairwise distances
+between observations).</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_dist_1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">Rfast</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/Dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">x</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
@@ -427,13 +495,17 @@ In principle, a large silhouette (close to 1) suggests that an observation is mo
 <span><span class="co">#&gt;   .metric        .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> avg_silhouette standard       0.494</span></span></code></pre></div>
-<p>For more on using metrics for cluster model selection, see the Tuning vignette.</p>
+<p>For more on using metrics for cluster model selection, see the Tuning
+vignette.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="workflows">Workflows<a class="anchor" aria-label="anchor" href="#workflows"></a>
 </h2>
-<p>The workflow structure of <code>tidymodels</code> is also usable with <code>tidyclust</code> objects. In the following example, we try two recipes for clustering penguins by bill dimensions. In the second recipe, we log-scale both predictors before clustering.</p>
+<p>The workflow structure of <code>tidymodels</code> is also usable with
+<code>tidyclust</code> objects. In the following example, we try two
+recipes for clustering penguins by bill dimensions. In the second
+recipe, we log-scale both predictors before clustering.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">penguins_recipe_1</span> <span class="op">&lt;-</span> <span class="fu">recipe</span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>                            data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
@@ -473,12 +545,24 @@ In principle, a large silhouette (close to 1) suggests that an observation is mo
 <div class="section level2">
 <h2 id="a-brief-introduction-to-the-k-means-algorithm">A brief introduction to the k-means algorithm<a class="anchor" aria-label="anchor" href="#a-brief-introduction-to-the-k-means-algorithm"></a>
 </h2>
-<p><em>k-means</em> is a method of <em>unsupervised</em> learning that produces a partitioning of observations into <em>k</em> unique clusters. The goal of <em>k-means</em> is to minimize the sum of squared Euclidian distances between observations in a cluster and the <strong>centroid</strong>, or geometric mean, of that cluster.</p>
-<p>In <em>k-means</em> clustering, observed variables (columns) are considered to be locations on axes in multidimensional space. For example, in the plot below, each point represents an observation of one penguin, and the location in 2-dimensional space is determined by the bill length and bill depth of that penguin.</p>
+<p><em>k-means</em> is a method of <em>unsupervised</em> learning that
+produces a partitioning of observations into <em>k</em> unique clusters.
+The goal of <em>k-means</em> is to minimize the sum of squared Euclidian
+distances between observations in a cluster and the
+<strong>centroid</strong>, or geometric mean, of that cluster.</p>
+<p>In <em>k-means</em> clustering, observed variables (columns) are
+considered to be locations on axes in multidimensional space. For
+example, in the plot below, each point represents an observation of one
+penguin, and the location in 2-dimensional space is determined by the
+bill length and bill depth of that penguin.</p>
 <p><img src="k_means_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-<p>A <em>k-means</em> cluster assignment is achieved by iterating to convergence from random initial conditions. The algorithm typically proceeds as follows:</p>
+<p>A <em>k-means</em> cluster assignment is achieved by iterating to
+convergence from random initial conditions. The algorithm typically
+proceeds as follows:</p>
 <ol style="list-style-type: decimal">
-<li>Choose <em>k</em> random observations in the dataset. These locations in space are declared to be the <strong>initial centroids</strong>.</li>
+<li>Choose <em>k</em> random observations in the dataset. These
+locations in space are declared to be the <strong>initial
+centroids</strong>.</li>
 </ol>
 <p><img src="k_means_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <ol start="2" style="list-style-type: decimal">
@@ -496,45 +580,82 @@ In principle, a large silhouette (close to 1) suggests that an observation is mo
 <div class="section level3">
 <h3 id="iteration-of-centroids">Iteration of centroids<a class="anchor" aria-label="anchor" href="#iteration-of-centroids"></a>
 </h3>
-<p>There is also some variation between implementations on how the update process takes place.</p>
-<p>In the above example, we have shown the common implementation known as the <code>Lloyd</code> or the <code>Forgy</code> method. The update steps are:</p>
+<p>There is also some variation between implementations on how the
+update process takes place.</p>
+<p>In the above example, we have shown the common implementation known
+as the <code>Lloyd</code> or the <code>Forgy</code> method. The update
+steps are:</p>
 <ol style="list-style-type: decimal">
 <li>Assign <strong>all</strong> observations to closest centroid.</li>
 <li>Recalculate centroids.</li>
 <li>Repeat until convergence.</li>
 </ol>
-<p>One variant on this approach is the <code>MacQueen</code> method, which updates centroids continually:</p>
+<p>One variant on this approach is the <code>MacQueen</code> method,
+which updates centroids continually:</p>
 <ol style="list-style-type: decimal">
 <li>Assign <strong>one</strong> observation to closest centroid.</li>
 <li>Recalculate centroids.</li>
 <li>Repeat until all observations have been reassigned once.</li>
 <li>Repeat until convergence.</li>
 </ol>
-<p>A third common variant is the <code>Hartigan-Wong</code> method, which assigns observations based on overall sum of squared errors rather than simply to the closest cluster:</p>
+<p>A third common variant is the <code>Hartigan-Wong</code> method,
+which assigns observations based on overall sum of squared errors rather
+than simply to the closest cluster:</p>
 <ol style="list-style-type: decimal">
-<li>Temporarily assign <strong>one</strong> observation to <strong>one</strong> cluster.</li>
+<li>Temporarily assign <strong>one</strong> observation to
+<strong>one</strong> cluster.</li>
 <li>Recalculate centroid.</li>
-<li>Find <strong>all</strong> distances from observations to their cluster center (SSE).</li>
+<li>Find <strong>all</strong> distances from observations to their
+cluster center (SSE).</li>
 <li>Repeat for <strong>each</strong> cluster.</li>
-<li>Permanently assign the observation to the cluster that resulted in the lowest SSE.</li>
+<li>Permanently assign the observation to the cluster that resulted in
+the lowest SSE.</li>
 <li>Repeat for all observations.</li>
 <li>Repeat until convergence.</li>
 </ol>
-<p>As with many interactive algorithms, the choice between methods is a choice of complexity versus accuracy. The <code>Hartigan-Wong</code> method generally results in more consistent and human-verified clusterings, and it is the default setting for the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> implementation of k-means clustering; although all three algorithms are available as options in this engine. The <code>Lloyd/Forgy</code> method is the most simple and ubiquitous; this is the only method available in the <code>ClusterR</code> package implementation.</p>
+<p>As with many interactive algorithms, the choice between methods is a
+choice of complexity versus accuracy. The <code>Hartigan-Wong</code>
+method generally results in more consistent and human-verified
+clusterings, and it is the default setting for the
+<code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> implementation of k-means clustering;
+although all three algorithms are available as options in this engine.
+The <code>Lloyd/Forgy</code> method is the most simple and ubiquitous;
+this is the only method available in the <code>ClusterR</code> package
+implementation.</p>
 <p><a href="https://towardsdatascience.com/three-versions-of-k-means-cf939b65f4ea" class="external-link">Source</a></p>
 </div>
 <div class="section level3">
 <h3 id="initialization-of-the-k-means-algorithm">Initialization of the k-means algorithm<a class="anchor" aria-label="anchor" href="#initialization-of-the-k-means-algorithm"></a>
 </h3>
-<p>The <em>k-means</em> algorithm depends on choosing an initial set of cluster centers.</p>
+<p>The <em>k-means</em> algorithm depends on choosing an initial set of
+cluster centers.</p>
 <p>There are three common methods for selecting initial centers:</p>
 <ol style="list-style-type: decimal">
-<li><p><strong>Random observations:</strong> In the example above, we have chosen three random observations to act as our initial centers. This is the most commonly used approach, implemented in the <code>Forgy</code>, <code>Lloyd</code>, and <code>MacQueen</code> methods.</p></li>
-<li><p><strong>Random partition:</strong> The observations are assigned to a cluster uniformly at random. The centroid of each cluster is computed, and these are used as the initial centers. This approach is implemented in the <code>Hartigan-Wong</code> method.</p></li>
-<li><p><strong>k-means++:</strong> Beginning with one random set of the observations, further observations are sampled via probability-weighted sampling until <span class="math inline">\(k\)</span> clusters are formed. The centroids of these clusters are used as the initial centers. (<a href="https://en.wikipedia.org/wiki/K-means%2B%2B" class="external-link">Further detail here</a>)</p></li>
+<li><p><strong>Random observations:</strong> In the example above, we
+have chosen three random observations to act as our initial centers.
+This is the most commonly used approach, implemented in the
+<code>Forgy</code>, <code>Lloyd</code>, and <code>MacQueen</code>
+methods.</p></li>
+<li><p><strong>Random partition:</strong> The observations are assigned
+to a cluster uniformly at random. The centroid of each cluster is
+computed, and these are used as the initial centers. This approach is
+implemented in the <code>Hartigan-Wong</code> method.</p></li>
+<li><p><strong>k-means++:</strong> Beginning with one random set of the
+observations, further observations are sampled via probability-weighted
+sampling until <span class="math inline">\(k\)</span> clusters are
+formed. The centroids of these clusters are used as the initial centers.
+(<a href="https://en.wikipedia.org/wiki/K-means%2B%2B" class="external-link">Further detail
+here</a>)</p></li>
 </ol>
-<p>Because the initial conditions are based on random selection in both approaches, the k-means algorithm is not determinitistic. That is, running the clustering twice on the same data may not result in the same cluster assignments.</p>
-<p>It is common to perform the k-means clustering algorithm multiple times, with different random initial conditions, and combine results at the end. This option is controlled by the <code>nstart</code> argument of the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> implementation, and the <code>num_init</code> argument of the</p>
+<p>Because the initial conditions are based on random selection in both
+approaches, the k-means algorithm is not determinitistic. That is,
+running the clustering twice on the same data may not result in the same
+cluster assignments.</p>
+<p>It is common to perform the k-means clustering algorithm multiple
+times, with different random initial conditions, and combine results at
+the end. This option is controlled by the <code>nstart</code> argument
+of the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> implementation, and the
+<code>num_init</code> argument of the</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

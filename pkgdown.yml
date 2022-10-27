@@ -1,9 +1,9 @@
-pandoc: 2.14.2
+pandoc: 2.19.2
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   hier_clust: hier_clust.html
   k_means: k_means.html
   tuning_and_metrics: tuning_and_metrics.html
-last_built: 2022-10-26T00:13Z
+last_built: 2022-10-27T18:55Z
 

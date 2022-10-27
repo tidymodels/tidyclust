@@ -89,7 +89,9 @@
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p><strong>Important:</strong> Make sure to install the developer version of <code>parsnip</code> and <code>workflows</code> to access all current functionality of <code>tidyclust</code>:</p>
+<p><strong>Important:</strong> Make sure to install the developer
+version of <code>parsnip</code> and <code>workflows</code> to access all
+current functionality of <code>tidyclust</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/parsnip"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/workflows@celery"</span><span class="op">)</span></span>
@@ -111,19 +113,34 @@
 <div class="section level2">
 <h2 id="tuning-in-unsupervised-settings">Tuning in unsupervised settings<a class="anchor" aria-label="anchor" href="#tuning-in-unsupervised-settings"></a>
 </h2>
-<p>In <em>supervised modeling</em> scenarios, we observe values of a target (or “response”) variable, and we measure the success of our model based on how well it predicts future response values. To select hyperparameter values, we <strong>tune</strong> them, trying many possible values and measuring how well each performs when predicting target values of test data.</p>
-<p>In the <em>unsupervised modeling</em> setting of <code>tidyclust</code>, there is no such objective measure of success. Clustering analyses are typically exploratory rather than testable. Nonetheless, the core tuning principle of varying inputs and quantifying results is still applicable.</p>
+<p>In <em>supervised modeling</em> scenarios, we observe values of a
+target (or “response”) variable, and we measure the success of our model
+based on how well it predicts future response values. To select
+hyperparameter values, we <strong>tune</strong> them, trying many
+possible values and measuring how well each performs when predicting
+target values of test data.</p>
+<p>In the <em>unsupervised modeling</em> setting of
+<code>tidyclust</code>, there is no such objective measure of success.
+Clustering analyses are typically exploratory rather than testable.
+Nonetheless, the core tuning principle of varying inputs and quantifying
+results is still applicable.</p>
 </div>
 <div class="section level2">
 <h2 id="specify-and-fit-a-model">Specify and fit a model<a class="anchor" aria-label="anchor" href="#specify-and-fit-a-model"></a>
 </h2>
-<p>In this example, we will fit a <span class="math inline">\(k\)</span>-means cluster model to the <code>palmerpenguins</code> dataset, using only the bill length and bill depth of penguins as predictors.</p>
-<p>(Please refer to the k-means vignette for an in-depth discussion of this model specification.)</p>
-<p>Our goal will be to select an appropriate number of clusters for the model based on metrics.</p>
+<p>In this example, we will fit a <span class="math inline">\(k\)</span>-means cluster model to the
+<code>palmerpenguins</code> dataset, using only the bill length and bill
+depth of penguins as predictors.</p>
+<p>(Please refer to the k-means vignette for an in-depth discussion of
+this model specification.)</p>
+<p>Our goal will be to select an appropriate number of clusters for the
+model based on metrics.</p>
 <p>First, we set up cross-validation samples for our data:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">penguins_cv</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">penguins</span>, v <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<p>Next, we specify our model with a tuning parameter, make a workflow, and establish a range of possible values of <code>num_clusters</code> to try:</p>
+<p>Next, we specify our model with a tuning parameter, make a workflow,
+and establish a range of possible values of <code>num_clusters</code> to
+try:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
@@ -149,7 +166,9 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>            8</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>            9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>           10</span></span></code></pre></div>
-<p>Then, we can use <code><a href="../reference/tune_cluster.html">tune_cluster()</a></code> to compute metrics on each cross-validation split, for each possible choice of number of clusters.</p>
+<p>Then, we can use <code><a href="../reference/tune_cluster.html">tune_cluster()</a></code> to compute metrics on
+each cross-validation split, for each possible choice of number of
+clusters.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tune_cluster.html">tune_cluster</a></span><span class="op">(</span></span>
 <span>  <span class="va">kmeans_wflow</span>,</span>
@@ -191,8 +210,13 @@
 <div class="section level3">
 <h3 id="choosing-hyperparameters">Choosing hyperparameters<a class="anchor" aria-label="anchor" href="#choosing-hyperparameters"></a>
 </h3>
-<p>In supervised learning, we would choose the model with the best value of a target metric. However, clustering models in general have no such local maxima or minima. With more clusters in the model, we would always expect the within sum-of-squares to be smaller.</p>
-<p>A common approach to choosing a number of clusters is to look for an “elbow”, or notable bend, in the plot of WSS/TSS ratio by cluster number:</p>
+<p>In supervised learning, we would choose the model with the best value
+of a target metric. However, clustering models in general have no such
+local maxima or minima. With more clusters in the model, we would always
+expect the within sum-of-squares to be smaller.</p>
+<p>A common approach to choosing a number of clusters is to look for an
+“elbow”, or notable bend, in the plot of WSS/TSS ratio by cluster
+number:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"sse_ratio"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -204,7 +228,11 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Number of clusters"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tuning_and_metrics_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<p>At each increase in the number of clusters, the WSS/TSS ratio decreases, with the amount of decrease getting smaller as the number of clusters grows. We might argue that the drop from two clusters to three, or from three to four, is a bit more extreme than the subsequent drops, so we should probably choose three or four clusters.</p>
+<p>At each increase in the number of clusters, the WSS/TSS ratio
+decreases, with the amount of decrease getting smaller as the number of
+clusters grows. We might argue that the drop from two clusters to three,
+or from three to four, is a bit more extreme than the subsequent drops,
+so we should probably choose three or four clusters.</p>
 <!-- ## Comparison to auxilary variables -->
 <!-- It is sometimes of interest to compare to external variables -->
 <!-- ```{r, eval=FALSE} -->
