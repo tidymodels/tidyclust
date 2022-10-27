@@ -55,6 +55,8 @@ tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
 
   tune::empty_ellipses(...)
 
+  control <- parsnip::condense_control(control, tune::control_grid())
+
   wflow <- workflows::add_model(workflows::workflow(), object)
 
   if (tune::is_recipe(preprocessor)) {
@@ -80,6 +82,8 @@ tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
                                   control = tune::control_grid()) {
   tune::empty_ellipses(...)
 
+  control <- parsnip::condense_control(control, tune::control_grid())
+
   # Disallow `NULL` grids in `tune_cluster()`, as this is the special signal
   # used when no tuning is required
   if (is.null(grid)) {
@@ -103,7 +107,7 @@ tune_cluster_workflow <- function(workflow,
                                   grid = 10,
                                   metrics = NULL,
                                   pset = NULL,
-                                  control = NULL, # control_grid(),
+                                  control = NULL,
                                   rng = TRUE) {
   tune::check_rset(resamples)
 

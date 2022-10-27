@@ -18,7 +18,7 @@
 control_cluster <- function(verbosity = 1L, catch = FALSE) {
   res <- list(verbosity = verbosity, catch = catch)
   res <- check_control(res)
-  class(res) <- c("control_cluster", "control_parsnip")
+  class(res) <- "control_cluster"
   res
 }
 

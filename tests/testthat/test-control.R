@@ -1,6 +1,10 @@
 test_that("control class", {
-  skip("waiting for workflow PR")
   x <- k_means(num_clusters = 5) %>% set_engine("stats")
+
+  expect_no_error(
+    fit(x, ~ ., data = mtcars, control = parsnip::control_parsnip())
+  )
+  skip("waiting for workflow PR")
   ctrl <- control_cluster()
   class(ctrl) <- c("potato", "chair")
   expect_snapshot(

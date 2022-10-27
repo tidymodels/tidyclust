@@ -91,9 +91,9 @@ fit.cluster_spec <- function(object,
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
-  # if (!inherits(control, "control_cluster")) {
-  #  rlang::abort("The 'control' argument should have class 'control_cluster'.")
-  # }
+
+  control <- parsnip::condense_control(control, control_cluster())
+
   dots <- quos(...)
   if (is.null(object$engine)) {
     eng_vals <- possible_engines(object)
