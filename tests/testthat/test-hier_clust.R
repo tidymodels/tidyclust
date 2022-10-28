@@ -26,13 +26,25 @@ test_that("engine arguments", {
 })
 
 test_that("bad input", {
-  expect_snapshot(error = TRUE, hier_clust(mode = "bogus"))
-  expect_snapshot(error = TRUE, {
-    bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
-    fit(bt, mpg ~ ., mtcars)
-  })
-  expect_snapshot(error = TRUE, translate_tidyclust(hier_clust(), engine = NULL))
-  expect_snapshot(error = TRUE, translate_tidyclust(hier_clust(formula = ~x)))
+  expect_snapshot(
+    error = TRUE,
+    hier_clust(mode = "bogus")
+  )
+  expect_snapshot(
+    error = TRUE,
+    {
+      bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
+      fit(bt, mpg ~ ., mtcars)
+    }
+  )
+  expect_snapshot(
+    error = TRUE,
+    translate_tidyclust(hier_clust(), engine = NULL)
+  )
+  expect_snapshot(
+    error = TRUE,
+    translate_tidyclust(hier_clust(formula = ~x))
+  )
 })
 
 test_that("predictions", {

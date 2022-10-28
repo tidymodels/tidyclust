@@ -12,11 +12,14 @@ reconcile_clusterings(
 )
 }
 \arguments{
-\item{primary_cluster_assignment}{A vector containing cluster labels, to be matched}
+\item{primary_cluster_assignment}{A vector containing cluster labels, to be
+matched}
 
-\item{alt_cluster_assignment}{Another vector containing cluster labels, to be changed}
+\item{alt_cluster_assignment}{Another vector containing cluster labels, to be
+changed}
 
-\item{one_to_one}{Boolean; should each alt cluster match only one primary cluster?}
+\item{one_to_one}{Boolean; should each alt cluster match only one primary
+cluster?}
 
 \item{optimize}{One of "accuracy" or "precision"; see description.}
 }
@@ -24,17 +27,18 @@ reconcile_clusterings(
 A vector with the new cluster labels
 }
 \description{
-Retains the cluster labels of the primary assignment, and relabel the alternate assignment
-to match as closely as possible.  The user must decide whether clusters are forced to be
-"one-to-one"; that is, are we allowed to assign multiple labels from the alternate assignment
-to the same primary label?
+Retains the cluster labels of the primary assignment, and relabel the
+alternate assignment to match as closely as possible.  The user must decide
+whether clusters are forced to be "one-to-one"; that is, are we allowed to
+assign multiple labels from the alternate assignment to the same primary
+label?
 }
 \details{
 When forcing one-to-one, the user needs to decide what to prioritize:
 \itemize{
 \item "accuracy": optimize raw count of all observations with the same label
 across the two assignments
-\item "precision": optimize the average percent of each alt cluster that matches
-the corresponding primary cluster
+\item "precision": optimize the average percent of each alt cluster that
+matchesthe corresponding primary cluster
 }
 }

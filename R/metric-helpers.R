@@ -1,10 +1,10 @@
 #' Prepares data and distance matrices for metric calculation
 #'
 #' @param object A fitted cluster_spec object.
-#' @param new_data A dataset to calculate predictions on.  If `NULL`, the trained
-#' cluster assignments from the fitted object are used.
+#' @param new_data A dataset to calculate predictions on.  If `NULL`, the
+#'   trained cluster assignments from the fitted object are used.
 #' @param dists A distance matrix for the data.  If `NULL`, distance is computed
-#' on `new_data` using the `stats::dist()` function.
+#'   on `new_data` using the `stats::dist()` function.
 #' @param dist_fun A custom distance functions.
 #'
 #' @return A list
@@ -12,7 +12,7 @@ prep_data_dist <- function(object, new_data = NULL,
                            dists = NULL, dist_fun = Rfast::Dist) {
 
   # Sihouettes requires a distance matrix
-  if (is.null(new_data) & is.null(dists)) {
+  if (is.null(new_data) && is.null(dists)) {
     rlang::abort(
       "Must supply either a dataset or distance matrix to compute silhouettes."
     )

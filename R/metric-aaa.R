@@ -88,7 +88,12 @@ validate_inputs_are_functions <- function(fns) {
 get_quo_label <- function(quo) {
   out <- rlang::as_label(quo)
   if (length(out) != 1L) {
-    rlang::abort("Internal error: `as_label(quo)` resulted in a character vector of length >1.")
+    rlang::abort(
+      glue::glue(
+        "Internal error: ",
+        "`as_label(quo)` resulted in a character vector of length > 1."
+      )
+    )
   }
   is_namespaced <- grepl("::", out, fixed = TRUE)
   if (is_namespaced) {

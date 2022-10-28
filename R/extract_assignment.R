@@ -42,7 +42,7 @@ extract_cluster_assignment.hclust <- function(object, ...) {
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification
   args <- list(...)
-  if (!("num_clusters" %in% names(args) | "cut_height" %in% names(args))) {
+  if (!("num_clusters" %in% names(args) || "cut_height" %in% names(args))) {
     num_clusters <- attr(object, "num_clusters")
     cut_height <- attr(object, "cut_height")
   }
@@ -52,7 +52,9 @@ extract_cluster_assignment.hclust <- function(object, ...) {
 
 # ------------------------------------------------------------------------------
 
-cluster_assignment_tibble <- function(clusters, n_clusters, prefix = "Cluster_") {
+cluster_assignment_tibble <- function(clusters,
+                                      n_clusters,
+                                      prefix = "Cluster_") {
   reorder_clusts <- order(unique(clusters))
   names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]

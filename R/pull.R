@@ -37,8 +37,6 @@ pulley <- function(resamples, res, col) {
     return(res)
   }
 
-  all_null <- all(map_lgl(res, is.null))
-
   id_cols <- grep("^id", names(resamples), value = TRUE)
   resamples <- dplyr::arrange(resamples, !!!rlang::syms(id_cols))
   pulled_vals <- dplyr::bind_rows(map(res, ~ .x[[col]]))
@@ -55,7 +53,9 @@ pulley <- function(resamples, res, col) {
     pulled_vals <- tidyr::nest(pulled_vals, data = -dplyr::starts_with("id"))
     names(pulled_vals)[ncol(pulled_vals)] <- col
   } else {
-    pulled_vals <- tidyr::nest(pulled_vals, -dplyr::starts_with("id"), .key = !!col)
+    pulled_vals <- tidyr::nest(
+      pulled_vals, -dplyr::starts_with("id"), .key = !!col
+    )
   }
 
   res <- new_bare_tibble(resamples)

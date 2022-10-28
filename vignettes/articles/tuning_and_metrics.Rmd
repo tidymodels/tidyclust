@@ -87,18 +87,17 @@ Next, we specify our model with a tuning parameter, make a workflow,
 and establish a range of possible values of `num_clusters` to try:
 
 ```{r}
-kmeans_spec <- k_means(num_clusters = tune()) 
+kmeans_spec <- k_means(num_clusters = tune())
 
-penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm, 
+penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm,
                        data = penguins)
 
 kmeans_wflow <- workflow(penguins_rec, kmeans_spec)
 
-clust_num_grid <- grid_regular(num_clusters(), 
+clust_num_grid <- grid_regular(num_clusters(),
                                levels = 10)
-  
-clust_num_grid
 
+clust_num_grid
 ```
 
 Then, we can use `tune_cluster()` to compute metrics on each cross-validation
@@ -111,7 +110,7 @@ res <- tune_cluster(
   grid = clust_num_grid,
   control = control_grid(save_pred = TRUE, extract = identity),
   metrics = cluster_metric_set(tot_wss, tot_sse, sse_ratio)
-) 
+)
 
 res
 ```
@@ -135,8 +134,8 @@ or notable bend, in the plot of WSS/TSS ratio by cluster number:
 res_metrics %>%
   filter(.metric == "sse_ratio") %>%
   ggplot(aes(x = num_clusters, y = mean)) +
-  geom_point() + 
-  geom_line() + 
+  geom_point() +
+  geom_line() +
   theme_minimal() +
   ylab("mean WSS/TSS ratio, over 5 folds") +
   xlab("Number of clusters") +

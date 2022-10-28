@@ -4,7 +4,7 @@ tune_args_cluster_spec <- function(object, full = FALSE, ...) {
   # use the cluster_spec top level class as the id
   cluster_type <- class(object)[1]
 
-  if (length(object$args) == 0L & length(object$eng_args) == 0L) {
+  if (length(object$args) == 0L && length(object$eng_args) == 0L) {
     return(tune_tbl())
   }
 
@@ -61,13 +61,11 @@ find_tune_id <- function(x) {
     return(id)
   }
 
-  if (is.atomic(x) | is.name(x) | length(x) == 1) {
+  if (is.atomic(x) || is.name(x) || length(x) == 1) {
     return(NA_character_)
   }
 
   # STEP 2 - Recursion
-
-  # tunable_elems <- map_lgl(x, find_tune)
   tunable_elems <- vector("character", length = length(x))
 
   # use map_lgl

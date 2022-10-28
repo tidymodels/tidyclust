@@ -177,7 +177,10 @@ tot_sse_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
   tot_sse_impl(object, new_data, dist_fun, ...)
 }
 
-tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+tot_sse_impl <- function(object,
+                         new_data = NULL,
+                         dist_fun = Rfast::dista,
+                         ...) {
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
     new_data <- extract_post_preprocessor(object, new_data)
@@ -188,7 +191,8 @@ tot_sse_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) 
   if (is.null(new_data)) {
     tot <- summ$tot_sse
   } else {
-    overall_mean <- colSums(summ$centroids * summ$n_members) / sum(summ$n_members)
+    overall_mean <- colSums(summ$centroids * summ$n_members) /
+      sum(summ$n_members)
     tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
   }
 
@@ -243,12 +247,18 @@ sse_ratio.workflow <- sse_ratio.cluster_fit
 
 #' @export
 #' @rdname sse_ratio
-sse_ratio_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+sse_ratio_vec <- function(object,
+                          new_data = NULL,
+                          dist_fun = Rfast::dista,
+                          ...) {
   sse_ratio_impl(object, new_data, dist_fun, ...)
 }
 
 
-sse_ratio_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+sse_ratio_impl <- function(object,
+                           new_data = NULL,
+                           dist_fun = Rfast::dista,
+                           ...) {
   tot_wss_vec(object, new_data, dist_fun) /
     tot_sse_vec(object, new_data, dist_fun)
 }

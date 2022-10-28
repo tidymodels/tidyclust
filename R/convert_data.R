@@ -121,7 +121,10 @@ check_form_dots <- function(x) {
     rlang::abort(
       glue::glue(
         "These argument(s) cannot be used to create the data: ",
-        glue::glue_collapse(glue::glue("`{names(x)[!good_names]}`"), sep = ", "),
+        glue::glue_collapse(
+          glue::glue("`{names(x)[!good_names]}`"),
+          sep = ", "
+        ),
         ". Possible arguments are: ",
         glue::glue_collapse(glue::glue("`{good_args}`"), sep = ", ")
       )
@@ -172,7 +175,7 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
   form <- make_formula(names(x))
 
   x <- bind_cols(x, y)
-  if (!is.null(rn) & !inherits(x, "tbl_df")) {
+  if (!is.null(rn) && !inherits(x, "tbl_df")) {
     rownames(x) <- rn
   }
 

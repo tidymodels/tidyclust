@@ -104,7 +104,9 @@ fit.cluster_spec <- function(object,
   }
 
   if (all(c("x", "y") %in% names(dots))) {
-    rlang::abort("`fit.cluster_spec()` is for the formula methods. Use `fit_xy()` instead.")
+    rlang::abort(
+      "`fit.cluster_spec()` is for the formula methods. Use `fit_xy()` instead."
+    )
   }
   cl <- match.call(expand.dots = TRUE)
   # Create an environment with the evaluated argument objects. This will be
@@ -211,7 +213,9 @@ add_methods <- function(x, engine) {
 eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
   if (capture) {
     if (catch) {
-      junk <- capture.output(res <- try(rlang::eval_tidy(e, ...), silent = TRUE))
+      junk <- capture.output(
+        res <- try(rlang::eval_tidy(e, ...), silent = TRUE)
+      )
     } else {
       junk <- capture.output(res <- rlang::eval_tidy(e, ...))
     }
@@ -232,14 +236,12 @@ eval_mod <- function(e, capture = FALSE, catch = FALSE, ...) {
 #' @export fit_xy.cluster_spec
 fit_xy.cluster_spec <-
   function(object, x, case_weights = NULL, control = control_cluster(), ...) {
-    # if (!inherits(control, "control_cluster")) {
-    #   rlang::abort("The 'control' argument should have class 'control_cluster'.")
-    # }
+    control <- parsnip::condense_control(control, control_cluster())
+
     if (is.null(colnames(x))) {
       rlang::abort("'x' should have column names.")
     }
 
-    dots <- quos(...)
     if (is.null(object$engine)) {
       eng_vals <- possible_engines(object)
       object$engine <- eng_vals[1]
@@ -306,8 +308,10 @@ fit_xy.cluster_spec <-
 check_x_interface <- function(x, cl, model) {
   sparse_ok <- allow_sparse(model)
   sparse_x <- inherits(x, "dgCMatrix")
-  if (!sparse_ok & sparse_x) {
-    rlang::abort("Sparse matrices not supported by this model/engine combination.")
+  if (!sparse_ok && sparse_x) {
+    rlang::abort(
+      "Sparse matrices not supported by this model/engine combination."
+    )
   }
 
   if (sparse_ok) {

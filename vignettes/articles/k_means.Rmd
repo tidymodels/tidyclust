@@ -53,7 +53,7 @@ penguins <- penguins %>%
   select(bill_length_mm, bill_depth_mm) %>%
   drop_na()
 
-  
+
 # shuffle rows
 penguins <- penguins %>%
   sample_n(nrow(penguins))
@@ -68,7 +68,7 @@ would like a reference.
 To specify a k-means model in `tidyclust`, simply choose a value of `num_clusters`:
 
 ```{r}
-kmeans_spec <- k_means(num_clusters = 3) 
+kmeans_spec <- k_means(num_clusters = 3)
 
 kmeans_spec
 ```
@@ -102,10 +102,10 @@ response variable.
 
 ```{r}
 kmeans_fit <- kmeans_spec %>%
-  fit(~ bill_length_mm + bill_depth_mm, 
+  fit(~ bill_length_mm + bill_depth_mm,
       data = penguins)
 
-kmeans_fit %>% 
+kmeans_fit %>%
   summary()
 ```
 
@@ -122,9 +122,9 @@ is consistent across all cluster model specifications and engines
 
 ```{r}
 kmeans_summary <- kmeans_fit %>%
-  extract_fit_summary() 
+  extract_fit_summary()
 
-kmeans_summary %>%str()
+kmeans_summary %>% str()
 ```
 
 ## Cluster assignments and centers
@@ -350,7 +350,7 @@ space is determined by the bill length and bill depth of that penguin.
 
 ```{r, echo = FALSE}
 penguins %>%
-  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) + 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point() +
   theme_minimal()
 ```
@@ -365,20 +365,20 @@ declared to be the **initial centroids**.
 ```{r, echo = FALSE}
 pens <- penguins %>%  select(bill_length_mm, bill_depth_mm) %>% drop_na()
 
-init <- sample(1:nrow(pens), 3)
+init <- sample(seq_len(nrow(pens)), 3)
 
-thing <- kmeans(pens, centers = pens[init,], iter.max = 1)
+thing <- kmeans(pens, centers = pens[init, ], iter.max = 1)
 
 centers <- data.frame(thing$centers)
 
 pens %>%
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
-    geom_point(data = pens[init,], 
-               aes(x = bill_length_mm, y = bill_depth_mm, 
+    geom_point(data = pens[init, ],
+               aes(x = bill_length_mm, y = bill_depth_mm,
                    color = c("Cluster 1", "Cluster 2", "Cluster 3")),
-                shape='o', size=12, stroke=1) +
-  geom_point(data = pens[init,], 
+                shape = "o", size = 12, stroke = 1) +
+  geom_point(data = pens[init, ],
                aes(x = bill_length_mm, y = bill_depth_mm,
                    color = c("Cluster 1", "Cluster 2", "Cluster 3"))) +
   theme_minimal() +
@@ -388,12 +388,12 @@ pens %>%
 2. Assign each observation to the nearest centroid.
 
 ```{r, echo = FALSE}
-
-closest_center <- Rfast::dista(as.matrix(pens), as.matrix(pens[init,])) %>% apply(1, which.min)
+closest_center <- Rfast::dista(as.matrix(pens), as.matrix(pens[init, ])) %>%
+  apply(1, which.min)
 
 pens %>%
   ggplot() +
-  geom_point(data = pens, 
+  geom_point(data = pens,
                aes(x = bill_length_mm, y = bill_depth_mm,
                    color = as.factor(closest_center)),
              size = 4) +
@@ -416,11 +416,11 @@ centers <- pens %>%
 pens %>%
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
-    geom_point(data = centers, 
-               aes(x = bill_length_mm, y = bill_depth_mm, 
+    geom_point(data = centers,
+               aes(x = bill_length_mm, y = bill_depth_mm,
                    color = c("Cluster 1", "Cluster 2", "Cluster 3")),
-                shape='x', size=12, stroke=1) +
-  geom_point(data = centers, 
+                shape = "x", size = 12, stroke = 1) +
+  geom_point(data = centers,
                aes(x = bill_length_mm, y = bill_depth_mm,
                    color = c("Cluster 1", "Cluster 2", "Cluster 3"))) +
   theme_minimal() +
@@ -431,26 +431,29 @@ pens %>%
 4. Repeat steps 2 and 3 until the centroids do not change.
 
 ```{r, echo = FALSE}
-thing <- kmeans(pens, centers = pens[init,])
+thing <- kmeans(pens, centers = pens[init, ])
 
 centers <- data.frame(thing$centers)
 
 pens %>%
   ggplot() +
-  geom_point(data = pens, 
-               aes(x = bill_length_mm, 
-                   y = bill_depth_mm,
-                   color = as.factor(thing$cluster))) +
+  geom_point(data = pens,
+             aes(x = bill_length_mm,
+                 y = bill_depth_mm,
+                 color = as.factor(thing$cluster))) +
   geom_mark_ellipse(aes(x = bill_length_mm,
                         y = bill_depth_mm,
                         color = as.factor(thing$cluster)),
                     expand = unit(1, "mm"))  +
-  geom_point(data = centers, 
-               aes(x = bill_length_mm, y = bill_depth_mm, 
-                   color = as.factor(1:3)),
-                shape='x', size=12, stroke=1) +
-  geom_point(data = pens, 
-               aes(x = bill_length_mm, 
+  geom_point(data = centers,
+             aes(x = bill_length_mm,
+                 y = bill_depth_mm,
+                 color = as.factor(1:3)),
+             shape = "x",
+             size = 12,
+             stroke = 1) +
+  geom_point(data = pens,
+               aes(x = bill_length_mm,
                    y = bill_depth_mm,
                    color = as.factor(thing$cluster))) +
   theme_minimal() +

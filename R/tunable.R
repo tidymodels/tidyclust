@@ -48,7 +48,6 @@ mod_type <- function(.mod) class(.mod)[class(.mod) != "cluster_spec"][1]
 add_engine_parameters <- function(pset, engines) {
   is_engine_param <- pset$name %in% engines$name
   if (any(is_engine_param)) {
-    engine_names <- pset$name[is_engine_param]
     pset <- pset[!is_engine_param, ]
     pset <-
       dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))

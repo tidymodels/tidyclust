@@ -27,10 +27,14 @@ check_control <- function(x) {
     rlang::abort("control should be a named list.")
   }
   if (!isTRUE(all.equal(sort(names(x)), c("catch", "verbosity")))) {
-    rlang::abort("control should be a named list with elements 'verbosity' and 'catch'.")
+    rlang::abort(
+      "control should be a named list with elements 'verbosity' and 'catch'."
+    )
   }
   # based on ?is.integer
-  int_check <- function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
+  int_check <- function(x, tol = .Machine$double.eps^0.5) {
+    abs(x - round(x)) < tol
+  }
   if (!int_check(x$verbosity)) {
     rlang::abort("verbosity should be an integer.")
   }

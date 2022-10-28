@@ -52,7 +52,6 @@ penguins <- penguins %>%
   select(bill_length_mm, bill_depth_mm) %>%
   drop_na()
 
-  
 # shuffle rows
 penguins <- penguins %>%
   sample_n(nrow(penguins))
@@ -80,7 +79,7 @@ fake_dat <- tibble(
 )
 
 fake_dat %>%
-  ggplot(aes(x,y)) +
+  ggplot(aes(x, y)) +
   geom_point(shape = fake_dat$lab, size = 4) +
   geom_point(shape = 1, size = 7, stroke = 1, color = "dark grey") +
   theme_minimal() +
@@ -93,20 +92,22 @@ The closest two observations are then joined together into a single cluster.
 
 ```{r, echo = FALSE}
 fake_dat_2 <- bind_rows(
-  fake_dat[-c(1:2),-3],
-  summarize_all(fake_dat[1:2,-3], mean)
+  fake_dat[-c(1:2), -3],
+  summarize_all(fake_dat[1:2, -3], mean)
 ) %>%
   mutate(
     size = c(rep(1, 3), dist(fake_dat)[1])
   )
 
-
 fake_dat %>%
-  ggplot(aes(x,y)) +
+  ggplot(aes(x, y)) +
   geom_point(shape = fake_dat$lab, size = 4) +
   geom_point(data = fake_dat_2,
-             aes(x=x, y=y), 
-             shape = 1, size = 7/fake_dat_2$size, stroke = 1, color = "dark grey") +
+             aes(x = x, y = y),
+             shape = 1,
+             size = 7 / fake_dat_2$size,
+             stroke = 1,
+             color = "dark grey") +
   theme_minimal() +
   theme(legend.position = "none") +
   ylim(c(-0.1, 1.1)) +
@@ -119,20 +120,22 @@ This process continues, with the closest two clusters being joined (or
 
 ```{r, echo = FALSE}
 fake_dat_3 <- bind_rows(
-  fake_dat[-c(1:3),-3],
-  summarize_all(fake_dat[1:3,-3], mean)
+  fake_dat[-c(1:3), -3],
+  summarize_all(fake_dat[1:3, -3], mean)
 ) %>%
   mutate(
     size = c(rep(1, 2), 0.09)
   )
 
-
 p1 <- fake_dat %>%
-  ggplot(aes(x,y)) +
+  ggplot(aes(x, y)) +
   geom_point(shape = fake_dat$lab, size = 4) +
   geom_point(data = fake_dat_3,
-             aes(x=x, y=y), 
-             shape = 1, size = 7/fake_dat_3$size, stroke = 1, color = "dark grey") +
+             aes(x = x, y = y),
+             shape = 1,
+             size = 7 / fake_dat_3$size,
+             stroke = 1,
+             color = "dark grey") +
   theme_minimal() +
   theme(legend.position = "none") +
   ylim(c(-0.1, 1.1)) +
@@ -140,20 +143,22 @@ p1 <- fake_dat %>%
 
 
 fake_dat_4 <- bind_rows(
-  summarize_all(fake_dat[1:3,-3], mean),
-  summarize_all(fake_dat[4:5,-3], mean),
+  summarize_all(fake_dat[1:3, -3], mean),
+  summarize_all(fake_dat[4:5, -3], mean),
 ) %>%
   mutate(
     size = c(0.09, 0.09)
   )
 
-
 p2 <- fake_dat %>%
-  ggplot(aes(x,y)) +
+  ggplot(aes(x, y)) +
   geom_point(shape = fake_dat$lab, size = 4) +
   geom_point(data = fake_dat_4,
-             aes(x=x, y=y), 
-             shape = 1, size = 7/fake_dat_4$size, stroke = 1, color = "dark grey") +
+             aes(x = x, y = y),
+             shape = 1,
+             size = 7 / fake_dat_4$size,
+             stroke = 1,
+             color = "dark grey") +
   theme_minimal() +
   theme(legend.position = "none") +
   ylim(c(-0.1, 1.1)) +
@@ -233,7 +238,7 @@ simply choose a value of `num_clusters` and (optionally) a linkage method:
 
 ```{r}
 hc_spec <- hier_clust(num_clusters = 3,
-                       linkage_method = "average") 
+                       linkage_method = "average")
 
 hc_spec
 ```
@@ -260,10 +265,10 @@ We fit the model to data in the usual way:
 
 ```{r}
 hc_fit <- hc_spec %>%
-  fit(~ bill_length_mm + bill_depth_mm, 
+  fit(~ bill_length_mm + bill_depth_mm,
       data = penguins)
 
-hc_fit %>% 
+hc_fit %>%
   summary()
 ```
 
@@ -278,7 +283,7 @@ hc_fit$fit %>% plot()
 We can also extract the standard `tidyclust` summary list:
 
 ```{r}
-hc_summary <- hc_fit %>% extract_fit_summary() 
+hc_summary <- hc_fit %>% extract_fit_summary()
 
 hc_summary %>% str()
 ```
@@ -365,7 +370,7 @@ perfectly with the five-cluster assignments from `k_means`.
 tibble(
   hc = hc_preds$.pred_cluster,
   km = km_preds$.pred_cluster
-) %>% 
+) %>%
   count(hc, km)
 ```
 
@@ -384,7 +389,7 @@ If we are not trying to simply match names across two same-size clusterings,
 the option `one_to_one` must be set to `FALSE`.
 
 ```{r}
-reconcile_clusterings(primary_cluster_assignment = hc_preds$.pred_cluster, 
+reconcile_clusterings(primary_cluster_assignment = hc_preds$.pred_cluster,
                       alt_cluster_assignment = km_preds$.pred_cluster,
                       one_to_one = FALSE)
 ```

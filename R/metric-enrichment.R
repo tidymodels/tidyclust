@@ -1,15 +1,16 @@
-#### This one needs to change to fit the new structure, not a priority for now
+# This one needs to change to fit the new structure, not a priority for now
+# This needs to be ... instead of var soon. change @param too when it happens
 
-#' Measures relationship between cluster assignments and another categorical variable.
+#' Measures relationship between cluster assignments and another categorical
+#' variable.
 #'
 #' @param data the dataset
 #' @param clusters the variable with cluster assignments
 #' @param var other variables for enrichment
 #'
 #' @return The p-value of a Chi-Square test for relationship between cluster
-#' assignments and the categorical variable.
-
-# this needs to be ... instead of var soon. change @param too when it happens
+#'   assignments and the categorical variable.
+#'
 #' @export
 enrichment <- function(data, clusters, var) {
   res <- list()

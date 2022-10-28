@@ -15,8 +15,6 @@ check_eng_args <- function(args, obj, core_args) {
 }
 
 make_x_call <- function(object, target) {
-  fit_args <- object$method$fit$args
-
   # Get the arguments related to data:
   if (is.null(object$method$fit$data)) {
     data_args <- c(x = "x")

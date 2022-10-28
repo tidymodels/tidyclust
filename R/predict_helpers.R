@@ -1,13 +1,15 @@
 stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
-  reorder_clusts <- unique(object$cluster)
-  res <- apply(flexclust::dist2(object$centers[reorder_clusts, , drop = FALSE], new_data), 2, which.min)
+  res <- object$centers[unique(object$cluster), , drop = FALSE]
+  res <- flexclust::dist2(res, new_data)
+  res <- apply(res, 2, which.min)
   res <- paste0(prefix, res)
   factor(res)
 }
 
 clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
-  reorder_clusts <- unique(object$clusters)
-  res <- apply(flexclust::dist2(object$centroids[reorder_clusts, , drop = FALSE], new_data), 2, which.min)
+  res <- object$centroids[unique(object$clusters), , drop = FALSE]
+  res <- flexclust::dist2(res, new_data)
+  res <- apply(res, 2, which.min)
   res <- paste0(prefix, res)
   factor(res)
 }
@@ -22,8 +24,8 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
 
   if (linkage_method %in% c("single", "complete", "average", "median")) {
 
-    ## complete, single, average, and median linkage_methods are basically the same idea,
-    ## just different summary distance to cluster
+    ## complete, single, average, and median linkage_methods are basically the
+    ## same idea, just different summary distance to cluster
 
     cluster_dist_fun <- switch(linkage_method,
       "single" = min,
@@ -63,10 +65,11 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
 
     d_means <- map(
       seq_len(n_clust),
-      ~ t(t(training_data[clusters$.cluster == cluster_names[.x], ]) - cluster_centers[.x, ])
+      ~ t(
+          t(training_data[clusters$.cluster == cluster_names[.x], ]) -
+            cluster_centers[.x, ]
+        )
     )
-
-    n <- nrow(training_data)
 
     d_new_list <- map(
       seq_len(nrow(new_data)),
@@ -78,6 +81,8 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
         )
       }
     )
+
+    n <- nrow(training_data)
 
     change_in_ess <- map(
       d_new_list,

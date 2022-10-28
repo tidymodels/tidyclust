@@ -5,6 +5,10 @@ test_that("partition predictions", {
     fit(~., data = mtcars)
 
   expect_true(tibble::is_tibble(predict(kmeans_fit, new_data = mtcars)))
-  expect_true(is.factor(tidyclust:::predict_cluster.cluster_fit(kmeans_fit, new_data = mtcars)))
+  expect_true(
+    is.factor(
+      tidyclust:::predict_cluster.cluster_fit(kmeans_fit, new_data = mtcars)
+    )
+  )
   expect_equal(names(predict(kmeans_fit, new_data = mtcars)), ".pred_cluster")
 })

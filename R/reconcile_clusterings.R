@@ -1,24 +1,27 @@
 #' Relabels clusters to match another cluster assignment
 #'
-#' Retains the cluster labels of the primary assignment, and relabel the alternate assignment
-#'  to match as closely as possible.  The user must decide whether clusters are forced to be
-#'  "one-to-one"; that is, are we allowed to assign multiple labels from the alternate assignment
-#'  to the same primary label?
+#' Retains the cluster labels of the primary assignment, and relabel the
+#' alternate assignment to match as closely as possible.  The user must decide
+#' whether clusters are forced to be "one-to-one"; that is, are we allowed to
+#' assign multiple labels from the alternate assignment to the same primary
+#' label?
 #'
-#'  When forcing one-to-one, the user needs to decide what to prioritize:
+#' When forcing one-to-one, the user needs to decide what to prioritize:
 #'  *  "accuracy": optimize raw count of all observations with the same label
-#'  across the two assignments
-#'  *  "precision": optimize the average percent of each alt cluster that matches
-#'  the corresponding primary cluster
+#' across the two assignments
+#'  *  "precision": optimize the average percent of each alt cluster that
+#' matchesthe corresponding primary cluster
 #'
-#' @param primary_cluster_assignment A vector containing cluster labels, to be matched
-#' @param alt_cluster_assignment Another vector containing cluster labels, to be changed
-#' @param one_to_one Boolean; should each alt cluster match only one primary cluster?
+#' @param primary_cluster_assignment A vector containing cluster labels, to be
+#'   matched
+#' @param alt_cluster_assignment Another vector containing cluster labels, to be
+#'   changed
+#' @param one_to_one Boolean; should each alt cluster match only one primary
+#'   cluster?
 #' @param optimize One of "accuracy" or "precision"; see description.
 #'
 #' @return A vector with the new cluster labels
 #' @export
-
 reconcile_clusterings <- function(primary_cluster_assignment,
                                   alt_cluster_assignment,
                                   one_to_one = TRUE,
@@ -46,11 +49,18 @@ reconcile_clusterings <- function(primary_cluster_assignment,
   }
 
   ## Use standard names in order for both
-
-  clusters_1_f <- factor(clusters_1, labels = paste0("Cluster_", seq_len(nclust_1)))
-  clusters_2_f <- factor(clusters_2, labels = paste0("Cluster_", seq_len(nclust_2)))
-  clusters_1_f <- factor(clusters_1_f, levels = levels(clusters_2_f))
-
+  clusters_1_f <- factor(
+    x = clusters_1,
+    labels = paste0("Cluster_", seq_len(nclust_1))
+  )
+  clusters_2_f <- factor(
+    x = clusters_2,
+    labels = paste0("Cluster_", seq_len(nclust_2))
+  )
+  clusters_1_f <- factor(
+    x = clusters_1_f,
+    levels = levels(clusters_2_f)
+  )
 
   ## Get counts
   cross_counts <- table(clusters_1_f, clusters_2_f)
@@ -65,7 +75,6 @@ reconcile_clusterings <- function(primary_cluster_assignment,
   ## one-to-one and precision = hungarian on col-stdized
 
   if (one_to_one) {
-
     ## Hungarian solver guarantees max diagonal sum
     cost <- cross_counts
 

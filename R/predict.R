@@ -49,7 +49,11 @@
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
 #' @export
-predict.cluster_fit <- function(object, new_data, type = NULL, opts = list(), ...) {
+predict.cluster_fit <- function(object,
+                                new_data,
+                                type = NULL,
+                                opts = list(),
+                                ...) {
   if (inherits(object$fit, "try-error")) {
     rlang::warn("Model fit failed; cannot make predictions.")
     return(NULL)
@@ -107,7 +111,7 @@ prepare_data <- function(object, new_data) {
   fit_interface <- object$spec$method$fit$interface
 
   pp_names <- names(object$preproc)
-  if (any(pp_names == "terms") | any(pp_names == "x_var")) {
+  if (any(pp_names == "terms") || any(pp_names == "x_var")) {
     # Translation code
     if (fit_interface == "formula") {
       new_data <- .convert_x_to_form_new(object$preproc, new_data)
@@ -120,7 +124,7 @@ prepare_data <- function(object, new_data) {
     modelenv::get_encoding(class(object$spec)[1]) %>%
     dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
     dplyr::pull(remove_intercept)
-  if (remove_intercept & any(grepl("Intercept", names(new_data)))) {
+  if (remove_intercept && any(grepl("Intercept", names(new_data)))) {
     new_data <- new_data %>% dplyr::select(-dplyr::one_of("(Intercept)"))
   }
 

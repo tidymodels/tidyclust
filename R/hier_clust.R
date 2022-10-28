@@ -108,7 +108,7 @@ update.hier_clust <- function(object,
   )
 }
 
-# # ------------------------------------------------------------------------------
+# # ----------------------------------------------------------------------------
 
 check_args.hier_clust <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
@@ -131,15 +131,16 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' Simple Wrapper around hclust function
 #'
 #' This wrapper prepares the data into a distance matrix to send to
-#' `stats::hclust` and retains the parameters `num_clusters` or `h` as an attribute.
+#' `stats::hclust` and retains the parameters `num_clusters` or `h` as an
+#' attribute.
 #'
 #' @param x matrix or data frame
 #' @param num_clusters the number of clusters
 #' @param h the height to cut the dendrogram
 #' @param linkage_method the agglomeration method to be used. This should be (an
-#' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
-#' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
-#' (= WPGMC) or `"centroid"` (= UPGMC).
+#'   unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
+#'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
+#'   WPGMC) or `"centroid"` (= UPGMC).
 #' @param dist_fun A distance function to use
 #'
 #' @return A dendrogram

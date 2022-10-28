@@ -2,7 +2,8 @@
 % Please edit documentation in R/metric-enrichment.R
 \name{enrichment}
 \alias{enrichment}
-\title{Measures relationship between cluster assignments and another categorical variable.}
+\title{Measures relationship between cluster assignments and another categorical
+variable.}
 \usage{
 enrichment(data, clusters, var)
 }
@@ -18,5 +19,6 @@ The p-value of a Chi-Square test for relationship between cluster
 assignments and the categorical variable.
 }
 \description{
-Measures relationship between cluster assignments and another categorical variable.
+Measures relationship between cluster assignments and another categorical
+variable.
 }

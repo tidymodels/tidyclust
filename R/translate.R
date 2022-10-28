@@ -1,31 +1,29 @@
 #' Resolve a Model Specification for a Computational Engine
 #'
-#' `translate_tidyclust()` will translate_tidyclust a model specification into a code
-#'  object that is specific to a particular engine (e.g. R package).
-#'  It translate_tidyclusts generic parameters to their counterparts.
+#' `translate_tidyclust()` will translate_tidyclust a model specification into a
+#' code object that is specific to a particular engine (e.g. R package). It
+#' translate_tidyclusts generic parameters to their counterparts.
 #'
 #' @param x A model specification.
 #' @param engine The computational engine for the model (see `?set_engine`).
 #' @param ... Not currently used.
-#' @details
-#' `translate_tidyclust()` produces a _template_ call that lacks the specific
-#'  argument values (such as `data`, etc). These are filled in once
-#'  `fit()` is called with the specifics of the data for the model.
-#'  The call may also include `tune()` arguments if these are in
-#'  the specification. To handle the `tune()` arguments, you need to use the
-#'  [tune package](https://tune.tidymodels.org/). For more information
-#'  see <https://www.tidymodels.org/start/tuning/>
+#' @details `translate_tidyclust()` produces a _template_ call that lacks the
+#' specific argument values (such as `data`, etc). These are filled in once
+#' `fit()` is called with the specifics of the data for the model. The call may
+#' also include `tune()` arguments if these are in the specification. To handle
+#' the `tune()` arguments, you need to use the [tune
+#' package](https://tune.tidymodels.org/). For more information see
+#' <https://www.tidymodels.org/start/tuning/>
 #'
-#' It does contain the resolved argument names that are specific to
-#'  the model fitting function/engine.
+#' It does contain the resolved argument names that are specific to the model
+#' fitting function/engine.
 #'
-#' This function can be useful when you need to understand how
-#'  `tidyclust` goes from a generic model specific to a model fitting
-#'  function.
+#' This function can be useful when you need to understand how `tidyclust` goes
+#' from a generic model specific to a model fitting function.
 #'
 #' **Note**: this function is used internally and users should only use it
-#'  to understand what the underlying syntax would be. It should not be used
-#'  to modify the cluster specification.
+#' to understand what the underlying syntax would be. It should not be used to
+#' modify the cluster specification.
 #'
 #' @export
 translate_tidyclust <- function(x, ...) {
@@ -79,7 +77,10 @@ translate_tidyclust.default <- function(x, engine = x$engine, ...) {
   }
 
   # combine primary, eng_args, and defaults
-  protected <- lapply(x$method$fit$protect, function(x) rlang::expr(missing_arg()))
+  protected <- lapply(
+    x$method$fit$protect,
+    function(x) rlang::expr(missing_arg())
+  )
   names(protected) <- x$method$fit$protect
 
   x$method$fit$args <- c(protected, actual_args, x$eng_args, x$defaults)
@@ -149,7 +150,9 @@ deharmonize <- function(args, key) {
 check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {
-    rlang::abort("Please pass other arguments to the model function via `set_engine()`.")
+    rlang::abort(
+      "Please pass other arguments to the model function via `set_engine()`."
+    )
   }
   terms
 }

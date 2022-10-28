@@ -21,8 +21,8 @@ this case, the parameter tibble should be "K" and not "neighbors".}
 An updated version of \code{x}.
 }
 \description{
-The \verb{finalize_*} functions take a list or tibble of tuning parameter values and
-update objects with those values.
+The \verb{finalize_*} functions take a list or tibble of tuning parameter values
+and update objects with those values.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = tune())

@@ -43,9 +43,12 @@ extract_fit_summary.kmeans <- function(object, ...) {
     levels = levels(names)
   )
 
+  centroids <- object$centers[reorder_clusts, , drop = FALSE]
+  centroids <- tibble::as_tibble(centroids)
+
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centers[reorder_clusts, , drop = FALSE]),
+    centroids = centroids,
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
     tot_sse = object$totss,
@@ -65,9 +68,12 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     levels = levels(names)
   )
 
+  centroids <- object$centroids[reorder_clusts, , drop = FALSE]
+  centroids <- tibble::as_tibble(centroids)
+
   list(
     cluster_names = names,
-    centroids = tibble::as_tibble(object$centroids[reorder_clusts, , drop = FALSE]),
+    centroids = centroids,
     n_members = object$obs_per_cluster[reorder_clusts],
     within_sse = object$WCSS_per_cluster[reorder_clusts],
     tot_sse = object$total_SSE,
@@ -94,7 +100,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     tidyr::nest()
 
   centroids <- by_clust$data %>%
-    map(~ .x %>% dplyr::summarize_all(mean)) %>%
+    map(dplyr::summarize_all, mean) %>%
     dplyr::bind_rows()
 
   within_sse <- map2_dbl(

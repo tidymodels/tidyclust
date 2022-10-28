@@ -3,11 +3,21 @@ make_k_means <- function() {
 
   modelenv::set_model_mode("k_means", "partition")
 
-  # ------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------
 
   modelenv::set_model_engine("k_means", "partition", "stats")
-  modelenv::set_dependency(model = "k_means", mode = "partition", eng = "stats", pkg = "stats")
-  modelenv::set_dependency(model = "k_means", mode = "partition", eng = "stats", pkg = "tidyclust")
+  modelenv::set_dependency(
+    model = "k_means",
+    mode = "partition",
+    eng = "stats",
+    pkg = "stats"
+  )
+  modelenv::set_dependency(
+    model = "k_means",
+    mode = "partition",
+    eng = "stats",
+    pkg = "tidyclust"
+  )
 
   modelenv::set_fit(
     model = "k_means",
@@ -59,11 +69,21 @@ make_k_means <- function() {
     )
   )
 
-  # ------------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------
 
   modelenv::set_model_engine("k_means", "partition", "ClusterR")
-  modelenv::set_dependency(model = "k_means", mode = "partition", eng = "ClusterR", pkg = "ClusterR")
-  modelenv::set_dependency(model = "k_means", mode = "partition", eng = "ClusterR", pkg = "tidyclust")
+  modelenv::set_dependency(
+    model = "k_means",
+    mode = "partition",
+    eng = "ClusterR",
+    pkg = "ClusterR"
+  )
+  modelenv::set_dependency(
+    model = "k_means",
+    mode = "partition",
+    eng = "ClusterR",
+    pkg = "tidyclust"
+  )
 
   modelenv::set_fit(
     model = "k_means",

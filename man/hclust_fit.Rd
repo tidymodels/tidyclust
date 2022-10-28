@@ -19,8 +19,8 @@ hclust_fit(
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
-\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
-(= WPGMC) or \code{"centroid"} (= UPGMC).}
+\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
+WPGMC) or \code{"centroid"} (= UPGMC).}
 
 \item{dist_fun}{A distance function to use}
 
@@ -31,6 +31,7 @@ A dendrogram
 }
 \description{
 This wrapper prepares the data into a distance matrix to send to
-\code{stats::hclust} and retains the parameters \code{num_clusters} or \code{h} as an attribute.
+\code{stats::hclust} and retains the parameters \code{num_clusters} or \code{h} as an
+attribute.
 }
 \keyword{internal}
