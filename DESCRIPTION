@@ -7,9 +7,9 @@ Authors@R: c(
     person("Kelly", "Bodwin", , "kelly@bodwin.us", role = "aut"),
     person("RStudio", role = c("cph", "fnd"))
   )
-Description: A common interface to specifying clustering models, in the same
-    style as `parsnip`. Creates unified interface across different functions 
-    and computational engines.
+Description: A common interface to specifying clustering models, in the
+    same style as `parsnip`. Creates unified interface across different
+    functions and computational engines.
 License: MIT + file LICENSE
 URL: https://github.com/EmilHvitfeldt/tidyclust
 BugReports: https://github.com/EmilHvitfeldt/tidyclust/issues
@@ -42,16 +42,17 @@ Suggests:
     janitor,
     knitr,
     modeldata,
+    RcppHungarian,
     recipes,
     rmarkdown,
-    RcppHungarian,
     testthat (>= 3.0.0),
     workflows
 VignetteBuilder: 
     knitr
 Remotes:
     tidymodels/workflows
-Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins, patchwork, ggforce
+Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
+    patchwork, ggforce
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
