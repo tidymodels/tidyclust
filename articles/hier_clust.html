@@ -132,7 +132,7 @@ current functionality of <code>tidyclust</code>:</p>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">tidyclust</span>::<span style="color: #00BB00;">prepare_data()</span> masks <span style="color: #0000BB;">parsnip</span>::prepare_data()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>         masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>           masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Dig deeper into tidy modeling with R at <span style="color: #00BB00;">https://www.tmwr.org</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Learn how to get started at <span style="color: #00BB00;">https://www.tidymodels.org/start/</span></span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
@@ -141,7 +141,6 @@ current functionality of <code>tidyclust</code>:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span>  </span>
 <span><span class="co"># shuffle rows</span></span>
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -230,7 +229,7 @@ simply choose a value of <code>num_clusters</code> and (optionally) a
 linkage method:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_clust.html">hier_clust</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                       linkage_method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span> </span>
+<span>                       linkage_method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hc_spec</span></span>
 <span><span class="co">#&gt; Hierarchical Clustering Specification (partition)</span></span>
@@ -258,10 +257,10 @@ The default linkage
 <p>We fit the model to data in the usual way:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op">&lt;-</span> <span class="va">hc_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>, </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>      data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         Length Class      Mode</span></span>
 <span><span class="co">#&gt; spec    4      hier_clust list</span></span>
@@ -277,7 +276,7 @@ large size datasets.)</p>
 <p>We can also extract the standard <code>tidyclust</code> summary
 list:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_summary</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">hc_summary</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hc_summary</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 7</span></span>
@@ -724,7 +723,7 @@ assignments from <code>k_means</code>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  hc <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
 <span>  km <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">hc</span>, <span class="va">km</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
 <span><span class="co">#&gt;   hc    km        n</span></span>
@@ -751,7 +750,7 @@ that will be recoded to the first.</p>
 clusterings, the option <code>one_to_one</code> must be set to
 <code>FALSE</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/reconcile_clusterings.html">reconcile_clusterings</a></span><span class="op">(</span>primary_cluster_assignment <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>, </span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/reconcile_clusterings.html">reconcile_clusterings</a></span><span class="op">(</span>primary_cluster_assignment <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
 <span>                      alt_cluster_assignment <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
 <span>                      one_to_one <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 3</span></span></span>
