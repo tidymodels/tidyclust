@@ -20,7 +20,7 @@ prep_data_dist <- function(object, new_data = NULL,
   if (is.null(new_data)) {
     clusters <- extract_fit_summary(object)$cluster_assignments
   } else {
-    clusters <- predict_cluster(object, new_data)
+    clusters <- predict(object, new_data)$.pred_cluster
   }
 
 
@@ -35,9 +35,7 @@ prep_data_dist <- function(object, new_data = NULL,
 
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
-    new_data <- object %>%
-      hardhat::extract_recipe() %>%
-      recipes::bake(new_data)
+    new_data <- extract_post_preprocessor(object, new_data)
   }
 
   # Calculate distances including optionally supplied params
