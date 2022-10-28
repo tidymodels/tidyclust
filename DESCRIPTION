@@ -18,7 +18,6 @@ Imports:
     dials,
     dplyr,
     flexclust,
-    forcats,
     foreach,
     generics,
     glue,
@@ -27,7 +26,6 @@ Imports:
     modelenv,
     parsnip (>= 1.0.1),
     prettyunits,
-    RcppHungarian,
     Rfast,
     rlang,
     rsample,
@@ -46,6 +44,7 @@ Suggests:
     modeldata,
     recipes,
     rmarkdown,
+    RcppHungarian,
     testthat (>= 3.0.0),
     workflows
 VignetteBuilder: 

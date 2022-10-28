@@ -11,7 +11,7 @@ test_that("reconciliation works with one-to-one", {
 
   expect_equal(
     res$alt_recoded,
-    c("Apple", "Apple", "Carrot", "Apple", "Banana", "Banana")
+    c("Carrot", "Carrot", "Banana", "Carrot", "Apple", "Apple")
   )
 })
 
@@ -20,6 +20,15 @@ test_that("reconciliation works with uneven numbers", {
                                   "Banana", "Banana")
   alt_cluster_assignment <- c("Dog", "Dog", "Cat", "Dog", "Parrot", "Fish")
 
+
+  expect_snapshot(
+    error = TRUE,
+    reconcile_clusterings_mapping(
+      primary_cluster_assignment,
+      alt_cluster_assignment,
+      one_to_one = TRUE
+    )
+  )
 
   res <- reconcile_clusterings_mapping(
     primary_cluster_assignment,
@@ -30,5 +39,15 @@ test_that("reconciliation works with uneven numbers", {
   expect_equal(
     res$alt_recoded,
     c("Apple", "Apple", "Carrot", "Apple", "Banana", "Banana")
+  )
+})
+
+test_that("reconciliation errors for uneven lengths", {
+  expect_snapshot(
+    error = TRUE,
+    reconcile_clusterings_mapping(
+      letters,
+      letters[1:10]
+    )
   )
 })

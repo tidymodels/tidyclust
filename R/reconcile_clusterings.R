@@ -6,9 +6,9 @@
 #' assign multiple labels from the alternate assignment to the same primary
 #' label?
 #'
-#' @param primary_cluster_assignment A vector containing cluster labels, to be
+#' @param primary A vector containing cluster labels, to be
 #'   matched
-#' @param alt_cluster_assignment Another vector containing cluster labels, to be
+#' @param alternative Another vector containing cluster labels, to be
 #'   changed
 #' @param one_to_one Boolean; should each alt cluster match only one primary
 #'   cluster?
@@ -22,18 +22,32 @@
 #' matches the corresponding primary cluster
 #'
 #' @return A tibble with 3 columns; `primary`, `alt`, `alt_recoded`
-#' @examples
+#' @examplesIf rlang::is_installed("RcppHungarian")
 #' factor1 <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
 #' factor2 <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Fish")
 #' reconcile_clusterings_mapping(factor1, factor2)
+#'
+#' factor1 <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
+#' factor2 <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Parrot")
+#' reconcile_clusterings_mapping(factor1, factor2, one_to_one = FALSE)
 #' @export
-reconcile_clusterings_mapping <- function(primary_cluster_assignment,
-                                          alt_cluster_assignment,
+reconcile_clusterings_mapping <- function(primary,
+                                          alternative,
                                           one_to_one = TRUE,
                                           optimize = "accuracy") {
   rlang::check_installed("RcppHungarian")
-  clusters_1 <- forcats::fct_inorder(as.character(primary_cluster_assignment))
-  clusters_2 <- forcats::fct_inorder(as.character(alt_cluster_assignment))
+  if (length(primary) != length(alternative)) {
+    rlang::abort(
+      glue::glue(
+        "`primary` ({length(primary)}) ",
+        "and `alternative` ({length(alternative)}) ",
+        "must be the same length."
+      )
+    )
+  }
+
+  clusters_1 <- as.factor(primary)
+  clusters_2 <- as.factor(alternative)
 
   nclust_1 <- length(levels(clusters_1))
   nclust_2 <- length(levels(clusters_2))
@@ -94,17 +108,19 @@ reconcile_clusterings_mapping <- function(primary_cluster_assignment,
     reord <- c(apply(cross_counts, 2, which.max))
   }
 
-
   ## Reorder new clusters and then use original labels
 
   recode_vec <- levels(clusters_2)
   names(recode_vec) <- levels(clusters_1)[reord]
 
-  c2_new <- forcats::fct_recode(clusters_2, !!!recode_vec)
+  c2_new <- factor(
+    names(recode_vec)[as.integer(clusters_2)],
+    levels = unique(names(recode_vec))
+  )
 
-  return(tibble::tibble(
-    primary = primary_cluster_assignment,
-    alt = alt_cluster_assignment,
+  tibble::tibble(
+    primary = primary,
+    alt = alternative,
     alt_recoded = as.character(c2_new)
-  ))
+  )
 }
