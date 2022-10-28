@@ -32,11 +32,19 @@ reconcile_clusterings <- function(primary_cluster_assignment,
   nclust_2 <- length(levels(clusters_2))
 
   if (one_to_one && nclust_1 != nclust_2) {
-    stop("For one-to-one matching, must have the same number of clusters in
-         primary and alt.")
+    rlang::abort(
+      glue::glue(
+        "For one-to-one matching, must have the same number of clusters in",
+         "primary and alt."
+      )
+    )
   } else if (nclust_1 > nclust_2) {
-    stop("Primary clustering must have equal or fewer clusters to alternate
-         clustering.")
+    rlang::abort(
+      glue::glue(
+        "Primary clustering must have equal or fewer clusters to alternate",
+        "clustering."
+      )
+    )
   }
 
   ## Use standard names in order for both

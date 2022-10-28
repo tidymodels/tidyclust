@@ -74,8 +74,12 @@ validate_inputs_are_functions <- function(fns){
   if (!all_fns) {
     not_fn <- which(!is_fun_vec)
     not_fn <- paste(not_fn, collapse = ", ")
-    stop("All inputs to `cluster_metric_set()` must be functions. ",
-         "These inputs are not: (", not_fn, ").", call. = FALSE)
+    rlang::abort(
+      glue::glue(
+        "All inputs to `cluster_metric_set()` must be functions. ",
+         "These inputs are not: ({not_fn})."
+      )
+    )
   }
 }
 

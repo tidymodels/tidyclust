@@ -81,14 +81,11 @@ find_tune_id <- function(x) {
   }
 
   if (sum(tunable_elems == "", na.rm = TRUE) > 1) {
-    stop(
-      paste0(
+    rlang::abort(
+      glue::glue(
         "Only one tunable value is currently allowed per argument. ",
-        "The current argument has: `",
-        paste0(deparse(x), collapse = ""),
-        "`."
-      ),
-      call. = FALSE
+        "The current argument has: `{paste0(deparse(x), collapse = '')}`."
+      )
     )
   }
 

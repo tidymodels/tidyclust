@@ -88,14 +88,13 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
     pred_clusts_num <- map_dbl(change_in_ess, which.min)
 
   } else {
-
-    stop(glue::glue("linkage_method {linkage_method} is not supported for prediction."))
-
+    rlang::abort(
+      glue::glue(
+        "linkage_method {linkage_method} is not supported for prediction."
+      )
+    )
   }
-
-
   pred_clusts <- unique(clusters$.cluster)[pred_clusts_num]
 
   return(factor(pred_clusts))
-
 }
