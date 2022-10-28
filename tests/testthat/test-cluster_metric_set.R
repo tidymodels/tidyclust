@@ -32,11 +32,13 @@ test_that("cluster_metric_set works", {
 })
 
 test_that("cluster_metric_set error with wrong input", {
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     cluster_metric_set(mean)
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     cluster_metric_set(sse_ratio, mean)
   )
 })

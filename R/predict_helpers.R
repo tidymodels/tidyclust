@@ -13,7 +13,6 @@ clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
 }
 
 stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
-
   linkage_method <- object$method
 
   new_data <- as.matrix(new_data)
@@ -43,7 +42,6 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
     pred_clusts_num <- cluster_dists %>%
       dplyr::select(-.cluster) %>%
       map_dbl(which.min)
-
   } else if (linkage_method == "centroid") {
 
     ## Centroid linkage_method, dist to center
@@ -52,7 +50,6 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
     dists_means <- Rfast::dista(new_data, cluster_centers)
 
     pred_clusts_num <- apply(dists_means, 1, which.min)
-
   } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {
 
     ## Ward linkage_method: lowest change in ESS
@@ -64,29 +61,35 @@ stats_hier_clust_predict <- function(object, new_data, prefix = "Cluster_") {
     cluster_names <- cluster_centers[[1]]
     cluster_centers <- as.matrix(cluster_centers[, -1])
 
-    d_means <- map(seq_len(n_clust),
-                   ~t(t(training_data[clusters$.cluster == cluster_names[.x],]) - cluster_centers[.x, ]))
+    d_means <- map(
+      seq_len(n_clust),
+      ~ t(t(training_data[clusters$.cluster == cluster_names[.x], ]) - cluster_centers[.x, ])
+    )
 
     n <- nrow(training_data)
 
-    d_new_list <- map(seq_len(nrow(new_data)),
-                             function(new_obs) {
-                               map(seq_len(n_clust),
-                                          ~ t(t(training_data[clusters$.cluster == cluster_names[.x],])
-                                              - new_data[new_obs,])
-                                          )
-                             }
+    d_new_list <- map(
+      seq_len(nrow(new_data)),
+      function(new_obs) {
+        map(
+          seq_len(n_clust),
+          ~ t(t(training_data[clusters$.cluster == cluster_names[.x], ])
+          - new_data[new_obs, ])
+        )
+      }
     )
 
-    change_in_ess <- map(d_new_list,
-                                function(v) {
-                                  map2_dbl(d_means, v,
-                                            ~ sum((n*.x + .y)^2/(n+1)^2 - .x^2)
-                                  )}
+    change_in_ess <- map(
+      d_new_list,
+      function(v) {
+        map2_dbl(
+          d_means, v,
+          ~ sum((n * .x + .y)^2 / (n + 1)^2 - .x^2)
+        )
+      }
     )
 
     pred_clusts_num <- map_dbl(change_in_ess, which.min)
-
   } else {
     rlang::abort(
       glue::glue(

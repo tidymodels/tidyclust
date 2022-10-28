@@ -1,4 +1,4 @@
-test_that('pipe arguments', {
+test_that("pipe arguments", {
   mod_1 <- k_means() %>%
     set_args(num_clusters = 1)
   expect_equal(
@@ -28,7 +28,7 @@ test_that('pipe arguments', {
 })
 
 
-test_that('pipe engine', {
+test_that("pipe engine", {
   mod_1 <- k_means() %>%
     set_mode("partition")
   expect_equal(mod_1$mode, "partition")
@@ -39,7 +39,8 @@ test_that('pipe engine', {
 })
 
 test_that("can't set a mode that isn't allowed by the model spec", {
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     set_mode(k_means(), "classification")
   )
 })

@@ -53,5 +53,4 @@ test_that("extract summary works for hier_clust", {
 
   expect_true(is.factor(summ1$cluster_names))
   expect_true(is.factor(summ1$cluster_assignments))
-
 })

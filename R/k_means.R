@@ -63,7 +63,6 @@ update.k_means <- function(object,
                            parameters = NULL,
                            num_clusters = NULL,
                            fresh = FALSE, ...) {
-
   eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
 
   if (!is.null(parameters)) {
@@ -80,12 +79,15 @@ update.k_means <- function(object,
     object$eng_args <- eng_args
   } else {
     null_args <- map_lgl(args, null_value)
-    if (any(null_args))
+    if (any(null_args)) {
       args <- args[!null_args]
-    if (length(args) > 0)
+    }
+    if (length(args) > 0) {
       object$args[names(args)] <- args
-    if (length(eng_args) > 0)
+    }
+    if (length(eng_args) > 0) {
       object$eng_args[names(eng_args)] <- eng_args
+    }
   }
 
   new_cluster_spec(
@@ -101,11 +103,11 @@ update.k_means <- function(object,
 # # ------------------------------------------------------------------------------
 
 check_args.k_means <- function(object) {
-
   args <- lapply(object$args, rlang::eval_tidy)
 
-  if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0))
+  if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0)) {
     rlang::abort("The number of centers should be >= 0.")
+  }
 
   invisible(object)
 }

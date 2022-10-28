@@ -96,12 +96,11 @@ avg_silhouette.workflow <- avg_silhouette.cluster_fit
 #' @export
 #' @rdname avg_silhouette
 avg_silhouette_vec <- function(object, new_data = NULL, dists = NULL,
-                                       dist_fun = Rfast::Dist, ...) {
+                               dist_fun = Rfast::Dist, ...) {
   avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
-
 }
 
 avg_silhouette_impl <- function(object, new_data = NULL, dists = NULL,
-                           dist_fun = Rfast::Dist, ...) {
+                                dist_fun = Rfast::Dist, ...) {
   mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
 }

@@ -23,8 +23,6 @@ reconcile_clusterings <- function(primary_cluster_assignment,
                                   alt_cluster_assignment,
                                   one_to_one = TRUE,
                                   optimize = "accuracy") {
-
-
   clusters_1 <- forcats::fct_inorder(as.character(primary_cluster_assignment))
   clusters_2 <- forcats::fct_inorder(as.character(alt_cluster_assignment))
 
@@ -35,7 +33,7 @@ reconcile_clusterings <- function(primary_cluster_assignment,
     rlang::abort(
       glue::glue(
         "For one-to-one matching, must have the same number of clusters in",
-         "primary and alt."
+        "primary and alt."
       )
     )
   } else if (nclust_1 > nclust_2) {
@@ -56,9 +54,11 @@ reconcile_clusterings <- function(primary_cluster_assignment,
 
   ## Get counts
   cross_counts <- table(clusters_1_f, clusters_2_f)
-  cross_counts <- matrix(cross_counts,
-                         ncol = ncol(cross_counts),
-                         dimnames = dimnames(cross_counts))
+  cross_counts <- matrix(
+    cross_counts,
+    ncol = ncol(cross_counts),
+    dimnames = dimnames(cross_counts)
+  )
 
 
   ## one-to-one and accuracy = hungarian on counts
@@ -70,14 +70,13 @@ reconcile_clusterings <- function(primary_cluster_assignment,
     cost <- cross_counts
 
     if (optimize == "precision") {
-      cost <- t(t(cost)/colSums(cost))
+      cost <- t(t(cost) / colSums(cost))
     }
 
     matches <- RcppHungarian::HungarianSolver(-cost)
-    reord <- matches$pairs[,2]
-
+    reord <- matches$pairs[, 2]
   } else {
-      reord <- c(apply(cross_counts, 2, which.max))
+    reord <- c(apply(cross_counts, 2, which.max))
   }
 
 
@@ -93,5 +92,4 @@ reconcile_clusterings <- function(primary_cluster_assignment,
     alt = alt_cluster_assignment,
     alt_recoded = as.character(c2_new)
   ))
-
 }

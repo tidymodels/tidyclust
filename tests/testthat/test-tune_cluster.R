@@ -105,7 +105,7 @@ test_that("tune model only (with formula)", {
   set.seed(4400)
 
   wflow <- workflows::workflow() %>%
-    workflows::add_formula(~ .) %>%
+    workflows::add_formula(~.) %>%
     workflows::add_model(helper_objects$kmeans_mod)
 
   pset <- hardhat::extract_parameter_set_dials(wflow)
@@ -246,7 +246,7 @@ test_that("tune model only - failure in formula is caught elegantly", {
   expect_snapshot(
     cars_res <- tune_cluster(
       helper_objects$kmeans_mod,
-      ~ z,
+      ~z,
       resamples = data_folds,
       grid = cars_grid,
       control = tune::control_grid(extract = function(x) {

@@ -789,18 +789,18 @@ check_metrics <- function(x, object) {
 
   if (is.null(x)) {
     switch(mode,
-           partition = {
-             x <- cluster_metric_set(tot_wss, tot_sse)
-           },
-           unknown = {
-             rlang::abort(
-               paste0(
-                 "Internal error: ",
-                 "`check_installs()` should have caught an `unknown` mode."
-               )
-             )
-           },
-           rlang::abort("Unknown `mode` for parsnip model.")
+      partition = {
+        x <- cluster_metric_set(tot_wss, tot_sse)
+      },
+      unknown = {
+        rlang::abort(
+          paste0(
+            "Internal error: ",
+            "`check_installs()` should have caught an `unknown` mode."
+          )
+        )
+      },
+      rlang::abort("Unknown `mode` for parsnip model.")
     )
 
     return(x)

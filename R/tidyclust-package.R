@@ -29,6 +29,7 @@
 #' @importFrom stats model.offset
 #' @importFrom stats model.weights
 #' @importFrom stats na.omit
+#' @importFrom stats predict
 #' @importFrom tibble as_tibble
 #' @importFrom utils capture.output
 ## usethis namespace: end

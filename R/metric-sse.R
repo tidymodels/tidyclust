@@ -48,8 +48,10 @@ within_cluster_sse <- function(object, new_data = NULL,
         .cluster = factor(paste0("Cluster_", .cluster))
       ) %>%
       dplyr::group_by(.cluster) %>%
-      dplyr::summarize(wss = sum(dist),
-                       n_obs = dplyr::n())
+      dplyr::summarize(
+        wss = sum(dist),
+        n_obs = dplyr::n()
+      )
   }
 
   return(res)
@@ -89,7 +91,6 @@ tot_wss <- new_cluster_metric(
 #' @rdname tot_wss
 tot_wss.cluster_fit <- function(object, new_data = NULL,
                                 dist_fun = NULL, ...) {
-
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
@@ -110,12 +111,12 @@ tot_wss.workflow <- tot_wss.cluster_fit
 #' @export
 #' @rdname tot_wss
 tot_wss_vec <- function(object, new_data = NULL,
-                                dist_fun = Rfast::dista, ...) {
+                        dist_fun = Rfast::dista, ...) {
   tot_wss_impl(object, new_data, dist_fun, ...)
 }
 
 tot_wss_impl <- function(object, new_data = NULL,
-                                dist_fun = Rfast::dista, ...) {
+                         dist_fun = Rfast::dista, ...) {
   sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 }
 
@@ -223,7 +224,7 @@ sse_ratio <- new_cluster_metric(
 #' @export
 #' @rdname sse_ratio
 sse_ratio.cluster_fit <- function(object, new_data = NULL,
-                                dist_fun = NULL, ...) {
+                                  dist_fun = NULL, ...) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }

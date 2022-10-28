@@ -55,8 +55,10 @@ cluster_metric_set <- function(...) {
   if (fn_cls == "cluster_metric") {
     make_cluster_metric_function(fns)
   } else {
-    rlang::abort(paste0("Internal error: `validate_function_class()` should have ",
-                 "errored on unknown classes."))
+    rlang::abort(paste0(
+      "Internal error: `validate_function_class()` should have ",
+      "errored on unknown classes."
+    ))
   }
 }
 
@@ -68,7 +70,7 @@ validate_not_empty <- function(x) {
   }
 }
 
-validate_inputs_are_functions <- function(fns){
+validate_inputs_are_functions <- function(fns) {
   is_fun_vec <- vapply(fns, rlang::is_function, logical(1))
   all_fns <- all(is_fun_vec)
   if (!all_fns) {
@@ -77,7 +79,7 @@ validate_inputs_are_functions <- function(fns){
     rlang::abort(
       glue::glue(
         "All inputs to `cluster_metric_set()` must be functions. ",
-         "These inputs are not: ({not_fn})."
+        "These inputs are not: ({not_fn})."
       )
     )
   }
@@ -154,12 +156,16 @@ make_cluster_metric_function <- function(fns) {
       new_data = new_data
     )
     calls <- lapply(fns, rlang::call2, !!!call_args)
-    metric_list <- mapply(FUN = eval_safely, calls, names(calls),
-                          SIMPLIFY = FALSE, USE.NAMES = FALSE)
+    metric_list <- mapply(
+      FUN = eval_safely, calls, names(calls),
+      SIMPLIFY = FALSE, USE.NAMES = FALSE
+    )
     dplyr::bind_rows(metric_list)
   }
-  class(metric_function) <- c("cluster_metric_set",
-                              class(metric_function))
+  class(metric_function) <- c(
+    "cluster_metric_set",
+    class(metric_function)
+  )
   attr(metric_function, "metrics") <- fns
   metric_function
 }

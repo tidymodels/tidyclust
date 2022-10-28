@@ -1,5 +1,4 @@
 test_that("reconciliation works with one-to-one", {
-
   primary_cluster_assignment <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
   alt_cluster_assignment <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Fish")
 
@@ -12,7 +11,6 @@ test_that("reconciliation works with one-to-one", {
 
 
 test_that("reconciliation works with uneven numbers", {
-
   primary_cluster_assignment <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
   alt_cluster_assignment <- c("Dog", "Dog", "Cat", "Dog", "Parrot", "Fish")
 

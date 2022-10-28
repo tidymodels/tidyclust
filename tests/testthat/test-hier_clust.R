@@ -103,7 +103,7 @@ test_that("printing", {
   )
 })
 
-test_that('updating', {
+test_that("updating", {
   expect_snapshot(
     hier_clust(num_clusters = 5) %>%
       update(num_clusters = tune())

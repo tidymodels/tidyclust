@@ -70,8 +70,9 @@ make_form_call <- function(object, env = NULL) {
 #' @export
 set_args.cluster_spec <- function(object, ...) {
   the_dots <- enquos(...)
-  if (length(the_dots) == 0)
+  if (length(the_dots) == 0) {
     rlang::abort("Please pass at least one named argument.")
+  }
   main_args <- names(object$args)
   new_args <- names(the_dots)
   for (i in new_args) {

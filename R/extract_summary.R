@@ -78,7 +78,6 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
 
 #' @export
 extract_fit_summary.hclust <- function(object, ...) {
-
   clusts <- extract_cluster_assignment(object, ...)$.cluster
   n_clust <- dplyr::n_distinct(clusts)
 
@@ -98,9 +97,11 @@ extract_fit_summary.hclust <- function(object, ...) {
     map(~ .x %>% dplyr::summarize_all(mean)) %>%
     dplyr::bind_rows()
 
-  within_sse <- by_clust$data %>%
-    map2_dbl(seq_len(n_clust),
-              ~ sum(Rfast::dista(centroids[.y,], .x)))
+  within_sse <- map2_dbl(
+    by_clust$data,
+    seq_len(n_clust),
+    ~ sum(Rfast::dista(centroids[.y, ], .x))
+  )
 
   list(
     cluster_names = unique(clusts),

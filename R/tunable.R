@@ -15,7 +15,7 @@ tunable_cluster_spec <- function(x, ...) {
         "The `tidyclust` model database doesn't know about the arguments for ",
         "model `", mod_type(x), "`. Was it registered?",
         sep = ""
-        ),
+      ),
       call. = FALSE
     )
   }
