@@ -333,7 +333,7 @@ a particular partition; but if a training observation is treated as new data, it
 is predicted in the same manner as truly new information.
 
 ```{r}
-cbind(
+bind_cols(
   hc_preds,
   extract_cluster_assignment(hc_fit)
 )
@@ -379,7 +379,7 @@ However, they are not fully unrelated assignments.  For example, all of
 assignments.
 
 Our goal is to relabel the five $k$-means clusters to match the three cluster names
-in the hierarchical output.  This can be accomplished with `reconcile_clusterings()`.
+in the hierarchical output.  This can be accomplished with `reconcile_clusterings_mapping()`.
 
 This function expects as input two vectors of cluster labels.  The first is the
 labels that will be matches, and the second is the labels that will be recoded
@@ -389,9 +389,11 @@ If we are not trying to simply match names across two same-size clusterings,
 the option `one_to_one` must be set to `FALSE`.
 
 ```{r}
-reconcile_clusterings(primary_cluster_assignment = hc_preds$.pred_cluster,
-                      alt_cluster_assignment = km_preds$.pred_cluster,
-                      one_to_one = FALSE)
+reconcile_clusterings_mapping(
+  primary = hc_preds$.pred_cluster,
+  alternative = km_preds$.pred_cluster,
+  one_to_one = FALSE
+)
 ```
 
 In this example, we can see that `KM_1`, `KM_2`, `KM_5` have been matched to 
