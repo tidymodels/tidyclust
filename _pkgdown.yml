@@ -64,5 +64,4 @@ reference:
     - within_cluster_sse
 - title: Other
   contents:
-    - enrichment
     - silhouettes
