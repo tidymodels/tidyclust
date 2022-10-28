@@ -82,7 +82,13 @@ model is <code>"stats"</code>.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># show_engines("k_means")</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Show all engines</span></span></span>
+<span class="r-in"><span><span class="fu">modelenv</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/modelenv/man/get_model_env.html" class="external-link">get_from_env</a></span><span class="op">(</span><span class="st">"k_means"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   engine   mode     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> stats    partition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> ClusterR partition</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">k_means</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K Means Cluster Specification (partition)</span>

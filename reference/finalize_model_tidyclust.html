@@ -87,12 +87,6 @@ this case, the parameter tibble should be "K" and not "neighbors".</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fu"><a href="https://hardhat.tidymodels.org/reference/tune.html" class="external-link">tune</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">best_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">best_params</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   num_clusters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1            5</span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">kmeans_spec</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K Means Cluster Specification (partition)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -101,6 +95,12 @@ this case, the parameter tibble should be "K" and not "neighbors".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computational engine: stats </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">best_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">best_params</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   num_clusters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1            5</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">finalize_model_tidyclust</span><span class="op">(</span><span class="va">kmeans_spec</span>, <span class="va">best_params</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K Means Cluster Specification (partition)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
