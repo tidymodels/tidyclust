@@ -6,12 +6,6 @@
 #' assign multiple labels from the alternate assignment to the same primary
 #' label?
 #'
-#' When forcing one-to-one, the user needs to decide what to prioritize:
-#'  *  "accuracy": optimize raw count of all observations with the same label
-#' across the two assignments
-#'  *  "precision": optimize the average percent of each alt cluster that
-#' matchesthe corresponding primary cluster
-#'
 #' @param primary_cluster_assignment A vector containing cluster labels, to be
 #'   matched
 #' @param alt_cluster_assignment Another vector containing cluster labels, to be
@@ -20,12 +14,24 @@
 #'   cluster?
 #' @param optimize One of "accuracy" or "precision"; see description.
 #'
-#' @return A vector with the new cluster labels
+#' @description
+#' When forcing one-to-one, the user needs to decide what to prioritize:
+#'  *  "accuracy": optimize raw count of all observations with the same label
+#' across the two assignments
+#'  *  "precision": optimize the average percent of each alt cluster that
+#' matches the corresponding primary cluster
+#'
+#' @return A tibble with 3 columns; `primary`, `alt`, `alt_recoded`
+#' @examples
+#' factor1 <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
+#' factor2 <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Fish")
+#' reconcile_clusterings_mapping(factor1, factor2)
 #' @export
-reconcile_clusterings <- function(primary_cluster_assignment,
-                                  alt_cluster_assignment,
-                                  one_to_one = TRUE,
-                                  optimize = "accuracy") {
+reconcile_clusterings_mapping <- function(primary_cluster_assignment,
+                                          alt_cluster_assignment,
+                                          one_to_one = TRUE,
+                                          optimize = "accuracy") {
+  rlang::check_installed("RcppHungarian")
   clusters_1 <- forcats::fct_inorder(as.character(primary_cluster_assignment))
   clusters_2 <- forcats::fct_inorder(as.character(alt_cluster_assignment))
 

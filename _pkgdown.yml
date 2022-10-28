@@ -59,7 +59,7 @@ reference:
     - get_centroid_dists
     - new_cluster_metric
     - prep_data_dist
-    - reconcile_clusterings
+    - reconcile_clusterings_mapping
     - translate_tidyclust
     - within_cluster_sse
 - title: Other

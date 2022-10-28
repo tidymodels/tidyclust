@@ -4,7 +4,7 @@ test_that("reconciliation works with one-to-one", {
   alt_cluster_assignment <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Fish")
 
 
-  res <- reconcile_clusterings(
+  res <- reconcile_clusterings_mapping(
     primary_cluster_assignment,
     alt_cluster_assignment
   )
@@ -15,15 +15,13 @@ test_that("reconciliation works with one-to-one", {
   )
 })
 
-
-
 test_that("reconciliation works with uneven numbers", {
   primary_cluster_assignment <- c("Apple", "Apple", "Carrot", "Carrot",
                                   "Banana", "Banana")
   alt_cluster_assignment <- c("Dog", "Dog", "Cat", "Dog", "Parrot", "Fish")
 
 
-  res <- reconcile_clusterings(
+  res <- reconcile_clusterings_mapping(
     primary_cluster_assignment,
     alt_cluster_assignment,
     one_to_one = FALSE
