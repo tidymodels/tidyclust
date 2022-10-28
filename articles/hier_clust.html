@@ -132,7 +132,7 @@ current functionality of <code>tidyclust</code>:</p>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">tidyclust</span>::<span style="color: #00BB00;">prepare_data()</span> masks <span style="color: #0000BB;">parsnip</span>::prepare_data()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>         masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>           masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Dig deeper into tidy modeling with R at <span style="color: #00BB00;">https://www.tmwr.org</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
@@ -350,353 +350,24 @@ which clusters are created during the aggolmerations results in a
 particular partition; but if a training observation is treated as new
 data, it is predicted in the same manner as truly new information.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_cols</a></span><span class="op">(</span></span>
 <span>  <span class="va">hc_preds</span>,</span>
 <span>  <span class="fu"><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="va">hc_fit</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt;     .pred_cluster  .cluster</span></span>
-<span><span class="co">#&gt; 1       Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 2       Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 3       Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 4       Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 5       Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 6       Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 7       Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 8       Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 9       Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 10      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 11      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 12      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 13      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 14      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 15      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 16      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 17      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 18      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 19      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 20      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 21      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 22      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 23      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 24      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 25      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 26      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 27      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 28      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 29      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 30      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 31      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 32      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 33      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 34      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 35      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 36      Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 37      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 38      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 39      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 40      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 41      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 42      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 43      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 44      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 45      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 46      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 47      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 48      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 49      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 50      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 51      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 52      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 53      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 54      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 55      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 56      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 57      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 58      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 59      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 60      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 61      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 62      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 63      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 64      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 65      Cluster_3 Cluster_3</span></span>
-<span><span class="co">#&gt; 66      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 67      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 68      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 69      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 70      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 71      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 72      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 73      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 74      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 75      Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 76      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 77      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 78      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 79      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 80      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 81      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 82      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 83      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 84      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 85      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 86      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 87      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 88      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 89      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 90      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 91      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 92      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 93      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 94      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 95      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 96      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 97      Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 98      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 99      Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 100     Cluster_1 Cluster_2</span></span>
-<span><span class="co">#&gt; 101     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 102     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 103     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 104     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 105     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 106     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 107     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 108     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 109     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 110     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 111     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 112     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 113     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 114     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 115     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 116     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 117     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 118     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 119     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 120     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 121     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 122     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 123     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 124     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 125     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 126     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 127     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 128     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 129     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 130     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 131     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 132     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 133     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 134     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 135     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 136     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 137     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 138     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 139     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 140     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 141     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 142     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 143     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 144     Cluster_2 Cluster_1</span></span>
-<span><span class="co">#&gt; 145     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 146     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 147     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 148     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 149     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 150     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 151     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 152     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 153     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 154     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 155     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 156     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 157     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 158     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 159     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 160     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 161     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 162     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 163     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 164     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 165     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 166     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 167     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 168     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 169     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 170     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 171     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 172     Cluster_1 Cluster_2</span></span>
-<span><span class="co">#&gt; 173     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 174     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 175     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 176     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 177     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 178     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 179     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 180     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 181     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 182     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 183     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 184     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 185     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 186     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 187     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 188     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 189     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 190     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 191     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 192     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 193     Cluster_3 Cluster_3</span></span>
-<span><span class="co">#&gt; 194     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 195     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 196     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 197     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 198     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 199     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 200     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 201     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 202     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 203     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 204     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 205     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 206     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 207     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 208     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 209     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 210     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 211     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 212     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 213     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 214     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 215     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 216     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 217     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 218     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 219     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 220     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 221     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 222     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 223     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 224     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 225     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 226     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 227     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 228     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 229     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 230     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 231     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 232     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 233     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 234     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 235     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 236     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 237     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 238     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 239     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 240     Cluster_3 Cluster_3</span></span>
-<span><span class="co">#&gt; 241     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 242     Cluster_1 Cluster_2</span></span>
-<span><span class="co">#&gt; 243     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 244     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 245     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 246     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 247     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 248     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 249     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 250     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 251     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 252     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 253     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 254     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 255     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 256     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 257     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 258     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 259     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 260     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 261     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 262     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 263     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 264     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 265     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 266     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 267     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 268     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 269     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 270     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 271     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 272     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 273     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 274     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 275     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 276     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 277     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 278     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 279     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 280     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 281     Cluster_3 Cluster_3</span></span>
-<span><span class="co">#&gt; 282     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 283     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 284     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 285     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 286     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 287     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 288     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 289     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 290     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 291     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 292     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 293     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 294     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 295     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 296     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 297     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 298     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 299     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 300     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 301     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 302     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 303     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 304     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 305     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 306     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 307     Cluster_1 Cluster_2</span></span>
-<span><span class="co">#&gt; 308     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 309     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 310     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 311     Cluster_3 Cluster_2</span></span>
-<span><span class="co">#&gt; 312     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 313     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 314     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 315     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 316     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 317     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 318     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 319     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 320     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 321     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 322     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 323     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 324     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 325     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 326     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 327     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 328     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 329     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 330     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 331     Cluster_3 Cluster_3</span></span>
-<span><span class="co">#&gt; 332     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 333     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 334     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 335     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 336     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 337     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 338     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 339     Cluster_2 Cluster_2</span></span>
-<span><span class="co">#&gt; 340     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 341     Cluster_1 Cluster_1</span></span>
-<span><span class="co">#&gt; 342     Cluster_1 Cluster_1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 2</span></span></span>
+<span><span class="co">#&gt;    .pred_cluster .cluster </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Cluster_1     Cluster_1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Cluster_1     Cluster_1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Cluster_1     Cluster_1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Cluster_2     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Cluster_3     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Cluster_3     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Cluster_2     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Cluster_2     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Cluster_1     Cluster_1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Cluster_2     Cluster_2</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 332 more rows</span></span></span></code></pre></div>
 <!-- Overriding cluster partition: -->
 <!-- ```{r} -->
 <!-- hc_fit %>% extract_cluster_assignment(num_clusters = 5) -->
@@ -742,7 +413,7 @@ assignment fell inside <code>HC_1</code> for the hierarchical
 assignments.</p>
 <p>Our goal is to relabel the five <span class="math inline">\(k\)</span>-means clusters to match the three
 cluster names in the hierarchical output. This can be accomplished with
-<code><a href="../reference/reconcile_clusterings.html">reconcile_clusterings()</a></code>.</p>
+<code><a href="../reference/reconcile_clusterings_mapping.html">reconcile_clusterings_mapping()</a></code>.</p>
 <p>This function expects as input two vectors of cluster labels. The
 first is the labels that will be matches, and the second is the labels
 that will be recoded to the first.</p>
@@ -750,9 +421,11 @@ that will be recoded to the first.</p>
 clusterings, the option <code>one_to_one</code> must be set to
 <code>FALSE</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/reconcile_clusterings.html">reconcile_clusterings</a></span><span class="op">(</span>primary_cluster_assignment <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
-<span>                      alt_cluster_assignment <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
-<span>                      one_to_one <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/reconcile_clusterings_mapping.html">reconcile_clusterings_mapping</a></span><span class="op">(</span></span>
+<span>  primary <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
+<span>  one_to_one <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 3</span></span></span>
 <span><span class="co">#&gt;    primary alt   alt_recoded</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
