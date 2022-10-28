@@ -14,8 +14,7 @@
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
-#'   within_cluster_sse()
+#' within_cluster_sse(kmeans_fit)
 #' @export
 within_cluster_sse <- function(object, new_data = NULL,
                                dist_fun = Rfast::dista) {
@@ -70,11 +69,9 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
-#'   tot_wss()
+#' tot_wss(kmeans_fit)
 #'
-#' kmeans_fit %>%
-#'   tot_wss_vec()
+#' tot_wss_vec(kmeans_fit)
 #' @export
 tot_wss <- function(object, ...) {
   UseMethod("tot_wss")
@@ -133,11 +130,9 @@ tot_wss_impl <- function(object, new_data = NULL,
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
-#'   tot_sse()
+#' tot_sse(kmeans_fit)
 #'
-#' kmeans_fit %>%
-#'   tot_sse_vec()
+#' tot_sse_vec(kmeans_fit)
 #' @export
 tot_sse <- function(object, ...) {
   UseMethod("tot_sse")
@@ -211,8 +206,9 @@ tot_sse_impl <- function(object,
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
-#'   sse_ratio()
+#' sse_ratio(kmeans_fit)
+#'
+#' sse_ratio_vec(kmeans_fit)
 #' @export
 sse_ratio <- function(object, ...) {
   UseMethod("sse_ratio")

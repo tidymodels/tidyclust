@@ -19,7 +19,8 @@
 #'   WPGMC) or `"centroid"` (= UPGMC).
 #'
 #' @examples
-#' # show_engines("hier_clust")
+#' # Show all engines
+#' modelenv::get_from_env("hier_clust")
 #'
 #' hier_clust()
 #' @export

@@ -65,5 +65,32 @@ RMSE) for a pre-defined set of tuning parameters that correspond to a model
 or recipe across one or more resamples of the data.
 }
 \examples{
-1 + 1
+library(recipes)
+library(rsample)
+library(workflows)
+library(tune)
+
+rec_spec <- recipe(~., data = mtcars) \%>\%
+  step_normalize(all_numeric_predictors()) \%>\%
+  step_pca(all_numeric_predictors())
+
+kmeans_spec <- k_means(num_clusters = tune())
+
+wflow <- workflow() \%>\%
+  add_recipe(rec_spec) \%>\%
+  add_model(kmeans_spec)
+
+grid <- tibble(num_clusters = 1:3)
+
+set.seed(4400)
+folds <- vfold_cv(mtcars)
+
+res <- tune_cluster(
+  wflow,
+  resamples = folds,
+  grid = grid
+)
+res
+
+collect_metrics(res)
 }

@@ -34,9 +34,7 @@ kmeans_spec <- k_means(num_clusters = 5) \%>\%
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-kmeans_fit \%>\%
-  tot_wss()
+tot_wss(kmeans_fit)
 
-kmeans_fit \%>\%
-  tot_wss_vec()
+tot_wss_vec(kmeans_fit)
 }

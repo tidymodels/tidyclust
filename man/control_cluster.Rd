@@ -26,3 +26,8 @@ the results of the function call
 Options can be passed to the \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} function that control the
 output and computations.
 }
+\examples{
+control_cluster()
+
+control_cluster(catch = TRUE)
+}

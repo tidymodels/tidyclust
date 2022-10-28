@@ -11,11 +11,11 @@
 #' @return An updated version of `x`.
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = tune())
+#' kmeans_spec
 #'
 #' best_params <- data.frame(num_clusters = 5)
 #' best_params
 #'
-#' kmeans_spec
 #' finalize_model_tidyclust(kmeans_spec, best_params)
 #' @export
 finalize_model_tidyclust <- function(x, parameters) {

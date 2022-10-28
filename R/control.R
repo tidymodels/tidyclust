@@ -14,6 +14,10 @@
 #'   (without an error) that inherits the class "try-error".
 #' @return An S3 object with class "control_cluster" that is a named list with
 #'   the results of the function call
+#' @examples
+#' control_cluster()
+#'
+#' control_cluster(catch = TRUE)
 #' @export
 control_cluster <- function(verbosity = 1L, catch = FALSE) {
   res <- list(verbosity = verbosity, catch = catch)

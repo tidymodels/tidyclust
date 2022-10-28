@@ -21,7 +21,8 @@ model is \code{"stats"}.}
 of centers.
 }
 \examples{
-# show_engines("k_means")
+# Show all engines
+modelenv::get_from_env("k_means")
 
 k_means()
 }

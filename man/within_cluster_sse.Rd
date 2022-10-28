@@ -27,6 +27,5 @@ kmeans_spec <- k_means(num_clusters = 5) \%>\%
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-kmeans_fit \%>\%
-  within_cluster_sse()
+within_cluster_sse(kmeans_fit)
 }
