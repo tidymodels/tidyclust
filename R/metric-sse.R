@@ -3,10 +3,10 @@
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
-#' to Euclidean distance on processed data.
+#'   to Euclidean distance on processed data.
 #'
 #' @return A tibble with two columns, the cluster name and the SSE within that
-#' cluster.
+#'   cluster.
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
@@ -16,7 +16,6 @@
 #'
 #' kmeans_fit %>%
 #'   within_cluster_sse()
-#'
 #' @export
 within_cluster_sse <- function(object, new_data = NULL,
                                dist_fun = Rfast::dista) {
@@ -62,9 +61,8 @@ within_cluster_sse <- function(object, new_data = NULL,
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
-#' to Euclidean distance on processed data.
+#'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
-#'
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
@@ -125,7 +123,7 @@ tot_wss_impl <- function(object, new_data = NULL,
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
-#' to Euclidean distance on processed data.
+#'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
 #'
@@ -204,7 +202,7 @@ tot_sse_impl <- function(object,
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
-#' to Euclidean distance on processed data.
+#'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
 #' @examples

@@ -1,18 +1,19 @@
 #' Helper functions to convert between formula and matrix interface
 #'
 #' @description Functions to take a formula interface and get the resulting
-#' objects (y, x, weights, etc) back or the other way around. The functions are
-#' intended for developer use. For the most part, this emulates the internals of
-#' `lm()` (and also see the notes at
-#' https://developer.r-project.org/model-fitting-functions.html).
+#'   objects (y, x, weights, etc) back or the other way around. The functions
+#'   are intended for developer use. For the most part, this emulates the
+#'   internals of `lm()` (and also see the notes at
+#'   https://developer.r-project.org/model-fitting-functions.html).
 #'
-#' `.convert_form_to_x_fit()` and `.convert_x_to_form_fit()` are for when the
-#' data are created for modeling. `.convert_form_to_x_fit()` saves both the data
-#' objects as well as the objects needed when new data are predicted (e.g.
-#' `terms`, etc.).
+#'   `.convert_form_to_x_fit()` and `.convert_x_to_form_fit()` are for when the
+#'   data are created for modeling. `.convert_form_to_x_fit()` saves both the
+#'   data objects as well as the objects needed when new data are predicted
+#'   (e.g. `terms`, etc.).
 #'
-#' `.convert_form_to_x_new()` and `.convert_x_to_form_new()` are used when new
-#' samples are being predicted and only require the predictors to be available.
+#'   `.convert_form_to_x_new()` and `.convert_x_to_form_new()` are used when new
+#'   samples are being predicted and only require the predictors to be
+#'   available.
 #'
 #' @param data A data frame containing all relevant variables (e.g. predictors,
 #'   case weights, etc).
@@ -30,7 +31,6 @@
 #' @rdname convert_helpers
 #' @keywords internal
 #' @export
-#'
 .convert_form_to_x_fit <- function(formula,
                                    data,
                                    ...,
@@ -153,7 +153,6 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 #' @rdname convert_helpers
 #' @keywords internal
 #' @export
-#'
 .convert_x_to_form_fit <- function(x,
                                    weights = NULL,
                                    remove_intercept = TRUE) {

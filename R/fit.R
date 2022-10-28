@@ -13,8 +13,7 @@
 #' @param control A named list with elements `verbosity` and `catch`. See
 #'   [control_cluster()].
 #' @param ... Not currently used; values passed here will be ignored. Other
-#'   options required to fit the model should be passed using
-#'   `set_engine()`.
+#'   options required to fit the model should be passed using `set_engine()`.
 #' @details  `fit()` and `fit_xy()` substitute the current arguments in the
 #'   model specification into the computational engine's code, check them for
 #'   validity, then fit the model using the data and the engine-specific code.
@@ -68,14 +67,13 @@
 #'                           non-formula interface
 #'                           (such as the \code{terms} object)
 #'   }
-#'  The return value will also have a class related to the fitted model (e.g.
-#'  `"_kmeans"`) before the base class of `"cluster_fit"`.
+#'   The return value will also have a class related to the fitted model (e.g.
+#'   `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine()], [control_cluster()], `cluster_spec`,
-#'   `cluster_fit`
+#' @seealso [set_engine()], [control_cluster()], `cluster_spec`, `cluster_fit`
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
-#'   models have support for sparse matrix input. See
-#'   `modelenv::get_encoding()` for details. `x` should have column names.
+#'   models have support for sparse matrix input. See `modelenv::get_encoding()`
+#'   for details. `x` should have column names.
 #' @param case_weights An optional classed vector of numeric case weights. This
 #'   must return `TRUE` when [hardhat::is_case_weights()] is run on it. See
 #'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for

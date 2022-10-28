@@ -5,18 +5,18 @@
 #' `hier_clust()` defines a model that fits clusters based on a distance-based
 #' dendrogram
 #'
-#' @param mode A single character string for the type of model.
-#'  The only possible value for this model is "partition".
+#' @param mode A single character string for the type of model. The only
+#'   possible value for this model is "partition".
 #' @param engine A single character string specifying what computational engine
-#'  to use for fitting. Possible engines are listed below. The default for this
-#'  model is `"stats"`.
+#'   to use for fitting. Possible engines are listed below. The default for this
+#'   model is `"stats"`.
 #' @param num_clusters Positive integer, number of clusters in model (optional).
 #' @param cut_height Positive double, height at which to cut dendrogram to
 #'   obtain cluster assignments (only used if `num_clusters` is `NULL`)
 #' @param linkage_method the agglomeration method to be used. This should be (an
-#' unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
-#' `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"`
-#' (= WPGMC) or `"centroid"` (= UPGMC).
+#'   unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
+#'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
+#'   WPGMC) or `"centroid"` (= UPGMC).
 #'
 #' @examples
 #' # show_engines("hier_clust")

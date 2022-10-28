@@ -14,48 +14,44 @@
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 
-\item{type}{A single character value or \code{NULL}. Possible values
-are "cluster", or "raw". When \code{NULL}, \code{predict()} will choose an
-appropriate value based on the model's mode.}
+\item{type}{A single character value or \code{NULL}. Possible values are
+"cluster", or "raw". When \code{NULL}, \code{predict()} will choose an appropriate
+value based on the model's mode.}
 
-\item{opts}{A list of optional arguments to the underlying
-predict function that will be used when \code{type = "raw"}. The
-list should not include options for the model object or the
-new data being predicted.}
+\item{opts}{A list of optional arguments to the underlying predict function
+that will be used when \code{type = "raw"}. The list should not include options
+for the model object or the new data being predicted.}
 
-\item{...}{Arguments to the underlying model's prediction
-function cannot be passed here (see \code{opts}).}
+\item{...}{Arguments to the underlying model's prediction function cannot be
+passed here (see \code{opts}).}
 }
 \value{
 With the exception of \code{type = "raw"}, the results of
-\code{predict.cluster_fit()} will be a tibble as many rows in the output
-as there are rows in \code{new_data} and the column names will be
-predictable.
+\code{predict.cluster_fit()} will be a tibble as many rows in the output as
+there are rows in \code{new_data} and the column names will be predictable.
 
 For clustering results the tibble will have a \code{.pred_cluster} column.
 
-Using \code{type = "raw"} with \code{predict.cluster_fit()} will return
-the unadulterated results of the prediction function.
+Using \code{type = "raw"} with \code{predict.cluster_fit()} will return the
+unadulterated results of the prediction function.
 
-When the model fit failed and the error was captured, the
-\code{predict()} function will return the same structure as above but
-filled with missing values. This does not currently work for
-multivariate models.
+When the model fit failed and the error was captured, the \code{predict()}
+function will return the same structure as above but filled with missing
+values. This does not currently work for multivariate models.
 }
 \description{
-Apply a model to create different types of predictions.
-\code{predict()} can be used for all types of models and uses the
-"type" argument for more specificity.
+Apply a model to create different types of predictions. \code{predict()} can be
+used for all types of models and uses the "type" argument for more
+specificity.
 }
 \details{
-If "type" is not supplied to \code{predict()}, then a choice
-is made:
+If "type" is not supplied to \code{predict()}, then a choice is made:
 \itemize{
 \item \code{type = "cluster"} for clustering models
 }
 
-\code{predict()} is designed to provide a tidy result (see "Value"
-section below) in a tibble output format.
+\code{predict()} is designed to provide a tidy result (see "Value" section
+below) in a tibble output format.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%

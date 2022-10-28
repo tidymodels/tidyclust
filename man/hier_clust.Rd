@@ -13,8 +13,8 @@ hier_clust(
 )
 }
 \arguments{
-\item{mode}{A single character string for the type of model.
-The only possible value for this model is "partition".}
+\item{mode}{A single character string for the type of model. The only
+possible value for this model is "partition".}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting. Possible engines are listed below. The default for this
@@ -27,8 +27,8 @@ obtain cluster assignments (only used if \code{num_clusters} is \code{NULL})}
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
-\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
-(= WPGMC) or \code{"centroid"} (= UPGMC).}
+\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
+WPGMC) or \code{"centroid"} (= UPGMC).}
 }
 \description{
 \code{hier_clust()} defines a model that fits clusters based on a distance-based

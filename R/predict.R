@@ -1,42 +1,38 @@
 #' Model predictions
 #'
-#' Apply a model to create different types of predictions.
-#'  `predict()` can be used for all types of models and uses the
-#'  "type" argument for more specificity.
+#' Apply a model to create different types of predictions. `predict()` can be
+#' used for all types of models and uses the "type" argument for more
+#' specificity.
 #'
 #' @param object An object of class `cluster_fit`
 #' @param new_data A rectangular data object, such as a data frame.
-#' @param type A single character value or `NULL`. Possible values
-#'   are "cluster", or "raw". When `NULL`, `predict()` will choose an
-#'  appropriate value based on the model's mode.
-#' @param opts A list of optional arguments to the underlying
-#'  predict function that will be used when `type = "raw"`. The
-#'  list should not include options for the model object or the
-#'  new data being predicted.
-#' @param ... Arguments to the underlying model's prediction
-#'  function cannot be passed here (see `opts`).
-#' @details If "type" is not supplied to `predict()`, then a choice
-#'  is made:
+#' @param type A single character value or `NULL`. Possible values are
+#'   "cluster", or "raw". When `NULL`, `predict()` will choose an appropriate
+#'   value based on the model's mode.
+#' @param opts A list of optional arguments to the underlying predict function
+#'   that will be used when `type = "raw"`. The list should not include options
+#'   for the model object or the new data being predicted.
+#' @param ... Arguments to the underlying model's prediction function cannot be
+#'   passed here (see `opts`).
+#' @details If "type" is not supplied to `predict()`, then a choice is made:
 #'
 #'   * `type = "cluster"` for clustering models
 #'
-#' `predict()` is designed to provide a tidy result (see "Value"
-#'  section below) in a tibble output format.
+#'   `predict()` is designed to provide a tidy result (see "Value" section
+#'   below) in a tibble output format.
 #'
 #' @return With the exception of `type = "raw"`, the results of
-#'  `predict.cluster_fit()` will be a tibble as many rows in the output
-#'  as there are rows in `new_data` and the column names will be
-#'  predictable.
+#'   `predict.cluster_fit()` will be a tibble as many rows in the output as
+#'   there are rows in `new_data` and the column names will be predictable.
 #'
-#' For clustering results the tibble will have a `.pred_cluster` column.
+#'   For clustering results the tibble will have a `.pred_cluster` column.
 #'
-#' Using `type = "raw"` with `predict.cluster_fit()` will return
-#'  the unadulterated results of the prediction function.
+#'   Using `type = "raw"` with `predict.cluster_fit()` will return the
+#'   unadulterated results of the prediction function.
 #'
-#' When the model fit failed and the error was captured, the
-#'  `predict()` function will return the same structure as above but
-#'  filled with missing values. This does not currently work for
-#'  multivariate models.
+#'   When the model fit failed and the error was captured, the `predict()`
+#'   function will return the same structure as above but filled with missing
+#'   values. This does not currently work for multivariate models.
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%

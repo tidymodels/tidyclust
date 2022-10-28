@@ -10,8 +10,8 @@ cluster_metric_set(...)
 \item{...}{The bare names of the functions to be included in the metric set.}
 }
 \description{
-\code{metric_set()} allows you to combine multiple metric functions together
-into a new function that calculates all of them at once.
+\code{metric_set()} allows you to combine multiple metric functions together into
+a new function that calculates all of them at once.
 }
 \details{
 All functions must be:

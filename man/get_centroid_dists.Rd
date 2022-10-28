@@ -11,8 +11,8 @@ get_centroid_dists(new_data, centroids, dist_fun = Rfast::dista)
 
 \item{centroids}{A data frame where each row is a centroid.}
 
-\item{dist_fun}{A function for computing matrix-to-matrix distances.
-Defaults to \code{Rfast::dista()}}
+\item{dist_fun}{A function for computing matrix-to-matrix distances. Defaults
+to \code{Rfast::dista()}}
 }
 \description{
 Computes distance from observations to centroids

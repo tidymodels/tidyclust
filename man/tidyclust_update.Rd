@@ -21,11 +21,11 @@
 \arguments{
 \item{object}{A cluster specification.}
 
-\item{parameters}{A 1-row tibble or named list with \emph{main}
-parameters to update. Use \strong{either} \code{parameters} \strong{or} the main arguments
-directly when updating. If the main arguments are used,
-these will supersede the values in \code{parameters}. Also, using
-engine arguments in this object will result in an error.}
+\item{parameters}{A 1-row tibble or named list with \emph{main} parameters to
+update. Use \strong{either} \code{parameters} \strong{or} the main arguments directly when
+updating. If the main arguments are used, these will supersede the values
+in \code{parameters}. Also, using engine arguments in this object will result in
+an error.}
 
 \item{num_clusters}{Positive integer, number of clusters in model.}
 
@@ -34,11 +34,11 @@ obtain cluster assignments (only used if \code{num_clusters} is \code{NULL})}
 
 \item{linkage_method}{the agglomeration method to be used. This should be (an
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
-\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"}
-(= WPGMC) or \code{"centroid"} (= UPGMC).}
+\code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
+WPGMC) or \code{"centroid"} (= UPGMC).}
 
-\item{fresh}{A logical for whether the arguments should be
-modified in-place or replaced wholesale.}
+\item{fresh}{A logical for whether the arguments should be modified in-place
+or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 }
@@ -46,8 +46,8 @@ modified in-place or replaced wholesale.}
 An updated cluster specification.
 }
 \description{
-If parameters of a cluster specification need to be modified, \code{update()} can
-be used in lieu of recreating the object from scratch.
+If parameters of a cluster specification need to be modified,
+\code{update()} can be used in lieu of recreating the object from scratch.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5)

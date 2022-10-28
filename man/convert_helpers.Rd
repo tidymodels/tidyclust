@@ -51,8 +51,8 @@ should be returned as a \code{"matrix"} or a \code{"data.frame"}.}
 column after \code{model.matrix()} is finished.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See
-\code{modelenv::get_encoding()} for details. \code{x} should have column names.}
+models have support for sparse matrix input. See \code{modelenv::get_encoding()}
+for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
 
@@ -62,17 +62,18 @@ models have support for sparse matrix input. See
 }
 \description{
 Functions to take a formula interface and get the resulting
-objects (y, x, weights, etc) back or the other way around. The functions are
-intended for developer use. For the most part, this emulates the internals of
-\code{lm()} (and also see the notes at
+objects (y, x, weights, etc) back or the other way around. The functions
+are intended for developer use. For the most part, this emulates the
+internals of \code{lm()} (and also see the notes at
 https://developer.r-project.org/model-fitting-functions.html).
 
 \code{.convert_form_to_x_fit()} and \code{.convert_x_to_form_fit()} are for when the
-data are created for modeling. \code{.convert_form_to_x_fit()} saves both the data
-objects as well as the objects needed when new data are predicted (e.g.
-\code{terms}, etc.).
+data are created for modeling. \code{.convert_form_to_x_fit()} saves both the
+data objects as well as the objects needed when new data are predicted
+(e.g. \code{terms}, etc.).
 
 \code{.convert_form_to_x_new()} and \code{.convert_x_to_form_new()} are used when new
-samples are being predicted and only require the predictors to be available.
+samples are being predicted and only require the predictors to be
+available.
 }
 \keyword{internal}

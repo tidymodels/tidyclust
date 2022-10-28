@@ -17,8 +17,8 @@ new_cluster_metric(fn, direction)
 }}
 }
 \description{
-These functions provide convenient wrappers to create the one type of
-metric functions in celrry: clustering metrics. They add a metric-specific
-class to \code{fn}. These features are used by \code{\link[=cluster_metric_set]{cluster_metric_set()}}
-and by \code{\link[=tune_cluster]{tune_cluster()}} when tuning.
+These functions provide convenient wrappers to create the one
+type of metric functions in celrry: clustering metrics. They add a
+metric-specific class to \code{fn}. These features are used by
+\code{\link[=cluster_metric_set]{cluster_metric_set()}} and by \code{\link[=tune_cluster]{tune_cluster()}} when tuning.
 }

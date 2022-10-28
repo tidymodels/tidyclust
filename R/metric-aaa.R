@@ -1,10 +1,9 @@
 #' Construct a new clustering metric function
 #'
-#' @description
-#' These functions provide convenient wrappers to create the one type of
-#' metric functions in celrry: clustering metrics. They add a metric-specific
-#'  class to `fn`. These features are used by [cluster_metric_set()]
-#' and by [tune_cluster()] when tuning.
+#' @description These functions provide convenient wrappers to create the one
+#'   type of metric functions in celrry: clustering metrics. They add a
+#'   metric-specific class to `fn`. These features are used by
+#'   [cluster_metric_set()] and by [tune_cluster()] when tuning.
 #'
 #' @param fn A function.
 #'
@@ -35,13 +34,12 @@ new_cluster_metric <- function(fn, direction) {
 
 #' Combine metric functions
 #'
-#' `metric_set()` allows you to combine multiple metric functions together
-#' into a new function that calculates all of them at once.
+#' `metric_set()` allows you to combine multiple metric functions together into
+#' a new function that calculates all of them at once.
 #'
 #' @param ... The bare names of the functions to be included in the metric set.
 #'
-#' @details
-#' All functions must be:
+#' @details All functions must be:
 #' - Only cluster metrics
 #' @export
 cluster_metric_set <- function(...) {

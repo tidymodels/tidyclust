@@ -9,7 +9,6 @@
 #'   For example, in the `Examples` section below, the model has `tune("K")`. In
 #'   this case, the parameter tibble should be "K" and not "neighbors".
 #' @return An updated version of `x`.
-#' @export
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = tune())
 #'
@@ -18,6 +17,7 @@
 #'
 #' kmeans_spec
 #' finalize_model_tidyclust(kmeans_spec, best_params)
+#' @export
 finalize_model_tidyclust <- function(x, parameters) {
   if (!inherits(x, "cluster_spec")) {
     rlang::abort("`x` should be a tidyclust model specification.")

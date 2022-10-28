@@ -5,11 +5,11 @@
 #' `k_means()` defines a model that fits clusters based on distances to a number
 #' of centers.
 #'
-#' @param mode A single character string for the type of model.
-#'  The only possible value for this model is "partition".
+#' @param mode A single character string for the type of model. The only
+#'   possible value for this model is "partition".
 #' @param engine A single character string specifying what computational engine
-#'  to use for fitting. Possible engines are listed below. The default for this
-#'  model is `"stats"`.
+#'   to use for fitting. Possible engines are listed below. The default for this
+#'   model is `"stats"`.
 #' @param num_clusters Positive integer, number of clusters in model.
 #'
 #' @examples
@@ -141,8 +141,8 @@ check_args.k_means <- function(object) {
 #' @param seed integer value for random number generator (RNG)
 #'
 #' @return a list with the following attributes: clusters, fuzzy_clusters (if
-#' fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
-#' obs_per_cluster, between.SS_DIV_total.SS
+#'   fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
+#'   obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
 ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,

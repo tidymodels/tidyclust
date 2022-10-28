@@ -2,10 +2,10 @@
 #'
 #' These are internal functions not meant to be directly called by the user.
 #'
-#' @export
 #' @keywords internal
 #' @rdname other_predict
 #' @inheritParams predict_cluster.cluster_fit
+#' @export
 predict_cluster <- function(object, ...) {
   UseMethod("predict_cluster")
 }

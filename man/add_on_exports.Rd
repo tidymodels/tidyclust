@@ -7,7 +7,7 @@
 new_cluster_spec(cls, args, eng_args, mode, method, engine)
 }
 \description{
-These functions are helpful when creating new packages that will register
-new cluster specifications.
+These functions are helpful when creating new packages that will register new
+cluster specifications.
 }
 \keyword{internal}

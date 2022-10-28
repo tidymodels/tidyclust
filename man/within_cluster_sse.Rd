@@ -29,5 +29,4 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
   within_cluster_sse()
-
 }

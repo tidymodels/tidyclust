@@ -1,7 +1,7 @@
 #' Functions required for tidyclust-adjacent packages
 #'
-#' These functions are helpful when creating new packages that will register
-#' new cluster specifications.
+#' These functions are helpful when creating new packages that will register new
+#' cluster specifications.
 #'
 #' @export
 #' @keywords internal

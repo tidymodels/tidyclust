@@ -24,12 +24,11 @@ etc). Note: when needed, a \emph{named argument} should be used.}
 \code{\link[=control_cluster]{control_cluster()}}.}
 
 \item{...}{Not currently used; values passed here will be ignored. Other
-options required to fit the model should be passed using
-\code{set_engine()}.}
+options required to fit the model should be passed using \code{set_engine()}.}
 
 \item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See
-\code{modelenv::get_encoding()} for details. \code{x} should have column names.}
+models have support for sparse matrix input. See \code{modelenv::get_encoding()}
+for details. \code{x} should have column names.}
 
 \item{case_weights}{An optional classed vector of numeric case weights. This
 must return \code{TRUE} when \code{\link[hardhat:is_case_weights]{hardhat::is_case_weights()}} is run on it. See
@@ -100,6 +99,5 @@ using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec},
-\code{cluster_fit}
+\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec}, \code{cluster_fit}
 }

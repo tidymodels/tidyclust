@@ -7,8 +7,8 @@
 k_means(mode = "partition", engine = "stats", num_clusters = NULL)
 }
 \arguments{
-\item{mode}{A single character string for the type of model.
-The only possible value for this model is "partition".}
+\item{mode}{A single character string for the type of model. The only
+possible value for this model is "partition".}
 
 \item{engine}{A single character string specifying what computational engine
 to use for fitting. Possible engines are listed below. The default for this

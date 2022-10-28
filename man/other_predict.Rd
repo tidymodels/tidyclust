@@ -12,8 +12,8 @@ predict_cluster(object, ...)
 \arguments{
 \item{object}{An object of class \code{cluster_fit}}
 
-\item{...}{Arguments to the underlying model's prediction
-function cannot be passed here (see \code{opts}).}
+\item{...}{Arguments to the underlying model's prediction function cannot be
+passed here (see \code{opts}).}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 }
