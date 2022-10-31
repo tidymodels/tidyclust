@@ -1,3 +1,7 @@
+#' @importFrom dplyr %>%
+#' @export
+dplyr::`%>%`
+
 #' @importFrom generics fit
 #' @export
 generics::fit
