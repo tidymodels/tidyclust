@@ -2,30 +2,34 @@
 
     Code
       hier_clust(mode = "bogus")
-    Error <rlang_error>
-      'bogus' is not a known mode for model `hier_clust()`.
+    Condition
+      Error in `modelenv::check_spec_mode_engine_val()`:
+      ! 'bogus' is not a known mode for model `hier_clust()`.
 
 ---
 
     Code
       bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
       fit(bt, mpg ~ ., mtcars)
-    Error <simpleError>
-      invalid clustering method bogus
+    Condition
+      Error in `stats::hclust()`:
+      ! invalid clustering method bogus
 
 ---
 
     Code
       translate_tidyclust(hier_clust(), engine = NULL)
-    Error <rlang_error>
-      Please set an engine.
+    Condition
+      Error in `translate_tidyclust.default()`:
+      ! Please set an engine.
 
 ---
 
     Code
       translate_tidyclust(hier_clust(formula = ~x))
-    Error <simpleError>
-      unused argument (formula = ~x)
+    Condition
+      Error in `hier_clust()`:
+      ! unused argument (formula = ~x)
 
 # printing
 

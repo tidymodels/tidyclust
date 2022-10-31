@@ -3,7 +3,7 @@
     Code
       res <- tune_cluster(wflow, resamples = folds, grid = grid, control = control,
         metrics = metrics)
-    Message <simpleMessage>
+    Message
       i Fold01: preprocessor 1/3
       v Fold01: preprocessor 1/3
       i Fold01: preprocessor 1/3, model 1/3
@@ -342,12 +342,13 @@
       grid = cars_grid, control = tune::control_grid(extract = function(x) {
         1
       }, save_pred = TRUE))
-    Message <simpleMessage>
+    Message
       x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
       ! The following predi...
       x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
       ! The following predi...
-    Warning <rlang_warning>
+    Condition
+      Warning:
       All models failed. See the `.notes` column.
 
 # argument order gives errors for recipes
@@ -355,22 +356,25 @@
     Code
       tune_cluster(helper_objects$rec_tune_1, helper_objects$kmeans_mod_no_tune,
       rsample::vfold_cv(mtcars, v = 2))
-    Error <rlang_error>
-      The first argument to [tune_cluster()] should be either a model or workflow.
+    Condition
+      Error in `tune_cluster()`:
+      ! The first argument to [tune_cluster()] should be either a model or workflow.
 
 # argument order gives errors for formula
 
     Code
       tune_cluster(mpg ~ ., helper_objects$kmeans_mod_no_tune, rsample::vfold_cv(
         mtcars, v = 2))
-    Error <rlang_error>
-      The first argument to [tune_cluster()] should be either a model or workflow.
+    Condition
+      Error in `tune_cluster()`:
+      ! The first argument to [tune_cluster()] should be either a model or workflow.
 
 # ellipses with tune_cluster
 
     Code
       tune_cluster(wflow, resamples = folds, grid = 3, something = "wrong")
-    Warning <rlang_warning>
+    Condition
+      Warning:
       The `...` are not used in this function but one or more objects were passed: 'something'
     Output
       # Tuning results
@@ -393,13 +397,15 @@
 
     Code
       tmp <- tune::show_best(res)
-    Warning <rlang_warning>
+    Condition
+      Warning:
       No value of `metric` was given; metric 'tot_wss' will be used.
 
 ---
 
     Code
       tmp <- tune::select_best(res)
-    Warning <rlang_warning>
+    Condition
+      Warning:
       No value of `metric` was given; metric 'tot_wss' will be used.
 
