@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{\%>\%}
 \alias{fit}
 \alias{tidy}
 \alias{glance}
@@ -31,8 +30,6 @@ below to see their documentation.
   \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{fit}}, \code{\link[generics]{fit_xy}}, \code{\link[generics]{glance}}, \code{\link[generics]{min_grid}}, \code{\link[generics]{required_pkgs}}, \code{\link[generics]{tidy}}}
 
   \item{hardhat}{\code{\link[hardhat:hardhat-extract]{extract_fit_parsnip}}, \code{\link[hardhat:hardhat-extract]{extract_parameter_set_dials}}, \code{\link[hardhat:hardhat-extract]{extract_preprocessor}}, \code{\link[hardhat:hardhat-extract]{extract_spec_parsnip}}, \code{\link[hardhat]{tune}}}
-
-  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
   \item{parsnip}{\code{\link[parsnip:predict.model_fit]{predict_raw}}, \code{\link[parsnip]{set_args}}, \code{\link[parsnip]{set_engine}}, \code{\link[parsnip:set_args]{set_mode}}}
 
