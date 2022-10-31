@@ -73,7 +73,28 @@ test_that("predictions", {
     relevel_preds(ref_predictions),
     extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
   )
+})
 
+test_that("extract_centroids work", {
+  set.seed(1234)
+  kmeans_fit <- k_means(num_clusters = 4) %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  set.seed(1234)
+  ref_res <- kmeans(mtcars, 4)
+
+  ref_centroids <- dplyr::bind_cols(
+    .cluster = c(1L, 3L, 4L, 2L),
+    ref_res$centers
+  ) %>%
+    dplyr::arrange(.cluster)
+
+  expect_identical(
+    extract_centroids(kmeans_fit) %>%
+      dplyr::mutate(.cluster = as.integer(.cluster)),
+    ref_centroids
+  )
 })
 
 test_that("Right classes", {
