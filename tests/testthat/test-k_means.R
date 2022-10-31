@@ -70,14 +70,10 @@ test_that("predictions", {
   )
 
   expect_equal(
-    relevel_preds(unname(ref_res$cluster)),
+    relevel_preds(ref_predictions),
     extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
   )
 
-  expect_equal(
-    relevel_preds(predict(kmeans_fit, mtcars)$.pred_cluster),
-    extract_cluster_assignment(kmeans_fit)$.cluster %>% as.numeric()
-  )
 })
 
 test_that("Right classes", {

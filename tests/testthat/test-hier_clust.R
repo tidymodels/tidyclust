@@ -68,11 +68,6 @@ test_that("predictions", {
   )
 
   expect_equal(
-    relevel_preds(unname(ref_res)),
-    extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
-  )
-
-  expect_equal(
     relevel_preds(ref_predictions),
     extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
   )
