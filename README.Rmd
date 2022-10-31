@@ -73,3 +73,106 @@ and `extract_centroids()` returns the locations of the clusters
 extract_centroids(kmeans_spec_fit)
 ```
 
+## Visual comparison of clustering methods
+
+Below is a visualization of the available models and how they compare using 2 dimensional toy data sets.
+
+```{r comparison, echo=FALSE, message=FALSE, fig.asp=1/2, dpi=105, dev="svglite"}
+library(tidymodels)
+library(tidyclust)
+set.seed(1234)
+
+make_circles <- function(n) {
+  x <- seq(0, pi * 2, length.out = n)
+  x <- cos(x) * c(0.5, 1)
+  x <- x + rnorm(n, sd = 0.05)
+  
+  y <- seq(0, pi * 2, length.out = n)
+  y <- sin(y) * c(0.5, 1)
+  y <- y + rnorm(n, sd = 0.05)
+  
+  out <- data.frame(x, y)
+  attr(out, "name") <- "circles"
+  out
+}
+
+make_halves <- function(n) {
+  x <- seq(0, pi * 2, length.out = n)
+  x <- cos(x) + rep(c(0, 1), each = n / 2)
+  x <- x + rnorm(n, sd = 0.05)
+  
+  y <- seq(0, pi * 2, length.out = n)
+  y <- sin(y)+ rep(c(0, 0.5), each = n / 2)
+  y <- y + rnorm(n, sd = 0.05)
+  y <- y - 0.25
+  y <- y * (1 / 0.75)
+  
+  out <- data.frame(x, y)
+  attr(out, "name") <- "halves"
+  out
+}
+
+make_uniform <- function(n) {
+  x <- runif(n, min = -1, max = 1)
+  y <- runif(n, min = -1, max = 1)
+  
+  out <- data.frame(x, y)
+  attr(out, "name") <- "uniform"
+  out
+}
+
+make_blobs <- function(n) {
+  x <- rep(c(1, 2, 3), length.out = n)
+  x <- x + rnorm(n, sd = 0.5)
+  x <- (x - min(x)) / (max(x) - min(x)) * 2 - 1
+  
+  y <- rep(c(1, 4, 2), length.out = n)
+  y <- y + rnorm(n, sd = 0.5)
+  y <- (y - min(y)) / (max(y) - min(y)) * 2 - 1
+  
+  out <- data.frame(x, y)
+  attr(out, "name") <- "blobs"
+  out
+}
+
+augment_model <- function(model, data) {
+  model |>
+    fit(~., data = data) |>
+    augment(new_data = data) |>
+    mutate(
+      data_name = attr(data, "name"),
+      model_name = class(model)[1]
+    )
+}
+
+circle_data <- make_circles(500)
+halves_data <- make_halves(500)
+uniform_data <- make_uniform(500)
+blobs_data <- make_blobs(500)
+
+colors <- c("#E49E68", "#6899E4", "#E068E4")
+
+expand_grid(
+  models = list(
+    k_means(num_clusters = 3),
+    hier_clust(num_clusters = 3)
+  ),
+  datasets = list(
+    circle_data,
+    halves_data,
+    blobs_data,
+    uniform_data
+  )
+) |>
+  pmap_dfr(~ augment_model(.x, .y)) |>
+  ggplot(aes(x, y, color = .pred_cluster)) +
+  geom_point(alpha = 0.5) +
+  facet_grid(model_name ~ data_name, scales = "free", switch = "y") +
+  scale_color_manual(values = colors) +
+  theme_void() +
+  theme(
+    strip.text.x = element_blank(),
+    strip.text.y = element_text(size = 15)
+    ) +
+  guides(color = "none")
+```

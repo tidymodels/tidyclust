@@ -143,3 +143,10 @@ extract_centroids(kmeans_spec_fit)
 #> 2 Cluster_2  26.7     4  105.  82.6  4.07  2.29  19.1 0.909 0.727  4.09  1.55
 #> 3 Cluster_3  15.1     8  353. 209.   3.23  4.00  16.8 0     0.143  3.29  3.5
 ```
+
+## Visual comparison of clustering methods
+
+Below is a visualization of the available models and how they compare
+using 2 dimensional toy data sets.
+
+<img src="man/figures/README-comparison-1.svg" width="100%" />
