@@ -22,8 +22,7 @@ knitr::opts_chunk$set(
 `workflows` to access all current functionality of `tidyclust`:
 
 ```{r, eval = FALSE}
-remotes::install_github("tidymodels/parsnip")
-remotes::install_github("tidymodels/workflows@celery")
+remotes::install_github("tidymodels/workflows")
 ```
 
 ```{r}

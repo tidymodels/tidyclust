@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  cache = TRUE,
+  cache = FALSE,
   message = FALSE,
   warning = FALSE
 )
@@ -23,8 +23,7 @@ knitr::opts_chunk$set(
 `workflows` to access all current functionality of `tidyclust`:
 
 ```{r, eval = FALSE}
-remotes::install_github("tidymodels/parsnip")
-remotes::install_github("tidymodels/workflows@celery")
+remotes::install_github("tidymodels/workflows")
 
 library(parsnip)
 library(workflows)
@@ -36,10 +35,6 @@ Load libraries:
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
-```
-
-```{r setup_secret, echo = FALSE}
-library(ggforce)
 set.seed(838383)
 ```
 
