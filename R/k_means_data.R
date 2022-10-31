@@ -1,3 +1,5 @@
+# nocov start
+
 make_k_means <- function() {
   modelenv::set_new_model("k_means")
 
@@ -136,3 +138,5 @@ make_k_means <- function() {
     )
   )
 }
+
+# nocov end

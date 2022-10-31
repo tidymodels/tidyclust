@@ -1,3 +1,5 @@
+# nocov start
+
 make_hier_clust <- function() {
   modelenv::set_new_model("hier_clust")
 
@@ -87,3 +89,5 @@ make_hier_clust <- function() {
     )
   )
 }
+
+# nocov end
