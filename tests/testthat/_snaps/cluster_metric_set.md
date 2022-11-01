@@ -32,3 +32,19 @@
       - cluster (sse_ratio)
       - other (mean <namespace:base>)
 
+# cluster_metric_set errors with advice for some functions
+
+    Code
+      cluster_metric_set(silhouette)
+    Condition
+      Error in `cluster_metric_set()`:
+      ! `silhouette` is not a cluster metric. Did you mean `silhouette_avg`?
+
+---
+
+    Code
+      cluster_metric_set(within_cluster_sse)
+    Condition
+      Error in `cluster_metric_set()`:
+      ! `sse_within_total` is not a cluster metric. Did you mean `sse_within_total`?
+

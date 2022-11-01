@@ -42,3 +42,15 @@ test_that("cluster_metric_set error with wrong input", {
     cluster_metric_set(sse_ratio, mean)
   )
 })
+
+test_that("cluster_metric_set errors with advice for some functions", {
+  expect_snapshot(
+    error = TRUE,
+    cluster_metric_set(silhouette)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    cluster_metric_set(within_cluster_sse)
+  )
+})

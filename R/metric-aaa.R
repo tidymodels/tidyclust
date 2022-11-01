@@ -48,6 +48,7 @@ cluster_metric_set <- function(...) {
   fns <- lapply(quo_fns, rlang::eval_tidy)
   validate_inputs_are_functions(fns)
   names(fns) <- vapply(quo_fns, get_quo_label, character(1))
+  validate_function_typo(fns)
   validate_function_class(fns)
   fn_cls <- class1(fns[[1]])
   if (fn_cls == "cluster_metric") {
@@ -99,6 +100,21 @@ get_quo_label <- function(quo) {
     out <- split[[2]]
   }
   out
+}
+
+validate_function_typo <- function(fns, call = rlang::caller_env()) {
+  if (any(map_lgl(fns, identical, silhouette))) {
+    rlang::abort(
+      "`silhouette` is not a cluster metric. Did you mean `silhouette_avg`?",
+      call = call
+    )
+  }
+  if (any(map_lgl(fns, identical, within_cluster_sse))) {
+    rlang::abort(
+      "`sse_within_total` is not a cluster metric. Did you mean `sse_within_total`?",
+      call = call
+    )
+  }
 }
 
 validate_function_class <- function(fns) {
