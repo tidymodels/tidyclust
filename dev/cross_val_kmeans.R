@@ -30,7 +30,7 @@ for (k in 2:10) {
     km_fit <- km %>% fit(~., data = tmp_train)
 
     wss <- km_fit %>%
-      sse_within_total(tmp_test)
+      sse_within_total_total(tmp_test)
 
     wss_2 <- km_fit$fit$tot.withinss
 

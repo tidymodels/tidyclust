@@ -50,7 +50,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
     cluster_names = names,
     centroids = centroids,
     n_members = object$size[reorder_clusts],
-    sse_within_total = object$withinss[reorder_clusts],
+    sse_within_total_total = object$withinss[reorder_clusts],
     sse_total = object$totss,
     orig_labels = unname(object$cluster),
     cluster_assignments = cluster_asignments
@@ -75,7 +75,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     cluster_names = names,
     centroids = centroids,
     n_members = object$obs_per_cluster[reorder_clusts],
-    sse_within_total = object$WCSS_per_cluster[reorder_clusts],
+    sse_within_total_total = object$WCSS_per_cluster[reorder_clusts],
     sse_total = object$total_SSE,
     orig_labels = object$clusters,
     cluster_assignments = cluster_asignments
@@ -103,7 +103,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     map(dplyr::summarize_all, mean) %>%
     dplyr::bind_rows()
 
-  sse_within_total <- map2_dbl(
+  sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
     ~ sum(Rfast::dista(centroids[.y, ], .x))
@@ -113,7 +113,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     cluster_names = unique(clusts),
     centroids = centroids,
     n_members = unname(table(clusts)),
-    sse_within_total = sse_within_total,
+    sse_within_total_total = sse_within_total_total,
     sse_total = sum(Rfast::dista(t(overall_centroid), training_data)),
     orig_labels = NULL,
     cluster_assignments = clusts

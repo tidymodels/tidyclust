@@ -20,7 +20,7 @@ test_that("kmeans sse metrics work", {
   )
 
   expect_equal(
-    sse_within_vec(kmeans_fit_stats),
+    sse_within_total_vec(kmeans_fit_stats),
     km_orig$tot.withinss,
     tolerance = 0.005
   )
@@ -41,7 +41,7 @@ test_that("kmeans sse metrics work", {
   )
 
   expect_equal(
-    sse_within_vec(kmeans_fit_ClusterR),
+    sse_within_total_vec(kmeans_fit_ClusterR),
     sum(km_orig_2$WCSS_per_cluster),
     tolerance = 0.005
   )
@@ -70,7 +70,7 @@ test_that("kmeans sse metrics work on new data", {
   )
 
   expect_equal(
-    sse_within_vec(kmeans_fit_stats, new_data),
+    sse_within_total_vec(kmeans_fit_stats, new_data),
     15654.38,
     tolerance = 0.005
   )

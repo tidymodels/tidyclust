@@ -104,7 +104,7 @@ res <- tune_cluster(
   resamples = penguins_cv,
   grid = clust_num_grid,
   control = control_grid(save_pred = TRUE, extract = identity),
-  metrics = cluster_metric_set(sse_within, sse_total, sse_ratio)
+  metrics = cluster_metric_set(sse_within_total, sse_total, sse_ratio)
 )
 
 res
