@@ -102,8 +102,8 @@ test_that("kmeans sihouette metrics work", {
     dist()
 
   expect_equal(
-    names(silhouettes(kmeans_fit_stats, dists = dists)),
-    names(silhouettes(kmeans_fit_ClusterR, dists = dists))
+    names(silhouette(kmeans_fit_stats, dists = dists)),
+    names(silhouette(kmeans_fit_ClusterR, dists = dists))
   )
 
   expect_equal(
@@ -130,8 +130,8 @@ test_that("kmeans sihouette metrics work with new data", {
   new_data <- mtcars[1:4, ]
 
   expect_equal(
-    names(silhouettes(kmeans_fit_stats, new_data = new_data)),
-    names(silhouettes(kmeans_fit_ClusterR, new_data = new_data))
+    names(silhouette(kmeans_fit_stats, new_data = new_data)),
+    names(silhouette(kmeans_fit_ClusterR, new_data = new_data))
   )
 
   expect_equal(

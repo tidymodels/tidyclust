@@ -63,5 +63,5 @@ reference:
     - translate_tidyclust
 - title: Other
   contents:
-    - silhouettes
+    - silhouette
     - within_cluster_sse

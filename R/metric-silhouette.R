@@ -1,4 +1,4 @@
-#' Measures silhouettes between clusters
+#' Measures silhouette between clusters
 #'
 #' @param object A fitted tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
@@ -6,7 +6,7 @@
 #' @param dist_fun A function for calculating distances between observations.
 #'   Defaults to Euclidean distance on processed data.
 #'
-#' @return A tibble giving the silhouettes for each observation.
+#' @return A tibble giving the silhouette for each observation.
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
@@ -18,9 +18,9 @@
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' silhouettes(kmeans_fit, dists = dists)
+#' silhouette(kmeans_fit, dists = dists)
 #' @export
-silhouettes <- function(object, new_data = NULL, dists = NULL,
+silhouette <- function(object, new_data = NULL, dists = NULL,
                         dist_fun = Rfast::Dist) {
   preproc <- prep_data_dist(object, new_data, dists, dist_fun)
 
@@ -102,5 +102,5 @@ silhouette_avg_vec <- function(object, new_data = NULL, dists = NULL,
 
 silhouette_avg_impl <- function(object, new_data = NULL, dists = NULL,
                                 dist_fun = Rfast::Dist, ...) {
-  mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
+  mean(silhouette(object, new_data, dists, dist_fun, ...)$sil_width)
 }
