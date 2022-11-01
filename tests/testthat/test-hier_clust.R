@@ -68,13 +68,28 @@ test_that("predictions", {
   )
 
   expect_equal(
-    relevel_preds(unname(ref_res)),
-    extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
-  )
-
-  expect_equal(
     relevel_preds(ref_predictions),
     extract_cluster_assignment(hclust_fit)$.cluster %>% as.numeric()
+  )
+})
+
+test_that("extract_centroids work", {
+  set.seed(1234)
+  hclust_fit <- hier_clust(num_clusters = 4) %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  set.seed(1234)
+  ref_res <- cutree(hclust(dist(mtcars)), k = 4)
+
+  ref_predictions <- ref_res %>% unname()
+
+  expect_identical(
+    extract_centroids(hclust_fit) %>%
+      dplyr::mutate(.cluster = as.integer(.cluster)),
+    mtcars %>%
+      dplyr::group_by(.cluster = ref_predictions) %>%
+      dplyr::summarize(dplyr::across(dplyr::everything(), mean))
   )
 })
 
