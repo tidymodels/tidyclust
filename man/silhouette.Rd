@@ -22,6 +22,10 @@ A tibble giving the silhouette for each observation.
 \description{
 Measures silhouette between clusters
 }
+\details{
+\code{\link[=silhouette_avg]{silhouette_avg()}} is the corresponding cluster metric function that
+returns the average of the values given by \code{silhouette()}.
+}
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%
   set_engine("stats")

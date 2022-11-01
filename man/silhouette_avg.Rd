@@ -39,6 +39,10 @@ A double; the average silhouette.
 \description{
 Measures average silhouette across all observations
 }
+\details{
+Not to be confused with \code{\link[=silhouette]{silhouette()}} that returns a tibble
+with silhouette for each observation.
+}
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%
   set_engine("stats")

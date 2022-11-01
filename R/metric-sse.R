@@ -5,6 +5,9 @@
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #'   to Euclidean distance on processed data.
 #'
+#' @details [sse_within_total()] is the corresponding cluster metric function
+#' that returns the sum of the values given by `within_cluster_sse()`.
+#'
 #' @return A tibble with two columns, the cluster name and the SSE within that
 #'   cluster.
 #'
@@ -59,9 +62,12 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
-#' @param dist_fun A function for calculating distances to centroids.  Defaults
+#' @param dist_fun A function for calculating distances to centroids. Defaults
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
+#' @details Not to be confused with [within_cluster_sse()] that returns a tibble
+#'   with within-cluster SSE, one row for each cluster.
 #'
 #' @family cluster metric
 #'

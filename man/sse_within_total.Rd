@@ -22,11 +22,15 @@ sse_within_total_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 
 \item{new_data}{A dataset to predict on.  If \code{NULL}, uses trained clustering.}
 
-\item{dist_fun}{A function for calculating distances to centroids.  Defaults
+\item{dist_fun}{A function for calculating distances to centroids. Defaults
 to Euclidean distance on processed data.}
 }
 \description{
 Compute the sum of within-cluster SSE
+}
+\details{
+Not to be confused with \code{\link[=within_cluster_sse]{within_cluster_sse()}} that returns a tibble
+with within-cluster SSE, one row for each cluster.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%

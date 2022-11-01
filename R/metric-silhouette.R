@@ -6,6 +6,9 @@
 #' @param dist_fun A function for calculating distances between observations.
 #'   Defaults to Euclidean distance on processed data.
 #'
+#' @details [silhouette_avg()] is the corresponding cluster metric function that
+#' returns the average of the values given by `silhouette()`.
+#'
 #' @return A tibble giving the silhouette for each observation.
 #'
 #' @examples
@@ -46,6 +49,9 @@ silhouette <- function(object, new_data = NULL, dists = NULL,
 #' @param dist_fun A function for calculating distances between observations.
 #'   Defaults to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
+#' @details Not to be confused with [silhouette()] that returns a tibble
+#'   with silhouette for each observation.
 #'
 #' @family cluster metric
 #'

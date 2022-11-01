@@ -21,6 +21,10 @@ cluster.
 \description{
 Calculates Sum of Squared Error in each cluster
 }
+\details{
+\code{\link[=sse_within_total]{sse_within_total()}} is the corresponding cluster metric function
+that returns the sum of the values given by \code{within_cluster_sse()}.
+}
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%
   set_engine("stats")
