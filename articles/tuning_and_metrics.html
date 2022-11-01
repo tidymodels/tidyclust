@@ -175,7 +175,7 @@ clusters.</p>
 <span>  resamples <span class="op">=</span> <span class="va">penguins_cv</span>,</span>
 <span>  grid <span class="op">=</span> <span class="va">clust_num_grid</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/control_grid.html" class="external-link">control_grid</a></span><span class="op">(</span>save_pred <span class="op">=</span> <span class="cn">TRUE</span>, extract <span class="op">=</span> <span class="va">identity</span><span class="op">)</span>,</span>
-<span>  metrics <span class="op">=</span> <span class="fu"><a href="../reference/cluster_metric_set.html">cluster_metric_set</a></span><span class="op">(</span><span class="va">tot_wss</span>, <span class="va">tot_sse</span>, <span class="va">sse_ratio</span><span class="op">)</span></span>
+<span>  metrics <span class="op">=</span> <span class="fu"><a href="../reference/cluster_metric_set.html">cluster_metric_set</a></span><span class="op">(</span><span class="va">sse_within_total</span>, <span class="va">sse_total</span>, <span class="va">sse_ratio</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">res</span></span>
@@ -194,18 +194,18 @@ clusters.</p>
 <code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">res_metrics</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30 × 7</span></span></span>
-<span><span class="co">#&gt;    num_clusters .metric   .estimator     mean     n   std_err .config           </span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>            1 sse_ratio standard      1         5   0       Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>            1 tot_sse   standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>            1 tot_wss   standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>            2 sse_ratio standard      0.321     5   0.001<span style="text-decoration: underline;">41</span> Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>            2 tot_sse   standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>            2 tot_wss   standard   <span style="text-decoration: underline;">2</span>885.        5  47.3     Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>            3 sse_ratio standard      0.202     5   0.002<span style="text-decoration: underline;">21</span> Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>            3 tot_sse   standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>            3 tot_wss   standard   <span style="text-decoration: underline;">1</span>809.        5  34.7     Preprocessor1_Mod…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>            4 sse_ratio standard      0.160     5   0.005<span style="text-decoration: underline;">79</span> Preprocessor1_Mod…</span></span>
+<span><span class="co">#&gt;    num_clusters .metric          .estimator     mean     n   std_err .config    </span></span>
+<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>            1 sse_ratio        standard      1         5   0       Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>            1 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>            1 sse_within_total standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>            2 sse_ratio        standard      0.321     5   0.001<span style="text-decoration: underline;">41</span> Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>            2 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>            2 sse_within_total standard   <span style="text-decoration: underline;">2</span>885.        5  47.3     Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>            3 sse_ratio        standard      0.202     5   0.002<span style="text-decoration: underline;">21</span> Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>            3 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 119.      Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>            3 sse_within_total standard   <span style="text-decoration: underline;">1</span>809.        5  34.7     Preprocess…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>            4 sse_ratio        standard      0.160     5   0.005<span style="text-decoration: underline;">79</span> Preprocess…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 20 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="choosing-hyperparameters">Choosing hyperparameters<a class="anchor" aria-label="anchor" href="#choosing-hyperparameters"></a>

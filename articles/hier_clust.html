@@ -280,15 +280,15 @@ list:</p>
 <span></span>
 <span><span class="va">hc_summary</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 7</span></span>
-<span><span class="co">#&gt;  $ cluster_names      : Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 2 3</span></span>
-<span><span class="co">#&gt;  $ centroids          : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ cluster_names         : Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 2 3</span></span>
+<span><span class="co">#&gt;  $ centroids             : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
 <span><span class="co">#&gt;   ..$ bill_length_mm: num [1:3] 38.8 47.9 56.6</span></span>
 <span><span class="co">#&gt;   ..$ bill_depth_mm : num [1:3] 18.3 16.2 16.7</span></span>
-<span><span class="co">#&gt;  $ n_members          : 'table' int [1:3(1d)] 153 184 5</span></span>
-<span><span class="co">#&gt;  $ within_sse         : num [1:3] 378.4 573.9 9.7</span></span>
-<span><span class="co">#&gt;  $ tot_sse            : num 1803</span></span>
-<span><span class="co">#&gt;  $ orig_labels        : NULL</span></span>
-<span><span class="co">#&gt;  $ cluster_assignments: Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 1 1 2 2 2 2 2 1 2 ...</span></span></code></pre></div>
+<span><span class="co">#&gt;  $ n_members             : 'table' int [1:3(1d)] 153 184 5</span></span>
+<span><span class="co">#&gt;  $ sse_within_total_total: num [1:3] 378.4 573.9 9.7</span></span>
+<span><span class="co">#&gt;  $ sse_total             : num 1803</span></span>
+<span><span class="co">#&gt;  $ orig_labels           : NULL</span></span>
+<span><span class="co">#&gt;  $ cluster_assignments   : Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 1 1 2 2 2 2 2 1 2 ...</span></span></code></pre></div>
 <p>Note that, although the hierarchical clustering algorithm is not
 focused on cluster centroids in the same way <span class="math inline">\(k\)</span>-means is, we are still able to compute
 the geometric mean over the predictors for each cluster:</p>

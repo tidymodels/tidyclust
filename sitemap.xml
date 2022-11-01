@@ -40,9 +40,6 @@
     <loc>/reference/augment.html</loc>
   </url>
   <url>
-    <loc>/reference/avg_silhouette.html</loc>
-  </url>
-  <url>
     <loc>/reference/check_empty_ellipse_tidyclust.html</loc>
   </url>
   <url>
@@ -118,10 +115,22 @@
     <loc>/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>/reference/silhouettes.html</loc>
+    <loc>/reference/silhouette.html</loc>
+  </url>
+  <url>
+    <loc>/reference/silhouette_avg.html</loc>
   </url>
   <url>
     <loc>/reference/sse_ratio.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sse_total.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sse_within.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sse_within_total.html</loc>
   </url>
   <url>
     <loc>/reference/tidy.cluster_fit.html</loc>
@@ -133,18 +142,9 @@
     <loc>/reference/tidyclust_update.html</loc>
   </url>
   <url>
-    <loc>/reference/tot_sse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tot_wss.html</loc>
-  </url>
-  <url>
     <loc>/reference/translate_tidyclust.html</loc>
   </url>
   <url>
     <loc>/reference/tune_cluster.html</loc>
-  </url>
-  <url>
-    <loc>/reference/within_cluster_sse.html</loc>
   </url>
 </urlset>
