@@ -24,10 +24,6 @@ You can install the development version of tidyclust from
 devtools::install_github("EmilHvitfeldt/tidyclust")
 ```
 
-Please note that this package currently requires a [branch of the
-workflows](https://github.com/tidymodels/workflows/tree/tidyclust)
-package to work. Use with caution.
-
 ## Example
 
 The first thing you do is to create a `cluster specification`. For this
@@ -150,3 +146,25 @@ Below is a visualization of the available models and how they compare
 using 2 dimensional toy data sets.
 
 <img src="man/figures/README-comparison-1.svg" width="100%" />
+
+## Contributing
+
+This project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+- For questions and discussions about tidymodels packages, modeling, and
+  machine learning, please [post on RStudio
+  Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
+
+- If you think you have encountered a bug, please [submit an
+  issue](https://github.com/tidymodels/tidyclust/issues).
+
+- Either way, learn how to create and share a
+  [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+  (a minimal, reproducible example), to clearly communicate about your
+  code.
+
+- Check out further details on [contributing guidelines for tidymodels
+  packages](https://www.tidymodels.org/contribute/) and [how to get
+  help](https://www.tidymodels.org/help/). Footer
