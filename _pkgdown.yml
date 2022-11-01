@@ -45,6 +45,8 @@ reference:
     - sse_ratio
     - sse_total
     - sse_within_total
+    - silhouette
+    - within_cluster_sse
 - title: Tuning
   desc: >
     Functions to allow multiple cluster specifications to be fit at once.
@@ -61,7 +63,3 @@ reference:
     - prep_data_dist
     - reconcile_clusterings_mapping
     - translate_tidyclust
-- title: Other
-  contents:
-    - silhouette
-    - within_cluster_sse

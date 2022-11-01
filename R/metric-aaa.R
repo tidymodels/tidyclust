@@ -38,6 +38,8 @@ new_cluster_metric <- function(fn, direction) {
 #' a new function that calculates all of them at once.
 #'
 #' @param ... The bare names of the functions to be included in the metric set.
+#'   These functions must be cluster metrics such as [sse_total()],
+#'   [sse_ratio()], or [silhouette_avg()].
 #'
 #' @details All functions must be:
 #' - Only cluster metrics

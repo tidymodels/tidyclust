@@ -63,6 +63,8 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
+#' @family cluster metric
+#'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
 #'   set_engine("stats")
@@ -123,6 +125,7 @@ sse_within_total_impl <- function(object, new_data = NULL,
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
+#' @family cluster metric
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
@@ -199,6 +202,8 @@ sse_total_impl <- function(object,
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
+#' @family cluster metric
 #'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%

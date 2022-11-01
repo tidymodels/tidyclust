@@ -38,3 +38,10 @@ sse_within_total(kmeans_fit)
 
 sse_within_total_vec(kmeans_fit)
 }
+\seealso{
+Other cluster metric: 
+\code{\link{silhouette_avg}()},
+\code{\link{sse_ratio}()},
+\code{\link{sse_total}()}
+}
+\concept{cluster metric}

@@ -7,7 +7,9 @@
 cluster_metric_set(...)
 }
 \arguments{
-\item{...}{The bare names of the functions to be included in the metric set.}
+\item{...}{The bare names of the functions to be included in the metric set.
+These functions must be cluster metrics such as \code{\link[=sse_total]{sse_total()}},
+\code{\link[=sse_ratio]{sse_ratio()}}, or \code{\link[=silhouette_avg]{silhouette_avg()}}.}
 }
 \description{
 \code{metric_set()} allows you to combine multiple metric functions together into

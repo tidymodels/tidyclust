@@ -47,6 +47,8 @@ silhouette <- function(object, new_data = NULL, dists = NULL,
 #'   Defaults to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
+#' @family cluster metric
+#'
 #' @return A double; the average silhouette.
 #'
 #' @examples

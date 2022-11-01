@@ -53,3 +53,10 @@ silhouette_avg(kmeans_fit, dists = dists)
 
 silhouette_avg_vec(kmeans_fit, dists = dists)
 }
+\seealso{
+Other cluster metric: 
+\code{\link{sse_ratio}()},
+\code{\link{sse_total}()},
+\code{\link{sse_within_total}()}
+}
+\concept{cluster metric}
