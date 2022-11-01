@@ -136,7 +136,7 @@ tune_tbl <- function(name = character(),
   complete_id <- id[!is.na(id)]
   dups <- duplicated(complete_id)
   if (any(dups)) {
-    abort(
+    rlang::abort(
       paste(
         "There are duplicate `id` values listed in [tune()]: ",
         paste0("'", unique(complete_id[dups]), "'", collapse = ", "),

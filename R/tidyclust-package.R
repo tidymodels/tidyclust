@@ -10,7 +10,6 @@
 #' @importFrom parsnip null_value
 #' @importFrom parsnip show_call
 #' @importFrom rlang %||%
-#' @importFrom rlang abort
 #' @importFrom rlang as_function
 #' @importFrom rlang enquo
 #' @importFrom rlang enquos

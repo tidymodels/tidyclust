@@ -14,3 +14,20 @@ test_that("control class", {
     fit_xy(x, x = mtcars[, -1], control = ctrl)
   )
 })
+
+test_that("control_cluster() error with wrong input", {
+  expect_snapshot(
+    error = TRUE,
+    control_cluster(verbosity = 5.5)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    control_cluster(verbosity = "3")
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    control_cluster(catch = "yes")
+  )
+})

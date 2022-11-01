@@ -35,7 +35,11 @@ eval_call_info <- function(x) {
       silent = TRUE
     )
     if (inherits(res, "try-error")) {
-      abort(paste0("Error when calling ", x$fun, "(): ", as.character(res)))
+      rlang::abort(
+        glue::glue(
+          "Error when calling {x$fun}(): {as.character(res)}"
+        )
+      )
     }
   } else {
     res <- NA

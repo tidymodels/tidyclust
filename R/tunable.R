@@ -5,12 +5,14 @@ tunable_cluster_spec <- function(x, ...) {
   mod_env <- rlang::ns_env("modelenv")$modelenv
 
   if (is.null(x$engine)) {
-    abort("Please declare an engine first using `set_engine()`.", call. = FALSE)
+    rlang::abort(
+      "Please declare an engine first using `set_engine()`.", call. = FALSE
+    )
   }
 
   arg_name <- paste0(mod_type(x), "_args")
   if (!(any(arg_name == names(mod_env)))) {
-    abort(
+    rlang::abort(
       paste(
         "The `tidyclust` model database doesn't know about the arguments for ",
         "model `", mod_type(x), "`. Was it registered?",

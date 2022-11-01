@@ -22,7 +22,7 @@ set_engine.cluster_spec <- function(object, engine, ...) {
   )
 }
 
-stop_missing_engine <- function(cls) {
+stop_missing_engine <- function(cls, call = rlang::caller_env()) {
   info <-
     modelenv::get_from_env(cls) %>%
     dplyr::group_by(mode) %>%
@@ -35,11 +35,11 @@ stop_missing_engine <- function(cls) {
       .groups = "drop"
     )
   if (nrow(info) == 0) {
-    rlang::abort(paste0("No known engines for `", cls, "()`."))
+    rlang::abort(glue::glue("No known engines for `{cls}()`."), call = call)
   }
   msg <- paste0(info$msg, collapse = ", ")
   msg <- paste("Missing engine. Possible mode/engine combinations are:", msg)
-  rlang::abort(msg)
+  rlang::abort(msg, call = call)
 }
 
 load_libs <- function(x, quiet, attach = FALSE) {
@@ -73,7 +73,7 @@ is_installed <- function(pkg) {
   res
 }
 
-check_installs <- function(x) {
+check_installs <- function(x, call = rlang::caller_env()) {
   if (length(x$method$libs) > 0) {
     is_inst <- map_lgl(x$method$libs, is_installed)
     if (any(!is_inst)) {
@@ -83,7 +83,8 @@ check_installs <- function(x) {
         glue::glue(
           "This engine requires some package installs: ",
           glue::glue_collapse(glue::glue("'{missing_pkg}'"), sep = ", ")
-        )
+        ),
+        call = call
       )
     }
   }
