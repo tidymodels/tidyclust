@@ -51,7 +51,7 @@ extract_fit_summary.kmeans <- function(object, ...) {
     centroids = centroids,
     n_members = object$size[reorder_clusts],
     within_sse = object$withinss[reorder_clusts],
-    tot_sse = object$totss,
+    sse_total = object$totss,
     orig_labels = unname(object$cluster),
     cluster_assignments = cluster_asignments
   )
@@ -76,7 +76,7 @@ extract_fit_summary.KMeansCluster <- function(object, ...) {
     centroids = centroids,
     n_members = object$obs_per_cluster[reorder_clusts],
     within_sse = object$WCSS_per_cluster[reorder_clusts],
-    tot_sse = object$total_SSE,
+    sse_total = object$total_SSE,
     orig_labels = object$clusters,
     cluster_assignments = cluster_asignments
   )
@@ -114,7 +114,7 @@ extract_fit_summary.hclust <- function(object, ...) {
     centroids = centroids,
     n_members = unname(table(clusts)),
     within_sse = within_sse,
-    tot_sse = sum(Rfast::dista(t(overall_centroid), training_data)),
+    sse_total = sum(Rfast::dista(t(overall_centroid), training_data)),
     orig_labels = NULL,
     cluster_assignments = clusts
   )

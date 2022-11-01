@@ -130,47 +130,47 @@ tot_wss_impl <- function(object, new_data = NULL,
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' tot_sse(kmeans_fit)
+#' sse_total(kmeans_fit)
 #'
-#' tot_sse_vec(kmeans_fit)
+#' sse_total_vec(kmeans_fit)
 #' @export
-tot_sse <- function(object, ...) {
-  UseMethod("tot_sse")
+sse_total <- function(object, ...) {
+  UseMethod("sse_total")
 }
 
-tot_sse <- new_cluster_metric(
-  tot_sse,
+sse_total <- new_cluster_metric(
+  sse_total,
   direction = "zero"
 )
 
 #' @export
-#' @rdname tot_sse
-tot_sse.cluster_fit <- function(object, new_data = NULL,
+#' @rdname sse_total
+sse_total.cluster_fit <- function(object, new_data = NULL,
                                 dist_fun = NULL, ...) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
 
-  res <- tot_sse_impl(object, new_data, dist_fun, ...)
+  res <- sse_total_impl(object, new_data, dist_fun, ...)
 
   tibble::tibble(
-    .metric = "tot_sse",
+    .metric = "sse_total",
     .estimator = "standard",
     .estimate = res
   )
 }
 
 #' @export
-#' @rdname tot_sse
-tot_sse.workflow <- tot_sse.cluster_fit
+#' @rdname sse_total
+sse_total.workflow <- sse_total.cluster_fit
 
 #' @export
-#' @rdname tot_sse
-tot_sse_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
-  tot_sse_impl(object, new_data, dist_fun, ...)
+#' @rdname sse_total
+sse_total_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+  sse_total_impl(object, new_data, dist_fun, ...)
 }
 
-tot_sse_impl <- function(object,
+sse_total_impl <- function(object,
                          new_data = NULL,
                          dist_fun = Rfast::dista,
                          ...) {
@@ -182,7 +182,7 @@ tot_sse_impl <- function(object,
   summ <- extract_fit_summary(object)
 
   if (is.null(new_data)) {
-    tot <- summ$tot_sse
+    tot <- summ$sse_total
   } else {
     overall_mean <- colSums(summ$centroids * summ$n_members) /
       sum(summ$n_members)
@@ -254,5 +254,5 @@ sse_ratio_impl <- function(object,
                            dist_fun = Rfast::dista,
                            ...) {
   tot_wss_vec(object, new_data, dist_fun) /
-    tot_sse_vec(object, new_data, dist_fun)
+    sse_total_vec(object, new_data, dist_fun)
 }

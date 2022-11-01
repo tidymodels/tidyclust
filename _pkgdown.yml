@@ -42,8 +42,8 @@ reference:
   contents:
     - cluster_metric_set
     - avg_silhouette
-    - tot_sse
     - sse_ratio
+    - sse_total
     - tot_wss
 - title: Tuning
   desc: >

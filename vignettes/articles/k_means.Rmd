@@ -241,7 +241,7 @@ directly from the model fit:
 
 ```{r}
 kmeans_summary$within_sse
-kmeans_summary$tot_sse
+kmeans_summary$sse_total
 
 kmeans_fit %>% tot_wss()
 kmeans_fit %>% tot_sse()

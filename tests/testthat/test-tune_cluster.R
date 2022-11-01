@@ -10,7 +10,7 @@ test_that("tune recipe only", {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   res <- tune_cluster(
     wflow,
@@ -27,7 +27,7 @@ test_that("tune recipe only", {
 
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(num_comp, expr(tune())))
@@ -46,7 +46,7 @@ test_that("tune model only (with recipe)", {
   grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   res <- tune_cluster(
     wflow,
@@ -64,7 +64,7 @@ test_that("tune model only (with recipe)", {
 
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(num_clusters, expr(tune())))
@@ -85,7 +85,7 @@ test_that("tune model only (with variables)", {
 
   folds <- rsample::vfold_cv(mtcars)
 
-  metrics <- cluster_metric_set(tot_sse, tot_wss)
+  metrics <- cluster_metric_set(sse_total, tot_wss)
 
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
@@ -94,7 +94,7 @@ test_that("tune model only (with variables)", {
   res_est <- tune::collect_metrics(res)
 
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
@@ -113,7 +113,7 @@ test_that("tune model only (with formula)", {
 
   folds <- rsample::vfold_cv(mtcars)
 
-  metrics <- cluster_metric_set(tot_sse, tot_wss)
+  metrics <- cluster_metric_set(sse_total, tot_wss)
 
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
@@ -122,7 +122,7 @@ test_that("tune model only (with formula)", {
   res_est <- tune::collect_metrics(res)
 
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
@@ -140,7 +140,7 @@ test_that("tune model and recipe", {
   grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   res <- tune_cluster(
     wflow,
@@ -166,7 +166,7 @@ test_that("tune model and recipe", {
       ".config")
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
   expect_false(identical(num_clusters, expr(tune())))
@@ -187,7 +187,7 @@ test_that("verbose argument works", {
   grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity, verbose = TRUE)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   expect_snapshot(
     res <- tune_cluster(
@@ -216,7 +216,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
     extract = identity,
     parallel_over = "everything"
   )
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   res <- tune_cluster(
     wflow,
@@ -234,7 +234,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
       ".config")
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
-  expect_equal(sum(res_est$.metric == "tot_sse"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "tot_wss"), nrow(grid))
   expect_equal(res_est$n, rep(10, nrow(grid) * 2))
 })
@@ -309,7 +309,7 @@ test_that("metrics can be NULL", {
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   set.seed(4400)
   res <- tune_cluster(
@@ -399,7 +399,7 @@ test_that("retain extra attributes", {
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
   att <- attributes(res)
@@ -423,7 +423,7 @@ test_that("select_best() and show_best() works", {
   grid$num_clusters <- grid$num_clusters + 1
   folds <- rsample::vfold_cv(mtcars)
   control <- tune::control_grid(extract = identity)
-  metrics <- cluster_metric_set(tot_wss, tot_sse)
+  metrics <- cluster_metric_set(tot_wss, sse_total)
 
   res <- tune_cluster(
     wflow,
@@ -443,9 +443,9 @@ test_that("select_best() and show_best() works", {
   )
 
   expect_equal(
-    tune::show_best(res, metric = "tot_sse"),
+    tune::show_best(res, metric = "sse_total"),
     tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "tot_sse") %>%
+      dplyr::filter(.metric == "sse_total") %>%
       dplyr::slice_min(mean, n = 5, with_ties = FALSE)
   )
 
@@ -460,9 +460,9 @@ test_that("select_best() and show_best() works", {
   )
 
   expect_equal(
-    tune::select_best(res, metric = "tot_sse"),
+    tune::select_best(res, metric = "sse_total"),
     tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "tot_sse") %>%
+      dplyr::filter(.metric == "sse_total") %>%
       dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
       dplyr::select(num_clusters, .config)
   )
