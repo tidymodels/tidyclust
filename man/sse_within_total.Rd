@@ -29,7 +29,7 @@ to Euclidean distance on processed data.}
 Compute the sum of within-cluster SSE
 }
 \details{
-Not to be confused with \code{\link[=within_cluster_sse]{within_cluster_sse()}} that returns a tibble
+Not to be confused with \code{\link[=sse_within]{sse_within()}} that returns a tibble
 with within-cluster SSE, one row for each cluster.
 }
 \examples{

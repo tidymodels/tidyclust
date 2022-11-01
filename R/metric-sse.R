@@ -6,7 +6,7 @@
 #'   to Euclidean distance on processed data.
 #'
 #' @details [sse_within_total()] is the corresponding cluster metric function
-#' that returns the sum of the values given by `within_cluster_sse()`.
+#' that returns the sum of the values given by `sse_within()`.
 #'
 #' @return A tibble with two columns, the cluster name and the SSE within that
 #'   cluster.
@@ -17,9 +17,9 @@
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' within_cluster_sse(kmeans_fit)
+#' sse_within(kmeans_fit)
 #' @export
-within_cluster_sse <- function(object, new_data = NULL,
+sse_within <- function(object, new_data = NULL,
                                dist_fun = Rfast::dista) {
 
   # Preprocess data before computing distances if appropriate
@@ -66,7 +66,7 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #'
-#' @details Not to be confused with [within_cluster_sse()] that returns a tibble
+#' @details Not to be confused with [sse_within()] that returns a tibble
 #'   with within-cluster SSE, one row for each cluster.
 #'
 #' @family cluster metric
@@ -120,7 +120,7 @@ sse_within_total_vec <- function(object, new_data = NULL,
 
 sse_within_total_impl <- function(object, new_data = NULL,
                          dist_fun = Rfast::dista, ...) {
-  sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
+  sum(sse_within(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 }
 
 #' Compute the total sum of squares

@@ -51,6 +51,6 @@ test_that("cluster_metric_set errors with advice for some functions", {
 
   expect_snapshot(
     error = TRUE,
-    cluster_metric_set(within_cluster_sse)
+    cluster_metric_set(sse_within)
   )
 })

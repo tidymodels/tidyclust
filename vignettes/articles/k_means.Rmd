@@ -250,11 +250,11 @@ kmeans_fit %>% sse_ratio()
 ```
 
 We can also see the within sum-of-squares by cluster, rather than totalled,
-with `within_cluster_sse()`:
+with `sse_within()`:
 
 ```{r}
 kmeans_fit %>%
-  within_cluster_sse()
+  sse_within()
 ```
 
 ### Silhouette

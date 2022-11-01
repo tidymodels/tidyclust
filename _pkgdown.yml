@@ -46,7 +46,7 @@ reference:
     - sse_total
     - sse_within_total
     - silhouette
-    - within_cluster_sse
+    - sse_within
 - title: Tuning
   desc: >
     Functions to allow multiple cluster specifications to be fit at once.

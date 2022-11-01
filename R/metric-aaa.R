@@ -111,7 +111,7 @@ validate_function_typo <- function(fns, call = rlang::caller_env()) {
       call = call
     )
   }
-  if (any(map_lgl(fns, identical, within_cluster_sse))) {
+  if (any(map_lgl(fns, identical, sse_within))) {
     rlang::abort(
       "`sse_within_total` is not a cluster metric. Did you mean `sse_within_total`?",
       call = call

@@ -43,7 +43,7 @@
 ---
 
     Code
-      cluster_metric_set(within_cluster_sse)
+      cluster_metric_set(sse_within)
     Condition
       Error in `cluster_metric_set()`:
       ! `sse_within_total` is not a cluster metric. Did you mean `sse_within_total`?
