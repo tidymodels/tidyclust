@@ -817,7 +817,7 @@ check_metrics <- function(x, object) {
   if (is.null(x)) {
     switch(mode,
       partition = {
-        x <- cluster_metric_set(tot_wss, sse_total)
+        x <- cluster_metric_set(sse_within, sse_total)
       },
       unknown = {
         rlang::abort(

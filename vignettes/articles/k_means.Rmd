@@ -240,11 +240,11 @@ The WSS and TSS come "for free" with the model fit summary, or they can be acces
 directly from the model fit:
 
 ```{r}
-kmeans_summary$within_sse
+kmeans_summary$sse_within_total
 kmeans_summary$sse_total
 
-kmeans_fit %>% tot_wss()
-kmeans_fit %>% tot_sse()
+kmeans_fit %>% sse_within()
+kmeans_fit %>% sse_total()
 
 kmeans_fit %>% sse_ratio()
 ```

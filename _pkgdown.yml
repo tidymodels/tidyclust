@@ -44,7 +44,7 @@ reference:
     - avg_silhouette
     - sse_ratio
     - sse_total
-    - tot_wss
+    - sse_within
 - title: Tuning
   desc: >
     Functions to allow multiple cluster specifications to be fit at once.
@@ -61,7 +61,7 @@ reference:
     - prep_data_dist
     - reconcile_clusterings_mapping
     - translate_tidyclust
-    - within_cluster_sse
 - title: Other
   contents:
     - silhouettes
+    - within_cluster_sse

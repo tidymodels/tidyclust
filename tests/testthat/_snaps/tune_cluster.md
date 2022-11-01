@@ -399,7 +399,7 @@
       tmp <- tune::show_best(res)
     Condition
       Warning:
-      No value of `metric` was given; metric 'tot_wss' will be used.
+      No value of `metric` was given; metric 'sse_within' will be used.
 
 ---
 
@@ -407,5 +407,5 @@
       tmp <- tune::select_best(res)
     Condition
       Warning:
-      No value of `metric` was given; metric 'tot_wss' will be used.
+      No value of `metric` was given; metric 'sse_within' will be used.
 

@@ -29,7 +29,7 @@ within_cluster_sse <- function(object, new_data = NULL,
   if (is.null(new_data)) {
     res <- tibble::tibble(
       .cluster = factor(summ$cluster_names),
-      wss = summ$within_sse,
+      wss = summ$sse_within_total,
       n_members = summ$n_members
     )
   } else {
@@ -69,48 +69,48 @@ within_cluster_sse <- function(object, new_data = NULL,
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' tot_wss(kmeans_fit)
+#' sse_within(kmeans_fit)
 #'
-#' tot_wss_vec(kmeans_fit)
+#' sse_within_vec(kmeans_fit)
 #' @export
-tot_wss <- function(object, ...) {
-  UseMethod("tot_wss")
+sse_within <- function(object, ...) {
+  UseMethod("sse_within")
 }
 
-tot_wss <- new_cluster_metric(
-  tot_wss,
+sse_within <- new_cluster_metric(
+  sse_within,
   direction = "zero"
 )
 
 #' @export
-#' @rdname tot_wss
-tot_wss.cluster_fit <- function(object, new_data = NULL,
+#' @rdname sse_within
+sse_within.cluster_fit <- function(object, new_data = NULL,
                                 dist_fun = NULL, ...) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
 
-  res <- tot_wss_impl(object, new_data, dist_fun, ...)
+  res <- sse_within_impl(object, new_data, dist_fun, ...)
 
   tibble::tibble(
-    .metric = "tot_wss",
+    .metric = "sse_within",
     .estimator = "standard",
     .estimate = res
   )
 }
 
 #' @export
-#' @rdname tot_wss
-tot_wss.workflow <- tot_wss.cluster_fit
+#' @rdname sse_within
+sse_within.workflow <- sse_within.cluster_fit
 
 #' @export
-#' @rdname tot_wss
-tot_wss_vec <- function(object, new_data = NULL,
+#' @rdname sse_within
+sse_within_vec <- function(object, new_data = NULL,
                         dist_fun = Rfast::dista, ...) {
-  tot_wss_impl(object, new_data, dist_fun, ...)
+  sse_within_impl(object, new_data, dist_fun, ...)
 }
 
-tot_wss_impl <- function(object, new_data = NULL,
+sse_within_impl <- function(object, new_data = NULL,
                          dist_fun = Rfast::dista, ...) {
   sum(within_cluster_sse(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 }
@@ -253,6 +253,6 @@ sse_ratio_impl <- function(object,
                            new_data = NULL,
                            dist_fun = Rfast::dista,
                            ...) {
-  tot_wss_vec(object, new_data, dist_fun) /
+  sse_within_vec(object, new_data, dist_fun) /
     sse_total_vec(object, new_data, dist_fun)
 }
