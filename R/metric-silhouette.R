@@ -59,48 +59,48 @@ silhouettes <- function(object, new_data = NULL, dists = NULL,
 #'   as.matrix() %>%
 #'   dist()
 #'
-#' avg_silhouette(kmeans_fit, dists = dists)
+#' silhouette_avg(kmeans_fit, dists = dists)
 #'
-#' avg_silhouette_vec(kmeans_fit, dists = dists)
+#' silhouette_avg_vec(kmeans_fit, dists = dists)
 #' @export
-avg_silhouette <- function(object, ...) {
-  UseMethod("avg_silhouette")
+silhouette_avg <- function(object, ...) {
+  UseMethod("silhouette_avg")
 }
 
-avg_silhouette <- new_cluster_metric(
-  avg_silhouette,
+silhouette_avg <- new_cluster_metric(
+  silhouette_avg,
   direction = "zero"
 )
 
 #' @export
-#' @rdname avg_silhouette
-avg_silhouette.cluster_fit <- function(object, new_data = NULL, dists = NULL,
+#' @rdname silhouette_avg
+silhouette_avg.cluster_fit <- function(object, new_data = NULL, dists = NULL,
                                        dist_fun = NULL, ...) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::Dist
   }
 
-  res <- avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
+  res <- silhouette_avg_impl(object, new_data, dists, dist_fun, ...)
 
   tibble::tibble(
-    .metric = "avg_silhouette",
+    .metric = "silhouette_avg",
     .estimator = "standard",
     .estimate = res
   )
 }
 
 #' @export
-#' @rdname avg_silhouette
-avg_silhouette.workflow <- avg_silhouette.cluster_fit
+#' @rdname silhouette_avg
+silhouette_avg.workflow <- silhouette_avg.cluster_fit
 
 #' @export
-#' @rdname avg_silhouette
-avg_silhouette_vec <- function(object, new_data = NULL, dists = NULL,
+#' @rdname silhouette_avg
+silhouette_avg_vec <- function(object, new_data = NULL, dists = NULL,
                                dist_fun = Rfast::Dist, ...) {
-  avg_silhouette_impl(object, new_data, dists, dist_fun, ...)
+  silhouette_avg_impl(object, new_data, dists, dist_fun, ...)
 }
 
-avg_silhouette_impl <- function(object, new_data = NULL, dists = NULL,
+silhouette_avg_impl <- function(object, new_data = NULL, dists = NULL,
                                 dist_fun = Rfast::Dist, ...) {
   mean(silhouettes(object, new_data, dists, dist_fun, ...)$sil_width)
 }

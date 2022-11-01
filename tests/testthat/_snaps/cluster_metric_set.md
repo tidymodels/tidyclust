@@ -4,7 +4,7 @@
       my_metrics(kmeans_fit)
     Condition
       Error in `value[[3L]]()`:
-      ! In metric: `avg_silhouette`
+      ! In metric: `silhouette_avg`
       Must supply either a dataset or distance matrix to compute silhouettes.
 
 # cluster_metric_set error with wrong input

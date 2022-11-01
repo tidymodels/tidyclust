@@ -272,7 +272,7 @@ values, a dataset must also be supplied to the function.
 
 ```{r}
 kmeans_fit %>%
-  avg_silhouette(penguins)
+  silhouette_avg(penguins)
 ```
 
 ### Changing distance measures
@@ -297,7 +297,7 @@ my_dist_2 <- function(x, y) {
 
 kmeans_fit %>% sse_ratio(dist_fun = my_dist_2)
 
-kmeans_fit %>% avg_silhouette(penguins, dist_fun = my_dist_1)
+kmeans_fit %>% silhouette_avg(penguins, dist_fun = my_dist_1)
 ```
 
 For more on using metrics for cluster model selection, see the Tuning vignette.

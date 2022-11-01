@@ -4,13 +4,13 @@ test_that("cluster_metric_set works", {
 
   kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-  my_metrics <- cluster_metric_set(sse_ratio, sse_total, sse_within, avg_silhouette)
+  my_metrics <- cluster_metric_set(sse_ratio, sse_total, sse_within, silhouette_avg)
 
   exp_res <- tibble::tibble(
-    .metric = c("sse_ratio", "sse_total", "sse_within", "avg_silhouette"),
+    .metric = c("sse_ratio", "sse_total", "sse_within", "silhouette_avg"),
     .estimator = "standard",
     .estimate = vapply(
-      list(sse_ratio_vec, sse_total_vec, sse_within_vec, avg_silhouette_vec),
+      list(sse_ratio_vec, sse_total_vec, sse_within_vec, silhouette_avg_vec),
       function(x) x(kmeans_fit, new_data = mtcars),
       FUN.VALUE = numeric(1)
     )

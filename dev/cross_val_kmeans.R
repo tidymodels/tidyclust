@@ -35,7 +35,7 @@ for (k in 2:10) {
     wss_2 <- km_fit$fit$tot.withinss
 
     sil <- km_fit %>%
-      avg_silhouette(tmp_test)
+      silhouette_avg(tmp_test)
 
     res <- rbind(res,
                  c(k = k, i = i, wss = wss, sil = sil, wss_2 = wss_2))

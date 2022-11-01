@@ -41,7 +41,7 @@ reference:
     well the model works.
   contents:
     - cluster_metric_set
-    - avg_silhouette
+    - silhouette_avg
     - sse_ratio
     - sse_total
     - sse_within
