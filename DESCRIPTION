@@ -23,7 +23,7 @@ Imports:
     glue (>= 1.6.2),
     hardhat (>= 1.0.0),
     modelenv (>= 0.1.0),
-    parsnip (>= 1.0.1),
+    parsnip (>= 1.0.2),
     prettyunits (>= 1.1.0),
     Rfast (>= 	2.0.6),
     rlang (>= 1.0.6),
