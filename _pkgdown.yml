@@ -29,12 +29,6 @@ reference:
     - predict.cluster_fit
     - extract_cluster_assignment
     - extract_centroids
-- title: Parameter Objects
-  desc: >
-    Parameter objects for tuning. Similar to
-    [parameter objects from dials package](https://dials.tidymodels.org/reference/index.html#parameter-objects)
-  contents:
-    - num_clusters
 - title: Model based performance metrics
   desc: >
     These metrics use the fitted clustering model to extract values denoting how
