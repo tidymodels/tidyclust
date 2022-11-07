@@ -50,7 +50,7 @@ make_hier_clust <- function() {
     eng = "stats",
     exposed = "num_clusters",
     original = "num_clusters",
-    func = list(pkg = "tidyclust", fun = "num_clusters"),
+    func = list(pkg = "dials", fun = "num_clusters"),
     has_submodel = TRUE
   )
 

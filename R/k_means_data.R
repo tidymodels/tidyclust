@@ -50,7 +50,7 @@ make_k_means <- function() {
     eng = "stats",
     exposed = "num_clusters",
     original = "centers",
-    func = list(pkg = "tidyclust", fun = "num_clusters"),
+    func = list(pkg = "dials", fun = "num_clusters"),
     has_submodel = TRUE
   )
 
@@ -117,7 +117,7 @@ make_k_means <- function() {
     eng = "ClusterR",
     exposed = "num_clusters",
     original = "clusters",
-    func = list(pkg = "tidyclust", fun = "num_clusters"),
+    func = list(pkg = "dials", fun = "num_clusters"),
     has_submodel = TRUE
   )
 
