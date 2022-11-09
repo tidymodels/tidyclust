@@ -34,6 +34,10 @@ hardhat::tune
 #' @export
 hardhat::extract_spec_parsnip
 
+#' @importFrom hardhat extract_fit_engine
+#' @export
+hardhat::extract_fit_engine
+
 #' @importFrom generics min_grid
 #' @export
 generics::min_grid
