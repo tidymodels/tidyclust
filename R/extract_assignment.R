@@ -42,9 +42,13 @@ extract_cluster_assignment.hclust <- function(object, ...) {
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification
   args <- list(...)
+
   if (!("num_clusters" %in% names(args) || "cut_height" %in% names(args))) {
     num_clusters <- attr(object, "num_clusters")
     cut_height <- attr(object, "cut_height")
+  } else {
+    num_clusters <- args[["num_clusters"]]
+    cut_height <- args[["cut_height"]]
   }
   clusters <- stats::cutree(object, k = num_clusters, h = cut_height)
   cluster_assignment_tibble(clusters, length(unique(clusters)), ...)
@@ -54,6 +58,7 @@ extract_cluster_assignment.hclust <- function(object, ...) {
 
 cluster_assignment_tibble <- function(clusters,
                                       n_clusters,
+                                      ...,
                                       prefix = "Cluster_") {
   reorder_clusts <- order(unique(clusters))
   names <- paste0(prefix, seq_len(n_clusters))

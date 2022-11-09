@@ -73,6 +73,23 @@ test_that("predictions", {
   )
 })
 
+test_that("extract_cluster_assignment works if you don't set num_clusters", {
+  set.seed(1234)
+  hclust_fit <- hier_clust(num_clusters = 4) %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  set.seed(1234)
+  hclust_fit_no_args <- hier_clust() %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  expect_identical(
+    extract_cluster_assignment(hclust_fit, mtcars),
+    extract_cluster_assignment(hclust_fit_no_args, mtcars, num_clusters = 4)
+  )
+})
+
 test_that("extract_centroids work", {
   set.seed(1234)
   hclust_fit <- hier_clust(num_clusters = 4) %>%
