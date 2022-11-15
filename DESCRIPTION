@@ -48,7 +48,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes:
-    tidymodels/workflows
+    tidymodels/workflows@tidyclust-fix
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce
 Config/testthat/edition: 3
