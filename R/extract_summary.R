@@ -24,12 +24,12 @@ extract_fit_summary <- function(object, ...) {
 
 #' @export
 extract_fit_summary.cluster_fit <- function(object, ...) {
-  extract_fit_summary(object$fit)
+  extract_fit_summary(object$fit, ...)
 }
 
 #' @export
 extract_fit_summary.workflow <- function(object, ...) {
-  extract_fit_summary(object$fit$fit$fit)
+  extract_fit_summary(object$fit$fit$fit, ...)
 }
 
 #' @export

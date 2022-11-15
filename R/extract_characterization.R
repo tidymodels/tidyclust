@@ -14,7 +14,7 @@
 #'   extract_centroids()
 #' @export
 extract_centroids <- function(object, ...) {
-  summ <- extract_fit_summary(object)
+  summ <- extract_fit_summary(object, ...)
   clusters <- tibble::tibble(.cluster = summ$cluster_names)
   bind_cols(clusters, summ$centroids)
 }

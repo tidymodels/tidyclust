@@ -127,6 +127,26 @@ test_that("extract_centroids work", {
   )
 })
 
+test_that("extract_centroids work if you don't set num_clusters", {
+  set.seed(1234)
+  hclust_fit <- hier_clust() %>%
+    set_engine("stats") %>%
+    fit(~., mtcars)
+
+  set.seed(1234)
+  ref_res <- cutree(hclust(dist(mtcars)), k = 4)
+
+  ref_predictions <- ref_res %>% unname()
+
+  expect_identical(
+    extract_centroids(hclust_fit, num_clusters = 4) %>%
+      dplyr::mutate(.cluster = as.integer(.cluster)),
+    mtcars %>%
+      dplyr::group_by(.cluster = ref_predictions) %>%
+      dplyr::summarize(dplyr::across(dplyr::everything(), mean))
+  )
+})
+
 test_that("predictions with new data", {
   set.seed(1234)
   hclust_fit <- hier_clust(num_clusters = 4) %>%
