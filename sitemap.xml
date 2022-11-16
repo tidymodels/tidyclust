@@ -1,144 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://tidyclust.tidymodels.org/404.html</loc>
   </url>
   <url>
-    <loc>/CODE_OF_CONDUCT.html</loc>
+    <loc>https://tidyclust.tidymodels.org/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://tidyclust.tidymodels.org/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://tidyclust.tidymodels.org/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/hier_clust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/articles/hier_clust.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://tidyclust.tidymodels.org/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/k_means.html</loc>
+    <loc>https://tidyclust.tidymodels.org/articles/k_means.html</loc>
   </url>
   <url>
-    <loc>/articles/tuning_and_metrics.html</loc>
+    <loc>https://tidyclust.tidymodels.org/articles/tuning_and_metrics.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://tidyclust.tidymodels.org/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://tidyclust.tidymodels.org/index.html</loc>
   </url>
   <url>
-    <loc>/reference/ClusterR_kmeans_fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/ClusterR_kmeans_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/add_on_exports.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/add_on_exports.html</loc>
   </url>
   <url>
-    <loc>/reference/augment.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/augment.html</loc>
   </url>
   <url>
-    <loc>/reference/check_empty_ellipse_tidyclust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/check_empty_ellipse_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/cluster_metric_set.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/cluster_metric_set.html</loc>
   </url>
   <url>
-    <loc>/reference/control_cluster.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/control_cluster.html</loc>
   </url>
   <url>
-    <loc>/reference/convert_helpers.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/convert_helpers.html</loc>
   </url>
   <url>
-    <loc>/reference/empty_ellipses.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/empty_ellipses.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_centroids.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/extract_centroids.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_cluster_assignment.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/extract_cluster_assignment.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_fit_summary.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/extract_fit_summary.html</loc>
   </url>
   <url>
-    <loc>/reference/finalize_model_tidyclust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/finalize_model_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/fit.html</loc>
   </url>
   <url>
-    <loc>/reference/get_centroid_dists.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/get_centroid_dists.html</loc>
   </url>
   <url>
-    <loc>/reference/glance.cluster_fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/glance.cluster_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/hclust_fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/hclust_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/hier_clust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/hier_clust.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/k_means.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/k_means.html</loc>
   </url>
   <url>
-    <loc>/reference/make_classes_tidyclust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/make_classes_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/new_cluster_metric.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/new_cluster_metric.html</loc>
   </url>
   <url>
-    <loc>/reference/other_predict.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/other_predict.html</loc>
   </url>
   <url>
-    <loc>/reference/predict.cluster_fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/predict.cluster_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/prep_data_dist.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/prep_data_dist.html</loc>
   </url>
   <url>
-    <loc>/reference/reconcile_clusterings_mapping.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/reconcile_clusterings_mapping.html</loc>
   </url>
   <url>
-    <loc>/reference/reexports.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>/reference/silhouette.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/silhouette.html</loc>
   </url>
   <url>
-    <loc>/reference/silhouette_avg.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/silhouette_avg.html</loc>
   </url>
   <url>
-    <loc>/reference/sse_ratio.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/sse_ratio.html</loc>
   </url>
   <url>
-    <loc>/reference/sse_total.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/sse_total.html</loc>
   </url>
   <url>
-    <loc>/reference/sse_within.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/sse_within.html</loc>
   </url>
   <url>
-    <loc>/reference/sse_within_total.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/sse_within_total.html</loc>
   </url>
   <url>
-    <loc>/reference/tidy.cluster_fit.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/tidy.cluster_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyclust-package.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/tidyclust-package.html</loc>
   </url>
   <url>
-    <loc>/reference/tidyclust_update.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/tidyclust_update.html</loc>
   </url>
   <url>
-    <loc>/reference/translate_tidyclust.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/translate_tidyclust.html</loc>
   </url>
   <url>
-    <loc>/reference/tune_cluster.html</loc>
+    <loc>https://tidyclust.tidymodels.org/reference/tune_cluster.html</loc>
   </url>
 </urlset>
