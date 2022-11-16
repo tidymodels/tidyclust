@@ -24,7 +24,14 @@ The goal of tidyclust is to provide a tidy, unified interface to clustering mode
 
 ## Installation
 
-You can install the development version of tidyclust from [GitHub](https://github.com/) with:
+You can install the released version of tidyclust from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("tidyclust")
+```
+
+
+and the development version of tidyclust from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
