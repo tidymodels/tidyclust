@@ -89,21 +89,16 @@
 <div class="section level2">
 <h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h2>
-<p><strong>Important:</strong> Make sure to install the developer
-version of <code>parsnip</code> and <code>workflows</code> to access all
-current functionality of <code>tidyclust</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"tidymodels/workflows"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflows" class="external-link">workflows</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/parsnip" class="external-link">parsnip</a></span><span class="op">)</span></span></code></pre></div>
 <p>Load libraries:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EmilHvitfeldt/tidyclust" class="external-link">tidyclust</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -123,7 +118,7 @@ for those who would like a reference.</p>
 </h2>
 <p>To specify a k-means model in <code>tidyclust</code>, simply choose a
 value of <code>num_clusters</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kmeans_spec</span></span>
@@ -138,7 +133,7 @@ and <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="ext
 <p>It is also possible to change the algorithmic details of the
 implementation, by changing the engine and/or using the corresponding
 arguments from the engine functions:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_spec_lloyd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">parsnip</span><span class="fu">::</span><span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"stats"</span>, algorithm <span class="op">=</span> <span class="st">"Lloyd"</span><span class="op">)</span></span>
 <span></span>
@@ -158,7 +153,7 @@ formula and data frame in the same manner as a <code>tidymodels</code>
 model fit.<br>
 Note that unlike in supervised modeling, the formula should not include
 a response variable.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>      data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
@@ -173,7 +168,7 @@ a response variable.</p>
 <p>To access the only the results produced by the engine - in this case,
 <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> - simply extract the fit from the fitted
 model object:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span><span class="op">$</span><span class="va">fit</span></span>
 <span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 85, 141, 116</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -233,7 +228,7 @@ model object:</p>
 <code><a href="../reference/extract_fit_summary.html">extract_fit_summary()</a></code>, to produce a list of model summary
 information in a format that is consistent across all cluster model
 specifications and engines</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span> <span class="op">&lt;-</span> <span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -255,7 +250,7 @@ specifications and engines</p>
 <p>The primary objective of fitting a clustering model is typically to
 assign observations to clusters. To access these, use
 <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 1</span></span></span>
@@ -278,7 +273,7 @@ are named “Cluster_1”, “Cluster_2”, etc. and are numbered by the order
 they appear in the rows of the training dataset.</p>
 <p>To reconcile these standardized cluster labels with the engine
 output, refer back to the full model fit summary:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  orig_labels <span class="op">=</span> <span class="va">kmeans_summary</span><span class="op">$</span><span class="va">orig_labels</span>,</span>
 <span>  standard_labels <span class="op">=</span> <span class="va">kmeans_summary</span><span class="op">$</span><span class="va">cluster_assignments</span></span>
@@ -309,7 +304,7 @@ clusters; i.e., what data feature trends does each cluster seem to
 represent? Most commonly, clusters are characterized by their mean
 values in the predictor space, a.k.a. the centroids.</p>
 <p>These can be accessed from the full summary:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">centroids</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
 <span><span class="co">#&gt;   bill_length_mm bill_depth_mm</span></span>
@@ -318,7 +313,7 @@ values in the predictor space, a.k.a. the centroids.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>           50.9          17.3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>           38.4          18.3</span></span></code></pre></div>
 <p>They can also be accessed directly from the fitted model with:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -344,7 +339,7 @@ to the closest centroid cluster.</p>
 <p>The <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function behaves as expected, producing
 cluster assignment predictions on new data based on distance to the
 fitted model centroids.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">new_penguin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  bill_length_mm <span class="op">=</span> <span class="fl">42</span>,</span>
 <span>  bill_depth_mm <span class="op">=</span> <span class="fl">17</span></span>
@@ -366,7 +361,7 @@ fitted model centroids.</p>
 <!-- ``` -->
 <p>To attach all predictions to a dataset as a column, use
 <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 3</span></span></span>
@@ -405,7 +400,7 @@ clusters are closer (more similar) to each other than they are to the
 other clusters.</p>
 <p>The WSS and TSS come “for free” with the model fit summary, or they
 can be accessed directly from the model fit:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">sse_within_total_total</span></span>
 <span><span class="co">#&gt; [1] 754.7437 617.9859 944.4986</span></span>
 <span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">sse_total</span></span>
@@ -429,7 +424,7 @@ can be accessed directly from the model fit:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_ratio standard       0.202</span></span></code></pre></div>
 <p>We can also see the within sum-of-squares by cluster, rather than
 totalled, with <code><a href="../reference/sse_within.html">sse_within()</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/sse_within.html">sse_within</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
@@ -455,7 +450,7 @@ outside its cluster.</p>
 clustering fit. Beause the computation of the silhouette depends on the
 original observation values, a dataset must also be supplied to the
 function.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/silhouette_avg.html">silhouette_avg</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
@@ -474,7 +469,7 @@ two arguments (i.e., the observation locations and the centroid
 locations). For the sihouette metric, the distance function must find
 pairwise distances from a single matrix (i.e., all pairwise distances
 between observations).</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_dist_1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">Rfast</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/Dist.html" class="external-link">Dist</a></span><span class="op">(</span><span class="va">x</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
@@ -505,7 +500,7 @@ vignette.</p>
 <code>tidyclust</code> objects. In the following example, we try two
 recipes for clustering penguins by bill dimensions. In the second
 recipe, we log-scale both predictors before clustering.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">penguins_recipe_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>                            data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
 <span></span>
@@ -554,7 +549,7 @@ considered to be locations on axes in multidimensional space. For
 example, in the plot below, each point represents an observation of one
 penguin, and the location in 2-dimensional space is determined by the
 bill length and bill depth of that penguin.</p>
-<p><img src="k_means_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 <p>A <em>k-means</em> cluster assignment is achieved by iterating to
 convergence from random initial conditions. The algorithm typically
 proceeds as follows:</p>
@@ -563,19 +558,19 @@ proceeds as follows:</p>
 locations in space are declared to be the <strong>initial
 centroids</strong>.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Assign each observation to the nearest centroid.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Compute the new centroids of each cluster.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Repeat steps 2 and 3 until the centroids do not change.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <div class="section level3">
 <h3 id="iteration-of-centroids">Iteration of centroids<a class="anchor" aria-label="anchor" href="#iteration-of-centroids"></a>
 </h3>
