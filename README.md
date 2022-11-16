@@ -6,8 +6,8 @@
 <!-- badges: start -->
 
 [![Codecov test
-coverage](https://codecov.io/gh/EmilHvitfeldt/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EmilHvitfeldt/tidyclust?branch=main)
-[![R-CMD-check](https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EmilHvitfeldt/tidyclust/actions/workflows/R-CMD-check.yaml)
+coverage](https://codecov.io/gh/tidymodels/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyclust?branch=main)
+[![R-CMD-check](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of tidyclust is to provide a tidy, unified interface to
@@ -21,7 +21,7 @@ You can install the development version of tidyclust from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("EmilHvitfeldt/tidyclust")
+devtools::install_github("tidymodels/tidyclust")
 ```
 
 ## Example

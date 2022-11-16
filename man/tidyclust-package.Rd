@@ -11,8 +11,8 @@ A common interface to specifying clustering models, in the same style as `parsni
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/EmilHvitfeldt/tidyclust}
-  \item Report bugs at \url{https://github.com/EmilHvitfeldt/tidyclust/issues}
+  \item \url{https://github.com/tidymodels/tidyclust}
+  \item Report bugs at \url{https://github.com/tidymodels/tidyclust/issues}
 }
 
 }
