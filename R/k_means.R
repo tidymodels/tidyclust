@@ -64,7 +64,9 @@ update.k_means <- function(object,
                            parameters = NULL,
                            num_clusters = NULL,
                            fresh = FALSE, ...) {
-  eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
+  eng_args <- parsnip::update_engine_parameters(
+    object$eng_args, fresh = fresh, ...
+  )
 
   if (!is.null(parameters)) {
     parameters <- parsnip::check_final_param(parameters)

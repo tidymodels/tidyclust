@@ -70,7 +70,9 @@ update.hier_clust <- function(object,
                               cut_height = NULL,
                               linkage_method = NULL,
                               fresh = FALSE, ...) {
-  eng_args <- parsnip::update_engine_parameters(object$eng_args, ...)
+  eng_args <- parsnip::update_engine_parameters(
+    object$eng_args, fresh = fresh, ...
+  )
 
   if (!is.null(parameters)) {
     parameters <- parsnip::check_final_param(parameters)
