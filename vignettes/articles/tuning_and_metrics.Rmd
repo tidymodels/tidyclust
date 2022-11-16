@@ -19,16 +19,6 @@ knitr::opts_chunk$set(
 
 ## Setup
 
-**Important:** Make sure to install the developer version of `parsnip` and
-`workflows` to access all current functionality of `tidyclust`:
-
-```{r, eval = FALSE}
-remotes::install_github("tidymodels/workflows")
-
-library(parsnip)
-library(workflows)
-```
-
 Load libraries:
 
 ```{r setup}

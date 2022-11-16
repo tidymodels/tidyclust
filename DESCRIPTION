@@ -44,11 +44,9 @@ Suggests:
     recipes (>= 1.0.0),
     rmarkdown,
     testthat (>= 3.0.0),
-    workflows (>= 1.0.0)
+    workflows (>= 1.1.2)
 VignetteBuilder: 
     knitr
-Remotes:
-    tidymodels/workflows@tidyclust-fix
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce
 Config/testthat/edition: 3
