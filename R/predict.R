@@ -97,12 +97,6 @@ format_cluster <- function(x) {
   tibble::tibble(.pred_cluster = unname(x))
 }
 
-#' Prepare data based on parsnip encoding information
-#' @param object A parsnip model object
-#' @param new_data A data frame
-#' @return A data frame or matrix
-#' @keywords internal
-#' @export
 prepare_data <- function(object, new_data) {
   fit_interface <- object$spec$method$fit$interface
 
