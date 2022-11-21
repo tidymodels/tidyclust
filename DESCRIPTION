@@ -45,8 +45,6 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     workflows (>= 1.1.2)
-VignetteBuilder: 
-    knitr
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce
 Config/testthat/edition: 3
