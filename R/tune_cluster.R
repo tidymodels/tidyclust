@@ -43,7 +43,7 @@
 #' grid <- tibble(num_clusters = 1:3)
 #'
 #' set.seed(4400)
-#' folds <- vfold_cv(mtcars)
+#' folds <- vfold_cv(mtcars, v = 2)
 #'
 #' res <- tune_cluster(
 #'   wflow,
