@@ -8,7 +8,7 @@ Authors@R: c(
     person("Posit Software, PBC.", role = c("cph", "fnd"))
   )
 Description: A common interface to specifying clustering models, in the
-    same style as `parsnip`. Creates unified interface across different
+    same style as 'parsnip'. Creates unified interface across different
     functions and computational engines.
 License: MIT + file LICENSE
 URL: https://github.com/tidymodels/tidyclust
