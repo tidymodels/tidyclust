@@ -326,15 +326,6 @@ tune_cluster_loop_iter <- function(split,
   load_pkgs(workflow)
   load_namespace(control$pkgs)
 
-  # After package loading to avoid potential package RNG manipulation
-  if (!is.null(seed)) {
-    # `assign()`-ing the random seed alters the `kind` type to L'Ecuyer-CMRG,
-    # so we have to ensure it is restored on exit
-    old_kind <- RNGkind()[[1]]
-    assign(".Random.seed", seed, envir = globalenv())
-    on.exit(RNGkind(kind = old_kind), add = TRUE)
-  }
-
   control_parsnip <- parsnip::control_parsnip(verbosity = 0, catch = TRUE)
   control_workflow <- workflows::control_workflow(control_parsnip)
 
