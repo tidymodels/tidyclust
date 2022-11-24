@@ -3,6 +3,8 @@
 #' @param object An cluster_spec object.
 #' @param ... Other arguments passed to methods.
 #'
+#' @return A `tibble::tibble()` with 1 row for each centroid and their position.
+#'
 #' @examples
 #' set.seed(1234)
 #' kmeans_spec <- k_means(num_clusters = 5) %>%

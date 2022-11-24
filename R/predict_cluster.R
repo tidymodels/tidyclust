@@ -2,6 +2,8 @@
 #'
 #' These are internal functions not meant to be directly called by the user.
 #'
+#' @return A `tibble::tibble()`.
+#'
 #' @keywords internal
 #' @rdname other_predict
 #' @inheritParams predict_cluster.cluster_fit
@@ -11,6 +13,7 @@ predict_cluster <- function(object, ...) {
 }
 
 #' @keywords internal
+#' @return A `tibble::tibble()`.
 #' @rdname other_predict
 #' @inheritParams predict.cluster_fit
 #' @method predict_cluster cluster_fit

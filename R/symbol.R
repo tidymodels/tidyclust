@@ -88,6 +88,7 @@ is_windows <- function() {
 #' Get colors for tidyclust text.
 #'
 #' @keywords internal
+#' @return a list of `cli` functions.
 #' @export
 #' @rdname empty_ellipses
 get_tidyclust_colors <- function() tidyclust_color

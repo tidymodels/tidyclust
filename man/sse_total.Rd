@@ -25,6 +25,9 @@ sse_total_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
 \item{dist_fun}{A function for calculating distances to centroids.  Defaults
 to Euclidean distance on processed data.}
 }
+\value{
+A tibble with 3 columns; \code{.metric}, \code{.estimator}, and \code{.estimate}.
+}
 \description{
 Compute the total sum of squares
 }

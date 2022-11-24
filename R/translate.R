@@ -2,7 +2,7 @@
 #'
 #' `translate_tidyclust()` will translate_tidyclust a model specification into a
 #' code object that is specific to a particular engine (e.g. R package). It
-#' translate_tidyclusts generic parameters to their counterparts.
+#' translate tidyclust generic parameters to their counterparts.
 #'
 #' @param x A model specification.
 #' @param engine The computational engine for the model (see `?set_engine`).
@@ -24,6 +24,8 @@
 #' **Note**: this function is used internally and users should only use it
 #'   to understand what the underlying syntax would be. It should not be used to
 #'   modify the cluster specification.
+#'
+#' @return Prints translated code.
 #'
 #' @export
 translate_tidyclust <- function(x, ...) {
@@ -142,11 +144,6 @@ deharmonize <- function(args, key) {
   args[!is.na(merged$original)]
 }
 
-#' Check to ensure that ellipses are empty
-#' @param ... Extra arguments.
-#' @return If an error is not thrown (from non-empty ellipses), a NULL list.
-#' @keywords internal
-#' @export
 check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {

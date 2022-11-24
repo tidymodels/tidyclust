@@ -30,7 +30,6 @@
 #' @inheritParams fit.cluster_spec
 #' @rdname convert_helpers
 #' @keywords internal
-#' @export
 .convert_form_to_x_fit <- function(formula,
                                    data,
                                    ...,
@@ -149,10 +148,8 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 #' @param weights A numeric vector containing the weights.
 #' @inheritParams fit.cluster_spec
 #' @inheritParams .convert_form_to_x_fit
-#'
 #' @rdname convert_helpers
 #' @keywords internal
-#' @export
 .convert_x_to_form_fit <- function(x,
                                    weights = NULL,
                                    remove_intercept = TRUE) {
@@ -210,7 +207,6 @@ make_formula <- function(x, short = TRUE) {
 #' @inheritParams predict.cluster_fit
 #' @rdname convert_helpers
 #' @keywords internal
-#' @export
 .convert_form_to_x_new <- function(object,
                                    new_data,
                                    na.action = stats::na.pass,
@@ -262,7 +258,6 @@ make_formula <- function(x, short = TRUE) {
 
 #' @rdname convert_helpers
 #' @keywords internal
-#' @export
 .convert_x_to_form_new <- function(object, new_data) {
   new_data <- new_data[, object$x_var, drop = FALSE]
   if (!is.data.frame(new_data)) {

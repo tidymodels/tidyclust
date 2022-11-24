@@ -6,7 +6,7 @@
 \alias{tidyclust-package}
 \title{tidyclust: A Common API to Clustering}
 \description{
-A common interface to specifying clustering models, in the same style as `parsnip`. Creates unified interface across different functions and computational engines.
+A common interface to specifying clustering models, in the same style as 'parsnip'. Creates unified interface across different functions and computational engines.
 }
 \seealso{
 Useful links:

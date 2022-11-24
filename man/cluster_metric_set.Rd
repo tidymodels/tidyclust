@@ -11,9 +11,13 @@ cluster_metric_set(...)
 These functions must be cluster metrics such as \code{\link[=sse_total]{sse_total()}},
 \code{\link[=sse_ratio]{sse_ratio()}}, or \code{\link[=silhouette_avg]{silhouette_avg()}}.}
 }
+\value{
+A \code{cluster_metric_set()} object, combining the use of all input
+metrics.
+}
 \description{
-\code{metric_set()} allows you to combine multiple metric functions together into
-a new function that calculates all of them at once.
+\code{cluster_metric_set()} allows you to combine multiple metric functions
+together into a new function that calculates all of them at once.
 }
 \details{
 All functions must be:

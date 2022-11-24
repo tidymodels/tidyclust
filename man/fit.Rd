@@ -49,6 +49,8 @@ non-formula interface
 }
 The return value will also have a class related to the fitted model (e.g.
 \code{"_kmeans"}) before the base class of \code{"cluster_fit"}.
+
+A fitted \code{cluster_fit} object.
 }
 \description{
 \code{fit()} and \code{fit_xy()} take a model specification, translate_tidyclust the

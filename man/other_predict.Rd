@@ -17,6 +17,11 @@ passed here (see \code{opts}).}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 }
+\value{
+A \code{tibble::tibble()}.
+
+A \code{tibble::tibble()}.
+}
 \description{
 These are internal functions not meant to be directly called by the user.
 }

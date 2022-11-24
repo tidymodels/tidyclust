@@ -14,6 +14,10 @@
 
 \item{...}{Not currently used.}
 }
+\value{
+A \code{tibble::tibble()} with containing \code{new_data} with columns added
+depending on the mode of the model.
+}
 \description{
 \code{augment()} will add column(s) for predictions to the given data.
 }

@@ -16,6 +16,9 @@ model is \code{"stats"}.}
 
 \item{num_clusters}{Positive integer, number of clusters in model.}
 }
+\value{
+A \code{k_means} cluster specification.
+}
 \description{
 \code{k_means()} defines a model that fits clusters based on distances to a number
 of centers.

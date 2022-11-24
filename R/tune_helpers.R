@@ -161,6 +161,13 @@ tidyr_new_interface <- function() {
   utils::packageVersion("tidyr") > "0.8.99"
 }
 
+#' Determine the minimum set of model fits
+#'
+#' @param x A cluster specification.
+#' @param grid A tibble with tuning parameter combinations.
+#' @param ... Not currently used.
+#' @return A tibble with the minimum tuning parameters to fit and an additional
+#' list column with the parameter combinations used for prediction.
 #' @export
 min_grid.cluster_spec <- function(x, grid, ...) {
   blank_submodels(grid)

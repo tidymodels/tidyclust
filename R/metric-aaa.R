@@ -7,6 +7,8 @@
 #'
 #' @param fn A function.
 #'
+#' @return A `cluster_metric` object.
+#'
 #' @param direction A string. One of:
 #'   - `"maximize"`
 #'   - `"minimize"`
@@ -34,12 +36,15 @@ new_cluster_metric <- function(fn, direction) {
 
 #' Combine metric functions
 #'
-#' `metric_set()` allows you to combine multiple metric functions together into
-#' a new function that calculates all of them at once.
+#' `cluster_metric_set()` allows you to combine multiple metric functions
+#' together into a new function that calculates all of them at once.
 #'
 #' @param ... The bare names of the functions to be included in the metric set.
 #'   These functions must be cluster metrics such as [sse_total()],
 #'   [sse_ratio()], or [silhouette_avg()].
+#'
+#' @return A `cluster_metric_set()` object, combining the use of all input
+#'   metrics.
 #'
 #' @details All functions must be:
 #' - Only cluster metrics

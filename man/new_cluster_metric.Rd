@@ -16,6 +16,9 @@ new_cluster_metric(fn, direction)
 \item \code{"zero"}
 }}
 }
+\value{
+A \code{cluster_metric} object.
+}
 \description{
 These functions provide convenient wrappers to create the one
 type of metric functions in celrry: clustering metrics. They add a

@@ -1,3 +1,7 @@
+#' Change engine of a cluster specification
+#'
+#' @inheritParams parsnip::set_engine
+#' @return An updated `cluster_spec` object.
 #' @export
 set_engine.cluster_spec <- function(object, engine, ...) {
   mod_type <- class(object)[1]

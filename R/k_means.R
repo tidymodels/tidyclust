@@ -12,6 +12,8 @@
 #'   model is `"stats"`.
 #' @param num_clusters Positive integer, number of clusters in model.
 #'
+#' @return A `k_means` cluster specification.
+#'
 #' @examples
 #' # Show all engines
 #' modelenv::get_from_env("k_means")

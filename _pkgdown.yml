@@ -17,9 +17,13 @@ reference:
     created with tidyclust.
   contents:
     - fit.cluster_spec
+    - set_args.cluster_spec
+    - set_engine.cluster_spec
+    - set_mode.cluster_spec
     - augment.cluster_fit
     - glance.cluster_fit
     - tidy.cluster_fit
+    - extract-tidyclust
 - title: Prediction
   desc: >
     Once the cluster specification have been fit, you are likely to want to look
@@ -57,3 +61,4 @@ reference:
     - prep_data_dist
     - reconcile_clusterings_mapping
     - translate_tidyclust
+    - min_grid.cluster_spec

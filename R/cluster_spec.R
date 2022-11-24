@@ -3,9 +3,10 @@
 #' These functions are helpful when creating new packages that will register new
 #' cluster specifications.
 #'
+#' @return A `cluster_spec` object made to work with tidyclust.
+#'
 #' @export
 #' @keywords internal
-#' @rdname add_on_exports
 new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
   modelenv::check_spec_mode_engine_val(model = cls, mode = mode, eng = engine)
 
