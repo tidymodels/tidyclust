@@ -1,14 +1,14 @@
 Package: tidyclust
 Title: A Common API to Clustering
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emilhhvitfeldt@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
     person("Kelly", "Bodwin", , "kelly@bodwin.us", role = "aut"),
-    person("RStudio", role = c("cph", "fnd"))
+    person("Posit Software, PBC.", role = c("cph", "fnd"))
   )
 Description: A common interface to specifying clustering models, in the
-    same style as `parsnip`. Creates unified interface across different
+    same style as 'parsnip'. Creates unified interface across different
     functions and computational engines.
 License: MIT + file LICENSE
 URL: https://github.com/tidymodels/tidyclust
@@ -45,8 +45,6 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     workflows (>= 1.1.2)
-VignetteBuilder: 
-    knitr
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce
 Config/testthat/edition: 3

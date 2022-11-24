@@ -1,3 +1,4 @@
+#' @rdname extract-tidyclust
 #' @export
 extract_parameter_set_dials.cluster_spec <- function(x, ...) {
   all_args <- generics::tunable(x)

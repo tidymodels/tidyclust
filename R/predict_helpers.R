@@ -7,9 +7,7 @@ stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
 }
 
 clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
-  res <- object$centroids[unique(object$clusters), , drop = FALSE]
-  res <- flexclust::dist2(res, new_data)
-  res <- apply(res, 2, which.min)
+  res <- predict(object, new_data)
   res <- paste0(prefix, res)
   factor(res)
 }

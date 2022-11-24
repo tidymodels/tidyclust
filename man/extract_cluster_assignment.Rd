@@ -11,6 +11,9 @@ extract_cluster_assignment(object, ...)
 
 \item{...}{Other arguments passed to methods.}
 }
+\value{
+A \code{tibble::tibble()} with 1 column \code{.cluster}.
+}
 \description{
 Extract cluster assignments from model
 }

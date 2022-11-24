@@ -79,6 +79,7 @@
 #'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
 #'   examples.
 #' @rdname fit
+#' @return A fitted `cluster_fit` object.
 #' @export
 #' @export fit.cluster_spec
 fit.cluster_spec <- function(object,

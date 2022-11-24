@@ -3,6 +3,8 @@
 #' @param object An cluster_spec object.
 #' @param ... Other arguments passed to methods.
 #'
+#' @return A `tibble::tibble()` with 1 column `.cluster`.
+#'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
 #'   set_engine("stats")

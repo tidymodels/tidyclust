@@ -16,10 +16,13 @@ translate_tidyclust(x, ...)
 
 \item{engine}{The computational engine for the model (see \code{?set_engine}).}
 }
+\value{
+Prints translated code.
+}
 \description{
 \code{translate_tidyclust()} will translate_tidyclust a model specification into a
 code object that is specific to a particular engine (e.g. R package). It
-translate_tidyclusts generic parameters to their counterparts.
+translate tidyclust generic parameters to their counterparts.
 }
 \details{
 \code{translate_tidyclust()} produces a \emph{template} call that lacks the

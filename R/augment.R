@@ -9,6 +9,8 @@
 #' @param new_data A data frame or matrix.
 #' @param ... Not currently used.
 #' @rdname augment
+#' @return A `tibble::tibble()` with containing `new_data` with columns added
+#'   depending on the mode of the model.
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
 #'   set_engine("stats")

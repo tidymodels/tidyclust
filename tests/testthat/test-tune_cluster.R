@@ -8,7 +8,7 @@ test_that("tune recipe only", {
   pset <- hardhat::extract_parameter_set_dials(wflow) %>%
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
@@ -29,7 +29,7 @@ test_that("tune recipe only", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
   expect_false(identical(num_comp, expr(tune())))
   expect_true(res_workflow$trained)
 })
@@ -44,7 +44,7 @@ test_that("tune model only (with recipe)", {
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
@@ -66,7 +66,7 @@ test_that("tune model only (with recipe)", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
   expect_false(identical(num_clusters, expr(tune())))
   expect_true(res_workflow$trained)
 })
@@ -83,7 +83,7 @@ test_that("tune model only (with variables)", {
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
 
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
 
   metrics <- cluster_metric_set(sse_total, sse_within_total)
 
@@ -96,7 +96,7 @@ test_that("tune model only (with variables)", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
 })
 
 test_that("tune model only (with formula)", {
@@ -111,7 +111,7 @@ test_that("tune model only (with formula)", {
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
 
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
 
   metrics <- cluster_metric_set(sse_total, sse_within_total)
 
@@ -124,7 +124,7 @@ test_that("tune model only (with formula)", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
 })
 
 test_that("tune model and recipe", {
@@ -138,7 +138,7 @@ test_that("tune model and recipe", {
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
@@ -168,7 +168,7 @@ test_that("tune model and recipe", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
   expect_false(identical(num_clusters, expr(tune())))
   expect_false(identical(num_comp, expr(tune())))
   expect_true(res_workflow$trained)
@@ -185,7 +185,7 @@ test_that("verbose argument works", {
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity, verbose = TRUE)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
@@ -211,7 +211,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(
     extract = identity,
     parallel_over = "everything"
@@ -236,7 +236,7 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid) * 2))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
 })
 
 test_that("tune model only - failure in formula is caught elegantly", {
@@ -307,7 +307,7 @@ test_that("metrics can be NULL", {
   pset <- hardhat::extract_parameter_set_dials(wflow) %>%
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
@@ -341,7 +341,7 @@ test_that("tune recipe only", {
   pset <- hardhat::extract_parameter_set_dials(wflow) %>%
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total)
 
@@ -361,7 +361,7 @@ test_that("tune recipe only", {
   expect_equal(res$id, folds$id)
   expect_equal(nrow(res_est), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
-  expect_equal(res_est$n, rep(10, nrow(grid)))
+  expect_equal(res_est$n, rep(2, nrow(grid)))
   expect_false(identical(num_comp, expr(tune())))
   expect_true(res_workflow$trained)
 })
@@ -372,17 +372,17 @@ test_that("ellipses with tune_cluster", {
   wflow <- workflows::workflow() %>%
     workflows::add_recipe(helper_objects$rec_tune_1) %>%
     workflows::add_model(helper_objects$kmeans_mod_no_tune)
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   expect_snapshot(
     tune_cluster(wflow, resamples = folds, grid = 3, something = "wrong")
   )
 })
 
 test_that("determining the grid type", {
-  grid_1 <- expand.grid(a = 1:100, b = letters[1:2])
+  grid_1 <- expand.grid(a = 1:20, b = letters[1:2])
   expect_true(tune:::is_regular_grid(grid_1))
-  expect_true(tune:::is_regular_grid(grid_1[-(1:10), ]))
-  expect_false(tune:::is_regular_grid(grid_1[-(1:100), ]))
+  expect_true(tune:::is_regular_grid(grid_1[-(1:2), ]))
+  expect_false(tune:::is_regular_grid(grid_1[-(1:20), ]))
   set.seed(1932)
   grid_2 <- data.frame(a = runif(length(letters)), b = letters)
   expect_false(tune:::is_regular_grid(grid_2))
@@ -398,7 +398,7 @@ test_that("retain extra attributes", {
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
   res <- tune_cluster(wflow, resamples = folds, grid = grid, metrics = metrics)
 
@@ -419,9 +419,9 @@ test_that("select_best() and show_best() works", {
     workflows::add_recipe(helper_objects$rec_no_tune_1) %>%
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
-  grid <- dials::grid_regular(pset, levels = 10)
+  grid <- dials::grid_regular(pset, levels = 2)
   grid$num_clusters <- grid$num_clusters + 1
-  folds <- rsample::vfold_cv(mtcars)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
   control <- tune::control_grid(extract = identity)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 

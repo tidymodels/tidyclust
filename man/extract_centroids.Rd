@@ -11,6 +11,9 @@ extract_centroids(object, ...)
 
 \item{...}{Other arguments passed to methods.}
 }
+\value{
+A \code{tibble::tibble()} with 1 row for each centroid and their position.
+}
 \description{
 Extract clusters from model
 }

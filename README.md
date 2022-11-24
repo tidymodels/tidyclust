@@ -16,7 +16,14 @@ clustering models. The packages is closely modeled after the
 
 ## Installation
 
-You can install the development version of tidyclust from
+You can install the released version of tidyclust from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("tidyclust")
+```
+
+and the development version of tidyclust from
 [GitHub](https://github.com/) with:
 
 ``` r

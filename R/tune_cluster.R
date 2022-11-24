@@ -43,7 +43,7 @@
 #' grid <- tibble(num_clusters = 1:3)
 #'
 #' set.seed(4400)
-#' folds <- vfold_cv(mtcars)
+#' folds <- vfold_cv(mtcars, v = 2)
 #'
 #' res <- tune_cluster(
 #'   wflow,
@@ -325,15 +325,6 @@ tune_cluster_loop_iter <- function(split,
                                    seed) {
   load_pkgs(workflow)
   load_namespace(control$pkgs)
-
-  # After package loading to avoid potential package RNG manipulation
-  if (!is.null(seed)) {
-    # `assign()`-ing the random seed alters the `kind` type to L'Ecuyer-CMRG,
-    # so we have to ensure it is restored on exit
-    old_kind <- RNGkind()[[1]]
-    assign(".Random.seed", seed, envir = globalenv())
-    on.exit(RNGkind(kind = old_kind), add = TRUE)
-  }
 
   control_parsnip <- parsnip::control_parsnip(verbosity = 0, catch = TRUE)
   control_workflow <- workflows::control_workflow(control_parsnip)

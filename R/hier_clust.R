@@ -18,6 +18,8 @@
 #'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
 #'   WPGMC) or `"centroid"` (= UPGMC).
 #'
+#' @return A `hier_clust` cluster specification.
+#'
 #' @examples
 #' # Show all engines
 #' modelenv::get_from_env("hier_clust")

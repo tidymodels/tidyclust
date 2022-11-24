@@ -69,6 +69,8 @@ sse_within <- function(object, new_data = NULL,
 #' @details Not to be confused with [sse_within()] that returns a tibble
 #'   with within-cluster SSE, one row for each cluster.
 #'
+#' @return A tibble with 3 columns; `.metric`, `.estimator`, and `.estimate`.
+#'
 #' @family cluster metric
 #'
 #' @examples
@@ -130,6 +132,8 @@ sse_within_total_impl <- function(object, new_data = NULL,
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
+#' @return A tibble with 3 columns; `.metric`, `.estimator`, and `.estimate`.
 #'
 #' @family cluster metric
 #'
@@ -208,6 +212,8 @@ sse_total_impl <- function(object,
 #' @param dist_fun A function for calculating distances to centroids.  Defaults
 #'   to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
+#'
+#' @return A tibble with 3 columns; `.metric`, `.estimator`, and `.estimate`.
 #'
 #' @family cluster metric
 #'

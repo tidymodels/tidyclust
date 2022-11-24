@@ -6,6 +6,9 @@
 \usage{
 get_tidyclust_colors()
 }
+\value{
+a list of \code{cli} functions.
+}
 \description{
 Get colors for tidyclust text.
 }
