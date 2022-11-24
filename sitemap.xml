@@ -31,6 +31,9 @@
     <loc>https://tidyclust.tidymodels.org/index.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/reference/ClusterR_kmeans_fit.html</loc>
   </url>
   <url>

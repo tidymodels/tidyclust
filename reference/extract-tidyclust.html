@@ -43,6 +43,9 @@ extract_parameter_set_dials() returns a set of dials parameter objects.
     <a class="dropdown-item" href="../articles/tuning_and_metrics.html">Tuning Cluster Models</a>
   </div>
 </li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -119,36 +122,36 @@ errors or silently generating incorrect predictions.</p>
 <span class="r-in"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">kmeans_spec</span>, <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://hardhat.tidymodels.org/reference/hardhat-extract.html" class="external-link">extract_fit_engine</a></span><span class="op">(</span><span class="va">kmeans_fit</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 2 clusters of sizes 14, 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 2 clusters of sizes 18, 14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cluster means:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp        hp     drat       wt     qsec        vs</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 15.10000 8.000000 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 23.97222 4.777778 135.5389  98.05556 3.882222 2.609056 18.68611 0.7777778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 23.97222 4.777778 135.5389  98.05556 3.882222 2.609056 18.68611 0.7777778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 15.10000 8.000000 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          am     gear     carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.1428571 3.285714 3.500000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.6111111 4.000000 2.277778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6111111 4.000000 2.277778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.1428571 3.285714 3.500000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Clustering vector:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2                   2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   1                   2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            Merc 230            Merc 280           Merc 280C          Merc 450SE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2                   1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   1                   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   2                   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            Merc 230            Merc 280           Merc 280C          Merc 450SE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   1                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2                   2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   2                   2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   1                   1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   2                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   1                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   1                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   2                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Within cluster sum of squares by cluster:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 93643.90 58920.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 58920.54 93643.90</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  (between_SS / total_SS =  75.5 %)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available components:</span>
