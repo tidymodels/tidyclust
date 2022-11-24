@@ -34,13 +34,7 @@
     <loc>https://tidyclust.tidymodels.org/reference/ClusterR_kmeans_fit.html</loc>
   </url>
   <url>
-    <loc>https://tidyclust.tidymodels.org/reference/add_on_exports.html</loc>
-  </url>
-  <url>
     <loc>https://tidyclust.tidymodels.org/reference/augment.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyclust.tidymodels.org/reference/check_empty_ellipse_tidyclust.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/cluster_metric_set.html</loc>
@@ -53,6 +47,9 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/empty_ellipses.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/extract-tidyclust.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/extract_centroids.html</loc>
@@ -88,10 +85,19 @@
     <loc>https://tidyclust.tidymodels.org/reference/k_means.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/reference/load_pkgs.cluster_spec.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/reference/make_classes_tidyclust.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/reference/min_grid.cluster_spec.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/reference/new_cluster_metric.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/new_cluster_spec.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/other_predict.html</loc>
@@ -107,6 +113,15 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/set_args.cluster_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/set_engine.cluster_spec.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/set_mode.cluster_spec.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/silhouette.html</loc>

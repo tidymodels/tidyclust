@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,6 +87,21 @@
         <dd>Fit a Model Specification to a Data Set</dd>
       </dl><dl><dt>
           
+          <code><a href="set_args.cluster_spec.html">set_args(<i>&lt;cluster_spec&gt;</i>)</a></code> 
+        </dt>
+        <dd>Change arguments of a cluster specification</dd>
+      </dl><dl><dt>
+          
+          <code><a href="set_engine.cluster_spec.html">set_engine(<i>&lt;cluster_spec&gt;</i>)</a></code> 
+        </dt>
+        <dd>Change engine of a cluster specification</dd>
+      </dl><dl><dt>
+          
+          <code><a href="set_mode.cluster_spec.html">set_mode(<i>&lt;cluster_spec&gt;</i>)</a></code> 
+        </dt>
+        <dd>Change mode of a cluster specification</dd>
+      </dl><dl><dt>
+          
           <code><a href="augment.html">augment(<i>&lt;cluster_fit&gt;</i>)</a></code> 
         </dt>
         <dd>Augment data with predictions</dd>
@@ -100,6 +115,11 @@
           <code><a href="tidy.cluster_fit.html">tidy(<i>&lt;cluster_fit&gt;</i>)</a></code> 
         </dt>
         <dd>Turn a tidyclust model object into a tidy tibble</dd>
+      </dl><dl><dt>
+          
+          <code><a href="extract-tidyclust.html">extract_fit_engine(<i>&lt;cluster_fit&gt;</i>)</a></code> <code><a href="extract-tidyclust.html">extract_parameter_set_dials(<i>&lt;cluster_spec&gt;</i>)</a></code> 
+        </dt>
+        <dd>Extract elements of a tidyclust model object</dd>
       </dl></div><div class="section level2">
       <h2 id="prediction">Prediction<a class="anchor" aria-label="anchor" href="#prediction"></a></h2>
       
@@ -244,13 +264,18 @@
           <code><a href="translate_tidyclust.html">translate_tidyclust()</a></code> 
         </dt>
         <dd>Resolve a Model Specification for a Computational Engine</dd>
+      </dl><dl><dt>
+          
+          <code><a href="min_grid.cluster_spec.html">min_grid(<i>&lt;cluster_spec&gt;</i>)</a></code> 
+        </dt>
+        <dd>Determine the minimum set of model fits</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Emil Hvitfeldt, Kelly Bodwin, RStudio.</p>
+  <p></p><p>Developed by Emil Hvitfeldt, Kelly Bodwin, Posit Software, PBC..</p>
 </div>
 
 <div class="pkgdown-footer-right">

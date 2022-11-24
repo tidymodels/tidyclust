@@ -14,7 +14,7 @@ or recipe across one or more resamples of the data."><meta property="og:image" c
     
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,7 +164,7 @@ execution.</p>
 <span class="r-in"><span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">4400</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html" class="external-link">vfold_cv</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsample.tidymodels.org/reference/vfold_cv.html" class="external-link">vfold_cv</a></span><span class="op">(</span><span class="va">mtcars</span>, v <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">tune_cluster</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">wflow</span>,</span></span>
@@ -173,31 +173,23 @@ execution.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> # Tuning results</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> # 10-fold cross-validation </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    splits         id     .metrics         .notes          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold01 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [28/4]&gt;</span> Fold02 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold03 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold04 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold05 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold06 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold07 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold08 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold09 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [29/3]&gt;</span> Fold10 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> # 2-fold cross-validation </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   splits          id    .metrics         .notes          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [16/16]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [16/16]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [6 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble [0 × 3]&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   num_clusters .metric          .estimator  mean     n std_err .config          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>            1 sse_total        standard    289.    10    1.22 Preprocessor1_Mo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>            1 sse_within_total standard    289.    10    1.22 Preprocessor1_Mo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            2 sse_total        standard    289.    10    1.22 Preprocessor1_Mo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            2 sse_within_total standard    145.    10    1.78 Preprocessor1_Mo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>            3 sse_total        standard    289.    10    1.22 Preprocessor1_Mo…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>            3 sse_within_total standard    102.    10    2.37 Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>            1 sse_total        standard   160.      2   0.346 Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>            1 sse_within_total standard   160.      2   0.346 Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>            2 sse_total        standard   160.      2   0.346 Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>            2 sse_within_total standard    78.6     2   1.94  Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>            3 sse_total        standard   160.      2   0.346 Preprocessor1_Mo…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>            3 sse_within_total standard    45.2     2   1.96  Preprocessor1_Mo…</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -205,7 +197,7 @@ execution.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Emil Hvitfeldt, Kelly Bodwin, RStudio.</p>
+  <p></p><p>Developed by Emil Hvitfeldt, Kelly Bodwin, Posit Software, PBC..</p>
 </div>
 
 <div class="pkgdown-footer-right">
