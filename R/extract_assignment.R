@@ -25,7 +25,7 @@ extract_cluster_assignment.cluster_fit <- function(object, ...) {
 
 #' @export
 extract_cluster_assignment.workflow <- function(object, ...) {
-  extract_cluster_assignment(object$fit$fit$fit)
+  extract_cluster_assignment(object$fit$fit$fit, ...)
 }
 
 #' @export
