@@ -1,0 +1,12 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  hier_clust: hier_clust.html
+  k_means: k_means.html
+  tuning_and_metrics: tuning_and_metrics.html
+last_built: 2022-12-19T21:44Z
+urls:
+  reference: https://tidyclust.tidymodels.org/reference
+  article: https://tidyclust.tidymodels.org/articles
+
