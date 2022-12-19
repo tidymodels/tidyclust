@@ -168,8 +168,17 @@ kmeans_fit %>%
   extract_centroids()
 ```
 
-Based on the above output, we might say that Cluster_1 is penguins with smaller
-bill lengths, Cluster_2 has smaller bill depths, and Cluster_3 is penguins with
+```{r, echo=FALSE}
+centroids <- extract_centroids(kmeans_fit)
+
+small_length <- centroids$.cluster[which.min(centroids$bill_length_mm)]
+small_depth <- centroids$.cluster[which.min(centroids$bill_depth_mm)]
+other <- setdiff(levels(centroids$.cluster), c(small_length, small_depth))
+```
+
+
+Based on the above output, we might say that `r small_length` is penguins with smaller
+bill lengths, `r small_depth` has smaller bill depths, and `r other` is penguins with
 large bills in both dimensions.
 
 ## Prediction
