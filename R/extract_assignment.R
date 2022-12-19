@@ -62,7 +62,7 @@ cluster_assignment_tibble <- function(clusters,
                                       n_clusters,
                                       ...,
                                       prefix = "Cluster_") {
-  reorder_clusts <- order(unique(clusters))
+  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
   names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]
 
