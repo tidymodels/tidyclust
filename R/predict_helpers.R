@@ -7,8 +7,13 @@ stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
 }
 
 clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
-  res <- predict(object, new_data)
-  res <- paste0(prefix, res)
+  clusters <- predict(object, new_data)
+  n_clusters <- length(object$obs_per_cluster)
+
+  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
+  names <- paste0(prefix, seq_len(n_clusters))
+  res <- names[reorder_clusts][clusters]
+
   factor(res)
 }
 
