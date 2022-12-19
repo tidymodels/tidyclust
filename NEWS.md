@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `silhouette()` and `silhouette_avg()` now return NAs instead of erroring when applied to a clustering object with 1 cluster. (#104)
+
 * Fixed bug where `extract_cluster_assignment()` doesn't work for `hier_clust()` models in workflows where `num_clusters` is specified in `extract_cluster_assignment()`.
 
 # tidyclust 0.1.0
