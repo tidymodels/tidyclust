@@ -1,3 +1,5 @@
+# tidyclust (development version)
+
 # tidyclust 0.1.1
 
 * Fixed bug where `extract_cluster_assignment()` and `predict()` sometimes didn't have agreement of clusters. (#94)
