@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+# tidyclust 0.1.1
+
 * Fixed bug where `extract_cluster_assignment()` and `predict()` sometimes didn't have agreement of clusters. (#94)
 
 * `silhouette()` and `silhouette_avg()` now return NAs instead of erroring when applied to a clustering object with 1 cluster. (#104)
