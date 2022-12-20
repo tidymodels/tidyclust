@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidyclust-development-version">tidyclust (development version)<a class="anchor" aria-label="anchor" href="#tidyclust-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.1" id="tidyclust-011">tidyclust 0.1.1<a class="anchor" aria-label="anchor" href="#tidyclust-011"></a></h2><p class="text-muted">CRAN release: 2022-12-20</p>
 <ul><li><p>Fixed bug where <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> sometimes didn’t have agreement of clusters. (<a href="https://github.com/tidymodels/tidyclust/issues/94" class="external-link">#94</a>)</p></li>
 <li><p><code><a href="../reference/silhouette.html">silhouette()</a></code> and <code><a href="../reference/silhouette_avg.html">silhouette_avg()</a></code> now return NAs instead of erroring when applied to a clustering object with 1 cluster. (<a href="https://github.com/tidymodels/tidyclust/issues/104" class="external-link">#104</a>)</p></li>
 <li><p>Fixed bug where <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> doesn’t work for <code><a href="../reference/hier_clust.html">hier_clust()</a></code> models in workflows where <code>num_clusters</code> is specified in <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code>.</p></li>
