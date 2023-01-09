@@ -12,6 +12,7 @@ A common interface to specifying clustering models, in the same style as 'parsni
 Useful links:
 \itemize{
   \item \url{https://github.com/tidymodels/tidyclust}
+  \item \url{https://tidyclust.tidymodels.org/}
   \item Report bugs at \url{https://github.com/tidymodels/tidyclust/issues}
 }
 
