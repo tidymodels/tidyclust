@@ -11,7 +11,7 @@ Description: A common interface to specifying clustering models, in the
     same style as 'parsnip'. Creates unified interface across different
     functions and computational engines.
 License: MIT + file LICENSE
-URL: https://github.com/tidymodels/tidyclust
+URL: https://github.com/tidymodels/tidyclust, https://tidyclust.tidymodels.org/
 BugReports: https://github.com/tidymodels/tidyclust/issues
 Imports: 
     cli (>= 3.0.0),
