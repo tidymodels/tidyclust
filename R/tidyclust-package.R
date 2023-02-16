@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom dplyr bind_cols
+#' @importFrom generics tune_args
 #' @importFrom parsnip make_call
 #' @importFrom parsnip maybe_data_frame
 #' @importFrom parsnip maybe_matrix
@@ -30,6 +31,7 @@
 #' @importFrom stats na.omit
 #' @importFrom stats predict
 #' @importFrom tibble as_tibble
+#' @importFrom tune tunable
 #' @importFrom utils capture.output
 ## usethis namespace: end
 NULL
