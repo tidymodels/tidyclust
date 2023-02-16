@@ -1,7 +1,5 @@
-# Lazily registered in .onLoad()
-# Unit tests are in extratests
-# nocov start
-tunable_cluster_spec <- function(x, ...) {
+#' @export
+tunable.cluster_spec <- function(x, ...) {
   mod_env <- rlang::ns_env("modelenv")$modelenv
 
   if (is.null(x$engine)) {
@@ -57,8 +55,8 @@ add_engine_parameters <- function(pset, engines) {
   pset
 }
 
-# Lazily registered in .onLoad()
-tunable_k_means <- function(x, ...) {
+#' @export
+tunable.k_means <- function(x, ...) {
   res <- NextMethod()
   if (x$engine == "stats") {
     res <- add_engine_parameters(res, stats_k_means_engine_args)
@@ -78,5 +76,3 @@ stats_k_means_engine_args <-
     component = "k_means",
     component_id = "engine"
   )
-
-# nocov end
