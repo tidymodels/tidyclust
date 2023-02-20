@@ -7,31 +7,6 @@
   s3_register("generics::required_pkgs", "cluster_fit")
   s3_register("generics::required_pkgs", "cluster_spec")
 
-  # - If tune isn't installed, register the method (`packageVersion()` will error here)
-  # - If tune >= 0.1.6.9001 is installed, register the method
-  should_register_tune_args_method <- tryCatch(
-    expr = utils::packageVersion("tune") >= "0.1.6.9001",
-    error = function(cnd) TRUE
-  )
-
-  if (should_register_tune_args_method) {
-    # `tune_args.cluster_spec()` moved from tune to parsnip
-    vctrs::s3_register("generics::tune_args", "cluster_spec", tune_args_cluster_spec)
-  }
-
-  # - If tune isn't installed, register the method (`packageVersion()` will error here)
-  # - If tune >= 0.1.6.9002 is installed, register the method
-  should_register_tunable_method <- tryCatch(
-    expr = utils::packageVersion("tune") >= "0.1.6.9002",
-    error = function(cnd) TRUE
-  )
-
-  if (should_register_tunable_method) {
-    # `tunable.cluster_spec()` and friends moved from tune to parsnip
-    vctrs::s3_register("generics::tunable", "cluster_spec", tunable_cluster_spec)
-    vctrs::s3_register("generics::tunable", "k_means", tunable_k_means)
-  }
-
   ns <- rlang::ns_env("tidyclust")
   makeActiveBinding(
     "tidyclust_color",
@@ -82,7 +57,6 @@
     ns
   )
 }
-
 
 # vctrs:::s3_register()
 s3_register <- function(generic, class, method = NULL) {

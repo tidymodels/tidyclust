@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
+
 # tidyclust 0.1.1
 
 * Fixed bug where `extract_cluster_assignment()` and `predict()` sometimes didn't have agreement of clusters. (#94)

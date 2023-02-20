@@ -1,5 +1,5 @@
-# Lazily registered in .onLoad()
-tune_args_cluster_spec <- function(object, full = FALSE, ...) {
+#' @export
+tune_args.cluster_spec <- function(object, full = FALSE, ...) {
 
   # use the cluster_spec top level class as the id
   cluster_type <- class(object)[1]

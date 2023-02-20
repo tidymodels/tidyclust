@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom dplyr bind_cols
+#' @importFrom generics tunable tune_args
 #' @importFrom parsnip make_call
 #' @importFrom parsnip maybe_data_frame
 #' @importFrom parsnip maybe_matrix
