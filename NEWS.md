@@ -1,6 +1,6 @@
 # tidyclust (development version)
 
-* The workflows methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
+* The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
 
 # tidyclust 0.1.1
 
