@@ -158,7 +158,8 @@ generate_seeds <- function(rng, n) {
 }
 
 tidyr_new_interface <- function() {
-  utils::packageVersion("tidyr") > "0.8.99"
+  nzchar(system.file(package = "tidyr")) &&
+    utils::packageVersion("tidyr") > "0.8.99"
 }
 
 #' Determine the minimum set of model fits
