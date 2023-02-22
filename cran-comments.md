@@ -1,6 +1,6 @@
 ## Comments
 
-Various bug fixes.
+Patch release to make sure `utils::packageVersion()` doesn't cause issues when package isn't available.
 
 ## R CMD check results
 
