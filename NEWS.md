@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+# tidyclust 0.1.2
+
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
 
 # tidyclust 0.1.1
