@@ -83,6 +83,7 @@ extract_centroids(kmeans_spec_fit)
 Below is a visualization of the available models and how they compare using 2 dimensional toy data sets.
 
 ```{r comparison, echo=FALSE, message=FALSE, fig.asp=1/2, dpi=105, dev="svglite"}
+#| fig-alt: "Mock comparison for different clustering methods for different data sets. Each row correspods to a clustering method, each column corresponds to a data set type."
 library(tidymodels)
 library(tidyclust)
 set.seed(1234)

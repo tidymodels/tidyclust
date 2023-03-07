@@ -350,12 +350,12 @@ each point represents an observation of one penguin, and the location in 2-dimen
 space is determined by the bill length and bill depth of that penguin.
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud."
 penguins %>%
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point() +
   theme_minimal()
 ```
-
 
 A *k-means* cluster assignment is achieved by iterating to convergence from random
 initial conditions.  The algorithm typically proceeds as follows:
@@ -364,6 +364,7 @@ initial conditions.  The algorithm typically proceeds as follows:
 declared to be the **initial centroids**.
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. 3 random points have been highlighted red, green, and blue."
 pens <- penguins %>%  select(bill_length_mm, bill_depth_mm) %>% drop_na()
 
 init <- sample(seq_len(nrow(pens)), 3)
@@ -389,6 +390,7 @@ pens %>%
 2. Assign each observation to the nearest centroid.
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. Point are colored according to how close they were to the color points."
 closest_center <- Rfast::dista(as.matrix(pens), as.matrix(pens[init, ])) %>%
   apply(1, which.min)
 
@@ -406,7 +408,7 @@ pens %>%
 3. Compute the new centroids of each cluster.
 
 ```{r, echo = FALSE}
-
+#| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. New highlights are placed in the center of the points of the same color in the previous chart."
 centers <- pens %>%
   mutate(
     clust = closest_center
@@ -432,6 +434,7 @@ pens %>%
 4. Repeat steps 2 and 3 until the centroids do not change.
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. All points have been colored of the 3 colors, with an ellipse acound each color."
 thing <- kmeans(pens, centers = pens[init, ])
 
 centers <- data.frame(thing$centers)

@@ -116,6 +116,7 @@ A common approach to choosing a number of clusters is to look for an "elbow",
 or notable bend, in the plot of WSS/TSS ratio by cluster number:
 
 ```{r}
+#| fig-alt: "Connected line chart. Number of clusters along the x-axis, mean WSS/TSS ratio, over 5 folds along the y-axis. X-axis ranges from 1 to 10, with 1 having an value of 1, 2 having a value of 0.35, and the rest haver an ever decreasing value."
 res_metrics %>%
   filter(.metric == "sse_ratio") %>%
   ggplot(aes(x = num_clusters, y = mean)) +

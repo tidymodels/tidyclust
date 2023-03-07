@@ -152,7 +152,7 @@ extract_centroids(kmeans_spec_fit)
 Below is a visualization of the available models and how they compare
 using 2 dimensional toy data sets.
 
-<img src="man/figures/README-comparison-1.svg" width="100%" />
+<img src="man/figures/README-comparison-1.svg" alt="Mock comparison for different clustering methods for different data sets. Each row correspods to a clustering method, each column corresponds to a data set type." width="100%" />
 
 ## Contributing
 
