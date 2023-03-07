@@ -27,8 +27,8 @@ and the development version of tidyclust from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("tidymodels/tidyclust")
+# install.packages("pak")
+pak::pak("tidymodels/tidyclust")
 ```
 
 ## Example
