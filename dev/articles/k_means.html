@@ -558,7 +558,7 @@ considered to be locations on axes in multidimensional space. For
 example, in the plot below, each point represents an observation of one
 penguin, and the location in 2-dimensional space is determined by the
 bill length and bill depth of that penguin.</p>
-<p><img src="k_means_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-21-1.png" alt="scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud." width="700"></p>
 <p>A <em>k-means</em> cluster assignment is achieved by iterating to
 convergence from random initial conditions. The algorithm typically
 proceeds as follows:</p>
@@ -567,19 +567,19 @@ proceeds as follows:</p>
 locations in space are declared to be the <strong>initial
 centroids</strong>.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-22-1.png" alt="scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. 3 random points have been highlighted red, green, and blue." width="700"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Assign each observation to the nearest centroid.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-23-1.png" alt="scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. Point are colored according to how close they were to the color points." width="700"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Compute the new centroids of each cluster.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-24-1.png" alt="scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. New highlights are placed in the center of the points of the same color in the previous chart." width="700"></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Repeat steps 2 and 3 until the centroids do not change.</li>
 </ol>
-<p><img src="k_means_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="k_means_files/figure-html/unnamed-chunk-25-1.png" alt="scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. All points have been colored of the 3 colors, with an ellipse acound each color." width="700"></p>
 <div class="section level3">
 <h3 id="iteration-of-centroids">Iteration of centroids<a class="anchor" aria-label="anchor" href="#iteration-of-centroids"></a>
 </h3>
@@ -671,7 +671,7 @@ of the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link"
   <footer><div class="container">
   <div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Emil Hvitfeldt, Kelly Bodwin, Posit Software, PBC..</p>
+<p>Developed by Emil Hvitfeldt, Kelly Bodwin, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
