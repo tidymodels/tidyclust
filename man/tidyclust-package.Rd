@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Emil Hvitfeldt \email{emilhhvitfeldt@gmail.com} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
+\strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@posit.co} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
 
 Authors:
 \itemize{
@@ -27,7 +27,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Posit Software, PBC. [copyright holder, funder]
+  \item Posit Software, PBC [copyright holder, funder]
 }
 
 }

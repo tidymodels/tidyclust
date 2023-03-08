@@ -60,6 +60,7 @@ The hierarchical clustering process begins with each observation in it's own
 cluster; i.e., *n* clusters for *n* observations.
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e."
 fake_dat <- tibble(
   x = sort(runif(5)),
   y = runif(5),
@@ -79,12 +80,13 @@ The closest two observations are then joined together into a single cluster.
 
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles."
 fake_dat_2 <- bind_rows(
   fake_dat[-c(1:2), -3],
   summarize_all(fake_dat[1:2, -3], mean)
 ) %>%
   mutate(
-    size = c(rep(1, 3), dist(fake_dat)[1])
+    size = c(rep(1, 3), suppressWarnings(dist(fake_dat)[1]))
   )
 
 fake_dat %>%
@@ -107,6 +109,7 @@ This process continues, with the closest two clusters being joined (or
 
 
 ```{r, echo = FALSE}
+#| fig-alt: "scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles."
 fake_dat_3 <- bind_rows(
   fake_dat[-c(1:3), -3],
   summarize_all(fake_dat[1:3, -3], mean)
@@ -161,6 +164,7 @@ The result of the process is a **dendrogram**, which shows the joining of cluste
 in tree form:
 
 ```{r, echo = FALSE}
+#| fig-alt: "Dendrogram chart. With 5 observations."
 hc <- hclust(dist(fake_dat))
 
 plot(hc, labels = fake_dat$lab)
@@ -172,6 +176,7 @@ To produce a partition-style cluster assignment from the dendrogram, one must
 "cut" the tree at a chosen height:
 
 ```{r, echo = FALSE}
+#| fig-alt: "Dendrogram chart. With 5 observations. A horizontal like at 0.6 cuts the dendrogram into 3 clusters."
 plot(hc, labels = fake_dat$lab)
 abline(h = 0.6, lty = 2, col = "dark grey")
 ```
@@ -265,6 +270,7 @@ To produce a dendrogram plot, access the engine fit:
 to large size datasets.)
 
 ```{r}
+#| fig-alt: "Dendrogram chart. With too many observations to be able to clearly see anything"
 hc_fit$fit %>% plot()
 ```
 
