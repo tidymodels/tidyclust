@@ -536,7 +536,7 @@ twice on the same data may not result in the same cluster assignments.
 It is common to perform the k-means clustering algorithm multiple times, with
 different random initial conditions, and combine results at the end.  This option
 is controlled by the `nstart` argument of the `stats::kmeans` implementation,
-and the `num_init` argument of the
+and the `num_init` argument of the `ClusterR::KMeans_rcpp` implementation.
 
 
 
