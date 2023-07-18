@@ -101,7 +101,7 @@ kmeans_fit %>%
   summary()
 ```
 
-To access the only the results produced by the engine - in this case, 
+To access only the results produced by the engine - in this case, 
 `stats::kmeans` - simply extract the fit from the fitted model object:
 
 ```{r}
