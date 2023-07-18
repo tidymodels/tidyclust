@@ -171,7 +171,7 @@ a response variable.</p>
 <span><span class="co">#&gt; fit     9      kmeans  list</span></span>
 <span><span class="co">#&gt; elapsed 1      -none-  list</span></span>
 <span><span class="co">#&gt; preproc 4      -none-  list</span></span></code></pre></div>
-<p>To access the only the results produced by the engine - in this case,
+<p>To access only the results produced by the engine - in this case,
 <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> - simply extract the fit from the fitted
 model object:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -658,7 +658,8 @@ cluster assignments.</p>
 times, with different random initial conditions, and combine results at
 the end. This option is controlled by the <code>nstart</code> argument
 of the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> implementation, and the
-<code>num_init</code> argument of the</p>
+<code>num_init</code> argument of the <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code>
+implementation.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
