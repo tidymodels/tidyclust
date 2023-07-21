@@ -194,7 +194,7 @@ tibble(
 
 ### Methods of aggolmeration
 
-At the every step of the agglomeration, we measure distances between current
+At every step of the agglomeration, we measure distances between current
 clusters.  With each cluster containing (possibly) multiple points, what does
 it mean to measure distance?
 
@@ -375,8 +375,8 @@ assignments.
 Our goal is to relabel the five $k$-means clusters to match the three cluster names
 in the hierarchical output.  This can be accomplished with `reconcile_clusterings_mapping()`.
 
-This function expects as input two vectors of cluster labels.  The first is the
-labels that will be matches, and the second is the labels that will be recoded
+This function expects two vectors of cluster labels as input.  The first is the
+label that will be matched, and the second is the label that will be recoded
 to the first.
 
 If we are not trying to simply match names across two same-size clusterings,
