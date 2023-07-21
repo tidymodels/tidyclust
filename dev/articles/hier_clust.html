@@ -126,7 +126,7 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>      masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span> masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>   masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Learn how to get started at <span style="color: #00BB00;">https://www.tidymodels.org/start/</span></span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">838383</span><span class="op">)</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -184,7 +184,7 @@ height are considered to be in a cluster together:</p>
 <div class="section level3">
 <h3 id="methods-of-aggolmeration">Methods of aggolmeration<a class="anchor" aria-label="anchor" href="#methods-of-aggolmeration"></a>
 </h3>
-<p>At the every step of the agglomeration, we measure distances between
+<p>At every step of the agglomeration, we measure distances between
 current clusters. With each cluster containing (possibly) multiple
 points, what does it mean to measure distance?</p>
 <p>There are four common approaches to cluster-cluster distancing, aka
@@ -408,8 +408,8 @@ assignments.</p>
 <p>Our goal is to relabel the five <span class="math inline">\(k\)</span>-means clusters to match the three
 cluster names in the hierarchical output. This can be accomplished with
 <code><a href="../reference/reconcile_clusterings_mapping.html">reconcile_clusterings_mapping()</a></code>.</p>
-<p>This function expects as input two vectors of cluster labels. The
-first is the labels that will be matches, and the second is the labels
+<p>This function expects two vectors of cluster labels as input. The
+first is the label that will be matched, and the second is the label
 that will be recoded to the first.</p>
 <p>If we are not trying to simply match names across two same-size
 clusterings, the option <code>one_to_one</code> must be set to
