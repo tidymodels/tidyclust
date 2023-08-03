@@ -46,7 +46,7 @@ NULL
 
 #' @rdname extract-tidyclust
 #' @export
-extract_fit_engine.cluster_fit <- function (x, ...) {
+extract_fit_engine.cluster_fit <- function(x, ...) {
   if (any(names(x) == "fit")) {
     return(x$fit)
   }

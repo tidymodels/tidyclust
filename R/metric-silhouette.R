@@ -24,7 +24,7 @@
 #' silhouette(kmeans_fit, dists = dists)
 #' @export
 silhouette <- function(object, new_data = NULL, dists = NULL,
-                        dist_fun = Rfast::Dist) {
+                       dist_fun = Rfast::Dist) {
   preproc <- prep_data_dist(object, new_data, dists, dist_fun)
 
   clust_int <- as.integer(gsub("Cluster_", "", preproc$clusters))
