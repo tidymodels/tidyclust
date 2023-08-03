@@ -162,8 +162,10 @@ test_that("tune model and recipe", {
   expect_equal(res$id, folds$id)
   expect_equal(
     colnames(res$.metrics[[1]]),
-    c("num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
-      ".config")
+    c(
+      "num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
+      ".config"
+    )
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
@@ -230,8 +232,10 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   expect_equal(res$id, folds$id)
   expect_equal(
     colnames(res$.metrics[[1]]),
-    c("num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
-      ".config")
+    c(
+      "num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
+      ".config"
+    )
   )
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))

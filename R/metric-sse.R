@@ -20,7 +20,6 @@
 #' sse_within(kmeans_fit)
 #' @export
 sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
-
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
     new_data <- extract_post_preprocessor(object, new_data)

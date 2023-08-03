@@ -95,7 +95,8 @@ response variable.
 ```{r}
 kmeans_fit <- kmeans_spec %>%
   fit(~ bill_length_mm + bill_depth_mm,
-      data = penguins)
+    data = penguins
+  )
 
 kmeans_fit %>%
   summary()
@@ -313,10 +314,12 @@ clustering.
 
 ```{r}
 penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
-                            data = penguins)
+  data = penguins
+)
 
 penguins_recipe_2 <- recipe(~ bill_length_mm + bill_depth_mm,
-                            data = penguins) %>%
+  data = penguins
+) %>%
   step_log(all_numeric_predictors())
 
 wflow_1 <- workflow() %>%
@@ -365,7 +368,9 @@ declared to be the **initial centroids**.
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. 3 random points have been highlighted red, green, and blue."
-pens <- penguins %>%  select(bill_length_mm, bill_depth_mm) %>% drop_na()
+pens <- penguins %>%
+  select(bill_length_mm, bill_depth_mm) %>%
+  drop_na()
 
 init <- sample(seq_len(nrow(pens)), 3)
 
@@ -376,13 +381,21 @@ centers <- data.frame(thing$centers)
 pens %>%
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
-    geom_point(data = pens[init, ],
-               aes(x = bill_length_mm, y = bill_depth_mm,
-                   color = c("Cluster 1", "Cluster 2", "Cluster 3")),
-                shape = "o", size = 12, stroke = 1) +
-  geom_point(data = pens[init, ],
-               aes(x = bill_length_mm, y = bill_depth_mm,
-                   color = c("Cluster 1", "Cluster 2", "Cluster 3"))) +
+  geom_point(
+    data = pens[init, ],
+    aes(
+      x = bill_length_mm, y = bill_depth_mm,
+      color = c("Cluster 1", "Cluster 2", "Cluster 3")
+    ),
+    shape = "o", size = 12, stroke = 1
+  ) +
+  geom_point(
+    data = pens[init, ],
+    aes(
+      x = bill_length_mm, y = bill_depth_mm,
+      color = c("Cluster 1", "Cluster 2", "Cluster 3")
+    )
+  ) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
@@ -396,11 +409,15 @@ closest_center <- Rfast::dista(as.matrix(pens), as.matrix(pens[init, ])) %>%
 
 pens %>%
   ggplot() +
-  geom_point(data = pens,
-               aes(x = bill_length_mm, y = bill_depth_mm,
-                   color = as.factor(closest_center)),
-             size = 4) +
-    geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point(
+    data = pens,
+    aes(
+      x = bill_length_mm, y = bill_depth_mm,
+      color = as.factor(closest_center)
+    ),
+    size = 4
+  ) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
@@ -419,13 +436,21 @@ centers <- pens %>%
 pens %>%
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
-    geom_point(data = centers,
-               aes(x = bill_length_mm, y = bill_depth_mm,
-                   color = c("Cluster 1", "Cluster 2", "Cluster 3")),
-                shape = "x", size = 12, stroke = 1) +
-  geom_point(data = centers,
-               aes(x = bill_length_mm, y = bill_depth_mm,
-                   color = c("Cluster 1", "Cluster 2", "Cluster 3"))) +
+  geom_point(
+    data = centers,
+    aes(
+      x = bill_length_mm, y = bill_depth_mm,
+      color = c("Cluster 1", "Cluster 2", "Cluster 3")
+    ),
+    shape = "x", size = 12, stroke = 1
+  ) +
+  geom_point(
+    data = centers,
+    aes(
+      x = bill_length_mm, y = bill_depth_mm,
+      color = c("Cluster 1", "Cluster 2", "Cluster 3")
+    )
+  ) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
@@ -441,25 +466,41 @@ centers <- data.frame(thing$centers)
 
 pens %>%
   ggplot() +
-  geom_point(data = pens,
-             aes(x = bill_length_mm,
-                 y = bill_depth_mm,
-                 color = as.factor(thing$cluster))) +
-  geom_mark_ellipse(aes(x = bill_length_mm,
-                        y = bill_depth_mm,
-                        color = as.factor(thing$cluster)),
-                    expand = unit(1, "mm"))  +
-  geom_point(data = centers,
-             aes(x = bill_length_mm,
-                 y = bill_depth_mm,
-                 color = as.factor(1:3)),
-             shape = "x",
-             size = 12,
-             stroke = 1) +
-  geom_point(data = pens,
-               aes(x = bill_length_mm,
-                   y = bill_depth_mm,
-                   color = as.factor(thing$cluster))) +
+  geom_point(
+    data = pens,
+    aes(
+      x = bill_length_mm,
+      y = bill_depth_mm,
+      color = as.factor(thing$cluster)
+    )
+  ) +
+  geom_mark_ellipse(
+    aes(
+      x = bill_length_mm,
+      y = bill_depth_mm,
+      color = as.factor(thing$cluster)
+    ),
+    expand = unit(1, "mm")
+  ) +
+  geom_point(
+    data = centers,
+    aes(
+      x = bill_length_mm,
+      y = bill_depth_mm,
+      color = as.factor(1:3)
+    ),
+    shape = "x",
+    size = 12,
+    stroke = 1
+  ) +
+  geom_point(
+    data = pens,
+    aes(
+      x = bill_length_mm,
+      y = bill_depth_mm,
+      color = as.factor(thing$cluster)
+    )
+  ) +
   theme_minimal() +
   theme(legend.position = "none")
 ```

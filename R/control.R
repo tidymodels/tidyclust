@@ -29,7 +29,9 @@ control_cluster <- function(verbosity = 1L, catch = FALSE) {
 check_control <- function(x, call = rlang::caller_env()) {
   # based on ?is.integer
   int_check <- function(x, tol = .Machine$double.eps^0.5) {
-    if (!is.numeric(x)) return(FALSE)
+    if (!is.numeric(x)) {
+      return(FALSE)
+    }
     abs(x - round(x)) < tol
   }
   if (!int_check(x$verbosity)) {

@@ -130,8 +130,7 @@ fit.cluster_spec <- function(object,
   # used here, `fit_interface_formula` will determine if a
   # translation has to be made if the model interface is x/y/
   res <-
-    switch(
-      interfaces,
+    switch(interfaces,
       # homogeneous combinations:
       formula_formula =
         form_form(

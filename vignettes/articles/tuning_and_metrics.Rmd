@@ -75,12 +75,14 @@ and establish a range of possible values of `num_clusters` to try:
 kmeans_spec <- k_means(num_clusters = tune())
 
 penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm,
-                       data = penguins)
+  data = penguins
+)
 
 kmeans_wflow <- workflow(penguins_rec, kmeans_spec)
 
 clust_num_grid <- grid_regular(num_clusters(),
-                               levels = 10)
+  levels = 10
+)
 
 clust_num_grid
 ```

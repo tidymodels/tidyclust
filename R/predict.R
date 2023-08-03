@@ -62,7 +62,7 @@ predict.cluster_fit <- function(object,
 
   res <- switch(type,
     cluster = predict_cluster(object = object, new_data = new_data, ...),
-    raw     = predict_raw(object = object, new_data = new_data, opts = opts, ...),
+    raw = predict_raw(object = object, new_data = new_data, opts = opts, ...),
     rlang::abort(glue::glue("I don't know about type = '{type}'"))
   )
 

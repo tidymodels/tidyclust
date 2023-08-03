@@ -35,7 +35,8 @@ silhouette <- function(object, new_data = NULL, dists = NULL,
     res <- tibble::tibble(
       cluster = preproc$clusters,
       neighbor = factor(rep(NA_character_, length(preproc$clusters)),
-                        levels = levels(preproc$clusters)),
+        levels = levels(preproc$clusters)
+      ),
       sil_width = NA_real_
     )
     return(res)

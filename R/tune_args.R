@@ -1,6 +1,5 @@
 #' @export
 tune_args.cluster_spec <- function(object, full = FALSE, ...) {
-
   # use the cluster_spec top level class as the id
   cluster_type <- class(object)[1]
 
@@ -36,7 +35,6 @@ convert_args <- function(x) {
 }
 
 find_tune_id <- function(x) {
-
   # STEP 1 - Early exits
 
   # Early exit for empty elements (like list())

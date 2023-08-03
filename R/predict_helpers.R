@@ -26,7 +26,6 @@ stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_")
   clusters <- extract_cluster_assignment(object, ..., prefix = prefix)
 
   if (linkage_method %in% c("single", "complete", "average", "median")) {
-
     ## complete, single, average, and median linkage_methods are basically the
     ## same idea, just different summary distance to cluster
 
@@ -48,7 +47,6 @@ stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_")
       dplyr::select(-.cluster) %>%
       map_dbl(which.min)
   } else if (linkage_method == "centroid") {
-
     ## Centroid linkage_method, dist to center
 
     cluster_centers <- extract_centroids(object) %>% dplyr::select(-.cluster)
@@ -56,7 +54,6 @@ stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_")
 
     pred_clusts_num <- apply(dists_means, 1, which.min)
   } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {
-
     ## Ward linkage_method: lowest change in ESS
     ## dendrograms created from already-squared distances
     ## use Ward.D2 on these plain distances for Ward.D
@@ -69,9 +66,9 @@ stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_")
     d_means <- map(
       seq_len(n_clust),
       ~ t(
-          t(training_data[clusters$.cluster == cluster_names[.x], ]) -
-            cluster_centers[.x, ]
-        )
+        t(training_data[clusters$.cluster == cluster_names[.x], ]) -
+          cluster_centers[.x, ]
+      )
     )
 
     d_new_list <- map(
