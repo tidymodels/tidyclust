@@ -10,7 +10,6 @@
 #' @return A list
 prep_data_dist <- function(object, new_data = NULL,
                            dists = NULL, dist_fun = Rfast::Dist) {
-
   # Sihouettes requires a distance matrix
   if (is.null(new_data) && is.null(dists)) {
     rlang::abort(

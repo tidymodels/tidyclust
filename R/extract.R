@@ -38,7 +38,7 @@
 #' @name extract-tidyclust
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 2)
-#' kmeans_fit <- fit(kmeans_spec, ~ ., data = mtcars)
+#' kmeans_fit <- fit(kmeans_spec, ~., data = mtcars)
 #'
 #' extract_fit_engine(kmeans_fit)
 NULL
@@ -46,7 +46,7 @@ NULL
 
 #' @rdname extract-tidyclust
 #' @export
-extract_fit_engine.cluster_fit <- function (x, ...) {
+extract_fit_engine.cluster_fit <- function(x, ...) {
   if (any(names(x) == "fit")) {
     return(x$fit)
   }

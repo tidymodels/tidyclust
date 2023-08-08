@@ -54,7 +54,8 @@ pulley <- function(resamples, res, col) {
     names(pulled_vals)[ncol(pulled_vals)] <- col
   } else {
     pulled_vals <- tidyr::nest(
-      pulled_vals, -dplyr::starts_with("id"), .key = !!col
+      pulled_vals, -dplyr::starts_with("id"),
+      .key = !!col
     )
   }
 

@@ -1,5 +1,4 @@
 form_form <- function(object, control, env, ...) {
-
   # evaluate quoted args once here to check them
   object <- check_args(object)
 

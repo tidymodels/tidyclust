@@ -4,7 +4,8 @@ tunable.cluster_spec <- function(x, ...) {
 
   if (is.null(x$engine)) {
     rlang::abort(
-      "Please declare an engine first using `set_engine()`.", call. = FALSE
+      "Please declare an engine first using `set_engine()`.",
+      call. = FALSE
     )
   }
 
