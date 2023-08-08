@@ -126,7 +126,7 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>      masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span> masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>   masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Learn how to get started at <span style="color: #00BB00;">https://www.tidymodels.org/start/</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">838383</span><span class="op">)</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -222,8 +222,10 @@ fitting, but not for prediction, in <code>tidyclust</code>.</p>
 simply choose a value of <code>num_clusters</code> and (optionally) a
 linkage method:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_clust.html">hier_clust</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>                       linkage_method <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hc_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/hier_clust.html">hier_clust</a></span><span class="op">(</span></span>
+<span>  num_clusters <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  linkage_method <span class="op">=</span> <span class="st">"average"</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hc_spec</span></span>
 <span><span class="co">#&gt; Hierarchical Clustering Specification (partition)</span></span>
@@ -252,7 +254,8 @@ The default linkage
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op">&lt;-</span> <span class="va">hc_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
-<span>      data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
+<span>    data <span class="op">=</span> <span class="va">penguins</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
