@@ -1,3 +1,5 @@
+# https://github.com/tidymodels/tune/blob/main/R/finalize.R
+
 #' Splice final parameters into objects
 #'
 #' The `finalize_*` functions take a list or tibble of tuning parameter values

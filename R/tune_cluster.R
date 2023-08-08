@@ -1,3 +1,5 @@
+# https://github.com/tidymodels/tune/blob/main/R/tune_grid.R
+
 #' Model tuning via grid search
 #'
 #' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or
@@ -282,6 +284,7 @@ tune_cluster_loop <- function(resamples,
   resamples
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L299
 compute_grid_info <- function(workflow, grid) {
   if (is.null(grid)) {
     out <- new_grid_info_resamples()
@@ -591,7 +594,7 @@ tune_cluster_loop_iter_safely <- function(split,
   result
 }
 
-
+# https://github.com/tidymodels/tune/blob/main/R/grid_code_paths.R#L542
 super_safely <- function(fn) {
   warnings <- list()
   handle_error <- function(e) {
@@ -617,6 +620,7 @@ super_safely <- function(fn) {
   safe_fn
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L428
 compute_grid_info_model <- function(workflow, grid, parameters_model) {
   spec <- extract_spec_parsnip(workflow)
   out <- min_grid(spec, grid)
@@ -652,6 +656,7 @@ compute_grid_info_model <- function(workflow, grid, parameters_model) {
   out
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L484
 compute_grid_info_model_and_preprocessor <- function(workflow,
                                                      grid,
                                                      parameters_model) {
@@ -742,6 +747,7 @@ compute_grid_info_model_and_preprocessor <- function(workflow,
   out
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L359
 compute_grid_info_preprocessor <- function(workflow,
                                            grid,
                                            parameters_model) {
@@ -811,6 +817,7 @@ compute_grid_info_preprocessor <- function(workflow,
   out
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/checks.R#L338
 check_metrics <- function(x, object) {
   mode <- extract_spec_parsnip(object)$mode
 
@@ -846,6 +853,7 @@ check_metrics <- function(x, object) {
   x
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/checks.R#L144
 check_parameters <- function(workflow,
                              pset = NULL,
                              data,
@@ -899,6 +907,7 @@ needs_finalization <- function(x, nms = character(0)) {
   any(dials::has_unknowns(x$object))
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/checks.R#L274
 check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   if (!inherits(x, "workflow")) {
     rlang::abort("The `object` argument should be a 'workflow' object.")
@@ -935,6 +944,7 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   invisible(NULL)
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/checks.R#L257
 check_param_objects <- function(pset) {
   params <- map_lgl(pset$object, inherits, "param")
 
@@ -950,6 +960,7 @@ check_param_objects <- function(pset) {
 
 grid_msg <- "`grid` should be a positive integer or a data frame."
 
+# https://github.com/tidymodels/tune/blob/main/R/checks.R#L36
 check_grid <- function(grid, workflow, pset = NULL) {
   # `NULL` grid is the signal that we are using `fit_resamples()`
   if (is.null(grid)) {
