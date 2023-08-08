@@ -1,3 +1,5 @@
+# https://github.com/tidymodels/tune/blob/main/R/control.R
+
 #' Control the fit function
 #'
 #' Options can be passed to the [fit.cluster_spec()] function that control the

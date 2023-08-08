@@ -1,3 +1,5 @@
+# new_tibble() currently doesn't strip attributes
+# https://github.com/tidyverse/tibble/pull/769
 new_bare_tibble <- function(x, ..., class = character()) {
   x <- vctrs::new_data_frame(x)
   tibble::new_tibble(x, nrow = nrow(x), ..., class = class)
@@ -16,6 +18,7 @@ is_cataclysmic <- function(x) {
   all(is_err)
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/tune_grid.R
 set_workflow <- function(workflow, control) {
   if (control$save_workflow) {
     if (!is.null(workflow$pre$actions$recipe)) {
@@ -42,6 +45,7 @@ set_workflow <- function(workflow, control) {
   }
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/tune_results.R
 new_tune_results <- function(x, parameters, metrics,
                              rset_info, ..., class = character()) {
   new_bare_tibble(
@@ -54,6 +58,7 @@ new_tune_results <- function(x, parameters, metrics,
   )
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/parallel.R
 get_operator <- function(allow = TRUE, object) {
   is_par <- foreach::getDoParWorkers() > 1
   pkgs <- required_pkgs(object)
@@ -77,35 +82,7 @@ get_operator <- function(allow = TRUE, object) {
   res
 }
 
-required_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
-  if (is.null(x$engine)) {
-    rlang::abort("Please set an engine.")
-  }
-  get_pkgs(x, infra)
-}
-
-required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
-  get_pkgs(x$spec, infra)
-}
-
-get_pkgs <- function(x, infra) {
-  cls <- class(x)[1]
-  pkgs <-
-    modelenv::get_from_env(paste0(cls, "_pkgs")) %>%
-    dplyr::filter(engine == x$engine)
-  res <- pkgs$pkg[[1]]
-  if (length(res) == 0) {
-    res <- character(0)
-  }
-  if (infra) {
-    infra_pkgs <- c("tidyclust")
-    res <- c(infra_pkgs, res)
-  }
-  res <- unique(res)
-  res <- res[length(res) != 0]
-  res
-}
-
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R
 new_grid_info_resamples <- function() {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
   msgs_model <- new_msgs_model(
@@ -130,6 +107,7 @@ new_msgs_model <- function(i, n, msgs_preprocessor) {
   paste0(msgs_preprocessor, ", model ", i, "/", n)
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_code_paths.R
 parallel_over_finalize <- function(parallel_over, n_resamples) {
   if (!is.null(parallel_over)) {
     return(parallel_over)
@@ -141,6 +119,7 @@ parallel_over_finalize <- function(parallel_over, n_resamples) {
   }
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_code_paths.R
 generate_seeds <- function(rng, n) {
   out <- vector("list", length = n)
   if (!rng) {
@@ -162,6 +141,8 @@ tidyr_new_interface <- function() {
     utils::packageVersion("tidyr") > "0.8.99"
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/min_grid.R
+
 #' Determine the minimum set of model fits
 #'
 #' @param x A cluster specification.
@@ -182,6 +163,7 @@ blank_submodels <- function(grid) {
     dplyr::mutate_if(is.factor, as.character)
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R
 compute_config_ids <- function(data, id_preprocessor) {
   submodels <- tidyr::unnest(data, .submodels, keep_empty = TRUE)
   submodels <- dplyr::pull(submodels, .submodels)
@@ -324,6 +306,7 @@ is_failure <- function(x) {
   inherits(x, "try-error")
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R
 finalize_workflow_spec <- function(workflow, grid_model) {
   if (ncol(grid_model) == 0L) {
     return(workflow)
@@ -369,11 +352,7 @@ merger <- function(x, y, ...) {
     dplyr::select(x = ..object)
 }
 
-set_workflow_spec <- function(workflow, spec) {
-  workflow$fit$actions$model$spec <- spec
-  workflow
-}
-
+# https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_model <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
     param_info <- pset %>% dplyr::filter(id == i & source == "cluster_spec")
@@ -394,6 +373,7 @@ update_model <- function(grid, object, pset, step_id, nms, ...) {
   object
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_recipe <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
     param_info <- pset %>% dplyr::filter(id == i & source == "recipe")
@@ -432,6 +412,7 @@ catch_and_log_fit <- function(expr, ..., notes) {
   result
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R
 predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   model <- extract_fit_parsnip(workflow)
 
@@ -535,6 +516,7 @@ forge_from_workflow <- function(split, workflow) {
 
 # ------------------------------------------------------------------------------
 
+# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L613
 has_preprocessor <- function(workflow) {
   has_preprocessor_recipe(workflow) ||
     has_preprocessor_formula(workflow) ||
@@ -567,96 +549,16 @@ set_workflow_recipe <- function(workflow, recipe) {
   workflow
 }
 
-append_predictions <- function(collection,
-                               predictions,
-                               split,
-                               control,
-                               .config = NULL) {
-  if (!control$save_pred) {
-    return(NULL)
-  }
-  if (inherits(predictions, "try-error")) {
-    return(collection)
-  }
+# ------------------------------------------------------------------------------
 
-  predictions <- vctrs::vec_cbind(predictions, labels(split))
-
-  if (!rlang::is_null(.config)) {
-    by <- setdiff(names(.config), ".config")
-
-    if (length(by) == 0L) {
-      # Nothing to tune, just bind on config
-      predictions <- vctrs::vec_cbind(predictions, .config)
-    } else {
-      predictions <- dplyr::inner_join(predictions, .config, by = by)
-    }
-  }
-
-  dplyr::bind_rows(collection, predictions)
-}
-
-append_metrics <- function(workflow,
-                           collection,
-                           predictions,
-                           metrics,
-                           param_names,
-                           event_level,
-                           split,
-                           .config = NULL) {
-  if (inherits(predictions, "try-error")) {
-    return(collection)
-  }
-
-  params <- predictions %>%
-    dplyr::select(dplyr::all_of(param_names)) %>%
-    dplyr::distinct()
-
-  tmp_est <- metrics(workflow, new_data = rsample::analysis(split))
-
-  tmp_est <- cbind(tmp_est, labels(split))
-
-  tmp_est <- cbind(params, tmp_est)
-  if (!rlang::is_null(.config)) {
-    tmp_est <- cbind(tmp_est, .config)
-  }
-  dplyr::bind_rows(collection, tmp_est)
-}
-
-append_extracts <- function(collection,
-                            workflow,
-                            grid,
-                            split,
-                            ctrl,
-                            .config = NULL) {
-  extracts <-
-    grid %>%
-    dplyr::bind_cols(labels(split)) %>%
-    dplyr::mutate(
-      .extracts = list(
-        extract_details(workflow, ctrl$extract)
-      )
-    )
-
-  if (!rlang::is_null(.config)) {
-    extracts <- cbind(extracts, .config)
-  }
-
-  dplyr::bind_rows(collection, extracts)
-}
-
-extract_details <- function(object, extractor) {
-  if (is.null(extractor)) {
-    return(list())
-  }
-  try(extractor(object), silent = TRUE)
-}
-
+# https://github.com/tidymodels/tune/blob/main/R/pull.R#L210
 extract_metrics_config <- function(param_names, metrics) {
   metrics_config_names <- c(param_names, ".config")
   out <- metrics[metrics_config_names]
   vctrs::vec_unique(out)
 }
 
+# https://github.com/tidymodels/tune/blob/main/R/tune_bayes.R#L784
 # Make sure that rset object attributes are kept once joined
 reup_rs <- function(resamples, res) {
   sort_cols <- grep("^id", names(resamples), value = TRUE)
