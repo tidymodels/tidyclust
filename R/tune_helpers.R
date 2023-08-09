@@ -187,16 +187,6 @@ format_with_padding <- function(x) {
   gsub(" ", "0", format(x))
 }
 
-finalize_workflow_preprocessor <- function(workflow, grid_preprocessor) {
-  if (ncol(grid_preprocessor) == 0L) {
-    return(workflow)
-  }
-  recipe <- extract_preprocessor(workflow)
-  recipe <- merge(recipe, grid_preprocessor)$x[[1]]
-  workflow <- set_workflow_recipe(workflow, recipe)
-  workflow
-}
-
 set_workflow_recipe <- function(workflow, recipe) {
   workflow$pre$actions$recipe$recipe <- recipe
   workflow

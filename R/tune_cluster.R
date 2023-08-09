@@ -404,7 +404,7 @@ tune_cluster_loop_iter <- function(split,
 
     iter_msg_preprocessor <- iter_grid_info[[".msg_preprocessor"]]
 
-    workflow <- finalize_workflow_preprocessor(
+    workflow <- tune::finalize_workflow_preprocessor(
       workflow = workflow,
       grid_preprocessor = iter_grid_preprocessor
     )
