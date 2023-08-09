@@ -45,7 +45,6 @@
 #' extract_fit_engine(kmeans_fit)
 NULL
 
-
 #' @rdname extract-tidyclust
 #' @export
 extract_fit_engine.cluster_fit <- function(x, ...) {

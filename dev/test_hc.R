@@ -10,10 +10,8 @@ bob <- hclust_fit(ir)
 hc <- hier_clust(k = 3) %>%
   fit(~ ., data = ir)
 
-
 km <- k_means(k = 3) %>%
   fit(~., data = ir)
-
 
 thing <- tibble(
   km_c = extract_cluster_assignment(km)$.cluster,

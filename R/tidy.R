@@ -8,7 +8,6 @@
 #' @export
 tidy.cluster_fit <- function(x, ...) generics::tidy(x$fit, ...)
 
-
 #' Construct a single row summary "glance" of a model, fit, or other object
 #'
 #' This method glances the model in a tidyclust model object, if it exists.

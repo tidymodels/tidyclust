@@ -53,5 +53,4 @@ tidyclust_color_light <- list(
   )
 )
 
-
 get_tidyclust_colors <- function() tidyclust_color

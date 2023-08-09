@@ -75,7 +75,6 @@ predict.cluster_fit <- function(object,
   res
 }
 
-
 check_pred_type <- function(object, type, ...) {
   if (is.null(type)) {
     type <-

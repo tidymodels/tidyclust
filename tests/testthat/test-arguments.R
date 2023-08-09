@@ -27,7 +27,6 @@ test_that("pipe arguments", {
   expect_snapshot(error = TRUE, k_means() %>% set_args())
 })
 
-
 test_that("pipe engine", {
   mod_1 <- k_means() %>%
     set_mode("partition")

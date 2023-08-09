@@ -24,7 +24,6 @@ prep_data_dist <- function(object, new_data = NULL,
     clusters <- predict(object, new_data)$.pred_cluster
   }
 
-
   # If they supplied distance, check that it matches the data dimension
   if (!is.null(dists)) {
     if (!is.null(new_data) && nrow(new_data) != attr(dists, "Size")) {

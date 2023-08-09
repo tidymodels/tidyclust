@@ -21,7 +21,6 @@ for (k in 2:10) {
   km <- k_means(k = k) %>%
     set_engine("stats")
 
-
   for (i in 1:5) {
 
     tmp_train <- training(cvs$splits[[i]])
@@ -49,7 +48,6 @@ res %>%
   ggplot(aes(x = factor(k), y = sil)) +
   geom_point()
 
-
 ### Second idea
 ## What if we cluster the whole data, then see how well subsamples are reclassified?
 ## This needs "predict"
@@ -70,7 +68,6 @@ for (k in 2:10) {
     set_engine("stats")
 
   full_fit <- km %>% fit(~., data = ir)
-
 
   for (i in 1:10) {
 
@@ -97,11 +94,9 @@ for (k in 2:10) {
 
 }
 
-
 res %>%
   ggplot(aes(x = factor(k), y = f1)) +
   geom_point()
-
 
 ### use orders from reconciling to order centers and check center similarity?
 ### or to get "raw probabilities" - what does that mean though?

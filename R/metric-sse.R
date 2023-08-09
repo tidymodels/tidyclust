@@ -261,7 +261,6 @@ sse_ratio_vec <- function(object,
   sse_ratio_impl(object, new_data, dist_fun, ...)
 }
 
-
 sse_ratio_impl <- function(object,
                            new_data = NULL,
                            dist_fun = Rfast::dista,

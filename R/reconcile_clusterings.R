@@ -90,7 +90,6 @@ reconcile_clusterings_mapping <- function(primary,
     dimnames = dimnames(cross_counts)
   )
 
-
   ## one-to-one and accuracy = hungarian on counts
   ## one-to-one and precision = hungarian on col-stdized
 
