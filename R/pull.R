@@ -49,15 +49,8 @@ pulley <- function(resamples, res, col) {
     return(res)
   }
 
-  if (tidyr_new_interface()) {
-    pulled_vals <- tidyr::nest(pulled_vals, data = -dplyr::starts_with("id"))
-    names(pulled_vals)[ncol(pulled_vals)] <- col
-  } else {
-    pulled_vals <- tidyr::nest(
-      pulled_vals, -dplyr::starts_with("id"),
-      .key = !!col
-    )
-  }
+  pulled_vals <- tidyr::nest(pulled_vals, data = -dplyr::starts_with("id"))
+  names(pulled_vals)[ncol(pulled_vals)] <- col
 
   res <- new_bare_tibble(resamples)
   res <- dplyr::full_join(res, pulled_vals, by = id_cols)

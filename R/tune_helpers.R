@@ -136,11 +136,6 @@ generate_seeds <- function(rng, n) {
   out
 }
 
-tidyr_new_interface <- function() {
-  nzchar(system.file(package = "tidyr")) &&
-    utils::packageVersion("tidyr") > "0.8.99"
-}
-
 # https://github.com/tidymodels/tune/blob/main/R/min_grid.R
 
 #' Determine the minimum set of model fits

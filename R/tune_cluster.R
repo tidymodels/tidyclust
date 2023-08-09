@@ -374,11 +374,7 @@ tune_cluster_loop_iter <- function(split,
   # Nest grid_info:
   # - Preprocessor info in the outer level
   # - Model info in the inner level
-  if (tidyr_new_interface()) {
-    grid_info <- tidyr::nest(grid_info, data = !!cols)
-  } else {
-    grid_info <- tidyr::nest(grid_info, !!cols)
-  }
+  grid_info <- tidyr::nest(grid_info, data = !!cols)
 
   training <- rsample::analysis(split)
 
@@ -663,11 +659,7 @@ compute_grid_info_model_and_preprocessor <- function(workflow,
   parameter_names_model <- parameters_model[["id"]]
 
   # Nest model parameters, keep preprocessor parameters outside
-  if (tidyr_new_interface()) {
-    out <- tidyr::nest(grid, data = dplyr::all_of(parameter_names_model))
-  } else {
-    out <- tidyr::nest(grid, dplyr::all_of(parameter_names_model))
-  }
+  out <- tidyr::nest(grid, data = dplyr::all_of(parameter_names_model))
 
   n_preprocessors <- nrow(out)
   seq_preprocessors <- seq_len(n_preprocessors)
