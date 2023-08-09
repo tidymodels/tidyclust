@@ -918,7 +918,7 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   }
 
   if (!has_spec(x)) {
-    rlang::abort("A parsnip model is required.")
+    rlang::abort("A tidyclust model is required.")
   }
 
   if (check_dials) {
