@@ -155,7 +155,19 @@ ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,
                                 initializer = "kmeans++", fuzzy = FALSE,
                                 verbose = FALSE, CENTROIDS = NULL, tol = 1e-04,
                                 tol_optimal_init = 0.3, seed = 1) {
-  res <- ClusterR::KMeans_rcpp(data, clusters)
+  res <- ClusterR::KMeans_rcpp(
+    data,
+    clusters,
+    num_init = num_init,
+    max_iters = max_iters,
+    initializer = initializer,
+    fuzzy = fuzzy,
+    verbose = verbose,
+    CENTROIDS = CENTROIDS,
+    tol = tol,
+    tol_optimal_init = tol_optimal_init,
+    seed = seed
+  )
   colnames(res$centroids) <- colnames(data)
   res
 }
