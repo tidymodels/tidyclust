@@ -1,10 +1,43 @@
 #' Extract cluster assignments from model
 #'
-#' @param object An cluster_spec object.
-#' @param ... Other arguments passed to methods.
+#' When applied to a fitted cluster specification, returns a tibble with cluster
+#' assignments of the data used to train the model.
 #'
-#' @return A `tibble::tibble()` with 1 column `.cluster`.
+#' @param object An fitted `cluster_spec` object.
+#' @param ... Other arguments passed to methods. Using the `prefix` allows you
+#'   to change the prefix in the levels of the factor levels.
 #'
+#' @details
+#'
+#' Some model types such as K-means as seen in [k_means()] stores the
+#' cluster assignments in the object itself. leading the use of this function to
+#' act as an simple extract. Other model types such as Hierarchical
+#' (Agglomerative) Clustering as seen in [hier_clust()], are fit in such a way
+#' that the number of clusters can be determined at any time after the fit.
+#' Setting the `num_clusters` or `cut_height` in this function will be used to
+#' determine the clustering when reported.
+#'
+#' The ordering of the clusters is such that the first observation in the
+#' training data set will be in cluster 1, the next observation that doesn't
+#' belong to cluster 1 will be in cluster 2, and so on and forth. As the
+#' ordering of clustering doesn't matter, this is done to avoid identical sets
+#' of clustering having different labels if fit multiple times.
+#'
+#' ## Related functions
+#'
+#' `extract_cluster_assignment()` is a part of a trio of functions doing
+#' similar things:
+#'
+#' - [extract_cluster_assignment()] returns the cluster assignments of the
+#'   training observations
+#' - [extract_centroids()] returns the location of the centroids
+#' - \code{\link[=predict.cluster_fit]{predict()}} returns the cluster a new
+#'   observation belongs to
+#'
+#' @return A `tibble::tibble()` with 1 column named `.cluster`. This tibble will
+#'   correspond the the training data set.
+#'
+#' @seealso [extract_centroids()] [predict.cluster_fit()]
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
 #'   set_engine("stats")
@@ -13,6 +46,19 @@
 #'
 #' kmeans_fit %>%
 #'   extract_cluster_assignment()
+#'
+#' # Some models such as `hier_clust()` fits in such a way that you can specify
+#' # the number of clusters after the model is fit
+#' hclust_spec <- hier_clust() %>%
+#'   set_engine("stats")
+#'
+#' hclust_fit <- fit(hclust_spec, ~., mtcars)
+#'
+#' hclust_fit %>%
+#'   extract_cluster_assignment(num_clusters = 2)
+#'
+#' hclust_fit %>%
+#'   extract_cluster_assignment(cut_height = 250)
 #' @export
 extract_cluster_assignment <- function(object, ...) {
   UseMethod("extract_cluster_assignment")
