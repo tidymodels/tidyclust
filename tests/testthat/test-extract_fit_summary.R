@@ -63,3 +63,14 @@ test_that("extract_fit_summary() errors for cluster spec", {
     extract_fit_summary(spec)
   )
 })
+
+test_that("prefix is passed in extract_fit_summary()", {
+  spec <- tidyclust::k_means(num_clusters = 4) %>%
+    fit(~ ., data = mtcars)
+
+  res <- extract_fit_summary(spec, prefix = "C_")
+
+  expect_true(
+    all(substr(res$.cluster, 1, 2) == "C_")
+  )
+})

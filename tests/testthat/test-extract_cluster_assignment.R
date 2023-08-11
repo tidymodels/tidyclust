@@ -53,3 +53,14 @@ test_that("passed arguments overwrites model arguments", {
 
   expect_identical(length(levels(res$.cluster)), 1L)
 })
+
+test_that("prefix is passed in extract_cluster_assignment()", {
+  spec <- tidyclust::k_means(num_clusters = 4) %>%
+    fit(~ ., data = mtcars)
+
+  res <- extract_cluster_assignment(spec, prefix = "C_")
+
+  expect_true(
+    all(substr(res$.cluster, 1, 2) == "C_")
+  )
+})

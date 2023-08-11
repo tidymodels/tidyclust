@@ -53,3 +53,14 @@ test_that("passed arguments overwrites model arguments", {
 
   expect_identical(length(levels(res$.pred_cluster)), 1L)
 })
+
+test_that("prefix is passed in predict()", {
+  spec <- tidyclust::k_means(num_clusters = 4) %>%
+    fit(~ ., data = mtcars)
+
+  res <- predict(spec, mtcars, prefix = "C_")
+
+  expect_true(
+    all(substr(res$.pred_cluster, 1, 2) == "C_")
+  )
+})

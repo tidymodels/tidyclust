@@ -47,6 +47,9 @@
 #' kmeans_fit %>%
 #'   extract_cluster_assignment()
 #'
+#' kmeans_fit %>%
+#'   extract_cluster_assignment(prefix = "C_")
+#'
 #' # Some models such as `hier_clust()` fits in such a way that you can specify
 #' # the number of clusters after the model is fit
 #' hclust_spec <- hier_clust() %>%
@@ -86,12 +89,13 @@ extract_cluster_assignment.workflow <- function(object, ...) {
 
 #' @export
 extract_cluster_assignment.kmeans <- function(object, ...) {
-  cluster_assignment_tibble(object$cluster, length(object$size))
+  cluster_assignment_tibble(object$cluster, length(object$size), ...)
 }
 
 #' @export
 extract_cluster_assignment.KMeansCluster <- function(object, ...) {
-  cluster_assignment_tibble(object$clusters, length(object$obs_per_cluster))
+  n_clusters <- length(object$obs_per_cluster)
+  cluster_assignment_tibble(object$clusters, n_clusters, ...)
 }
 
 #' @export

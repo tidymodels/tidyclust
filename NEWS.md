@@ -1,6 +1,10 @@
 # tidyclust (development version)
 
-* Fix bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
+* Fixed bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
+
+* Fixed bug where `prefix` argument wouldn't be correctly passed through `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` (#145)
+
+* Metric functions now error informatively if used with unfit cluster specifications. (#146)
 
 * Using `extract_cluster_assignment()`, `extract_centroids()` and `predict()` on a fitted `hier_clust()` model without specifying `num_clust` or `cut_height` now gives more informative error message. (#147)
 

@@ -25,6 +25,15 @@
 #' @export
 silhouette <- function(object, new_data = NULL, dists = NULL,
                        dist_fun = Rfast::Dist) {
+  if (inherits(object, "cluster_spec")) {
+    rlang::abort(
+      paste(
+        "This function requires a fitted model.",
+        "Please use `fit()` on your cluster specification."
+      )
+    )
+  }
+
   preproc <- prep_data_dist(object, new_data, dists, dist_fun)
 
   clust_int <- as.integer(gsub("Cluster_", "", preproc$clusters))
@@ -90,6 +99,17 @@ silhouette_avg <- new_cluster_metric(
   silhouette_avg,
   direction = "zero"
 )
+
+#' @export
+#' @rdname silhouette_avg
+silhouette_avg.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}
 
 #' @export
 #' @rdname silhouette_avg
