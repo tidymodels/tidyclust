@@ -133,3 +133,19 @@ test_that("Engine-specific arguments are passed to ClusterR models", {
   fit <- fit(spec, ~., data = mtcars)
   expect_false(is.null(fit$fit$fuzzy_clusters))
 })
+
+test_that("errors if `num_clust` isn't specified", {
+  expect_snapshot(
+    error = TRUE,
+    k_means() %>%
+      set_engine("stats") %>%
+      fit(~ ., data = mtcars)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    k_means() %>%
+      set_engine("ClusterR") %>%
+      fit(~ ., data = mtcars)
+  )
+})
