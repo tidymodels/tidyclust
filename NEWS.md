@@ -2,6 +2,8 @@
 
 * Fix bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
 
+* Metric functions now error informatively if used with unfit cluster specifications. (#146)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).

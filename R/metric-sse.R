@@ -20,6 +20,15 @@
 #' sse_within(kmeans_fit)
 #' @export
 sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
+  if (inherits(object, "cluster_spec")) {
+    rlang::abort(
+      paste(
+        "This function requires a fitted model.",
+        "Please use `fit()` on your cluster specification."
+      )
+    )
+  }
+
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
     new_data <- extract_post_preprocessor(object, new_data)
@@ -92,6 +101,17 @@ sse_within_total <- new_cluster_metric(
 
 #' @export
 #' @rdname sse_within_total
+sse_within_total.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}
+
+#' @export
+#' @rdname sse_within_total
 sse_within_total.cluster_fit <- function(object, new_data = NULL,
                                          dist_fun = NULL, ...) {
   if (is.null(dist_fun)) {
@@ -153,6 +173,17 @@ sse_total <- new_cluster_metric(
   sse_total,
   direction = "zero"
 )
+
+#' @export
+#' @rdname sse_total
+sse_total.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}
 
 #' @export
 #' @rdname sse_total
@@ -231,6 +262,17 @@ sse_ratio <- new_cluster_metric(
   sse_ratio,
   direction = "zero"
 )
+
+#' @export
+#' @rdname sse_ratio
+sse_ratio.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}
 
 #' @export
 #' @rdname sse_ratio

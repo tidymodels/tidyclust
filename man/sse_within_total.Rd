@@ -2,12 +2,15 @@
 % Please edit documentation in R/metric-sse.R
 \name{sse_within_total}
 \alias{sse_within_total}
+\alias{sse_within_total.cluster_spec}
 \alias{sse_within_total.cluster_fit}
 \alias{sse_within_total.workflow}
 \alias{sse_within_total_vec}
 \title{Compute the sum of within-cluster SSE}
 \usage{
 sse_within_total(object, ...)
+
+\method{sse_within_total}{cluster_spec}(object, ...)
 
 \method{sse_within_total}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 
