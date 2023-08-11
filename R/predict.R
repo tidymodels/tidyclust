@@ -171,3 +171,13 @@ make_pred_call <- function(x) {
 
   cl
 }
+
+#' @export
+predict.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}

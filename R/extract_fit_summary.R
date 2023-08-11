@@ -23,6 +23,18 @@ extract_fit_summary <- function(object, ...) {
 }
 
 #' @export
+extract_fit_summary.cluster_spec <- function(object, ...,
+                                             call = rlang::caller_env(n = 0)) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    ),
+    call = call
+  )
+}
+
+#' @export
 extract_fit_summary.cluster_fit <- function(object, ...) {
   extract_fit_summary(object$fit, ...)
 }
