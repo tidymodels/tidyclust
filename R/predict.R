@@ -2,7 +2,7 @@
 
 #' Model predictions
 #'
-#' Apply a model to create different types of predictions. `predict()` can be
+#' Apply to a model to create different types of predictions. `predict()` can be
 #' used for all types of models and uses the "type" argument for more
 #' specificity.
 #'
@@ -16,12 +16,32 @@
 #'   for the model object or the new data being predicted.
 #' @param ... Arguments to the underlying model's prediction function cannot be
 #'   passed here (see `opts`).
-#' @details If "type" is not supplied to `predict()`, then a choice is made:
 #'
-#'   * `type = "cluster"` for clustering models
+#' @details
 #'
-#'   `predict()` is designed to provide a tidy result (see "Value" section
-#'   below) in a tibble output format.
+#' If "type" is not supplied to `predict()`, then a choice is made:
+#'
+#' * `type = "cluster"` for clustering models
+#'
+#' `predict()` is designed to provide a tidy result (see "Value" section below)
+#' in a tibble output format.
+#'
+#' The ordering of the clusters is such that the first observation in the
+#' training data set will be in cluster 1, the next observation that doesn't
+#' belong to cluster 1 will be in cluster 2, and so on and forth. As the
+#' ordering of clustering doesn't matter, this is done to avoid identical sets
+#' of clustering having different labels if fit multiple times.
+#'
+#' ## Related functions
+#'
+#' `predict()` when used with tidyclust objects is a part of a trio of functions
+#' doing similar things:
+#'
+#' - [extract_cluster_assignment()] returns the cluster assignments of the
+#' training observations
+#' - [extract_centroids()] returns the location of the centroids
+#' - \code{\link[=predict.cluster_fit]{predict()}} returns the cluster a new
+#' observation belongs to
 #'
 #' @return With the exception of `type = "raw"`, the results of
 #'   `predict.cluster_fit()` will be a tibble as many rows in the output as
@@ -36,6 +56,8 @@
 #'   function will return the same structure as above but filled with missing
 #'   values. This does not currently work for multivariate models.
 #'
+#' @seealso [extract_cluster_assignment()] [extract_centroids()]
+#'
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = 5) %>%
 #'   set_engine("stats")
@@ -44,6 +66,19 @@
 #'
 #' kmeans_fit %>%
 #'   predict(new_data = mtcars)
+#'
+#' # Some models such as `hier_clust()` fits in such a way that you can specify
+#' # the number of clusters after the model is fit
+#' hclust_spec <- hier_clust() %>%
+#'   set_engine("stats")
+#'
+#' hclust_fit <- fit(hclust_spec, ~., mtcars)
+#'
+#' hclust_fit %>%
+#'   predict(new_data = mtcars[4:6, ], num_clusters = 2)
+#'
+#' hclust_fit %>%
+#'   predict(new_data = mtcars[4:6, ], cut_height = 250)
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
 #' @export

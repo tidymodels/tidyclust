@@ -40,7 +40,7 @@ function will return the same structure as above but filled with missing
 values. This does not currently work for multivariate models.
 }
 \description{
-Apply a model to create different types of predictions. \code{predict()} can be
+Apply to a model to create different types of predictions. \code{predict()} can be
 used for all types of models and uses the "type" argument for more
 specificity.
 }
@@ -50,8 +50,26 @@ If "type" is not supplied to \code{predict()}, then a choice is made:
 \item \code{type = "cluster"} for clustering models
 }
 
-\code{predict()} is designed to provide a tidy result (see "Value" section
-below) in a tibble output format.
+\code{predict()} is designed to provide a tidy result (see "Value" section below)
+in a tibble output format.
+
+The ordering of the clusters is such that the first observation in the
+training data set will be in cluster 1, the next observation that doesn't
+belong to cluster 1 will be in cluster 2, and so on and forth. As the
+ordering of clustering doesn't matter, this is done to avoid identical sets
+of clustering having different labels if fit multiple times.
+\subsection{Related functions}{
+
+\code{predict()} when used with tidyclust objects is a part of a trio of functions
+doing similar things:
+\itemize{
+\item \code{\link[=extract_cluster_assignment]{extract_cluster_assignment()}} returns the cluster assignments of the
+training observations
+\item \code{\link[=extract_centroids]{extract_centroids()}} returns the location of the centroids
+\item \code{\link[=predict.cluster_fit]{predict()}} returns the cluster a new
+observation belongs to
+}
+}
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) \%>\%
@@ -61,4 +79,20 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit \%>\%
   predict(new_data = mtcars)
+
+# Some models such as `hier_clust()` fits in such a way that you can specify
+# the number of clusters after the model is fit
+hclust_spec <- hier_clust() \%>\%
+  set_engine("stats")
+
+hclust_fit <- fit(hclust_spec, ~., mtcars)
+
+hclust_fit \%>\%
+  predict(new_data = mtcars[4:6, ], num_clusters = 2)
+
+hclust_fit \%>\%
+  predict(new_data = mtcars[4:6, ], cut_height = 250)
+}
+\seealso{
+\code{\link[=extract_cluster_assignment]{extract_cluster_assignment()}} \code{\link[=extract_centroids]{extract_centroids()}}
 }
