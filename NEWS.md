@@ -4,6 +4,8 @@
 
 * Fixed bug where `prefix` argument wouldn't be correctly passed through `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` (#145)
 
+* Metric functions now error informatively if used with unfit cluster specifications. (#146)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).

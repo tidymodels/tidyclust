@@ -2,12 +2,15 @@
 % Please edit documentation in R/metric-silhouette.R
 \name{silhouette_avg}
 \alias{silhouette_avg}
+\alias{silhouette_avg.cluster_spec}
 \alias{silhouette_avg.cluster_fit}
 \alias{silhouette_avg.workflow}
 \alias{silhouette_avg_vec}
 \title{Measures average silhouette across all observations}
 \usage{
 silhouette_avg(object, ...)
+
+\method{silhouette_avg}{cluster_spec}(object, ...)
 
 \method{silhouette_avg}{cluster_fit}(object, new_data = NULL, dists = NULL, dist_fun = NULL, ...)
 

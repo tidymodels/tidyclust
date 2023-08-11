@@ -2,12 +2,15 @@
 % Please edit documentation in R/metric-sse.R
 \name{sse_total}
 \alias{sse_total}
+\alias{sse_total.cluster_spec}
 \alias{sse_total.cluster_fit}
 \alias{sse_total.workflow}
 \alias{sse_total_vec}
 \title{Compute the total sum of squares}
 \usage{
 sse_total(object, ...)
+
+\method{sse_total}{cluster_spec}(object, ...)
 
 \method{sse_total}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 

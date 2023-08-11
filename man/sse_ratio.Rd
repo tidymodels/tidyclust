@@ -2,12 +2,15 @@
 % Please edit documentation in R/metric-sse.R
 \name{sse_ratio}
 \alias{sse_ratio}
+\alias{sse_ratio.cluster_spec}
 \alias{sse_ratio.cluster_fit}
 \alias{sse_ratio.workflow}
 \alias{sse_ratio_vec}
 \title{Compute the ratio of the WSS to the total SSE}
 \usage{
 sse_ratio(object, ...)
+
+\method{sse_ratio}{cluster_spec}(object, ...)
 
 \method{sse_ratio}{cluster_fit}(object, new_data = NULL, dist_fun = NULL, ...)
 
