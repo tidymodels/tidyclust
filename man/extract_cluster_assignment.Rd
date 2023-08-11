@@ -56,6 +56,9 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 kmeans_fit \%>\%
   extract_cluster_assignment()
 
+kmeans_fit \%>\%
+  extract_cluster_assignment(prefix = "C_")
+
 # Some models such as `hier_clust()` fits in such a way that you can specify
 # the number of clusters after the model is fit
 hclust_spec <- hier_clust() \%>\%
