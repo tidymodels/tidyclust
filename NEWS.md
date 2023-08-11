@@ -1,6 +1,8 @@
 # tidyclust (development version)
 
-* Fix bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
+* Fixed bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
+
+* Fixed bug where `prefix` argument wouldn't be correctly passed through `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` (#145)
 
 # tidyclust 0.1.2
 
