@@ -2,6 +2,8 @@
 
 * Fix bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
 
+* Using `extract_cluster_assignment()`, `extract_centroids()` and `predict()` on a fitted `hier_clust()` model without specifying `num_clust` or `cut_height` now gives more informative error message. (#147)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
