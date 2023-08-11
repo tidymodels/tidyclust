@@ -119,3 +119,17 @@ test_that("updating", {
       update(num_clusters = tune())
   )
 })
+
+test_that("Engine-specific arguments are passed to ClusterR models", {
+  spec <- k_means(num_clusters = 2) %>%
+    set_engine("ClusterR", fuzzy = FALSE)
+
+  fit <- fit(spec, ~., data = mtcars)
+  expect_true(is.null(fit$fit$fuzzy_clusters))
+
+  spec <- k_means(num_clusters = 2) %>%
+    set_engine("ClusterR", fuzzy = TRUE)
+
+  fit <- fit(spec, ~., data = mtcars)
+  expect_false(is.null(fit$fit$fuzzy_clusters))
+})
