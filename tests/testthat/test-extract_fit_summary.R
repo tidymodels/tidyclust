@@ -54,3 +54,12 @@ test_that("extract summary works for hier_clust", {
   expect_true(is.factor(summ1$cluster_names))
   expect_true(is.factor(summ1$cluster_assignments))
 })
+
+test_that("extract_fit_summary() errors for cluster spec", {
+  spec <- tidyclust::k_means(num_clusters = 4)
+
+  expect_snapshot(
+    error = TRUE,
+    extract_fit_summary(spec)
+  )
+})

@@ -71,7 +71,7 @@
 #'   extract_centroids(cut_height = 250)
 #' @export
 extract_centroids <- function(object, ...) {
-  summ <- extract_fit_summary(object, ...)
+  summ <- extract_fit_summary(object, ..., call = rlang::caller_env(0))
   clusters <- tibble::tibble(.cluster = summ$cluster_names)
   bind_cols(clusters, summ$centroids)
 }

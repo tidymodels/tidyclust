@@ -65,6 +65,16 @@ extract_cluster_assignment <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.cluster_spec <- function(object, ...) {
+  rlang::abort(
+    paste(
+      "This function requires a fitted model.",
+      "Please use `fit()` on your cluster specification."
+    )
+  )
+}
+
+#' @export
 extract_cluster_assignment.cluster_fit <- function(object, ...) {
   extract_cluster_assignment(object$fit, ...)
 }
