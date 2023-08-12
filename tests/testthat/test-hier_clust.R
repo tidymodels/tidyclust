@@ -190,3 +190,18 @@ test_that("updating", {
       update(num_clusters = tune())
   )
 })
+
+test_that("reordering is done correctly for stats hier_clust", {
+  set.seed(42)
+
+  kmeans_fit <- hier_clust(num_clusters = 6) %>%
+    set_engine("stats") %>%
+    fit(~., data = mtcars)
+
+  summ <- extract_fit_summary(kmeans_fit)
+
+  expect_identical(
+    summ$n_members,
+    unname(as.integer(table(summ$cluster_assignments)))
+  )
+})

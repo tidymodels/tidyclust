@@ -26,7 +26,7 @@ test_that("cluster_metric_set works", {
   my_metrics <- cluster_metric_set(sse_ratio, sse_total, sse_within_total)
 
   expect_equal(
-    my_metrics(kmeans_fit),
+    my_metrics(kmeans_fit, new_data = mtcars),
     exp_res[-4, ]
   )
 })

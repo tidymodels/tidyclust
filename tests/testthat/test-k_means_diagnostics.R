@@ -36,7 +36,7 @@ test_that("kmeans sse metrics work", {
   )
 
   expect_equal(sse_within(kmeans_fit_ClusterR)$wss,
-    c(56041.432, 4665.041, 42877.103), # hard coded because of order
+    c(42877.103, 56041.432, 4665.041), # hard coded because of order
     tolerance = 0.005
   )
 

@@ -6,6 +6,8 @@
 
 * Metric functions now error informatively if used with unfit cluster specifications. (#146)
 
+* Fixed bug that caused cluster odering in extract_fit_summary(). (#136)
+
 * Using `extract_cluster_assignment()`, `extract_centroids()` and `predict()` on a fitted `hier_clust()` model without specifying `num_clust` or `cut_height` now gives more informative error message. (#147)
 
 * `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
