@@ -155,6 +155,13 @@ ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,
                                 initializer = "kmeans++", fuzzy = FALSE,
                                 verbose = FALSE, CENTROIDS = NULL, tol = 1e-04,
                                 tol_optimal_init = 0.3, seed = 1) {
+  if (is.null(clusters)) {
+    rlang::abort(
+      "Please specify `num_clust` to be able to fit specification.",
+      call = call("fit")
+    )
+  }
+
   res <- ClusterR::KMeans_rcpp(
     data,
     clusters,
@@ -170,4 +177,26 @@ ClusterR_kmeans_fit <- function(data, clusters, num_init = 1, max_iters = 100,
   )
   colnames(res$centroids) <- colnames(data)
   res
+}
+
+#' Simple Wrapper around stats kmeans
+#'
+#' This wrapper runs `stats::kmeans` and adds a check that `centers` is
+#' specified
+#'
+#' @inheritParams stats::kmeans
+#' @param ... Other arguments passed to `stats::kmeans()`
+#'
+#' @return Result from `stats::kmeans()`
+#' @keywords internal
+#' @export
+stats_kmeans_fit <- function(data, centers = NULL, ...) {
+  if (is.null(centers)) {
+    rlang::abort(
+      "Please specify `num_clust` to be able to fit specification.",
+      call = call("fit")
+    )
+  }
+
+  stats::kmeans(data, centers, ...)
 }

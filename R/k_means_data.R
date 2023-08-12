@@ -27,8 +27,9 @@ make_k_means <- function() {
     mode = "partition",
     value = list(
       interface = "matrix",
+      data = c(x = "data"),
       protect = c("x", "centers"),
-      func = c(pkg = "stats", fun = "kmeans"),
+      func = c(pkg = "tidyclust", fun = "stats_kmeans_fit"),
       defaults = list()
     )
   )
