@@ -99,10 +99,32 @@ extract_cluster_assignment.KMeansCluster <- function(object, ...) {
 }
 
 #' @export
-extract_cluster_assignment.hclust <- function(object, ...) {
+extract_cluster_assignment.hclust <- function(object,
+                                              ...,
+                                              call = rlang::caller_env(0)) {
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification
   args <- list(...)
+
+  if (!is.null(args[["h"]])) {
+    rlang::abort(
+      paste(
+        "Using `h` argument is not supported.",
+        "Please use `cut_height` instead."
+      ),
+      call = call
+    )
+  }
+
+  if (!is.null(args[["k"]])) {
+    rlang::abort(
+      paste(
+        "Using `k` argument is not supported.",
+        "Please use `num_clusters` instead."
+      ),
+      call = call
+    )
+  }
 
   if (!("num_clusters" %in% names(args) || "cut_height" %in% names(args))) {
     num_clusters <- attr(object, "num_clusters")
@@ -111,6 +133,14 @@ extract_cluster_assignment.hclust <- function(object, ...) {
     num_clusters <- args[["num_clusters"]]
     cut_height <- args[["cut_height"]]
   }
+
+  if (is.null(num_clusters) && is.null(cut_height)) {
+    rlang::abort(
+      "Please specify either `num_clusters` or `cut_height`.",
+      call = call
+    )
+  }
+
   clusters <- stats::cutree(object, k = num_clusters, h = cut_height)
   cluster_assignment_tibble(clusters, length(unique(clusters)), ...)
 }

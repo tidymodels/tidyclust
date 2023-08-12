@@ -23,7 +23,12 @@ stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_")
   new_data <- as.matrix(new_data)
 
   training_data <- as.matrix(attr(object, "training_data"))
-  clusters <- extract_cluster_assignment(object, ..., prefix = prefix)
+  clusters <- extract_cluster_assignment(
+    object,
+    ...,
+    prefix = prefix,
+    call = call("predict")
+  )
 
   if (linkage_method %in% c("single", "complete", "average", "median")) {
     ## complete, single, average, and median linkage_methods are basically the
