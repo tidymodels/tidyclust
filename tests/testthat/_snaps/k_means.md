@@ -67,3 +67,19 @@
       Computational engine: stats 
       
 
+# errors if `num_clust` isn't specified
+
+    Code
+      k_means() %>% set_engine("stats") %>% fit(~., data = mtcars)
+    Condition
+      Error in `fit()`:
+      ! Please specify `num_clust` to be able to fit specification.
+
+---
+
+    Code
+      k_means() %>% set_engine("ClusterR") %>% fit(~., data = mtcars)
+    Condition
+      Error in `tidyclust::ClusterR_kmeans_fit()`:
+      ! argument "clusters" is missing, with no default
+

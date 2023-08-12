@@ -161,5 +161,21 @@ test_that("reordering is done correctly for ClusterR k_means", {
   expect_identical(
     summ$n_members,
     unname(as.integer(table(summ$cluster_assignments)))
+    )
+})
+
+test_that("errors if `num_clust` isn't specified", {
+  expect_snapshot(
+    error = TRUE,
+    k_means() %>%
+      set_engine("stats") %>%
+      fit(~ ., data = mtcars)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    k_means() %>%
+      set_engine("ClusterR") %>%
+      fit(~ ., data = mtcars)
   )
 })
