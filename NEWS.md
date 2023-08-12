@@ -6,6 +6,8 @@
 
 * Metric functions now error informatively if used with unfit cluster specifications. (#146)
 
+* `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
