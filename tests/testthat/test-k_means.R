@@ -133,3 +133,33 @@ test_that("Engine-specific arguments are passed to ClusterR models", {
   fit <- fit(spec, ~., data = mtcars)
   expect_false(is.null(fit$fit$fuzzy_clusters))
 })
+
+test_that("reordering is done correctly for stats k_means", {
+  set.seed(42)
+
+  kmeans_fit <- k_means(num_clusters = 6) %>%
+    set_engine("stats") %>%
+    fit(~., data = mtcars)
+
+  summ <- extract_fit_summary(kmeans_fit)
+
+  expect_identical(
+    summ$n_members,
+    unname(as.integer(table(summ$cluster_assignments)))
+  )
+})
+
+test_that("reordering is done correctly for ClusterR k_means", {
+  set.seed(42)
+
+  kmeans_fit <- k_means(num_clusters = 6) %>%
+    set_engine("ClusterR") %>%
+    fit(~., data = mtcars)
+
+  summ <- extract_fit_summary(kmeans_fit)
+
+  expect_identical(
+    summ$n_members,
+    unname(as.integer(table(summ$cluster_assignments)))
+  )
+})
