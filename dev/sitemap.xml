@@ -142,6 +142,9 @@
     <loc>https://tidyclust.tidymodels.org/dev/reference/sse_within_total.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/stats_kmeans_fit.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/tidy.cluster_fit.html</loc>
   </url>
   <url>
