@@ -12,7 +12,7 @@
 \item{...}{One or more named model arguments.}
 }
 \value{
-An updated \code{cluster_spec} object.
+An updated \code{\link{cluster_spec}} object.
 }
 \description{
 Change arguments of a cluster specification

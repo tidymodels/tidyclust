@@ -10,8 +10,8 @@
 \method{fit_xy}{cluster_spec}(object, x, case_weights = NULL, control = control_cluster(), ...)
 }
 \arguments{
-\item{object}{An object of class \code{cluster_spec} that has a chosen engine (via
-\code{\link[=set_engine]{set_engine()}}).}
+\item{object}{An object of class \code{\link{cluster_spec}} that has a chosen engine
+(via \code{\link[=set_engine]{set_engine()}}).}
 
 \item{formula}{An object of class \code{formula} (or one that can be coerced to
 that class): a symbolic description of the model to be fitted.}
@@ -36,7 +36,7 @@ must return \code{TRUE} when \code{\link[hardhat:is_case_weights]{hardhat::is_ca
 examples.}
 }
 \value{
-A \code{cluster_fit} object that contains several elements:
+A \code{\link{cluster_fit}} object that contains several elements:
 \itemize{
 \item \code{spec}: The model specification object (\code{object} in the
 call to \code{fit})
@@ -50,7 +50,7 @@ non-formula interface
 The return value will also have a class related to the fitted model (e.g.
 \code{"_kmeans"}) before the base class of \code{"cluster_fit"}.
 
-A fitted \code{cluster_fit} object.
+A fitted \code{\link{cluster_fit}} object.
 }
 \description{
 \code{fit()} and \code{fit_xy()} take a model specification, translate_tidyclust the
@@ -101,5 +101,6 @@ using_formula
 using_x
 }
 \seealso{
-\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{cluster_spec}, \code{cluster_fit}
+\code{\link[=set_engine]{set_engine()}}, \code{\link[=control_cluster]{control_cluster()}}, \code{\link{cluster_spec}},
+\code{\link{cluster_fit}}
 }

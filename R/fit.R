@@ -5,8 +5,8 @@
 #' `fit()` and `fit_xy()` take a model specification, translate_tidyclust the
 #' required code by substituting arguments, and execute the model fit routine.
 #'
-#' @param object An object of class `cluster_spec` that has a chosen engine (via
-#'   [set_engine()]).
+#' @param object An object of class [`cluster_spec`] that has a chosen engine
+#'   (via [set_engine()]).
 #' @param formula An object of class `formula` (or one that can be coerced to
 #'   that class): a symbolic description of the model to be fitted.
 #' @param data Optional, depending on the interface (see Details below). A data
@@ -58,7 +58,7 @@
 #'
 #' using_formula
 #' using_x
-#' @return A `cluster_fit` object that contains several elements:
+#' @return A [`cluster_fit`] object that contains several elements:
 #'   \itemize{
 #'     \item \code{spec}: The model specification object (\code{object} in the
 #'                        call to \code{fit})
@@ -72,7 +72,8 @@
 #'   The return value will also have a class related to the fitted model (e.g.
 #'   `"_kmeans"`) before the base class of `"cluster_fit"`.
 #'
-#' @seealso [set_engine()], [control_cluster()], `cluster_spec`, `cluster_fit`
+#' @seealso [set_engine()], [control_cluster()], [`cluster_spec`],
+#'   [`cluster_fit`]
 #' @param x A matrix, sparse matrix, or data frame of predictors. Only some
 #'   models have support for sparse matrix input. See `modelenv::get_encoding()`
 #'   for details. `x` should have column names.
@@ -81,7 +82,7 @@
 #'   [hardhat::frequency_weights()] and [hardhat::importance_weights()] for
 #'   examples.
 #' @rdname fit
-#' @return A fitted `cluster_fit` object.
+#' @return A fitted [`cluster_fit`] object.
 #' @export
 #' @export fit.cluster_spec
 fit.cluster_spec <- function(object,

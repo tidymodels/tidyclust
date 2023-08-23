@@ -7,7 +7,7 @@
 prep_data_dist(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
 }
 \arguments{
-\item{object}{A fitted cluster_spec object.}
+\item{object}{A fitted \code{\link{cluster_spec}} object.}
 
 \item{new_data}{A dataset to calculate predictions on.  If \code{NULL}, the
 trained cluster assignments from the fitted object are used.}

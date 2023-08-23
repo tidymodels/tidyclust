@@ -205,7 +205,7 @@ make_formula <- function(x, short = TRUE) {
   as.formula(form_text)
 }
 
-#' @param object An object of class `cluster_fit`.
+#' @param object An object of class [`cluster_fit`].
 #' @inheritParams predict.cluster_fit
 #' @rdname convert_helpers
 #' @keywords internal

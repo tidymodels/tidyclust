@@ -11,7 +11,7 @@
 \method{extract_parameter_set_dials}{cluster_spec}(x, ...)
 }
 \arguments{
-\item{x}{A \code{cluster_fit} object or a \code{cluster_spec} object.}
+\item{x}{A \code{\link{cluster_fit}} object or a \code{\link{cluster_spec}} object.}
 
 \item{...}{Not currently used.}
 }
@@ -34,10 +34,11 @@ Extracting the underlying engine fit can be helpful for describing the
 model (via \code{print()}, \code{summary()}, \code{plot()}, etc.) or for variable
 importance/explainers.
 
-However, users should not invoke the \code{predict()} method on an extracted
-model. There may be preprocessing operations that \code{tidyclust} has executed
-on the data prior to giving it to the model. Bypassing these can lead to
-errors or silently generating incorrect predictions.
+However, users should not invoke the
+\code{\link[=predict.cluster_fit]{predict()}} method on an extracted model.
+There may be preprocessing operations that \code{tidyclust} has executed on the
+data prior to giving it to the model. Bypassing these can lead to errors or
+silently generating incorrect predictions.
 
 \strong{Good}:
 

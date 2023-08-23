@@ -12,17 +12,18 @@
 #'
 #' - `extract_parameter_set_dials()` returns a set of dials parameter objects.
 #'
-#' @param x A `cluster_fit` object or a `cluster_spec` object.
+#' @param x A [`cluster_fit`] object or a [`cluster_spec`] object.
 #' @param ... Not currently used.
 #' @details
 #' Extracting the underlying engine fit can be helpful for describing the
 #'  model (via `print()`, `summary()`, `plot()`, etc.) or for variable
 #'  importance/explainers.
 #'
-#'  However, users should not invoke the `predict()` method on an extracted
-#'  model. There may be preprocessing operations that `tidyclust` has executed
-#'  on the data prior to giving it to the model. Bypassing these can lead to
-#'  errors or silently generating incorrect predictions.
+#'  However, users should not invoke the
+#'  \code{\link[=predict.cluster_fit]{predict()}} method on an extracted model.
+#'  There may be preprocessing operations that `tidyclust` has executed on the
+#'  data prior to giving it to the model. Bypassing these can lead to errors or
+#'  silently generating incorrect predictions.
 #'
 #' **Good**:
 #' ```r

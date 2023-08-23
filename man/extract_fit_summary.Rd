@@ -7,7 +7,7 @@
 extract_fit_summary(object, ...)
 }
 \arguments{
-\item{object}{a fitted cluster_spec object}
+\item{object}{a fitted \code{\link{cluster_spec}} object}
 
 \item{...}{other arguments passed to methods}
 }

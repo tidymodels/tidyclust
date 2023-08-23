@@ -70,7 +70,7 @@ make_form_call <- function(object, env = NULL) {
 #' Change arguments of a cluster specification
 #'
 #' @inheritParams parsnip::set_args
-#' @return An updated `cluster_spec` object.
+#' @return An updated [`cluster_spec`] object.
 #' @export
 set_args.cluster_spec <- function(object, ...) {
   the_dots <- enquos(...)
@@ -99,7 +99,7 @@ set_args.cluster_spec <- function(object, ...) {
 #' Change mode of a cluster specification
 #'
 #' @inheritParams parsnip::set_mode
-#' @return An updated `cluster_spec` object.
+#' @return An updated [`cluster_spec`] object.
 #' @export
 set_mode.cluster_spec <- function(object, mode) {
   cls <- class(object)[1]

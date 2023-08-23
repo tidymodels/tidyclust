@@ -7,7 +7,7 @@
 extract_centroids(object, ...)
 }
 \arguments{
-\item{object}{An fitted \code{cluster_spec} object.}
+\item{object}{An fitted \code{\link{cluster_spec}} object.}
 
 \item{...}{Other arguments passed to methods. Using the \code{prefix} allows you
 to change the prefix in the levels of the factor levels.}

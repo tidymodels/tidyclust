@@ -10,7 +10,7 @@
 \method{predict_raw}{cluster_fit}(object, new_data, opts = list(), ...)
 }
 \arguments{
-\item{object}{An object of class \code{cluster_fit}}
+\item{object}{An object of class \code{\link{cluster_fit}}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 
@@ -61,8 +61,8 @@ of clustering having different labels if fit multiple times.
 \subsection{What does it mean to predict?}{
 
 Prediction is not always formally defined for clustering models. Therefore,
-each \code{cluster_spec} method will have their own section on how "prediction" is
-interpreted, and done if implemented.
+each \code{\link{cluster_spec}} method will have their own section on how "prediction"
+is interpreted, and done if implemented.
 }
 
 \subsection{Related functions}{
