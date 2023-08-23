@@ -87,7 +87,7 @@ with the <code>"lm"</code> engine, this returns the underlying <code>kmeans</cod
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>A <code>cluster_fit</code> object or a <code>cluster_spec</code> object.</p></dd>
+<dd><p>A <code><a href="cluster_fit.html">cluster_fit</a></code> object or a <code><a href="cluster_spec.html">cluster_spec</a></code> object.</p></dd>
 
 
 <dt>...</dt>
@@ -106,10 +106,11 @@ description section.</p>
     <p>Extracting the underlying engine fit can be helpful for describing the
 model (via <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, etc.) or for variable
 importance/explainers.</p>
-<p>However, users should not invoke the <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> method on an extracted
-model. There may be preprocessing operations that <code>tidyclust</code> has executed
-on the data prior to giving it to the model. Bypassing these can lead to
-errors or silently generating incorrect predictions.</p>
+<p>However, users should not invoke the
+<code><a href="predict.cluster_fit.html">predict()</a></code> method on an extracted model.
+There may be preprocessing operations that <code>tidyclust</code> has executed on the
+data prior to giving it to the model. Bypassing these can lead to errors or
+silently generating incorrect predictions.</p>
 <p><strong>Good</strong>:</p>
 <p></p><div class="sourceCode r"><pre><code><span>   <span class="va">tidyclust_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">new_data</span><span class="op">)</span></span></code></pre><p></p></div>
 <p><strong>Bad</strong>:</p>
@@ -122,42 +123,42 @@ errors or silently generating incorrect predictions.</p>
 <span class="r-in"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">kmeans_spec</span>, <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://hardhat.tidymodels.org/reference/hardhat-extract.html" class="external-link">extract_fit_engine</a></span><span class="op">(</span><span class="va">kmeans_fit</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 2 clusters of sizes 14, 18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> K-means clustering with 2 clusters of sizes 18, 14</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cluster means:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        mpg      cyl     disp        hp     drat       wt     qsec</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 15.10000 8.000000 353.1000 209.21429 3.229286 3.999214 16.77214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 23.97222 4.777778 135.5389  98.05556 3.882222 2.609056 18.68611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 23.97222 4.777778 135.5389  98.05556 3.882222 2.609056 18.68611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 15.10000 8.000000 353.1000 209.21429 3.229286 3.999214 16.77214</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          vs        am     gear     carb</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.0000000 0.1428571 3.285714 3.500000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7777778 0.6111111 4.000000 2.277778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.7777778 0.6111111 4.000000 2.277778</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.0000000 0.1428571 3.285714 3.500000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Clustering vector:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Mazda RX4       Mazda RX4 Wag          Datsun 710 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Hornet 4 Drive   Hornet Sportabout             Valiant </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          Duster 360           Merc 240D            Merc 230 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            Merc 280           Merc 280C          Merc 450SE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental   Chrysler Imperial            Fiat 128 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         Honda Civic      Toyota Corolla       Toyota Corona </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Merc 450SL         Merc 450SLC  Cadillac Fleetwood </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Lincoln Continental   Chrysler Imperial            Fiat 128 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Honda Civic      Toyota Corolla       Toyota Corona </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   1                   1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Dodge Challenger         AMC Javelin          Camaro Z28 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   2                   2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Pontiac Firebird           Fiat X1-9       Porsche 914-2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Lotus Europa      Ford Pantera L        Ferrari Dino </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Maserati Bora          Volvo 142E </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   1                   2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   2                   1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Within cluster sum of squares by cluster:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 93643.90 58920.54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 58920.54 93643.90</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  (between_SS / total_SS =  75.5 %)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Available components:</span>

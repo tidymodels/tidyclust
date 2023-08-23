@@ -37,7 +37,13 @@
     <loc>https://tidyclust.tidymodels.org/dev/reference/augment.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/cluster_fit.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/cluster_metric_set.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/cluster_spec.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/control_cluster.html</loc>

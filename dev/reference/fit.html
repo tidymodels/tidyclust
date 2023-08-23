@@ -72,8 +72,8 @@ required code by substituting arguments, and execute the model fit routine.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>An object of class <code>cluster_spec</code> that has a chosen engine (via
-<code><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine()</a></code>).</p></dd>
+<dd><p>An object of class <code><a href="cluster_spec.html">cluster_spec</a></code> that has a chosen engine
+(via <code><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine()</a></code>).</p></dd>
 
 
 <dt>formula</dt>
@@ -114,7 +114,7 @@ examples.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>A <code>cluster_fit</code> object that contains several elements:</p><ul><li><p><code>spec</code>: The model specification object (<code>object</code> in the
+<p>A <code><a href="cluster_fit.html">cluster_fit</a></code> object that contains several elements:</p><ul><li><p><code>spec</code>: The model specification object (<code>object</code> in the
 call to <code>fit</code>)</p></li>
 <li><p><code>fit</code>: when the model is executed without error, this is the
 model object. Otherwise, it is a <code>try-error</code>
@@ -126,7 +126,7 @@ non-formula interface
 <code>"_kmeans"</code>) before the base class of <code>"cluster_fit"</code>.</p>
 
 
-<p>A fitted <code>cluster_fit</code> object.</p>
+<p>A fitted <code><a href="cluster_fit.html">cluster_fit</a></code> object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -154,7 +154,8 @@ page for <code><a href="https://rdrr.io/r/stats/contrast.html" class="external-l
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine()</a></code>, <code><a href="control_cluster.html">control_cluster()</a></code>, <code>cluster_spec</code>, <code>cluster_fit</code></p></div>
+    <div class="dont-index"><p><code><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine()</a></code>, <code><a href="control_cluster.html">control_cluster()</a></code>, <code><a href="cluster_spec.html">cluster_spec</a></code>,
+<code><a href="cluster_fit.html">cluster_fit</a></code></p></div>
     </div>
 
     <div class="section level2">

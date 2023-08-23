@@ -75,7 +75,7 @@ specificity.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>object</dt>
-<dd><p>An object of class <code>cluster_fit</code></p></dd>
+<dd><p>An object of class <code><a href="cluster_fit.html">cluster_fit</a></code>.</p></dd>
 
 
 <dt>new_data</dt>
@@ -131,6 +131,15 @@ training data set will be in cluster 1, the next observation that doesn't
 belong to cluster 1 will be in cluster 2, and so on and forth. As the
 ordering of clustering doesn't matter, this is done to avoid identical sets
 of clustering having different labels if fit multiple times.</p><div class="section">
+<h3 id="what-does-it-mean-to-predict-">What does it mean to predict?<a class="anchor" aria-label="anchor" href="#what-does-it-mean-to-predict-"></a></h3>
+
+
+<p>Prediction is not always formally defined for clustering models. Therefore,
+each <code><a href="cluster_spec.html">cluster_spec</a></code> method will have their own section on how "prediction"
+is interpreted, and done if implemented.</p>
+</div>
+
+<div class="section">
 <h3 id="related-functions">Related functions<a class="anchor" aria-label="anchor" href="#related-functions"></a></h3>
 
 
