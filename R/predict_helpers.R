@@ -1,4 +1,4 @@
-stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
+.k_means_predict_stats <- function(object, new_data, prefix = "Cluster_") {
   res <- object$centers[unique(object$cluster), , drop = FALSE]
   res <- flexclust::dist2(res, new_data)
   res <- apply(res, 2, which.min)
@@ -6,7 +6,7 @@ stats_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
   factor(res)
 }
 
-clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
+.k_means_predict_ClusterR <- function(object, new_data, prefix = "Cluster_") {
   clusters <- predict(object, new_data)
   n_clusters <- length(object$obs_per_cluster)
 
@@ -17,7 +17,7 @@ clusterR_kmeans_predict <- function(object, new_data, prefix = "Cluster_") {
   factor(res)
 }
 
-stats_hier_clust_predict <- function(object, new_data, ..., prefix = "Cluster_") {
+.hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {
   linkage_method <- object$method
 
   new_data <- as.matrix(new_data)

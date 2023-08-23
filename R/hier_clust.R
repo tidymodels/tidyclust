@@ -174,9 +174,11 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-hclust_fit <- function(x, num_clusters = NULL, cut_height = NULL,
-                       linkage_method = NULL,
-                       dist_fun = Rfast::Dist) {
+.hier_clust_fit_stats <- function(x,
+                                  num_clusters = NULL,
+                                  cut_height = NULL,
+                                  linkage_method = NULL,
+                                  dist_fun = Rfast::Dist) {
   dmat <- dist_fun(x)
   res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
   attr(res, "num_clusters") <- num_clusters
