@@ -22,6 +22,8 @@ reference:
   contents:
     - k_means
     - hier_clust
+    - cluster_spec
+    - cluster_fit
 - title: Fit and Inspect
   desc: >
     These functions are the generics that are supported for specifications
