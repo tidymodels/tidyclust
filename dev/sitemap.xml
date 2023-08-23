@@ -31,9 +31,6 @@
     <loc>https://tidyclust.tidymodels.org/dev/news/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyclust.tidymodels.org/dev/reference/ClusterR_kmeans_fit.html</loc>
-  </url>
-  <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/augment.html</loc>
   </url>
   <url>
@@ -50,6 +47,15 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/convert_helpers.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/dot-hier_clust_fit_stats.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/dot-kmeans_fit_ClusterR.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/dot-kmeans_fit_stats.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/empty_ellipses.html</loc>
@@ -77,9 +83,6 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/glance.cluster_fit.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyclust.tidymodels.org/dev/reference/hclust_fit.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/hier_clust.html</loc>
@@ -146,9 +149,6 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/sse_within_total.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyclust.tidymodels.org/dev/reference/stats_kmeans_fit.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/tidy.cluster_fit.html</loc>
