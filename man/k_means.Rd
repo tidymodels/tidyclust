@@ -23,6 +23,14 @@ A \code{k_means} cluster specification.
 \code{k_means()} defines a model that fits clusters based on distances to a number
 of centers.
 }
+\details{
+\subsection{What does it mean to predict?}{
+
+For a K-means model, each cluster is defined by a location in the predictor
+space. Therefore, prediction in tidyclust is defined by calculating which
+cluster centroid an observation is closest too.
+}
+}
 \examples{
 # Show all engines
 modelenv::get_from_env("k_means")

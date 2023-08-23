@@ -37,6 +37,29 @@ A \code{hier_clust} cluster specification.
 \code{hier_clust()} defines a model that fits clusters based on a distance-based
 dendrogram
 }
+\details{
+\subsection{What does it mean to predict?}{
+
+To predict the cluster assignment for a new observation, we find the closest
+cluster. How we measure “closeness” is dependent on the specified type of linkage in the model:
+\itemize{
+\item \emph{single linkage}: The new observation is assigned to the same cluster as
+its nearest observation from the training data.
+\item \emph{complete linkage}: The new observation is assigned to the cluster with the
+smallest maximum distances between training observations and the new
+observation.
+\item \emph{average linkage}: The new observation is assigned to the cluster with the
+smallest average distances between training observations and the new
+observation.
+\item \emph{centroid method}: The new observation is assigned to the cluster with the
+closest centroid, as in prediction for k_means.
+\item \emph{Ward’s method}: The new observation is assigned to the cluster with the
+smallest increase in \strong{error sum of squares (ESS)} due to the new
+addition. The ESS is computed as the sum of squared distances between
+observations in a cluster, and the centroid of the cluster.
+}
+}
+}
 \examples{
 # Show all engines
 modelenv::get_from_env("hier_clust")

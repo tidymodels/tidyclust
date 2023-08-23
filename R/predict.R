@@ -32,6 +32,12 @@
 #' ordering of clustering doesn't matter, this is done to avoid identical sets
 #' of clustering having different labels if fit multiple times.
 #'
+#' ## What does it mean to predict?
+#'
+#' Prediction is not always formally defined for clustering models. Therefore,
+#' each `cluster_spec` method will have their own section on how "prediction" is
+#' interpreted, and done if implemented.
+#'
 #' ## Related functions
 #'
 #' `predict()` when used with tidyclust objects is a part of a trio of functions

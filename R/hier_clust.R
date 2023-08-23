@@ -18,6 +18,28 @@
 #'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
 #'   WPGMC) or `"centroid"` (= UPGMC).
 #'
+#' @details
+#'
+#' ## What does it mean to predict?
+#'
+#' To predict the cluster assignment for a new observation, we find the closest
+#' cluster. How we measure “closeness” is dependent on the specified type of linkage in the model:
+#'
+#' - *single linkage*: The new observation is assigned to the same cluster as
+#'   its nearest observation from the training data.
+#' - *complete linkage*: The new observation is assigned to the cluster with the
+#'   smallest maximum distances between training observations and the new
+#'   observation.
+#' - *average linkage*: The new observation is assigned to the cluster with the
+#'   smallest average distances between training observations and the new
+#'   observation.
+#' - *centroid method*: The new observation is assigned to the cluster with the
+#'   closest centroid, as in prediction for k_means.
+#' - *Ward’s method*: The new observation is assigned to the cluster with the
+#'   smallest increase in **error sum of squares (ESS)** due to the new
+#'   addition. The ESS is computed as the sum of squared distances between
+#'   observations in a cluster, and the centroid of the cluster.
+#'
 #' @return A `hier_clust` cluster specification.
 #'
 #' @examples
