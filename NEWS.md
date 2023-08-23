@@ -12,6 +12,8 @@
 
 * `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
 
+* Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.kmeans_fit_ClusterR()`, `.kmeans_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).

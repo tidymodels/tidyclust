@@ -29,7 +29,7 @@ make_k_means <- function() {
       interface = "matrix",
       data = c(x = "data"),
       protect = c("x", "centers"),
-      func = c(pkg = "tidyclust", fun = "stats_kmeans_fit"),
+      func = c(pkg = "tidyclust", fun = ".kmeans_fit_stats"),
       defaults = list()
     )
   )
@@ -63,7 +63,7 @@ make_k_means <- function() {
     value = list(
       pre = NULL,
       post = NULL,
-      func = c(fun = "stats_kmeans_predict"),
+      func = c(fun = ".k_means_predict_stats"),
       args =
         list(
           object = rlang::expr(object$fit),
@@ -96,7 +96,7 @@ make_k_means <- function() {
       interface = "matrix",
       data = c(x = "data"),
       protect = c("data", "clusters"),
-      func = c(pkg = "tidyclust", fun = "ClusterR_kmeans_fit"),
+      func = c(pkg = "tidyclust", fun = ".kmeans_fit_ClusterR"),
       defaults = list()
     )
   )
@@ -130,7 +130,7 @@ make_k_means <- function() {
     value = list(
       pre = NULL,
       post = NULL,
-      func = c(fun = "clusterR_kmeans_predict"),
+      func = c(fun = ".k_means_predict_ClusterR"),
       args =
         list(
           object = rlang::expr(object$fit),

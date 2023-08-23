@@ -28,7 +28,7 @@ make_hier_clust <- function() {
     value = list(
       interface = "matrix",
       protect = c("data"),
-      func = c(pkg = "tidyclust", fun = "hclust_fit"),
+      func = c(pkg = "tidyclust", fun = ".hier_clust_fit_stats"),
       defaults = list()
     )
   )
@@ -80,7 +80,7 @@ make_hier_clust <- function() {
     value = list(
       pre = NULL,
       post = NULL,
-      func = c(fun = "stats_hier_clust_predict"),
+      func = c(fun = ".hier_clust_predict_stats"),
       args =
         list(
           object = rlang::expr(object$fit),
