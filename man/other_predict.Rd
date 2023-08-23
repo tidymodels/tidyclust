@@ -10,7 +10,7 @@ predict_cluster(object, ...)
 \method{predict_cluster}{cluster_fit}(object, new_data, ...)
 }
 \arguments{
-\item{object}{An object of class \code{cluster_fit}}
+\item{object}{An object of class \code{\link{cluster_fit}}.}
 
 \item{...}{Arguments to the underlying model's prediction function cannot be
 passed here (see \code{opts}).}

@@ -7,7 +7,7 @@
 \method{augment}{cluster_fit}(x, new_data, ...)
 }
 \arguments{
-\item{x}{A \code{cluster_fit} object produced by \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} or
+\item{x}{A \code{\link{cluster_fit}} object produced by \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} or
 \code{\link[=fit_xy.cluster_spec]{fit_xy.cluster_spec()}} .}
 
 \item{new_data}{A data frame or matrix.}

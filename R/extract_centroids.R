@@ -4,7 +4,7 @@
 #' location. When such locations doesn't make sense for the model, a mean
 #' location is used.
 #'
-#' @param object An fitted `cluster_spec` object.
+#' @param object An fitted [`cluster_spec`] object.
 #' @param ... Other arguments passed to methods. Using the `prefix` allows you
 #'   to change the prefix in the levels of the factor levels.
 #'

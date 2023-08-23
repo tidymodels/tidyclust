@@ -3,7 +3,7 @@
 #' When applied to a fitted cluster specification, returns a tibble with cluster
 #' assignments of the data used to train the model.
 #'
-#' @param object An fitted `cluster_spec` object.
+#' @param object An fitted [`cluster_spec`] object.
 #' @param ... Other arguments passed to methods. Using the `prefix` allows you
 #'   to change the prefix in the levels of the factor levels.
 #'

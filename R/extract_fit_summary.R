@@ -1,6 +1,6 @@
 #' S3 method to get fitted model summary info depending on engine
 #'
-#' @param object a fitted cluster_spec object
+#' @param object a fitted [`cluster_spec`] object
 #' @param ... other arguments passed to methods
 #'
 #' @return A list with various summary elements

@@ -56,7 +56,7 @@ for details. \code{x} should have column names.}
 
 \item{weights}{A numeric vector containing the weights.}
 
-\item{object}{An object of class \code{cluster_fit}.}
+\item{object}{An object of class \code{\link{cluster_fit}}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 }

@@ -7,7 +7,7 @@
 new_cluster_spec(cls, args, eng_args, mode, method, engine)
 }
 \value{
-A \code{cluster_spec} object made to work with tidyclust.
+A \code{\link{cluster_spec}} object made to work with tidyclust.
 }
 \description{
 These functions are helpful when creating new packages that will register new

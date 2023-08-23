@@ -1,6 +1,6 @@
 #' Prepares data and distance matrices for metric calculation
 #'
-#' @param object A fitted cluster_spec object.
+#' @param object A fitted [`cluster_spec`] object.
 #' @param new_data A dataset to calculate predictions on.  If `NULL`, the
 #'   trained cluster assignments from the fitted object are used.
 #' @param dists A distance matrix for the data.  If `NULL`, distance is computed

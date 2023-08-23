@@ -5,7 +5,7 @@
 #' These functions are helpful when creating new packages that will register new
 #' cluster specifications.
 #'
-#' @return A `cluster_spec` object made to work with tidyclust.
+#' @return A [`cluster_spec`] object made to work with tidyclust.
 #'
 #' @export
 #' @keywords internal

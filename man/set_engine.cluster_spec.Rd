@@ -17,7 +17,7 @@ of model (e.g. linear regression, random forest, etc.).}
 engine. These are captured as quosures and can be tuned with \code{tune()}.}
 }
 \value{
-An updated \code{cluster_spec} object.
+An updated \code{\link{cluster_spec}} object.
 }
 \description{
 Change engine of a cluster specification

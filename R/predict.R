@@ -6,7 +6,7 @@
 #' used for all types of models and uses the "type" argument for more
 #' specificity.
 #'
-#' @param object An object of class `cluster_fit`
+#' @param object An object of class [`cluster_fit`].
 #' @param new_data A rectangular data object, such as a data frame.
 #' @param type A single character value or `NULL`. Possible values are
 #'   "cluster", or "raw". When `NULL`, `predict()` will choose an appropriate
@@ -31,6 +31,12 @@
 #' belong to cluster 1 will be in cluster 2, and so on and forth. As the
 #' ordering of clustering doesn't matter, this is done to avoid identical sets
 #' of clustering having different labels if fit multiple times.
+#'
+#' ## What does it mean to predict?
+#'
+#' Prediction is not always formally defined for clustering models. Therefore,
+#' each [`cluster_spec`] method will have their own section on how "prediction"
+#' is interpreted, and done if implemented.
 #'
 #' ## Related functions
 #'

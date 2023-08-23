@@ -12,6 +12,14 @@
 #'   model is `"stats"`.
 #' @param num_clusters Positive integer, number of clusters in model.
 #'
+#' @details
+#'
+#' ## What does it mean to predict?
+#'
+#' For a K-means model, each cluster is defined by a location in the predictor
+#' space. Therefore, prediction in tidyclust is defined by calculating which
+#' cluster centroid an observation is closest too.
+#'
 #' @return A `k_means` cluster specification.
 #'
 #' @examples
