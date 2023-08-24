@@ -13,6 +13,7 @@
 * `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
 
 * Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.kmeans_fit_ClusterR()`, `.kmeans_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
+* The clustMixType engine as been added to `k_means()`. This engine allows fitting of k-prototype models. (#63)
 
 # tidyclust 0.1.2
 
