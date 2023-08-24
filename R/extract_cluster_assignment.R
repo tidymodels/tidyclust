@@ -99,6 +99,12 @@ extract_cluster_assignment.KMeansCluster <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.kproto <- function(object, ...) {
+  n_clusters <- length(object$size)
+  cluster_assignment_tibble(object$cluster, n_clusters, ...)
+}
+
+#' @export
 extract_cluster_assignment.hclust <- function(object,
                                               ...,
                                               call = rlang::caller_env(0)) {
