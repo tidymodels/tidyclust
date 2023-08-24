@@ -17,6 +17,17 @@
   factor(res)
 }
 
+.k_means_predict_clustMixType <- function(object, new_data, prefix = "Cluster_") {
+  clusters <- predict(object, new_data)$cluster
+  n_clusters <- length(object$size)
+
+  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
+  names <- paste0(prefix, seq_len(n_clusters))
+  res <- names[reorder_clusts][clusters]
+
+  factor(res)
+}
+
 .hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {
   linkage_method <- object$method
 

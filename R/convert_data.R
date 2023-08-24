@@ -74,6 +74,9 @@
     # this still ignores -vars in formula
     x <- model.frame(mod_terms, data)
     y_cols <- attr(mod_terms, "response")
+    if (identical(y_cols, 0L)) {
+      y_cols <- NULL
+    }
     if (length(y_cols) > 0) {
       x <- x[, -y_cols, drop = FALSE]
     }
