@@ -21,7 +21,8 @@ A \code{k_means} cluster specification.
 }
 \description{
 \code{k_means()} defines a model that fits clusters based on distances to a number
-of centers.
+of centers. This definition doesn't just include K-means, but includes
+models like K-prototypes
 }
 \details{
 \subsection{What does it mean to predict?}{

@@ -3,7 +3,8 @@
 #' @description
 #'
 #' `k_means()` defines a model that fits clusters based on distances to a number
-#' of centers.
+#' of centers. This definition doesn't just include K-means, but includes
+#' models like K-prototypes
 #'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is "partition".
