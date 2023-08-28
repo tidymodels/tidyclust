@@ -124,6 +124,33 @@ extract_fit_summary.kproto <- function(object,
 }
 
 #' @export
+extract_fit_summary.kmodes <- function(object,
+                                       ...,
+                                       prefix = "Cluster_") {
+  reorder_clusts <- order(unique(object$cluster))
+  names <- paste0(prefix, seq_len(nrow(object$modes)))
+  names <- factor(names)
+
+  cluster_asignments <- factor(
+    names[reorder_clusts][object$cluster],
+    levels = levels(names)
+  )
+
+  centroids <- object$modes[reorder_clusts, , drop = FALSE]
+  centroids <- tibble::as_tibble(centroids)
+
+  list(
+    cluster_names = names,
+    centroids = centroids,
+    n_members = as.integer(object$size[unique(object$cluster)]),
+    sse_within_total_total = object$withinss[unique(object$cluster)],
+    sse_total = object$tot.withinss,
+    orig_labels = seq_len(length(table(object$cluster))),
+    cluster_assignments = cluster_asignments
+  )
+}
+
+#' @export
 extract_fit_summary.hclust <- function(object, ...) {
   clusts <- extract_cluster_assignment(object, ...)$.cluster
   n_clust <- dplyr::n_distinct(clusts)

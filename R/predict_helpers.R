@@ -28,6 +28,41 @@
   factor(res)
 }
 
+.k_means_predict_klaR <- function(object, new_data, prefix = "Cluster_",
+                                  ties = c("first", "last", "random")) {
+  ties <- rlang::arg_match(ties)
+
+  modes <- object$modes
+  n_modes <- nrow(modes)
+
+  clusters <- integer(nrow(new_data))
+
+  modes <- as.matrix(modes)
+  new_data <- as.matrix(new_data)
+
+  for (i in seq_along(clusters)) {
+    misses <- rowSums(new_data[rep(i, n_modes), ] != modes)
+
+    which_min <- which(misses == min(misses))
+
+
+    if (length(which_min) == 1) {
+      clusters[i] <- which_min
+    } else {
+      clusters[i] <- switch(
+        ties,
+        first = which_min[1],
+        last = which_min[length(which_min)],
+        random = sample(which_min, 1)
+      )
+    }
+  }
+
+  names <- paste0(prefix, seq_len(n_modes))
+
+  factor(names[clusters], levels = names)
+}
+
 .hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {
   linkage_method <- object$method
 

@@ -6,14 +6,17 @@
 
 * Metric functions now error informatively if used with unfit cluster specifications. (#146)
 
-* Fixed bug that caused cluster odering in extract_fit_summary(). (#136)
+* Fixed bug that caused cluster ordering in extract_fit_summary(). (#136)
 
 * Using `extract_cluster_assignment()`, `extract_centroids()` and `predict()` on a fitted `hier_clust()` model without specifying `num_clust` or `cut_height` now gives more informative error message. (#147)
 
 * `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
 
 * Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.kmeans_fit_ClusterR()`, `.kmeans_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
+
 * The clustMixType engine as been added to `k_means()`. This engine allows fitting of k-prototype models. (#63)
+
+* The klaR engine as been added to `k_means()`. This engine allows fitting of k-modes models. (#63)
 
 # tidyclust 0.1.2
 
