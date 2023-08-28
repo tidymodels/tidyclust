@@ -258,13 +258,13 @@ make_k_means <- function() {
 
   modelenv::set_pred(
     model = "k_means",
-    eng = "clustMixType",
+    eng = "klaR",
     mode = "partition",
     type = "cluster",
     value = list(
       pre = NULL,
       post = NULL,
-      func = c(fun = ".k_means_predict_clustMixType"),
+      func = c(fun = ".k_means_predict_klaR"),
       args =
         list(
           object = rlang::expr(object$fit),
