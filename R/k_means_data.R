@@ -29,7 +29,7 @@ make_k_means <- function() {
       interface = "matrix",
       data = c(x = "data"),
       protect = c("x", "centers"),
-      func = c(pkg = "tidyclust", fun = ".kmeans_fit_stats"),
+      func = c(pkg = "tidyclust", fun = ".k_means_fit_stats"),
       defaults = list()
     )
   )
@@ -96,7 +96,7 @@ make_k_means <- function() {
       interface = "matrix",
       data = c(x = "data"),
       protect = c("data", "clusters"),
-      func = c(pkg = "tidyclust", fun = ".kmeans_fit_ClusterR"),
+      func = c(pkg = "tidyclust", fun = ".k_means_fit_ClusterR"),
       defaults = list()
     )
   )

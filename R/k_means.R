@@ -160,10 +160,16 @@ check_args.k_means <- function(object) {
 #'   obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
-.kmeans_fit_ClusterR <- function(data, clusters, num_init = 1, max_iters = 100,
-                                 initializer = "kmeans++", fuzzy = FALSE,
-                                 verbose = FALSE, CENTROIDS = NULL, tol = 1e-04,
-                                 tol_optimal_init = 0.3, seed = 1) {
+.k_means_fit_ClusterR <- function(data, clusters,
+                                  num_init = 1,
+                                  max_iters = 100,
+                                  initializer = "kmeans++",
+                                  fuzzy = FALSE,
+                                  verbose = FALSE,
+                                  CENTROIDS = NULL,
+                                  tol = 1e-04,
+                                  tol_optimal_init = 0.3,
+                                  seed = 1) {
   if (is.null(clusters)) {
     rlang::abort(
       "Please specify `num_clust` to be able to fit specification.",
@@ -199,7 +205,7 @@ check_args.k_means <- function(object) {
 #' @return Result from `stats::kmeans()`
 #' @keywords internal
 #' @export
-.kmeans_fit_stats <- function(data, centers = NULL, ...) {
+.k_means_fit_stats <- function(data, centers = NULL, ...) {
   if (is.null(centers)) {
     rlang::abort(
       "Please specify `num_clust` to be able to fit specification.",
