@@ -55,6 +55,12 @@
     <loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_ClusterR.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_clustMixType.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_klaR.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_stats.html</loc>
   </url>
   <url>
