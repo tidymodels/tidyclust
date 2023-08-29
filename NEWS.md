@@ -18,6 +18,8 @@
 
 * The klaR engine as been added to `k_means()`. This engine allows fitting of k-modes models. (#63)
 
+* Cluster reordering is now done at the fitting time, not the extraction and prediction time. (#154)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
