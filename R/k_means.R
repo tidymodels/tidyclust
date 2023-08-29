@@ -197,7 +197,7 @@ check_args.k_means <- function(object) {
 #' Simple Wrapper around stats kmeans
 #'
 #' This wrapper runs `stats::kmeans` and adds a check that `centers` is
-#' specified
+#' specified. And reorders the clusters.
 #'
 #' @inheritParams stats::kmeans
 #' @param ... Other arguments passed to `stats::kmeans()`
@@ -213,5 +213,11 @@ check_args.k_means <- function(object) {
     )
   }
 
-  stats::kmeans(data, centers, ...)
+  res <- stats::kmeans(data, centers, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- set_names(order(new_order)[res$cluster], names(res$cluster))
+  res$centers <- res$centers[new_order, , drop = FALSE]
+  res$withinss <- res$withinss[new_order]
+  res$size <- res$size[new_order]
+  res
 }

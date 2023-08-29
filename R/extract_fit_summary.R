@@ -46,23 +46,21 @@ extract_fit_summary.workflow <- function(object, ...) {
 
 #' @export
 extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
-  names <- paste0(prefix, seq_len(nrow(object$centers)))
+  names <- paste0(prefix, seq_along(object$size))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$cluster],
+    names[object$cluster],
     levels = levels(names)
   )
 
-  centroids <- object$centers[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$centers)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = object$size[unique(object$cluster)],
-    sse_within_total_total = object$withinss[unique(object$cluster)],
+    n_members = object$size,
+    sse_within_total_total = object$withinss,
     sse_total = object$totss,
     orig_labels = unname(object$cluster),
     cluster_assignments = cluster_asignments

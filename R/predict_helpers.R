@@ -1,9 +1,14 @@
+make_predictions <- function(x, prefix, n_clusters) {
+  levels <- seq_len(n_clusters)
+  factor(x, levels = levels, labels = paste0(prefix, levels))
+}
+
 .k_means_predict_stats <- function(object, new_data, prefix = "Cluster_") {
-  res <- object$centers[unique(object$cluster), , drop = FALSE]
+  res <- object$centers
   res <- flexclust::dist2(res, new_data)
   res <- apply(res, 2, which.min)
-  res <- paste0(prefix, res)
-  factor(res)
+
+  make_predictions(res, prefix, length(object$size))
 }
 
 .k_means_predict_ClusterR <- function(object, new_data, prefix = "Cluster_") {
