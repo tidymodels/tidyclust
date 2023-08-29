@@ -132,7 +132,7 @@ check_args.k_means <- function(object) {
 #' Simple Wrapper around ClusterR kmeans
 #'
 #' This wrapper runs `ClusterR::KMeans_rcpp` and adds column names to the
-#' `centroids` field.
+#' `centroids` field. And reorders the clusters.
 #'
 #' @param data matrix or data frame
 #' @param clusters the number of clusters
@@ -160,7 +160,8 @@ check_args.k_means <- function(object) {
 #'   obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
-.k_means_fit_ClusterR <- function(data, clusters,
+.k_means_fit_ClusterR <- function(data,
+                                  clusters,
                                   num_init = 1,
                                   max_iters = 100,
                                   initializer = "kmeans++",
@@ -190,7 +191,14 @@ check_args.k_means <- function(object) {
     tol_optimal_init = tol_optimal_init,
     seed = seed
   )
+
   colnames(res$centroids) <- colnames(data)
+
+  new_order <- unique(res$clusters)
+  res$clusters <- order(new_order)[res$clusters]
+  res$centroids <- res$centroids[new_order, , drop = FALSE]
+  res$WCSS_per_cluster <- res$WCSS_per_cluster[, new_order, drop = FALSE]
+  res$obs_per_cluster <- res$obs_per_cluster[, new_order, drop = FALSE]
   res
 }
 

@@ -15,11 +15,7 @@ make_predictions <- function(x, prefix, n_clusters) {
   clusters <- predict(object, new_data)
   n_clusters <- length(object$obs_per_cluster)
 
-  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
-  names <- paste0(prefix, seq_len(n_clusters))
-  res <- names[reorder_clusts][clusters]
-
-  factor(res)
+  make_predictions(clusters, prefix, n_clusters)
 }
 
 .k_means_predict_clustMixType <- function(object, new_data, prefix = "Cluster_") {

@@ -71,23 +71,21 @@ extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
 extract_fit_summary.KMeansCluster <- function(object,
                                               ...,
                                               prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
   names <- paste0(prefix, seq_len(nrow(object$centroids)))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$clusters],
+    names[object$clusters],
     levels = levels(names)
   )
 
-  centroids <- object$centroids[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$centroids)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = as.integer(object$obs_per_cluster[unique(object$cluster)]),
-    sse_within_total_total = object$WCSS_per_cluster[unique(object$cluster)],
+    n_members = as.integer(object$obs_per_cluster),
+    sse_within_total_total = as.numeric(object$WCSS_per_cluster),
     sse_total = object$total_SSE,
     orig_labels = object$clusters,
     cluster_assignments = cluster_asignments
