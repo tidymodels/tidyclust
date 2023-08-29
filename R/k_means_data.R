@@ -163,7 +163,7 @@ make_k_means <- function() {
       interface = "data.frame",
       data = c(x = "x"),
       protect = c("x", "k", "keep.data"),
-      func = c(pkg = "clustMixType", fun = "kproto"),
+      func = c(pkg = "tidyclust", fun = ".k_means_fit_clustMixType"),
       defaults = list(keep.data = TRUE, verbose = FALSE)
     )
   )

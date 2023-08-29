@@ -229,3 +229,24 @@ check_args.k_means <- function(object) {
   res$size <- res$size[new_order]
   res
 }
+
+#' Simple Wrapper around clustMixType kmeans
+#'
+#' This wrapper runs `clustMixType::kproto()` and reorders the clusters.
+#'
+#' @inheritParams clustMixType::kproto
+#' @param ... Other arguments passed to `clustMixType::kproto()`
+#'
+#' @return Result from `clustMixType::kproto()`
+#' @keywords internal
+#' @export
+.k_means_fit_clustMixType <- function(x, k, ...) {
+  res <- clustMixType::kproto(x, k, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- order(new_order)[res$cluster]
+  res$centers <- res$centers[new_order, , drop = FALSE]
+  res$withinss <- res$withinss[new_order]
+  res$dists <- res$dists[, new_order, drop = FALSE]
+  res$size <- res$size[new_order]
+  res
+}
