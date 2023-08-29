@@ -80,6 +80,6 @@
     Code
       k_means() %>% set_engine("ClusterR") %>% fit(~., data = mtcars)
     Condition
-      Error in `tidyclust::.kmeans_fit_ClusterR()`:
+      Error in `tidyclust::.k_means_fit_ClusterR()`:
       ! argument "clusters" is missing, with no default
 
