@@ -85,14 +85,14 @@ test_that("extract_centroids work", {
   ref_res <- kmeans(mtcars, 4)
 
   ref_centroids <- dplyr::bind_cols(
-    .cluster = c(1L, 3L, 4L, 2L),
+    .cluster = c(1L, 4L, 2L, 3L),
     ref_res$centers
   ) %>%
-    dplyr::arrange(.cluster)
+    dplyr::arrange(.cluster) %>%
+    dplyr::select(-.cluster)
 
   expect_identical(
-    extract_centroids(kmeans_fit) %>%
-      dplyr::mutate(.cluster = as.integer(.cluster)),
+    extract_centroids(kmeans_fit) %>% dplyr::select(-.cluster),
     ref_centroids
   )
 })

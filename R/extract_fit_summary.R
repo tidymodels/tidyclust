@@ -46,23 +46,21 @@ extract_fit_summary.workflow <- function(object, ...) {
 
 #' @export
 extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
-  names <- paste0(prefix, seq_len(nrow(object$centers)))
+  names <- paste0(prefix, seq_along(object$size))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$cluster],
+    names[object$cluster],
     levels = levels(names)
   )
 
-  centroids <- object$centers[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$centers)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = object$size[unique(object$cluster)],
-    sse_within_total_total = object$withinss[unique(object$cluster)],
+    n_members = object$size,
+    sse_within_total_total = object$withinss,
     sse_total = object$totss,
     orig_labels = unname(object$cluster),
     cluster_assignments = cluster_asignments
@@ -73,23 +71,21 @@ extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
 extract_fit_summary.KMeansCluster <- function(object,
                                               ...,
                                               prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
   names <- paste0(prefix, seq_len(nrow(object$centroids)))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$clusters],
+    names[object$clusters],
     levels = levels(names)
   )
 
-  centroids <- object$centroids[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$centroids)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = as.integer(object$obs_per_cluster[unique(object$cluster)]),
-    sse_within_total_total = object$WCSS_per_cluster[unique(object$cluster)],
+    n_members = as.integer(object$obs_per_cluster),
+    sse_within_total_total = as.numeric(object$WCSS_per_cluster),
     sse_total = object$total_SSE,
     orig_labels = object$clusters,
     cluster_assignments = cluster_asignments
@@ -100,23 +96,21 @@ extract_fit_summary.KMeansCluster <- function(object,
 extract_fit_summary.kproto <- function(object,
                                        ...,
                                        prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
   names <- paste0(prefix, seq_len(nrow(object$centers)))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$cluster],
+    names[object$cluster],
     levels = levels(names)
   )
 
-  centroids <- object$centers[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$centers)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = as.integer(object$size[unique(object$cluster)]),
-    sse_within_total_total = object$withinss[unique(object$cluster)],
+    n_members = as.integer(object$size),
+    sse_within_total_total = object$withinss,
     sse_total = object$tot.withinss,
     orig_labels = seq_len(length(table(object$cluster))),
     cluster_assignments = cluster_asignments
@@ -127,23 +121,21 @@ extract_fit_summary.kproto <- function(object,
 extract_fit_summary.kmodes <- function(object,
                                        ...,
                                        prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
   names <- paste0(prefix, seq_len(nrow(object$modes)))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$cluster],
+    names[object$cluster],
     levels = levels(names)
   )
 
-  centroids <- object$modes[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$modes)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = as.integer(object$size[unique(object$cluster)]),
-    sse_within_total_total = object$withinss[unique(object$cluster)],
+    n_members = as.integer(object$size),
+    sse_within_total_total = object$withinss,
     sse_total = object$tot.withinss,
     orig_labels = seq_len(length(table(object$cluster))),
     cluster_assignments = cluster_asignments

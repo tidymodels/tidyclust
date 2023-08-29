@@ -46,7 +46,7 @@ test_that("predicting", {
 
   expect_identical(
     preds,
-    tibble::tibble(.pred_cluster = factor(paste0("Cluster_", c(2, 2, 2, 2, 3)),
+    tibble::tibble(.pred_cluster = factor(paste0("Cluster_", c(1, 1, 1, 1, 2)),
                                           paste0("Cluster_", 1:3)))
   )
 })
@@ -96,7 +96,7 @@ test_that("extract_centroids() works", {
 
   expected <- vctrs::vec_cbind(
     tibble::tibble(.cluster = factor(paste0("Cluster_", 1:3))),
-    tibble::as_tibble(res$fit$modes)[c(3, 1, 2), ]
+    tibble::as_tibble(res$fit$modes)
   )
 
   expect_identical(

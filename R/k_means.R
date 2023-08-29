@@ -131,8 +131,8 @@ check_args.k_means <- function(object) {
 
 #' Simple Wrapper around ClusterR kmeans
 #'
-#' This wrapper runs `ClusterR::KMeans_rcpp` and adds column names to the
-#' `centroids` field.
+#' This wrapper runs `ClusterR::KMeans_rcpp()` and adds column names to the
+#' `centroids` field. And reorders the clusters.
 #'
 #' @param data matrix or data frame
 #' @param clusters the number of clusters
@@ -160,7 +160,8 @@ check_args.k_means <- function(object) {
 #'   obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
-.k_means_fit_ClusterR <- function(data, clusters,
+.k_means_fit_ClusterR <- function(data,
+                                  clusters,
                                   num_init = 1,
                                   max_iters = 100,
                                   initializer = "kmeans++",
@@ -190,14 +191,21 @@ check_args.k_means <- function(object) {
     tol_optimal_init = tol_optimal_init,
     seed = seed
   )
+
   colnames(res$centroids) <- colnames(data)
+
+  new_order <- unique(res$clusters)
+  res$clusters <- order(new_order)[res$clusters]
+  res$centroids <- res$centroids[new_order, , drop = FALSE]
+  res$WCSS_per_cluster <- res$WCSS_per_cluster[, new_order, drop = FALSE]
+  res$obs_per_cluster <- res$obs_per_cluster[, new_order, drop = FALSE]
   res
 }
 
 #' Simple Wrapper around stats kmeans
 #'
-#' This wrapper runs `stats::kmeans` and adds a check that `centers` is
-#' specified
+#' This wrapper runs `stats::kmeans()` and adds a check that `centers` is
+#' specified. And reorders the clusters.
 #'
 #' @inheritParams stats::kmeans
 #' @param ... Other arguments passed to `stats::kmeans()`
@@ -213,5 +221,52 @@ check_args.k_means <- function(object) {
     )
   }
 
-  stats::kmeans(data, centers, ...)
+  res <- stats::kmeans(data, centers, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- set_names(order(new_order)[res$cluster], names(res$cluster))
+  res$centers <- res$centers[new_order, , drop = FALSE]
+  res$withinss <- res$withinss[new_order]
+  res$size <- res$size[new_order]
+  res
+}
+
+#' Simple Wrapper around clustMixType kmeans
+#'
+#' This wrapper runs `clustMixType::kproto()` and reorders the clusters.
+#'
+#' @inheritParams clustMixType::kproto
+#' @param ... Other arguments passed to `clustMixType::kproto()`
+#'
+#' @return Result from `clustMixType::kproto()`
+#' @keywords internal
+#' @export
+.k_means_fit_clustMixType <- function(x, k, ...) {
+  res <- clustMixType::kproto(x, k, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- order(new_order)[res$cluster]
+  res$centers <- res$centers[new_order, , drop = FALSE]
+  res$withinss <- res$withinss[new_order]
+  res$dists <- res$dists[, new_order, drop = FALSE]
+  res$size <- res$size[new_order]
+  res
+}
+
+#' Simple Wrapper around klaR kmeans
+#'
+#' This wrapper runs `klaR::kmodes()` and reorders the clusters.
+#'
+#' @inheritParams klaR::kmodes
+#' @param ... Other arguments passed to `klaR::kmodes()`
+#'
+#' @return Result from `klaR::kmodes()`
+#' @keywords internal
+#' @export
+.k_means_fit_klaR <- function(data, modes, ...) {
+  res <- klaR::kmodes(data, modes, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- order(new_order)[res$cluster]
+  res$size <- res$size[new_order]
+  res$modes <- res$modes[new_order, , drop = FALSE]
+  res$withindiff <- res$withindiff[new_order]
+  res
 }

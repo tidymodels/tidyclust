@@ -1,31 +1,28 @@
+make_predictions <- function(x, prefix, n_clusters) {
+  levels <- seq_len(n_clusters)
+  factor(x, levels = levels, labels = paste0(prefix, levels))
+}
+
 .k_means_predict_stats <- function(object, new_data, prefix = "Cluster_") {
-  res <- object$centers[unique(object$cluster), , drop = FALSE]
+  res <- object$centers
   res <- flexclust::dist2(res, new_data)
   res <- apply(res, 2, which.min)
-  res <- paste0(prefix, res)
-  factor(res)
+
+  make_predictions(res, prefix, length(object$size))
 }
 
 .k_means_predict_ClusterR <- function(object, new_data, prefix = "Cluster_") {
   clusters <- predict(object, new_data)
   n_clusters <- length(object$obs_per_cluster)
 
-  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
-  names <- paste0(prefix, seq_len(n_clusters))
-  res <- names[reorder_clusts][clusters]
-
-  factor(res)
+  make_predictions(clusters, prefix, n_clusters)
 }
 
 .k_means_predict_clustMixType <- function(object, new_data, prefix = "Cluster_") {
   clusters <- predict(object, new_data)$cluster
   n_clusters <- length(object$size)
 
-  reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
-  names <- paste0(prefix, seq_len(n_clusters))
-  res <- names[reorder_clusts][clusters]
-
-  factor(res)
+  make_predictions(clusters, prefix, n_clusters)
 }
 
 .k_means_predict_klaR <- function(object, new_data, prefix = "Cluster_",
@@ -58,9 +55,7 @@
     }
   }
 
-  names <- paste0(prefix, seq_len(n_modes))
-
-  factor(names[clusters], levels = names)
+  make_predictions(clusters, prefix, n_modes)
 }
 
 .hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {
