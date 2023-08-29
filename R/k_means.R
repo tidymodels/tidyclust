@@ -131,7 +131,7 @@ check_args.k_means <- function(object) {
 
 #' Simple Wrapper around ClusterR kmeans
 #'
-#' This wrapper runs `ClusterR::KMeans_rcpp` and adds column names to the
+#' This wrapper runs `ClusterR::KMeans_rcpp()` and adds column names to the
 #' `centroids` field. And reorders the clusters.
 #'
 #' @param data matrix or data frame
@@ -204,7 +204,7 @@ check_args.k_means <- function(object) {
 
 #' Simple Wrapper around stats kmeans
 #'
-#' This wrapper runs `stats::kmeans` and adds a check that `centers` is
+#' This wrapper runs `stats::kmeans()` and adds a check that `centers` is
 #' specified. And reorders the clusters.
 #'
 #' @inheritParams stats::kmeans

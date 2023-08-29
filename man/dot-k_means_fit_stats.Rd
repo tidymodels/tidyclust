@@ -17,7 +17,7 @@
 Result from \code{stats::kmeans()}
 }
 \description{
-This wrapper runs \code{stats::kmeans} and adds a check that \code{centers} is
+This wrapper runs \code{stats::kmeans()} and adds a check that \code{centers} is
 specified. And reorders the clusters.
 }
 \keyword{internal}

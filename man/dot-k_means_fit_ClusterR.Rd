@@ -56,7 +56,7 @@ fuzzy = TRUE), centroids, total_SSE, best_initialization, WCSS_per_cluster,
 obs_per_cluster, between.SS_DIV_total.SS
 }
 \description{
-This wrapper runs \code{ClusterR::KMeans_rcpp} and adds column names to the
+This wrapper runs \code{ClusterR::KMeans_rcpp()} and adds column names to the
 \code{centroids} field. And reorders the clusters.
 }
 \keyword{internal}
