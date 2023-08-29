@@ -121,23 +121,21 @@ extract_fit_summary.kproto <- function(object,
 extract_fit_summary.kmodes <- function(object,
                                        ...,
                                        prefix = "Cluster_") {
-  reorder_clusts <- order(unique(object$cluster))
   names <- paste0(prefix, seq_len(nrow(object$modes)))
   names <- factor(names)
 
   cluster_asignments <- factor(
-    names[reorder_clusts][object$cluster],
+    names[object$cluster],
     levels = levels(names)
   )
 
-  centroids <- object$modes[reorder_clusts, , drop = FALSE]
-  centroids <- tibble::as_tibble(centroids)
+  centroids <- tibble::as_tibble(object$modes)
 
   list(
     cluster_names = names,
     centroids = centroids,
-    n_members = as.integer(object$size[unique(object$cluster)]),
-    sse_within_total_total = object$withinss[unique(object$cluster)],
+    n_members = as.integer(object$size),
+    sse_within_total_total = object$withinss,
     sse_total = object$tot.withinss,
     orig_labels = seq_len(length(table(object$cluster))),
     cluster_assignments = cluster_asignments

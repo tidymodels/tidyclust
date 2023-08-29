@@ -39,6 +39,7 @@ Suggests:
     ClusterR,
     clustMixType (>= 0.3-5),
     covr,
+    klaR,
     knitr,
     modeldata (>= 1.0.0),
     RcppHungarian,

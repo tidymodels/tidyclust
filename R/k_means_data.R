@@ -230,7 +230,7 @@ make_k_means <- function() {
       interface = "data.frame",
       data = c(x = "data"),
       protect = c("data", "modes"),
-      func = c(pkg = "klaR", fun = "kmodes"),
+      func = c(pkg = "tidyclust", fun = ".k_means_fit_klaR"),
       defaults = list()
     )
   )

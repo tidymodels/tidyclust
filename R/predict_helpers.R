@@ -55,9 +55,7 @@ make_predictions <- function(x, prefix, n_clusters) {
     }
   }
 
-  names <- paste0(prefix, seq_len(n_modes))
-
-  factor(names[clusters], levels = names)
+  make_predictions(clusters, prefix, n_modes)
 }
 
 .hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {

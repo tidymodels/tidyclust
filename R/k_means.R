@@ -250,3 +250,23 @@ check_args.k_means <- function(object) {
   res$size <- res$size[new_order]
   res
 }
+
+#' Simple Wrapper around klaR kmeans
+#'
+#' This wrapper runs `klaR::kmodes()` and reorders the clusters.
+#'
+#' @inheritParams klaR::kmodes
+#' @param ... Other arguments passed to `klaR::kmodes()`
+#'
+#' @return Result from `klaR::kmodes()`
+#' @keywords internal
+#' @export
+.k_means_fit_klaR <- function(data, modes, ...) {
+  res <- klaR::kmodes(data, modes, ...)
+  new_order <- unique(res$cluster)
+  res$cluster <- order(new_order)[res$cluster]
+  res$size <- res$size[new_order]
+  res$modes <- res$modes[new_order, , drop = FALSE]
+  res$withindiff <- res$withindiff[new_order]
+  res
+}
