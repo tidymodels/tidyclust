@@ -20,6 +20,8 @@
 
 * Cluster reordering is now done at the fitting time, not the extraction and prediction time. (#154)
 
+* Engine specific documentation has been added for all models and engines. (#159)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
