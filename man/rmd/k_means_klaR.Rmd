@@ -1,0 +1,43 @@
+```{r, child = "aaa.Rmd", include = FALSE}
+```
+
+`r descr_models("k_means", "klaR")`
+
+## Tuning Parameters
+
+```{r klaR-param-info, echo = FALSE}
+defaults <- 
+  tibble::tibble(tidyclust = c("num_clusters"),
+                 default = c("no default"))
+
+param <-
+ k_means() %>% 
+  set_engine("klaR") %>% 
+  set_mode("partition") %>% 
+  make_parameter_list(defaults)
+```
+
+This model has `r nrow(param)` tuning parameters:
+
+```{r klaR-param-list, echo = FALSE, results = "asis"}
+param$item
+```
+
+## Translation from tidyclust to the original package (partition)
+
+```{r klaR-cls}
+k_means(num_clusters = integer(1)) %>% 
+  set_engine("klaR") %>% 
+  set_mode("partition") %>% 
+  translate_tidyclust()
+```
+
+## Preprocessing requirements
+
+Only categorical variables are accepted, along with numerics with few unique values.
+
+## References
+
+- Huang, Z. (1997) A Fast Clustering Algorithm to Cluster Very Large Categorical Data Sets in Data Mining. in KDD: Techniques and Applications (H. Lu, H. Motoda and H. Luu, Eds.), pp. 21-34, World Scientific, Singapore.
+
+- MacQueen, J. (1967) Some methods for classification and analysis of multivariate observations. In Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability, eds L. M. Le Cam & J. Neyman, 1, pp. 281-297. Berkeley, CA: University of California Press.

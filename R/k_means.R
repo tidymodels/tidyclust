@@ -12,6 +12,7 @@
 #'
 #' - \link[=details_k_means_stats]{stats}: Classical K-means
 #' - \link[=details_k_means_ClusterR]{ClusterR}: Classical K-means
+#' - \link[=details_k_means_klaR]{klaR}: K-Modes
 #'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is "partition".

@@ -30,6 +30,7 @@ are listed below.
 \itemize{
 \item \link[=details_k_means_stats]{stats}: Classical K-means
 \item \link[=details_k_means_ClusterR]{ClusterR}: Classical K-means
+\item \link[=details_k_means_klaR]{klaR}: K-Modes
 }
 }
 \details{
