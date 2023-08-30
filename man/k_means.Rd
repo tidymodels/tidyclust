@@ -31,6 +31,7 @@ are listed below.
 \item \link[=details_k_means_stats]{stats}: Classical K-means
 \item \link[=details_k_means_ClusterR]{ClusterR}: Classical K-means
 \item \link[=details_k_means_klaR]{klaR}: K-Modes
+\item \link[=details_k_means_clustMixType]{clustMixType}: K-prototypes
 }
 }
 \details{
