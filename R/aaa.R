@@ -13,6 +13,13 @@ utils::globalVariables(
   )
 )
 
+
+release_bullets <- function() {
+  c(
+    "Run `knit_engine_docs()` and `devtools::document()` to update docs"
+  )
+}
+
 # nocov end
 
 # ------------------------------------------------------------------------------
