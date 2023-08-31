@@ -5,6 +5,12 @@
 #' `hier_clust()` defines a model that fits clusters based on a distance-based
 #' dendrogram
 #'
+#' There are different ways to fit this model, and the method of estimation is
+#' chosen by setting the model engine. The engine-specific pages for this model
+#' are listed below.
+#'
+#' - \link[=details_hier_clust_stats]{stats}
+#'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is "partition".
 #' @param engine A single character string specifying what computational engine
@@ -23,7 +29,8 @@
 #' ## What does it mean to predict?
 #'
 #' To predict the cluster assignment for a new observation, we find the closest
-#' cluster. How we measure “closeness” is dependent on the specified type of linkage in the model:
+#' cluster. How we measure “closeness” is dependent on the specified type of
+#' linkage in the model:
 #'
 #' - *single linkage*: The new observation is assigned to the same cluster as
 #'   its nearest observation from the training data.

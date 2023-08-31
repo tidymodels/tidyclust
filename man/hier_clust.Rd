@@ -36,12 +36,20 @@ A \code{hier_clust} cluster specification.
 \description{
 \code{hier_clust()} defines a model that fits clusters based on a distance-based
 dendrogram
+
+There are different ways to fit this model, and the method of estimation is
+chosen by setting the model engine. The engine-specific pages for this model
+are listed below.
+\itemize{
+\item \link[=details_hier_clust_stats]{stats}
+}
 }
 \details{
 \subsection{What does it mean to predict?}{
 
 To predict the cluster assignment for a new observation, we find the closest
-cluster. How we measure “closeness” is dependent on the specified type of linkage in the model:
+cluster. How we measure “closeness” is dependent on the specified type of
+linkage in the model:
 \itemize{
 \item \emph{single linkage}: The new observation is assigned to the same cluster as
 its nearest observation from the training data.

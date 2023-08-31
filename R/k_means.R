@@ -4,7 +4,16 @@
 #'
 #' `k_means()` defines a model that fits clusters based on distances to a number
 #' of centers. This definition doesn't just include K-means, but includes
-#' models like K-prototypes
+#' models like K-prototypes.
+#'
+#' There are different ways to fit this model, and the method of estimation is
+#' chosen by setting the model engine. The engine-specific pages for this model
+#' are listed below.
+#'
+#' - \link[=details_k_means_stats]{stats}: Classical K-means
+#' - \link[=details_k_means_ClusterR]{ClusterR}: Classical K-means
+#' - \link[=details_k_means_klaR]{klaR}: K-Modes
+#' - \link[=details_k_means_clustMixType]{clustMixType}: K-prototypes
 #'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is "partition".
