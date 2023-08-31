@@ -150,5 +150,5 @@ make_predictions <- function(x, prefix, n_clusters) {
   }
   pred_clusts <- unique(clusters$.cluster)[pred_clusts_num]
 
-  return(factor(pred_clusts))
+  pred_clusts
 }
