@@ -66,6 +66,12 @@ reference:
     - tidyclust_update
     - finalize_model_tidyclust
     - tune_cluster
+- title: Tuning Objects
+  desc: >
+    Dials objects.
+  contents:
+    - cut_height
+    - linkage_method
 - title: Developer tools
   contents:
     - extract_fit_summary
