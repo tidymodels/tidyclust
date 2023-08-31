@@ -40,6 +40,21 @@ test_that("predicting", {
   )
 })
 
+test_that("all levels are preserved with 1 row predictions", {
+  set.seed(1234)
+  spec <- k_means(num_clusters = 3) %>%
+    set_engine("clustMixType")
+
+  res <- fit(spec, ~., iris)
+
+  preds <- predict(res, iris[1, ])
+
+  expect_identical(
+    levels(preds$.pred_cluster),
+    paste0("Cluster_", 1:3)
+  )
+})
+
 test_that("extract_centroids() works", {
   skip_if_not_installed("clustMixType")
 

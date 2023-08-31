@@ -27,6 +27,21 @@ test_that("predicting", {
   )
 })
 
+test_that("all levels are preserved with 1 row predictions", {
+  set.seed(1234)
+  spec <- hier_clust(num_clusters = 3) %>%
+    set_engine("stats")
+
+  res <- fit(spec, ~., mtcars)
+
+  preds <- predict(res, mtcars[1, ])
+
+  expect_identical(
+    levels(preds$.pred_cluster),
+    paste0("Cluster_", 1:3)
+  )
+})
+
 test_that("extract_centroids() works", {
   set.seed(1234)
   spec <- hier_clust(num_clusters = 3) %>%

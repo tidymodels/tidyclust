@@ -22,6 +22,8 @@
 
 * Engine specific documentation has been added for all models and engines. (#159)
 
+* Fixed bug where levels didn't match number of clusters if prediction on fewer number of observations. (#158)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
