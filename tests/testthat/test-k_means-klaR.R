@@ -51,6 +51,28 @@ test_that("predicting", {
   )
 })
 
+test_that("all levels are preserved with 1 row predictions", {
+  skip_if_not_installed("klaR")
+  skip_if_not_installed("modeldata")
+
+  data("ames", package = "modeldata")
+
+  ames_cat <- dplyr::select(ames, dplyr::where(is.factor))
+
+  set.seed(1234)
+  spec <- k_means(num_clusters = 3) %>%
+    set_engine("klaR")
+
+  res <- fit(spec, ~., ames_cat)
+
+  preds <- predict(res, ames_cat[1, ])
+
+  expect_identical(
+    levels(preds$.pred_cluster),
+    paste0("Cluster_", 1:3)
+  )
+})
+
 test_that("predicting ties argument works", {
   skip_if_not_installed("klaR")
 
