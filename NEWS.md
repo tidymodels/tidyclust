@@ -24,6 +24,8 @@
 
 * Fixed bug where levels didn't match number of clusters if prediction on fewer number of observations. (#158)
 
+* Fixed bug where `tune_cluster()` would error if used with an recipe that contained non-predictor variables such as id variables. (#124)
+
 # tidyclust 0.1.2
 
 * The cluster specification methods for `generics::tune_args()` and `generics::tunable()` are now registered unconditionally (#115).
