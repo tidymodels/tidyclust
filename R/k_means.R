@@ -250,7 +250,37 @@ check_args.k_means <- function(object) {
 #' @keywords internal
 #' @export
 .k_means_fit_clustMixType <- function(x, k, ...) {
-  res <- clustMixType::kproto(x, k, ...)
+  res <- tryCatch(
+    clustMixType::kproto(x, k, ...),
+    error = function(cnd) {
+      if (grepl("No factor variables", cnd$message)) {
+        cli::cli_abort(
+          c(
+            "Engine `clustMixType` requires both numeric and categorical \\
+          predictors.",
+          "x" = "Only numeric predictors where used.",
+          "i" = "Try using the `stats` engine with \\
+          {.code mod %>% set_engine(\"stats\")}."
+          ),
+          call = call("fit")
+        )
+      }
+      if (grepl("No numeric variables", cnd$message)) {
+        cli::cli_abort(
+          c(
+            "Engine `clustMixType` requires both numeric and categorical \\
+          predictors.",
+          "x" = "Only categorical predictors where used.",
+          "i" = "Try using the `klaR` engine with \\
+          {.code mod %>% set_engine(\"klaR\")}."
+          ),
+          call = call("fit")
+        )
+      }
+      stop(cnd)
+    }
+  )
+
   new_order <- unique(res$cluster)
   res$cluster <- order(new_order)[res$cluster]
   res$centers <- res$centers[new_order, , drop = FALSE]

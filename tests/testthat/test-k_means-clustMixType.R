@@ -97,3 +97,22 @@ test_that("extract_cluster_assignment() works", {
     expected
   )
 })
+
+test_that("modifies errors about suggested other models", {
+  skip_if_not_installed("clustMixType")
+
+  expect_snapshot(
+    error = TRUE,
+    k_means(num_clusters = 3) %>%
+      set_engine("clustMixType") %>%
+      fit(~., data = mtcars)
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    k_means(num_clusters = 3) %>%
+      set_engine("clustMixType") %>%
+      fit(~., data = data.frame(letters, LETTERS))
+  )
+})
+
