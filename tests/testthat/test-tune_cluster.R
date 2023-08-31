@@ -471,3 +471,42 @@ test_that("select_best() and show_best() works", {
       dplyr::select(num_clusters, .config)
   )
 })
+
+test_that("doesn't error if recipes uses id variables", {
+  helper_objects <- helper_objects_tidyclust()
+
+  mtcars_id <- mtcars %>%
+    tibble::rownames_to_column(var = "model")
+
+  rec_id <- recipes::recipe(~., data = mtcars_id) %>%
+    recipes::update_role(model, new_role = "id variable") %>%
+    recipes::step_normalize(recipes::all_numeric_predictors())
+
+  set.seed(4400)
+  wflow <- workflows::workflow() %>%
+    workflows::add_recipe(rec_id) %>%
+    workflows::add_model(helper_objects$kmeans_mod)
+  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+    update(num_clusters = dials::num_clusters(c(1, 3)))
+  grid <- dials::grid_regular(pset, levels = 3)
+  folds <- rsample::vfold_cv(mtcars_id, v = 2)
+  control <- tune::control_grid(extract = identity)
+  metrics <- cluster_metric_set(sse_within_total, sse_total)
+
+  res <- tune_cluster(
+    wflow,
+    resamples = folds,
+    grid = grid,
+    control = control,
+    metrics = metrics
+  )
+  res_est <- tune::collect_metrics(res)
+  res_workflow <- res$.extracts[[1]]$.extracts[[1]]
+
+  expect_equal(res$id, folds$id)
+  expect_equal(nrow(res_est), nrow(grid) * 2)
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
+  expect_equal(res_est$n, rep(2, nrow(grid) * 2))
+  expect_true(res_workflow$trained)
+})
