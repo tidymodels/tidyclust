@@ -234,7 +234,7 @@ extract_post_preprocessor <- function(object, new_data) {
   } else if (inherits(preprocessor, "recipe")) {
     new_data <- object %>%
       hardhat::extract_recipe() %>%
-      recipes::bake(new_data)
+      recipes::bake(new_data, recipes::all_predictors())
   }
   new_data
 }
