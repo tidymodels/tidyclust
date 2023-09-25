@@ -171,7 +171,7 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #'
 #' @param x matrix or data frame
 #' @param num_clusters the number of clusters
-#' @param h the height to cut the dendrogram
+#' @param cut_height the height to cut the dendrogram
 #' @param linkage_method the agglomeration method to be used. This should be (an
 #'   unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
