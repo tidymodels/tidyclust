@@ -13,6 +13,8 @@ Description: A common interface to specifying clustering models, in the
 License: MIT + file LICENSE
 URL: https://github.com/tidymodels/tidyclust, https://tidyclust.tidymodels.org/
 BugReports: https://github.com/tidymodels/tidyclust/issues
+Depends: 
+    R (>= 3.6)
 Imports: 
     cli (>= 3.0.0),
     dials (>= 1.1.0),
