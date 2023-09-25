@@ -34,19 +34,55 @@
     <loc>https://tidyclust.tidymodels.org/news/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyclust.tidymodels.org/reference/ClusterR_kmeans_fit.html</loc>
-  </url>
-  <url>
     <loc>https://tidyclust.tidymodels.org/reference/augment.html</loc>
   </url>
   <url>
+    <loc>https://tidyclust.tidymodels.org/reference/cluster_fit.html</loc>
+  </url>
+  <url>
     <loc>https://tidyclust.tidymodels.org/reference/cluster_metric_set.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/cluster_spec.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/control_cluster.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/convert_helpers.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/cut_height.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/details_hier_clust_stats.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/details_k_means_ClusterR.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/details_k_means_clustMixType.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/details_k_means_klaR.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/details_k_means_stats.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/dot-hier_clust_fit_stats.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/dot-k_means_fit_ClusterR.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/dot-k_means_fit_clustMixType.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/dot-k_means_fit_klaR.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/dot-k_means_fit_stats.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/empty_ellipses.html</loc>
@@ -76,9 +112,6 @@
     <loc>https://tidyclust.tidymodels.org/reference/glance.cluster_fit.html</loc>
   </url>
   <url>
-    <loc>https://tidyclust.tidymodels.org/reference/hclust_fit.html</loc>
-  </url>
-  <url>
     <loc>https://tidyclust.tidymodels.org/reference/hier_clust.html</loc>
   </url>
   <url>
@@ -86,6 +119,15 @@
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/k_means.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/knit_engine_docs.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/linkage_method.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyclust.tidymodels.org/reference/list_md_problems.html</loc>
   </url>
   <url>
     <loc>https://tidyclust.tidymodels.org/reference/load_pkgs.cluster_spec.html</loc>
