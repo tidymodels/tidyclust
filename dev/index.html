@@ -40,7 +40,7 @@
     
     <a class="navbar-brand me-2" href="index.html">tidyclust</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +110,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kmeans_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"stats"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kmeans_spec</span></span>
 <span><span class="co">#&gt; K Means Cluster Specification (partition)</span></span>
@@ -126,38 +126,38 @@
 <span><span class="va">kmeans_spec_fit</span></span>
 <span><span class="co">#&gt; tidyclust cluster object</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 7, 14, 11</span></span>
+<span><span class="co">#&gt; K-means clustering with 3 clusters of sizes 7, 11, 14</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Cluster means:</span></span>
 <span><span class="co">#&gt;        mpg cyl     disp        hp     drat       wt     qsec        vs</span></span>
 <span><span class="co">#&gt; 1 19.74286   6 183.3143 122.28571 3.585714 3.117143 17.97714 0.5714286</span></span>
-<span><span class="co">#&gt; 2 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000</span></span>
 <span><span class="co">#&gt; 3 26.66364   4 105.1364  82.63636 4.070909 2.285727 19.13727 0.9090909</span></span>
+<span><span class="co">#&gt; 2 15.10000   8 353.1000 209.21429 3.229286 3.999214 16.77214 0.0000000</span></span>
 <span><span class="co">#&gt;          am     gear     carb</span></span>
 <span><span class="co">#&gt; 1 0.4285714 3.857143 3.428571</span></span>
-<span><span class="co">#&gt; 2 0.1428571 3.285714 3.500000</span></span>
 <span><span class="co">#&gt; 3 0.7272727 4.090909 1.545455</span></span>
+<span><span class="co">#&gt; 2 0.1428571 3.285714 3.500000</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Clustering vector:</span></span>
 <span><span class="co">#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive </span></span>
-<span><span class="co">#&gt;                   1                   1                   3                   1 </span></span>
+<span><span class="co">#&gt;                   1                   1                   2                   1 </span></span>
 <span><span class="co">#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D </span></span>
-<span><span class="co">#&gt;                   2                   1                   2                   3 </span></span>
+<span><span class="co">#&gt;                   3                   1                   3                   2 </span></span>
 <span><span class="co">#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE </span></span>
-<span><span class="co">#&gt;                   3                   1                   1                   2 </span></span>
+<span><span class="co">#&gt;                   2                   1                   1                   3 </span></span>
 <span><span class="co">#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental </span></span>
-<span><span class="co">#&gt;                   2                   2                   2                   2 </span></span>
+<span><span class="co">#&gt;                   3                   3                   3                   3 </span></span>
 <span><span class="co">#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla </span></span>
-<span><span class="co">#&gt;                   2                   3                   3                   3 </span></span>
-<span><span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span></span>
 <span><span class="co">#&gt;                   3                   2                   2                   2 </span></span>
-<span><span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span></span>
+<span><span class="co">#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 </span></span>
 <span><span class="co">#&gt;                   2                   3                   3                   3 </span></span>
+<span><span class="co">#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa </span></span>
+<span><span class="co">#&gt;                   3                   2                   2                   2 </span></span>
 <span><span class="co">#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E </span></span>
-<span><span class="co">#&gt;                   2                   1                   2                   3 </span></span>
+<span><span class="co">#&gt;                   3                   1                   3                   2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Within cluster sum of squares by cluster:</span></span>
-<span><span class="co">#&gt; [1] 13954.34 93643.90 11848.37</span></span>
+<span><span class="co">#&gt; [1] 13954.34 11848.37 93643.90</span></span>
 <span><span class="co">#&gt;  (between_SS / total_SS =  80.8 %)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Available components:</span></span>
@@ -190,7 +190,7 @@
 <span><span class="co">#&gt;  8 Cluster_2</span></span>
 <span><span class="co">#&gt;  9 Cluster_2</span></span>
 <span><span class="co">#&gt; 10 Cluster_1</span></span>
-<span><span class="co">#&gt; # … with 22 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 22 more rows</span></span></code></pre></div>
 <p>and <code><a href="reference/extract_centroids.html">extract_centroids()</a></code> returns the locations of the clusters</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="va">kmeans_spec_fit</span><span class="op">)</span></span>
