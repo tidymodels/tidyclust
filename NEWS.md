@@ -1,5 +1,19 @@
 # tidyclust (development version)
 
+# tidyclust 0.2.0
+
+## New Engines
+
+* The clustMixType engine as been added to `k_means()`. This engine allows fitting of k-prototype models. (#63)
+
+* The klaR engine as been added to `k_means()`. This engine allows fitting of k-modes models. (#63)
+
+## Improvements
+
+* Engine specific documentation has been added for all models and engines. (#159)
+
+## Bug Fixes
+
 * Fixed bug where engine specific arguments were passed along for `k_means()` when the engine ClusterR. (#142)
 
 * Fixed bug where `prefix` argument wouldn't be correctly passed through `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` (#145)
@@ -12,19 +26,15 @@
 
 * `k_means()` now errors informatively if `fit()` without `num_clust` specified. (#134)
 
-* Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.k_means_fit_ClusterR()`, `.k_means_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
-
-* The clustMixType engine as been added to `k_means()`. This engine allows fitting of k-prototype models. (#63)
-
-* The klaR engine as been added to `k_means()`. This engine allows fitting of k-modes models. (#63)
-
-* Cluster reordering is now done at the fitting time, not the extraction and prediction time. (#154)
-
-* Engine specific documentation has been added for all models and engines. (#159)
-
 * Fixed bug where levels didn't match number of clusters if prediction on fewer number of observations. (#158)
 
 * Fixed bug where `tune_cluster()` would error if used with an recipe that contained non-predictor variables such as id variables. (#124)
+
+## Breaking Changes
+
+* Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.k_means_fit_ClusterR()`, `.k_means_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
+
+* Cluster reordering is now done at the fitting time, not the extraction and prediction time. (#154)
 
 # tidyclust 0.1.2
 
