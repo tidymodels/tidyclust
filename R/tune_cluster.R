@@ -214,8 +214,18 @@ tune_cluster_loop <- function(resamples,
   if (identical(parallel_over, "resamples")) {
     seeds <- generate_seeds(rng, n_resamples)
 
-    suppressPackageStartupMessages(
-      results <- foreach::foreach(
+    # We are wrapping in `local()` here because `fn_tune_grid_loop_iter_safely()` adds
+    # on.exit/deferred handlers to our execution frame by passing `tune_env$progress_env`
+    # to cli's progress bar constructor, which then adds an exit handler on that
+    # environment. Because `%op%` evaluates its expression in `eval()` in the calling
+    # environment (i.e. here), the handlers are added in the special frame environment
+    # created by `eval()`. This causes the handler to run much too early. By evaluating in
+    # a local environment, we prevent `defer()`/`on.exit()` from finding the short-lived
+    # context of `%op%`. Instead it looks all the way up here to register the handler.
+    
+    results <- local({
+      suppressPackageStartupMessages(
+        foreach::foreach(
         split = splits,
         seed = seeds,
         .packages = packages,
@@ -237,11 +247,12 @@ tune_cluster_loop <- function(resamples,
         )
       }
     )
+  })
   } else if (identical(parallel_over, "everything")) {
     seeds <- generate_seeds(rng, n_resamples * n_grid_info)
 
-    suppressPackageStartupMessages(
-      results <- foreach::foreach(
+    results <- local(suppressPackageStartupMessages(
+      foreach::foreach(
         iteration = iterations,
         split = splits,
         .packages = packages,
@@ -271,7 +282,7 @@ tune_cluster_loop <- function(resamples,
             seed = seed
           )
         }
-    )
+    ))
   } else {
     rlang::abort("Internal error: Invalid `parallel_over`.")
   }
