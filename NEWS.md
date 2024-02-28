@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* Small change to let tune package have easy CRAN release. (#178)
+
 # tidyclust 0.2.0
 
 ## New Engines
