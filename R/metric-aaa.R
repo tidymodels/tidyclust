@@ -210,7 +210,8 @@ as_tibble.cluster_metric_set <- function(x, ...) {
   names <- names(metrics)
   metrics <- unname(metrics)
   classes <- map_chr(metrics, class1)
-  dplyr::tibble(metric = names, class = classes)
+  directions <- map_chr(metrics, attr, "direction")
+  dplyr::tibble(metric = names, class = classes, direction = directions)
 }
 
 class1 <- function(x) {
