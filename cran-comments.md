@@ -1,6 +1,6 @@
 ## Comments
 
-Release including fix for all known bugs, new engines and better document and error messages.
+Quick release with 1 bug-fix to allow clean CRAN release of {tune} package.
 
 ## R CMD check results
 
