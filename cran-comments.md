@@ -1,6 +1,6 @@
 ## Comments
 
-Quick release with 1 bug-fix to allow clean CRAN release of {tune} package.
+update in testing to allow ClusterR easy release.
 
 ## R CMD check results
 
