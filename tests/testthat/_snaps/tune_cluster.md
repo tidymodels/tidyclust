@@ -126,14 +126,14 @@
     Code
       tmp <- tune::show_best(res)
     Condition
-      Warning:
-      No value of `metric` was given; metric 'sse_within_total' will be used.
+      Warning in `tune::show_best()`:
+      No value of `metric` was given; "sse_within_total" will be used.
 
 ---
 
     Code
       tmp <- tune::select_best(res)
     Condition
-      Warning:
-      No value of `metric` was given; metric 'sse_within_total' will be used.
+      Warning in `tune::select_best()`:
+      No value of `metric` was given; "sse_within_total" will be used.
 
