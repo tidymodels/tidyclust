@@ -1,4 +1,4 @@
-# tidyclust (development version)
+# tidyclust 0.2.2
 
 * Update to fix revdep issue for ClusterR. (#186)
 
