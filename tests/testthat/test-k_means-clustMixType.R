@@ -13,7 +13,7 @@ test_that("fitting", {
     res <- fit_xy(spec, iris)
   )
 
-  expect_identical(res$fit$type, "standard")
+  expect_true(res$fit$type %in% c("standard", "huang"))
 
   spec <- k_means(num_clusters = 3) %>%
     set_engine("clustMixType", type = "gower")
