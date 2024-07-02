@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@ these values should be in the <em>transformed units</em>.</p></dd>
 
 <dt>trans</dt>
 <dd><p>A <code>trans</code> object from the <code>scales</code> package, such as
-<code><a href="https://scales.r-lib.org/reference/transform_log.html" class="external-link">scales::log10_trans()</a></code> or <code><a href="https://scales.r-lib.org/reference/transform_reciprocal.html" class="external-link">scales::reciprocal_trans()</a></code>. If not provided,
+<code><a href="https://scales.r-lib.org/reference/transform_log.html" class="external-link">scales::transform_log10()</a></code> or <code><a href="https://scales.r-lib.org/reference/transform_reciprocal.html" class="external-link">scales::transform_reciprocal()</a></code>. If not provided,
 the default is used which matches the units used in <code>range</code>. If no
 transformation, <code>NULL</code>.</p></dd>
 
