@@ -4,6 +4,7 @@ check_args <- function(object) {
   UseMethod("check_args")
 }
 
+#' @export
 check_args.default <- function(object) {
   invisible(object)
 }

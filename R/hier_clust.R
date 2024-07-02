@@ -145,6 +145,7 @@ update.hier_clust <- function(object,
 
 # # ----------------------------------------------------------------------------
 
+#' @export
 check_args.hier_clust <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
 

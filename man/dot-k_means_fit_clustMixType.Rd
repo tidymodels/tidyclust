@@ -7,9 +7,10 @@
 .k_means_fit_clustMixType(x, k, ...)
 }
 \arguments{
-\item{x}{Data frame with both numerics and factors.}
+\item{x}{Data frame with both numerics and factors (also ordered factors are possible).}
 
-\item{k}{Either the number of clusters, a vector specifying indices of initial prototypes, or a data frame of prototypes of the same columns as \code{x}.}
+\item{k}{Either the number of clusters, a vector specifying indices of initial prototypes, or a data frame of 
+prototypes of the same columns as \code{x}.}
 
 \item{...}{Other arguments passed to \code{clustMixType::kproto()}}
 }

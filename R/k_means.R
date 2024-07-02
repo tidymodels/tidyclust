@@ -126,6 +126,7 @@ update.k_means <- function(object,
 
 # ------------------------------------------------------------------------------
 
+#' @export
 check_args.k_means <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
 

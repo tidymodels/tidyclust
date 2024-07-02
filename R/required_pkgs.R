@@ -1,5 +1,5 @@
 # https://github.com/tidymodels/parsnip/blob/main/R/required_pkgs.R
-
+#' @export
 required_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
   if (is.null(x$engine)) {
     rlang::abort("Please set an engine.")
@@ -7,6 +7,7 @@ required_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
   get_pkgs(x, infra)
 }
 
+#' @export
 required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
   get_pkgs(x$spec, infra)
 }
