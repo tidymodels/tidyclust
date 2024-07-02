@@ -302,6 +302,7 @@ finalize_workflow_spec <- function(workflow, grid_model) {
   workflow
 }
 
+#' @export
 merge.cluster_spec <- function(x, y, ...) {
   merger(x, y, ...)
 }

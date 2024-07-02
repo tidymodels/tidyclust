@@ -1,6 +1,6 @@
 Package: tidyclust
 Title: A Common API to Clustering
-Version: 0.2.2.9000
+Version: 0.2.3.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
@@ -54,4 +54,4 @@ Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
