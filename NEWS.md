@@ -1,4 +1,4 @@
-# tidyclust (development version)
+# tidyclust 0.2.3
 
 * Update to fix revdep issue for clustMixType. (#190)
 
