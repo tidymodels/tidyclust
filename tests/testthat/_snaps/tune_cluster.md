@@ -79,10 +79,10 @@
         1
       }, save_pred = TRUE))
     Message
-      x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
-      x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
+      x Fold1: preprocessor 1/1: Error in `hardhat::mold()`:
+      ! The following predictor ...
+      x Fold2: preprocessor 1/1: Error in `hardhat::mold()`:
+      ! The following predictor ...
     Condition
       Warning:
       All models failed. See the `.notes` column.
@@ -118,8 +118,8 @@
       # A tibble: 2 x 4
         splits          id    .metrics         .notes          
         <list>          <chr> <list>           <list>          
-      1 <split [16/16]> Fold1 <tibble [4 x 5]> <tibble [0 x 3]>
-      2 <split [16/16]> Fold2 <tibble [4 x 5]> <tibble [0 x 3]>
+      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 3]>
+      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 3]>
 
 # select_best() and show_best() works
 

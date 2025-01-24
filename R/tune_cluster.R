@@ -222,7 +222,7 @@ tune_cluster_loop <- function(resamples,
     # created by `eval()`. This causes the handler to run much too early. By evaluating in
     # a local environment, we prevent `defer()`/`on.exit()` from finding the short-lived
     # context of `%op%`. Instead it looks all the way up here to register the handler.
-    
+
     results <- local({
       suppressPackageStartupMessages(
         foreach::foreach(
@@ -1040,7 +1040,7 @@ check_grid <- function(grid, workflow, pset = NULL) {
     }
     check_workflow(workflow, pset = pset, check_dials = TRUE)
 
-    grid <- dials::grid_latin_hypercube(pset, size = grid)
+    grid <- dials::grid_space_filling(pset, size = grid)
     grid <- dplyr::distinct(grid)
   }
 
