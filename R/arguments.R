@@ -101,7 +101,7 @@ set_args.cluster_spec <- function(object, ...) {
 #' @inheritParams parsnip::set_mode
 #' @return An updated [`cluster_spec`] object.
 #' @export
-set_mode.cluster_spec <- function(object, mode) {
+set_mode.cluster_spec <- function(object, mode, ...) {
   cls <- class(object)[1]
   if (rlang::is_missing(mode)) {
     spec_modes <- rlang::env_get(

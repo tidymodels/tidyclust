@@ -4,13 +4,15 @@
 \alias{set_mode.cluster_spec}
 \title{Change mode of a cluster specification}
 \usage{
-\method{set_mode}{cluster_spec}(object, mode)
+\method{set_mode}{cluster_spec}(object, mode, ...)
 }
 \arguments{
-\item{object}{A model specification.}
+\item{object}{A \link[parsnip:model_spec]{model specification}.}
 
 \item{mode}{A character string for the model type (e.g. "classification" or
 "regression")}
+
+\item{...}{One or more named model arguments.}
 }
 \value{
 An updated \code{\link{cluster_spec}} object.

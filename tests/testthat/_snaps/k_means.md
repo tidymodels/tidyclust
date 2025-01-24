@@ -3,8 +3,8 @@
     Code
       k_means(mode = "bogus")
     Condition
-      Error in `modelenv::check_spec_mode_engine_val()`:
-      ! 'bogus' is not a known mode for model `k_means()`.
+      Error in `new_cluster_spec()`:
+      ! "bogus" is not a known mode for model `k_means()`.
 
 ---
 
