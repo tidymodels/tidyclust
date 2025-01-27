@@ -8,11 +8,8 @@ check_eng_args <- function(args, obj, core_args) {
   if (length(common_args) > 0) {
     args <- args[!(names(args) %in% common_args)]
     common_args <- paste0(common_args, collapse = ", ")
-    rlang::warn(
-      glue::glue(
-        "The following arguments cannot be manually modified ",
-        "and were removed: {common_args}."
-      )
+    cli::cli_warn(
+      "The arguments {common_args} cannot be manually modified and were removed."
     )
   }
   args

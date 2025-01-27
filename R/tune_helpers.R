@@ -31,22 +31,11 @@ set_workflow <- function(workflow, control) {
     if (!is.null(workflow$pre$actions$recipe)) {
       w_size <- utils::object.size(workflow$pre$actions$recipe)
       if (w_size / 1024^2 > 5) {
-        msg <- paste0(
-          "The workflow being saved contains a recipe, which is ",
-          format(w_size, units = "Mb", digits = 2),
-          " in memory. If this was not intentional, please set the control ",
-          "setting `save_workflow = FALSE`."
+        cli::cli_inform(
+          "The workflow being saved contains a recipe, which is {format(w_size, units = 'Mb', 
+          digits = 2)} in memory. If this was not intentional, please set the control 
+          setting {.code save_workflow = FALSE}."
         )
-        cols <- get_tidyclust_colors()
-        msg <- strwrap(
-          msg,
-          prefix = paste0(
-            cols$symbol$info(cli::symbol$info),
-            " "
-          )
-        )
-        msg <- cols$message$info(paste0(msg, collapse = "\n"))
-        rlang::inform(msg)
       }
     }
     workflow

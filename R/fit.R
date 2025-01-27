@@ -103,13 +103,14 @@ fit.cluster_spec <- function(
     eng_vals <- possible_engines(object)
     object$engine <- eng_vals[1]
     if (control$verbosity > 0) {
-      rlang::warn(glue::glue("Engine set to `{object$engine}`."))
+      cli::cli_warn("Engine set to {.code {object$engine}}.")
     }
   }
 
   if (all(c("x", "y") %in% names(dots))) {
     cli::cli_abort(
-      "The {.fn fit.cluster_spec} function is for the formula methods. Use {.fn fit_xy} instead."
+      "The {.fn fit.cluster_spec} function is for the formula methods. 
+      Use {.fn fit_xy} instead."
     )
   }
   cl <- match.call(expand.dots = TRUE)

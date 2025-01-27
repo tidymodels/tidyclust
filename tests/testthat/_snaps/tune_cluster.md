@@ -85,7 +85,8 @@
       ! The following predi...
     Condition
       Warning:
-      All models failed. See the `.notes` column.
+      All models failed.
+      i See the `.notes` column.
 
 # argument order gives errors for recipes
 

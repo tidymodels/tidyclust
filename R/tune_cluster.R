@@ -182,7 +182,12 @@ tune_cluster_workflow <- function(
   )
 
   if (is_cataclysmic(resamples)) {
-    rlang::warn("All models failed. See the `.notes` column.")
+    cli::cli_warn(
+      c(
+        "All models failed.",
+        "i" = "See the {.code .notes} column."
+      )
+    )
   }
 
   workflow <- set_workflow(workflow, control)
@@ -999,12 +1004,13 @@ check_grid <- function(grid, workflow, pset = NULL) {
   }
 
   if (nrow(pset) == 0L) {
-    msg <- paste0(
-      "No tuning parameters have been detected, ",
-      "performance will be evaluated using the resamples with no tuning. ",
-      "Did you want to [tune()] parameters?"
+    cli::cli_warn(
+      c(
+        "No tuning parameters have been detected, performance will be evaluated using 
+        the resamples with no tuning.",
+        "i" = "Did you want to {.fn tune} parameters?"
+      )
     )
-    rlang::warn(msg)
 
     # Return `NULL` as the new `grid`, like what is used in `fit_resamples()`
     return(NULL)
@@ -1017,7 +1023,7 @@ check_grid <- function(grid, workflow, pset = NULL) {
 
     grid_distinct <- dplyr::distinct(grid)
     if (!identical(nrow(grid_distinct), nrow(grid))) {
-      rlang::warn(
+      cli::cli_warn(
         "Duplicate rows in grid of tuning combinations found and removed."
       )
     }
