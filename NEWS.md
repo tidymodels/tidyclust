@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+# tidyclust 0.2.4
+
 * The philentropy package is now used to calculate distances rather than Rfast. (#199)
 
 # tidyclust 0.2.3
