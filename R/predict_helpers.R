@@ -18,15 +18,23 @@ make_predictions <- function(x, prefix, n_clusters) {
   make_predictions(clusters, prefix, n_clusters)
 }
 
-.k_means_predict_clustMixType <- function(object, new_data, prefix = "Cluster_") {
+.k_means_predict_clustMixType <- function(
+  object,
+  new_data,
+  prefix = "Cluster_"
+) {
   clusters <- predict(object, new_data)$cluster
   n_clusters <- length(object$size)
 
   make_predictions(clusters, prefix, n_clusters)
 }
 
-.k_means_predict_klaR <- function(object, new_data, prefix = "Cluster_",
-                                  ties = c("first", "last", "random")) {
+.k_means_predict_klaR <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  ties = c("first", "last", "random")
+) {
   ties <- rlang::arg_match(ties)
 
   modes <- object$modes
@@ -41,7 +49,6 @@ make_predictions <- function(x, prefix, n_clusters) {
     misses <- rowSums(new_data[rep(i, n_modes), ] != modes)
 
     which_min <- which(misses == min(misses))
-
 
     if (length(which_min) == 1) {
       clusters[i] <- which_min
@@ -58,7 +65,12 @@ make_predictions <- function(x, prefix, n_clusters) {
   make_predictions(clusters, prefix, n_modes)
 }
 
-.hier_clust_predict_stats <- function(object, new_data, ..., prefix = "Cluster_") {
+.hier_clust_predict_stats <- function(
+  object,
+  new_data,
+  ...,
+  prefix = "Cluster_"
+) {
   linkage_method <- object$method
 
   new_data <- as.matrix(new_data)
@@ -75,7 +87,8 @@ make_predictions <- function(x, prefix, n_clusters) {
     ## complete, single, average, and median linkage_methods are basically the
     ## same idea, just different summary distance to cluster
 
-    cluster_dist_fun <- switch(linkage_method,
+    cluster_dist_fun <- switch(
+      linkage_method,
       "single" = min,
       "complete" = max,
       "average" = mean,
@@ -111,7 +124,7 @@ make_predictions <- function(x, prefix, n_clusters) {
 
     d_means <- map(
       seq_len(n_clust),
-      ~ t(
+      ~t(
         t(training_data[clusters$.cluster == cluster_names[.x], ]) -
           cluster_centers[.x, ]
       )
@@ -122,8 +135,10 @@ make_predictions <- function(x, prefix, n_clusters) {
       function(new_obs) {
         map(
           seq_len(n_clust),
-          ~ t(t(training_data[clusters$.cluster == cluster_names[.x], ])
-          - new_data[new_obs, ])
+          ~t(
+            t(training_data[clusters$.cluster == cluster_names[.x], ]) -
+              new_data[new_obs, ]
+          )
         )
       }
     )
@@ -134,8 +149,9 @@ make_predictions <- function(x, prefix, n_clusters) {
       d_new_list,
       function(v) {
         map2_dbl(
-          d_means, v,
-          ~ sum((n * .x + .y)^2 / (n + 1)^2 - .x^2)
+          d_means,
+          v,
+          ~sum((n * .x + .y)^2 / (n + 1)^2 - .x^2)
         )
       }
     )

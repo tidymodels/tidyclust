@@ -124,13 +124,15 @@ tune_id <- function(x) {
   NA_character_
 }
 
-tune_tbl <- function(name = character(),
-                     tunable = logical(),
-                     id = character(),
-                     source = character(),
-                     component = character(),
-                     component_id = character(),
-                     full = FALSE) {
+tune_tbl <- function(
+  name = character(),
+  tunable = logical(),
+  id = character(),
+  source = character(),
+  component = character(),
+  component_id = character(),
+  full = FALSE
+) {
   complete_id <- id[!is.na(id)]
   dups <- duplicated(complete_id)
   if (any(dups)) {

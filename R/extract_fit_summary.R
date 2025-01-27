@@ -23,8 +23,11 @@ extract_fit_summary <- function(object, ...) {
 }
 
 #' @export
-extract_fit_summary.cluster_spec <- function(object, ...,
-                                             call = rlang::caller_env(n = 0)) {
+extract_fit_summary.cluster_spec <- function(
+  object,
+  ...,
+  call = rlang::caller_env(n = 0)
+) {
   rlang::abort(
     paste(
       "This function requires a fitted model.",
@@ -68,9 +71,11 @@ extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
 }
 
 #' @export
-extract_fit_summary.KMeansCluster <- function(object,
-                                              ...,
-                                              prefix = "Cluster_") {
+extract_fit_summary.KMeansCluster <- function(
+  object,
+  ...,
+  prefix = "Cluster_"
+) {
   names <- paste0(prefix, seq_len(nrow(object$centroids)))
   names <- factor(names)
 
@@ -93,9 +98,7 @@ extract_fit_summary.KMeansCluster <- function(object,
 }
 
 #' @export
-extract_fit_summary.kproto <- function(object,
-                                       ...,
-                                       prefix = "Cluster_") {
+extract_fit_summary.kproto <- function(object, ..., prefix = "Cluster_") {
   names <- paste0(prefix, seq_len(nrow(object$centers)))
   names <- factor(names)
 
@@ -118,9 +121,7 @@ extract_fit_summary.kproto <- function(object,
 }
 
 #' @export
-extract_fit_summary.kmodes <- function(object,
-                                       ...,
-                                       prefix = "Cluster_") {
+extract_fit_summary.kmodes <- function(object, ..., prefix = "Cluster_") {
   names <- paste0(prefix, seq_len(nrow(object$modes)))
   names <- factor(names)
 
@@ -166,7 +167,7 @@ extract_fit_summary.hclust <- function(object, ...) {
   sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
-    ~ sum(Rfast::dista(centroids[.y, ], .x))
+    ~sum(Rfast::dista(centroids[.y, ], .x))
   )
 
   list(

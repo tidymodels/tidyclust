@@ -81,11 +81,10 @@ make_hier_clust <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".hier_clust_predict_stats"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
 }

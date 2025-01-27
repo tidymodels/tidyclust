@@ -40,6 +40,12 @@ linkage_method <- function(values = values_linkage_method) {
 #' @rdname linkage_method
 #' @export
 values_linkage_method <- c(
-  "ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median",
+  "ward.D",
+  "ward.D2",
+  "single",
+  "complete",
+  "average",
+  "mcquitty",
+  "median",
   "centroid"
 )

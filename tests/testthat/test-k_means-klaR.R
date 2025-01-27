@@ -46,8 +46,12 @@ test_that("predicting", {
 
   expect_identical(
     preds,
-    tibble::tibble(.pred_cluster = factor(paste0("Cluster_", c(1, 1, 1, 1, 2)),
-                                          paste0("Cluster_", 1:3)))
+    tibble::tibble(
+      .pred_cluster = factor(
+        paste0("Cluster_", c(1, 1, 1, 1, 2)),
+        paste0("Cluster_", 1:3)
+      )
+    )
   )
 })
 
@@ -89,14 +93,12 @@ test_that("predicting ties argument works", {
 
   expect_identical(
     predict(res, data.frame(x = "C", y = "C"), ties = "first"),
-    tibble::tibble(.pred_cluster = factor("Cluster_1",
-                                          paste0("Cluster_", 1:2)))
+    tibble::tibble(.pred_cluster = factor("Cluster_1", paste0("Cluster_", 1:2)))
   )
 
   expect_identical(
     predict(res, data.frame(x = "C", y = "C"), ties = "last"),
-    tibble::tibble(.pred_cluster = factor("Cluster_2",
-                                          paste0("Cluster_", 1:2)))
+    tibble::tibble(.pred_cluster = factor("Cluster_2", paste0("Cluster_", 1:2)))
   )
 })
 

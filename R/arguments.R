@@ -8,10 +8,12 @@ check_eng_args <- function(args, obj, core_args) {
   if (length(common_args) > 0) {
     args <- args[!(names(args) %in% common_args)]
     common_args <- paste0(common_args, collapse = ", ")
-    rlang::warn(glue::glue(
-      "The following arguments cannot be manually modified ",
-      "and were removed: {common_args}."
-    ))
+    rlang::warn(
+      glue::glue(
+        "The following arguments cannot be manually modified ",
+        "and were removed: {common_args}."
+      )
+    )
   }
   args
 }
@@ -25,7 +27,8 @@ make_x_call <- function(object, target) {
   }
 
   object$method$fit$args[[unname(data_args["x"])]] <-
-    switch(target,
+    switch(
+      target,
       none = rlang::expr(x),
       data.frame = rlang::expr(maybe_data_frame(x)),
       matrix = rlang::expr(maybe_matrix(x)),

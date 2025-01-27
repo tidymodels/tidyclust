@@ -61,10 +61,12 @@ cluster_metric_set <- function(...) {
   if (fn_cls == "cluster_metric") {
     make_cluster_metric_function(fns)
   } else {
-    rlang::abort(paste0(
-      "Internal error: `validate_function_class()` should have ",
-      "errored on unknown classes."
-    ))
+    rlang::abort(
+      paste0(
+        "Internal error: `validate_function_class()` should have ",
+        "errored on unknown classes."
+      )
+    )
   }
 }
 
@@ -183,8 +185,11 @@ make_cluster_metric_function <- function(fns) {
     )
     calls <- lapply(fns, rlang::call2, !!!call_args)
     metric_list <- mapply(
-      FUN = eval_safely, calls, names(calls),
-      SIMPLIFY = FALSE, USE.NAMES = FALSE
+      FUN = eval_safely,
+      calls,
+      names(calls),
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
     )
     dplyr::bind_rows(metric_list)
   }
@@ -197,11 +202,14 @@ make_cluster_metric_function <- function(fns) {
 }
 
 eval_safely <- function(expr, expr_nm, data = NULL, env = rlang::caller_env()) {
-  tryCatch(expr = {
-    rlang::eval_tidy(expr, data = data, env = env)
-  }, error = function(e) {
-    rlang::abort(paste0("In metric: `", expr_nm, "`\n", conditionMessage(e)))
-  })
+  tryCatch(
+    expr = {
+      rlang::eval_tidy(expr, data = data, env = env)
+    },
+    error = function(e) {
+      rlang::abort(paste0("In metric: `", expr_nm, "`\n", conditionMessage(e)))
+    }
+  )
 }
 
 #' @export

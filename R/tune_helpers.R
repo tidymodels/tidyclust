@@ -6,13 +6,20 @@ new_bare_tibble <- function(x, ..., class = character()) {
 }
 
 is_cataclysmic <- function(x) {
-  is_err <- map_lgl(x$.metrics, inherits, c(
-    "simpleError",
-    "error"
-  ))
+  is_err <- map_lgl(
+    x$.metrics,
+    inherits,
+    c(
+      "simpleError",
+      "error"
+    )
+  )
   if (any(!is_err)) {
-    is_good <- map_lgl(x$.metrics[!is_err], ~ tibble::is_tibble(.x) &&
-      nrow(.x) > 0)
+    is_good <- map_lgl(
+      x$.metrics[!is_err],
+      ~tibble::is_tibble(.x) &&
+        nrow(.x) > 0
+    )
     is_err[!is_err] <- !is_good
   }
   all(is_err)
@@ -31,10 +38,13 @@ set_workflow <- function(workflow, control) {
           "setting `save_workflow = FALSE`."
         )
         cols <- get_tidyclust_colors()
-        msg <- strwrap(msg, prefix = paste0(
-          cols$symbol$info(cli::symbol$info),
-          " "
-        ))
+        msg <- strwrap(
+          msg,
+          prefix = paste0(
+            cols$symbol$info(cli::symbol$info),
+            " "
+          )
+        )
         msg <- cols$message$info(paste0(msg, collapse = "\n"))
         rlang::inform(msg)
       }
@@ -46,8 +56,14 @@ set_workflow <- function(workflow, control) {
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/tune_results.R
-new_tune_results <- function(x, parameters, metrics,
-                             rset_info, ..., class = character()) {
+new_tune_results <- function(
+  x,
+  parameters,
+  metrics,
+  rset_info,
+  ...,
+  class = character()
+) {
   new_bare_tibble(
     x = x,
     parameters = parameters,
@@ -92,8 +108,11 @@ new_grid_info_resamples <- function() {
   )
   iter_config <- list("Preprocessor1_Model1")
   out <- tibble::tibble(
-    .iter_preprocessor = 1L, .msg_preprocessor = msgs_preprocessor,
-    .iter_model = 1L, .iter_config = iter_config, .msg_model = msgs_model,
+    .iter_preprocessor = 1L,
+    .msg_preprocessor = msgs_preprocessor,
+    .iter_model = 1L,
+    .iter_config = iter_config,
+    .msg_model = msgs_model,
     .submodels = list(list())
   )
   out
@@ -153,7 +172,7 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 blank_submodels <- function(grid) {
   grid %>%
     dplyr::mutate(
-      .submodels = map(seq_along(nrow(grid)), ~ list())
+      .submodels = map(seq_along(nrow(grid)), ~list())
     ) %>%
     dplyr::mutate_if(is.factor, as.character)
 }
@@ -218,9 +237,7 @@ catcher <- function(expr) {
     signals <<- append(signals, list(cnd))
     rlang::cnd_muffle(cnd)
   }
-  res <- try(withCallingHandlers(warning = add_cond, expr),
-    silent = TRUE
-  )
+  res <- try(withCallingHandlers(warning = add_cond, expr), silent = TRUE)
   list(res = res, signals = signals)
 }
 
@@ -232,16 +249,17 @@ siren <- function(x, type = "info") {
   symb <- dplyr::case_when(
     type == "warning" ~ tidyclust_color$symbol$warning("!"),
     type == "go" ~ tidyclust_color$symbol$go(cli::symbol$pointer),
-    type == "danger" ~ tidyclust_color$symbol$danger("x"), type ==
-      "success" ~ tidyclust_color$symbol$success(tidyclust_symbol$success),
+    type == "danger" ~ tidyclust_color$symbol$danger("x"),
+    type == "success" ~
+      tidyclust_color$symbol$success(tidyclust_symbol$success),
     type == "info" ~ tidyclust_color$symbol$info("i")
   )
   msg <- dplyr::case_when(
     type == "warning" ~ tidyclust_color$message$warning(msg),
-    type == "go" ~ tidyclust_color$message$go(msg), type == "danger" ~
-      tidyclust_color$message$danger(msg), type == "success" ~
-      tidyclust_color$message$success(msg), type == "info" ~
-      tidyclust_color$message$info(msg)
+    type == "go" ~ tidyclust_color$message$go(msg),
+    type == "danger" ~ tidyclust_color$message$danger(msg),
+    type == "success" ~ tidyclust_color$message$success(msg),
+    type == "info" ~ tidyclust_color$message$info(msg)
   )
   if (inherits(msg, "character")) {
     msg <- as.character(msg)
@@ -254,15 +272,17 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
   control2$verbose <- TRUE
   wrn <- res$signals
   if (length(wrn) > 0) {
-    wrn_msg <- map_chr(wrn, ~ .x$message)
+    wrn_msg <- map_chr(wrn, ~.x$message)
     wrn_msg <- unique(wrn_msg)
     wrn_msg <- paste(wrn_msg, collapse = ", ")
     wrn_msg <- tibble::tibble(
-      location = loc, type = "warning",
+      location = loc,
+      type = "warning",
       note = wrn_msg
     )
     notes <- dplyr::bind_rows(notes, wrn_msg)
-    wrn_msg <- glue::glue_collapse(paste0(loc, ": ", wrn_msg$note),
+    wrn_msg <- glue::glue_collapse(
+      paste0(loc, ": ", wrn_msg$note),
       width = options()$width - 5
     )
     tune_log(control2, split, wrn_msg, type = "warning")
@@ -271,11 +291,13 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
     err_msg <- as.character(attr(res$res, "condition"))
     err_msg <- gsub("\n$", "", err_msg)
     err_msg <- tibble::tibble(
-      location = loc, type = "error",
+      location = loc,
+      type = "error",
       note = err_msg
     )
     notes <- dplyr::bind_rows(notes, err_msg)
-    err_msg <- glue::glue_collapse(paste0(loc, ": ", err_msg$note),
+    err_msg <- glue::glue_collapse(
+      paste0(loc, ": ", err_msg$note),
       width = options()$width - 5
     )
     tune_log(control2, split, err_msg, type = "danger")
@@ -319,7 +341,7 @@ merger <- function(x, y, ...) {
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
     updater <- update_recipe
-    step_ids <- map_chr(x$steps, ~ .x$id)
+    step_ids <- map_chr(x$steps, ~.x$id)
   } else {
     updater <- update_model
     step_ids <- NULL
@@ -332,7 +354,7 @@ merger <- function(x, y, ...) {
     dplyr::mutate(
       ..object = map(
         seq_along(nrow(y)),
-        ~ updater(y[.x, ], x, pset, step_ids, grid_name)
+        ~updater(y[.x, ], x, pset, step_ids, grid_name)
       )
     ) %>%
     dplyr::select(x = ..object)
@@ -440,8 +462,8 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
     # Regular predictions
     tmp_res <-
       stats::predict(model, x_vals, type = type_iter) %>%
-      dplyr::mutate(.row = orig_rows) %>%
-      cbind(grid, row.names = NULL)
+        dplyr::mutate(.row = orig_rows) %>%
+        cbind(grid, row.names = NULL)
 
     if (!is.null(submodels)) {
       submod_length <- lengths(submodels)
@@ -570,16 +592,18 @@ slice_seeds <- function(x, i, n) {
 
 iter_combine <- function(...) {
   results <- list(...)
-  metrics <- map(results, ~ .x[[".metrics"]])
-  extracts <- map(results, ~ .x[[".extracts"]])
-  predictions <- map(results, ~ .x[[".predictions"]])
-  notes <- map(results, ~ .x[[".notes"]])
+  metrics <- map(results, ~.x[[".metrics"]])
+  extracts <- map(results, ~.x[[".extracts"]])
+  predictions <- map(results, ~.x[[".predictions"]])
+  notes <- map(results, ~.x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)
   notes <- vctrs::vec_c(!!!notes)
   list(
-    .metrics = metrics, .extracts = extracts, .predictions = predictions,
+    .metrics = metrics,
+    .extracts = extracts,
+    .predictions = predictions,
     .notes = notes
   )
 }

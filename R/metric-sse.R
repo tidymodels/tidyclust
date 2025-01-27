@@ -47,10 +47,12 @@ sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
 
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
-      map(~ c(
-        .cluster = which.min(.x),
-        dist = min(.x)^2
-      )) %>%
+      map(
+        ~c(
+          .cluster = which.min(.x),
+          dist = min(.x)^2
+        )
+      ) %>%
       dplyr::bind_rows() %>%
       dplyr::mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
@@ -112,8 +114,12 @@ sse_within_total.cluster_spec <- function(object, ...) {
 
 #' @export
 #' @rdname sse_within_total
-sse_within_total.cluster_fit <- function(object, new_data = NULL,
-                                         dist_fun = NULL, ...) {
+sse_within_total.cluster_fit <- function(
+  object,
+  new_data = NULL,
+  dist_fun = NULL,
+  ...
+) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
@@ -133,13 +139,21 @@ sse_within_total.workflow <- sse_within_total.cluster_fit
 
 #' @export
 #' @rdname sse_within_total
-sse_within_total_vec <- function(object, new_data = NULL,
-                                 dist_fun = Rfast::dista, ...) {
+sse_within_total_vec <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   sse_within_total_impl(object, new_data, dist_fun, ...)
 }
 
-sse_within_total_impl <- function(object, new_data = NULL,
-                                  dist_fun = Rfast::dista, ...) {
+sse_within_total_impl <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   sum(sse_within(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
 }
 
@@ -187,8 +201,12 @@ sse_total.cluster_spec <- function(object, ...) {
 
 #' @export
 #' @rdname sse_total
-sse_total.cluster_fit <- function(object, new_data = NULL, dist_fun = NULL,
-                                  ...) {
+sse_total.cluster_fit <- function(
+  object,
+  new_data = NULL,
+  dist_fun = NULL,
+  ...
+) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
@@ -208,12 +226,21 @@ sse_total.workflow <- sse_total.cluster_fit
 
 #' @export
 #' @rdname sse_total
-sse_total_vec <- function(object, new_data = NULL, dist_fun = Rfast::dista, ...) {
+sse_total_vec <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   sse_total_impl(object, new_data, dist_fun, ...)
 }
 
-sse_total_impl <- function(object, new_data = NULL, dist_fun = Rfast::dista,
-                           ...) {
+sse_total_impl <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   # Preprocess data before computing distances if appropriate
   if (inherits(object, "workflow") && !is.null(new_data)) {
     new_data <- extract_post_preprocessor(object, new_data)
@@ -276,8 +303,12 @@ sse_ratio.cluster_spec <- function(object, ...) {
 
 #' @export
 #' @rdname sse_ratio
-sse_ratio.cluster_fit <- function(object, new_data = NULL,
-                                  dist_fun = NULL, ...) {
+sse_ratio.cluster_fit <- function(
+  object,
+  new_data = NULL,
+  dist_fun = NULL,
+  ...
+) {
   if (is.null(dist_fun)) {
     dist_fun <- Rfast::dista
   }
@@ -296,17 +327,21 @@ sse_ratio.workflow <- sse_ratio.cluster_fit
 
 #' @export
 #' @rdname sse_ratio
-sse_ratio_vec <- function(object,
-                          new_data = NULL,
-                          dist_fun = Rfast::dista,
-                          ...) {
+sse_ratio_vec <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   sse_ratio_impl(object, new_data, dist_fun, ...)
 }
 
-sse_ratio_impl <- function(object,
-                           new_data = NULL,
-                           dist_fun = Rfast::dista,
-                           ...) {
+sse_ratio_impl <- function(
+  object,
+  new_data = NULL,
+  dist_fun = Rfast::dista,
+  ...
+) {
   sse_within_total_vec(object, new_data, dist_fun) /
     sse_total_vec(object, new_data, dist_fun)
 }
