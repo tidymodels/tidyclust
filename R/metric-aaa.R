@@ -17,7 +17,7 @@
 #' @export
 new_cluster_metric <- function(fn, direction) {
   if (!is.function(fn)) {
-    rlang::abort("`fn` must be a function.")
+    cli::cli_abort("{.arg fn} must be a function.")
   }
 
   direction <- rlang::arg_match(
@@ -61,19 +61,17 @@ cluster_metric_set <- function(...) {
   if (fn_cls == "cluster_metric") {
     make_cluster_metric_function(fns)
   } else {
-    rlang::abort(
-      paste0(
-        "Internal error: `validate_function_class()` should have ",
-        "errored on unknown classes."
-      )
+    cli::cli_abort(
+      "Internal error: {.fn validate_function_class} should have errored on 
+      unknown classes."
     )
   }
 }
 
 validate_not_empty <- function(x) {
   if (rlang::is_empty(x)) {
-    rlang::abort(
-      "`cluster_metric_set()` requires at least 1 function supplied to `...`."
+    cli::cli_abort(
+      "{.fn cluster_metric_set} requires at least 1 function supplied to {.arg ...}."
     )
   }
 }
@@ -84,10 +82,10 @@ validate_inputs_are_functions <- function(fns) {
   if (!all_fns) {
     not_fn <- which(!is_fun_vec)
     not_fn <- paste(not_fn, collapse = ", ")
-    rlang::abort(
-      glue::glue(
-        "All inputs to `cluster_metric_set()` must be functions. ",
-        "These inputs are not: ({not_fn})."
+    cli::cli_abort(
+      c(
+        "All inputs to {.fn cluster_metric_set} must be functions.",
+        "i" = "These inputs are not: {not_fn}."
       )
     )
   }
@@ -96,11 +94,9 @@ validate_inputs_are_functions <- function(fns) {
 get_quo_label <- function(quo) {
   out <- rlang::as_label(quo)
   if (length(out) != 1L) {
-    rlang::abort(
-      glue::glue(
-        "Internal error: ",
-        "`as_label(quo)` resulted in a character vector of length > 1."
-      )
+    cli::cli_abort(
+      "Internal error: {.code as_label(quo)} resulted in a character vector
+   of length > 1."
     )
   }
   is_namespaced <- grepl("::", out, fixed = TRUE)
@@ -113,14 +109,14 @@ get_quo_label <- function(quo) {
 
 validate_function_typo <- function(fns, call = rlang::caller_env()) {
   if (any(map_lgl(fns, identical, silhouette))) {
-    rlang::abort(
-      "`silhouette` is not a cluster metric. Did you mean `silhouette_avg`?",
+    cli::cli_abort(
+      "The value {.val silhouette} is not a cluster metric. Did you mean {.code silhouette_avg}?",
       call = call
     )
   }
   if (any(map_lgl(fns, identical, sse_within))) {
-    rlang::abort(
-      "`sse_within_total` is not a cluster metric. Did you mean `sse_within_total`?",
+    cli::cli_abort(
+      "{.arg sse_within_total} is not a cluster metric. Did you mean {.code sse_within_total}?",
       call = call
     )
   }
@@ -166,12 +162,10 @@ validate_function_class <- function(fns) {
     fn_names = fn_bad_names,
     USE.NAMES = FALSE
   )
-  fn_pastable <- paste0(fn_pastable, collapse = "\n")
-  rlang::abort(
-    paste0(
-      "\nThe combination of metric functions must be:\n",
-      "- only clustering metrics\n",
-      "The following metric function types are being mixed:\n",
+  cli::cli_abort(
+    c(
+      "The combination of metric functions must be only clustering metrics.",
+      "i" = "The following metric function types are being mixed:",
       fn_pastable
     )
   )
@@ -207,7 +201,7 @@ eval_safely <- function(expr, expr_nm, data = NULL, env = rlang::caller_env()) {
       rlang::eval_tidy(expr, data = data, env = env)
     },
     error = function(e) {
-      rlang::abort(paste0("In metric: `", expr_nm, "`\n", conditionMessage(e)))
+      cli::cli_abort("In metric: {.code {expr_nm}}\n{conditionMessage(e)}")
     }
   )
 }

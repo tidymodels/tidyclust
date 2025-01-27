@@ -22,7 +22,7 @@
 #' @export
 finalize_model_tidyclust <- function(x, parameters) {
   if (!inherits(x, "cluster_spec")) {
-    rlang::abort("`x` should be a tidyclust model specification.")
+    cli::cli_abort("{.arg x} should be a tidyclust model specification.")
   }
   parsnip::check_final_param(parameters)
   pset <- hardhat::extract_parameter_set_dials(x)
@@ -46,7 +46,7 @@ finalize_model_tidyclust <- function(x, parameters) {
 #' @export
 finalize_workflow_tidyclust <- function(x, parameters) {
   if (!inherits(x, "workflow")) {
-    rlang::abort("`x` should be a workflow")
+    cli::cli_abort("{.arg x} should be {.obj_type_friendly workflow}")
   }
   parsnip::check_final_param(parameters)
 

@@ -70,7 +70,7 @@ form_x <- function(object, control, env, target = "none", ...) {
 
 x_x <- function(object, env, control, target = "none", y = NULL, ...) {
   if (!is.null(y) && length(y) > 0) {
-    rlang::abort("Outcomes are not used in `cluster_spec` objects.")
+    cli::cli_abort("Outcomes are not used in {.cls cluster_spec} objects.")
   }
   encoding_info <-
     modelenv::get_encoding(class(object)[1]) %>%

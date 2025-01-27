@@ -85,7 +85,8 @@
       ! The following predi...
     Condition
       Warning:
-      All models failed. See the `.notes` column.
+      All models failed.
+      i See the `.notes` column.
 
 # argument order gives errors for recipes
 
@@ -94,7 +95,7 @@
       rsample::vfold_cv(mtcars, v = 2))
     Condition
       Error in `tune_cluster()`:
-      ! The first argument to [tune_cluster()] should be either a model or workflow.
+      ! The first argument to `tune_cluster()` should be either a model or workflow.
 
 # argument order gives errors for formula
 
@@ -103,7 +104,7 @@
         mtcars, v = 2))
     Condition
       Error in `tune_cluster()`:
-      ! The first argument to [tune_cluster()] should be either a model or workflow.
+      ! The first argument to `tune_cluster()` should be either a model or workflow.
 
 # ellipses with tune_cluster
 

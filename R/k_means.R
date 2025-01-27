@@ -133,7 +133,7 @@ check_args.k_means <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
 
   if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0)) {
-    rlang::abort("The number of centers should be >= 0.")
+    cli::cli_abort("The number of centers should be >= 0.")
   }
 
   invisible(object)
@@ -186,8 +186,8 @@ check_args.k_means <- function(object) {
   seed = 1
 ) {
   if (is.null(clusters)) {
-    rlang::abort(
-      "Please specify `num_clust` to be able to fit specification.",
+    cli::cli_abort(
+      "Please specify {.arg num_clust} to be able to fit specification.",
       call = call("fit")
     )
   }
@@ -229,8 +229,8 @@ check_args.k_means <- function(object) {
 #' @export
 .k_means_fit_stats <- function(data, centers = NULL, ...) {
   if (is.null(centers)) {
-    rlang::abort(
-      "Please specify `num_clust` to be able to fit specification.",
+    cli::cli_abort(
+      "Please specify {.arg num_clust} to be able to fit specification.",
       call = call("fit")
     )
   }

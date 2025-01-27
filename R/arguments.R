@@ -8,11 +8,8 @@ check_eng_args <- function(args, obj, core_args) {
   if (length(common_args) > 0) {
     args <- args[!(names(args) %in% common_args)]
     common_args <- paste0(common_args, collapse = ", ")
-    rlang::warn(
-      glue::glue(
-        "The following arguments cannot be manually modified ",
-        "and were removed: {common_args}."
-      )
+    cli::cli_warn(
+      "The arguments {common_args} cannot be manually modified and were removed."
     )
   }
   args
@@ -32,7 +29,7 @@ make_x_call <- function(object, target) {
       none = rlang::expr(x),
       data.frame = rlang::expr(maybe_data_frame(x)),
       matrix = rlang::expr(maybe_matrix(x)),
-      rlang::abort(glue::glue("Invalid data type target: {target}."))
+      cli::cli_abort("Invalid data type target: {target}.")
     )
 
   fit_call <- make_call(
@@ -78,7 +75,7 @@ make_form_call <- function(object, env = NULL) {
 set_args.cluster_spec <- function(object, ...) {
   the_dots <- enquos(...)
   if (length(the_dots) == 0) {
-    rlang::abort("Please pass at least one named argument.")
+    cli::cli_abort("Please pass at least one named argument.")
   }
   main_args <- names(object$args)
   new_args <- names(the_dots)

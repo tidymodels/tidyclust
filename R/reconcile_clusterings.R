@@ -39,12 +39,9 @@ reconcile_clusterings_mapping <- function(
 ) {
   rlang::check_installed("RcppHungarian")
   if (length(primary) != length(alternative)) {
-    rlang::abort(
-      glue::glue(
-        "`primary` ({length(primary)}) ",
-        "and `alternative` ({length(alternative)}) ",
-        "must be the same length."
-      )
+    cli::cli_abort(
+      "{.arg primary} ({length(primary)}) and {.arg alternative} ({length(alternative)})
+      must be the same length."
     )
   }
 
@@ -55,18 +52,14 @@ reconcile_clusterings_mapping <- function(
   nclust_2 <- length(levels(clusters_2))
 
   if (one_to_one && nclust_1 != nclust_2) {
-    rlang::abort(
-      glue::glue(
-        "For one-to-one matching, must have the same number of clusters in",
-        "primary and alt."
-      )
+    cli::cli_abort(
+      "For one-to-one matching, must have the same number of clusters in 
+      primary and alt."
     )
   } else if (nclust_1 > nclust_2) {
-    rlang::abort(
-      glue::glue(
-        "Primary clustering must have equal or fewer clusters to alternate",
-        "clustering."
-      )
+    cli::cli_abort(
+      "Primary clustering must have equal or fewer clusters to alternate
+      clustering."
     )
   }
 

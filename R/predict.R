@@ -96,7 +96,9 @@ predict.cluster_fit <- function(
   ...
 ) {
   if (inherits(object$fit, "try-error")) {
-    rlang::warn("Model fit failed; cannot make predictions.")
+    cli::cli_warn(
+      "Model fit failed; cannot make predictions."
+    )
     return(NULL)
   }
 
@@ -109,7 +111,7 @@ predict.cluster_fit <- function(
     type,
     cluster = predict_cluster(object = object, new_data = new_data, ...),
     raw = predict_raw(object = object, new_data = new_data, opts = opts, ...),
-    rlang::abort(glue::glue("I don't know about type = '{type}'"))
+    cli::cli_abort("I don't know about type = {.val {type}}")
   )
 
   res <- switch(type, cluster = format_cluster(res), res)
@@ -122,16 +124,11 @@ check_pred_type <- function(object, type, ...) {
       switch(
         object$spec$mode,
         partition = "cluster",
-        rlang::abort("`type` should be 'cluster'.")
+        cli::cli_abort("The {.arg type} argument should be {.val cluster}.")
       )
   }
   if (!(type %in% pred_types)) {
-    rlang::abort(
-      glue::glue(
-        "`type` should be one of: ",
-        glue::glue_collapse(pred_types, sep = ", ", last = " and ")
-      )
-    )
+    cli::cli_abort("{.arg type} should be {.or {pred_types}}.")
   }
   type
 }
@@ -182,10 +179,10 @@ make_pred_call <- function(x) {
 
 #' @export
 predict.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }

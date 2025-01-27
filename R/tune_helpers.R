@@ -31,22 +31,11 @@ set_workflow <- function(workflow, control) {
     if (!is.null(workflow$pre$actions$recipe)) {
       w_size <- utils::object.size(workflow$pre$actions$recipe)
       if (w_size / 1024^2 > 5) {
-        msg <- paste0(
-          "The workflow being saved contains a recipe, which is ",
-          format(w_size, units = "Mb", digits = 2),
-          " in memory. If this was not intentional, please set the control ",
-          "setting `save_workflow = FALSE`."
+        cli::cli_inform(
+          "The workflow being saved contains a recipe, which is {format(w_size, units = 'Mb', 
+          digits = 2)} in memory. If this was not intentional, please set the control 
+          setting {.code save_workflow = FALSE}."
         )
-        cols <- get_tidyclust_colors()
-        msg <- strwrap(
-          msg,
-          prefix = paste0(
-            cols$symbol$info(cli::symbol$info),
-            " "
-          )
-        )
-        msg <- cols$message$info(paste0(msg, collapse = "\n"))
-        rlang::inform(msg)
       }
     }
     workflow
@@ -331,7 +320,7 @@ merge.cluster_spec <- function(x, y, ...) {
 
 merger <- function(x, y, ...) {
   if (!is.data.frame(y)) {
-    rlang::abort("The second argument should be a data frame.")
+    cli::cli_abort("The second argument should be a data frame.")
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
@@ -366,7 +355,7 @@ update_model <- function(grid, object, pset, step_id, nms, ...) {
     param_info <- pset %>% dplyr::filter(id == i & source == "cluster_spec")
     if (nrow(param_info) > 1) {
       # TODO figure this out and write a better message
-      rlang::abort("There are too many things.")
+      cli::cli_abort("There are too many things.")
     }
     if (nrow(param_info) == 1) {
       if (param_info$component_id == "main") {
@@ -406,7 +395,7 @@ catch_and_log_fit <- function(expr, ..., notes) {
     return(result)
   }
   if (!is_workflow(result)) {
-    rlang::abort("Internal error: Model result is not a workflow!")
+    cli::cli_abort("Internal error: Model result is not a workflow!")
   }
   fit <- result$fit$fit$fit
   if (is_failure(fit)) {
@@ -449,7 +438,7 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       )
     }
 
-    rlang::abort(msg)
+    cli::cli_abort(msg)
   }
 
   # Determine the type of prediction that is required

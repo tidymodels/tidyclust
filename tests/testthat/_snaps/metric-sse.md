@@ -28,5 +28,6 @@
       sse_ratio(spec)
     Condition
       Error in `sse_ratio()`:
-      ! This function requires a fitted model. Please use `fit()` on your cluster specification.
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 

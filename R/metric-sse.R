@@ -27,10 +27,10 @@ sse_within <- function(
   }
 ) {
   if (inherits(object, "cluster_spec")) {
-    rlang::abort(
-      paste(
+    cli::cli_abort(
+      c(
         "This function requires a fitted model.",
-        "Please use `fit()` on your cluster specification."
+        "i" = "Please use {.fn fit} on your cluster specification."
       )
     )
   }
@@ -115,10 +115,10 @@ sse_within_total <- new_cluster_metric(
 #' @export
 #' @rdname sse_within_total
 sse_within_total.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }
@@ -208,10 +208,10 @@ sse_total <- new_cluster_metric(
 #' @export
 #' @rdname sse_total
 sse_total.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }
@@ -319,10 +319,10 @@ sse_ratio <- new_cluster_metric(
 #' @export
 #' @rdname sse_ratio
 sse_ratio.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }

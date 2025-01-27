@@ -28,10 +28,10 @@ extract_fit_summary.cluster_spec <- function(
   ...,
   call = rlang::caller_env(n = 0)
 ) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     ),
     call = call
   )

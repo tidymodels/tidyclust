@@ -62,11 +62,9 @@ tune_cluster <- function(object, ...) {
 
 #' @export
 tune_cluster.default <- function(object, ...) {
-  msg <- paste0(
-    "The first argument to [tune_cluster()] should be either ",
-    "a model or workflow."
+  cli::cli_abort(
+    "The first argument to {.fn tune_cluster} should be either a model or workflow."
   )
-  rlang::abort(msg)
 }
 
 #' @export
@@ -82,11 +80,8 @@ tune_cluster.cluster_spec <- function(
   control = tune::control_grid()
 ) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
-    rlang::abort(
-      paste(
-        "To tune a model spec, you must preprocess",
-        "with a formula or recipe"
-      )
+    cli::cli_abort(
+      "To tune a model spec, you must preprocess with a formula or recipe."
     )
   }
 
@@ -130,7 +125,7 @@ tune_cluster.workflow <- function(
   # Disallow `NULL` grids in `tune_cluster()`, as this is the special signal
   # used when no tuning is required
   if (is.null(grid)) {
-    rlang::abort(grid_msg)
+    cli::cli_abort(grid_msg)
   }
 
   tune_cluster_workflow(
@@ -187,7 +182,12 @@ tune_cluster_workflow <- function(
   )
 
   if (is_cataclysmic(resamples)) {
-    rlang::warn("All models failed. See the `.notes` column.")
+    cli::cli_warn(
+      c(
+        "All models failed.",
+        "i" = "See the {.code .notes} column."
+      )
+    )
   }
 
   workflow <- set_workflow(workflow, control)
@@ -306,7 +306,7 @@ tune_cluster_loop <- function(
       )
     )
   } else {
-    rlang::abort("Internal error: Invalid `parallel_over`.")
+    cli::cli_abort("Internal error: Invalid {.arg parallel_over}.")
   }
 
   resamples <- pull_metrics(resamples, results, control)
@@ -343,11 +343,10 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_preprocessor(workflow, grid, parameters_model)
     } else {
-      rlang::abort(
-        paste0(
-          "Internal error: ",
-          "`workflow` should have some tunable parameters ",
-          "if `grid` is not `NULL`."
+      cli::cli_abort(
+        c(
+          "Internal error: {.code workflow} should have some tunable parameters
+     if {.code grid} is not {.code NULL}."
         )
       )
     }
@@ -865,14 +864,11 @@ check_metrics <- function(x, object) {
         x <- cluster_metric_set(sse_within_total, sse_total)
       },
       unknown = {
-        rlang::abort(
-          paste0(
-            "Internal error: ",
-            "`check_installs()` should have caught an `unknown` mode."
-          )
+        cli::cli_abort(
+          "Internal error: {.fn check_installs} should have caught an {.code unknown} mode."
         )
       },
-      rlang::abort("Unknown `mode` for parsnip model.")
+      cli::cli_abort("Unknown {.arg mode} for tidyclust model.")
     )
 
     return(x)
@@ -881,11 +877,8 @@ check_metrics <- function(x, object) {
   is_cluster_metric_set <- inherits(x, "cluster_metric_set")
 
   if (!is_cluster_metric_set) {
-    rlang::abort(
-      paste0(
-        "The `metrics` argument should be the results of ",
-        "[cluster_metric_set()]."
-      )
+    cli::cli_abort(
+      "The {.arg metrics} argument should be the results of {.fn cluster_metric_set}."
     )
   }
   x
@@ -911,11 +904,11 @@ check_parameters <- function(
 
   if (needs_finalization(pset, grid_names)) {
     if (tune_recipe) {
-      rlang::abort(
-        paste(
-          "Some tuning parameters require finalization but there are recipe",
-          "parameters that require tuning. Please use `parameters()` to",
-          "finalize the parameter ranges."
+      cli::cli_abort(
+        c(
+          "Some tuning parameters require finalization but there are recipe 
+          parameters that require tuning.",
+          "i" = "Please use {.fn parameters} to finalize the parameter ranges."
         )
       )
     }
@@ -950,15 +943,17 @@ needs_finalization <- function(x, nms = character(0)) {
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L274
 check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   if (!inherits(x, "workflow")) {
-    rlang::abort("The `object` argument should be a 'workflow' object.")
+    cli::cli_abort(
+      "The {.arg object} argument should be a {.cls workflow} object."
+    )
   }
 
   if (!has_preprocessor(x)) {
-    rlang::abort("A formula, recipe, or variables preprocessor is required.")
+    cli::cli_abort("A formula, recipe, or variables preprocessor is required.")
   }
 
   if (!has_spec(x)) {
-    rlang::abort("A tidyclust model is required.")
+    cli::cli_abort("A tidyclust model is required.")
   }
 
   if (check_dials) {
@@ -971,11 +966,8 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
     incompl <- dials::has_unknowns(pset$object)
 
     if (any(incompl)) {
-      rlang::abort(
-        paste0(
-          "The workflow has arguments whose ranges are not finalized: ",
-          paste0("'", pset$id[incompl], "'", collapse = ", ")
-        )
+      cli::cli_abort(
+        "The workflow has arguments whose ranges are not finalized: {.arg {pset$id[incompl]}}."
       )
     }
   }
@@ -991,12 +983,8 @@ check_param_objects <- function(pset) {
   params <- map_lgl(pset$object, inherits, "param")
 
   if (!all(params)) {
-    rlang::abort(
-      paste0(
-        "The workflow has arguments to be tuned that are missing some ",
-        "parameter objects: ",
-        paste0("'", pset$id[!params], "'", collapse = ", ")
-      )
+    cli::cli_abort(
+      "The workflow has arguments to be tuned that are missing parameter objects: {.arg {pset$id[!params]}}."
     )
   }
   invisible(pset)
@@ -1016,12 +1004,13 @@ check_grid <- function(grid, workflow, pset = NULL) {
   }
 
   if (nrow(pset) == 0L) {
-    msg <- paste0(
-      "No tuning parameters have been detected, ",
-      "performance will be evaluated using the resamples with no tuning. ",
-      "Did you want to [tune()] parameters?"
+    cli::cli_warn(
+      c(
+        "No tuning parameters have been detected, performance will be evaluated using 
+        the resamples with no tuning.",
+        "i" = "Did you want to {.fn tune} parameters?"
+      )
     )
-    rlang::warn(msg)
 
     # Return `NULL` as the new `grid`, like what is used in `fit_resamples()`
     return(NULL)
@@ -1029,12 +1018,12 @@ check_grid <- function(grid, workflow, pset = NULL) {
 
   if (!is.numeric(grid)) {
     if (!is.data.frame(grid)) {
-      rlang::abort(grid_msg)
+      cli::cli_abort(grid_msg)
     }
 
     grid_distinct <- dplyr::distinct(grid)
     if (!identical(nrow(grid_distinct), nrow(grid))) {
-      rlang::warn(
+      cli::cli_warn(
         "Duplicate rows in grid of tuning combinations found and removed."
       )
     }
@@ -1055,29 +1044,25 @@ check_grid <- function(grid, workflow, pset = NULL) {
       extra_grid_params <- glue::single_quote(extra_grid_params)
       extra_grid_params <- glue::glue_collapse(extra_grid_params, sep = ", ")
 
-      msg <- glue::glue(
-        "The provided `grid` has the following parameter columns that have ",
-        "not been marked for tuning by `tune()`: {extra_grid_params}."
+      cli::cli_abort(
+        "The provided {.arg grid} has parameter column{?s} {extra_grid_params} 
+  that {?has/have} not been marked for tuning by {.fn tune}."
       )
-
-      rlang::abort(msg)
     }
 
     if (length(extra_tune_params) != 0L) {
       extra_tune_params <- glue::single_quote(extra_tune_params)
       extra_tune_params <- glue::glue_collapse(extra_tune_params, sep = ", ")
 
-      msg <- glue::glue(
-        "The provided `grid` is missing the following parameter columns that ",
-        "have been marked for tuning by `tune()`: {extra_tune_params}."
+      cli::cli_abort(
+        "The provided {.arg grid} is missing parameter column{?s} {.val {extra_tune_params}}
+   that {?has/have} been marked for tuning by {.fn tune}."
       )
-
-      rlang::abort(msg)
     }
   } else {
     grid <- as.integer(grid[1])
     if (grid < 1) {
-      rlang::abort(grid_msg)
+      cli::cli_abort(grid_msg)
     }
     check_workflow(workflow, pset = pset, check_dials = TRUE)
 

@@ -93,7 +93,7 @@ fit.cluster_spec <- function(
   ...
 ) {
   if (object$mode == "unknown") {
-    rlang::abort("Please set the mode in the model specification.")
+    cli::cli_abort("Please set the mode in the model specification.")
   }
 
   control <- parsnip::condense_control(control, control_cluster())
@@ -103,13 +103,14 @@ fit.cluster_spec <- function(
     eng_vals <- possible_engines(object)
     object$engine <- eng_vals[1]
     if (control$verbosity > 0) {
-      rlang::warn(glue::glue("Engine set to `{object$engine}`."))
+      cli::cli_warn("Engine set to {.code {object$engine}}.")
     }
   }
 
   if (all(c("x", "y") %in% names(dots))) {
-    rlang::abort(
-      "`fit.cluster_spec()` is for the formula methods. Use `fit_xy()` instead."
+    cli::cli_abort(
+      "The {.fn fit.cluster_spec} function is for the formula methods. 
+      Use {.fn fit_xy} instead."
     )
   }
   cl <- match.call(expand.dots = TRUE)
@@ -159,7 +160,7 @@ fit.cluster_spec <- function(
         target = object$method$fit$interface,
         ...
       ),
-      rlang::abort(glue::glue("{interfaces} is unknown."))
+      cli::cli_abort("{interfaces} is unknown.")
     )
   model_classes <- class(res$fit)
   class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
@@ -176,7 +177,7 @@ check_interface <- function(formula, data, cl, model) {
   if (form_interface) {
     return("formula")
   }
-  rlang::abort("Error when checking the interface.")
+  cli::cli_abort("Error when checking the interface.")
 }
 
 inher <- function(x, cls, cl) {
@@ -184,16 +185,9 @@ inher <- function(x, cls, cl) {
     call <- match.call()
     obj <- deparse(call[["x"]])
     if (length(cls) > 1) {
-      rlang::abort(
-        glue::glue(
-          "`{obj}` should be one of the following classes: ",
-          glue::glue_collapse(glue::glue("'{cls}'"), sep = ", ")
-        )
-      )
+      cli::cli_abort("{.code {obj}} should be {.cls {cls}}.")
     } else {
-      rlang::abort(
-        glue::glue("`{obj}` should be a {cls} object")
-      )
+      cli::cli_abort("{.code {obj}} should be {.obj_type_friendly {cls}}.")
     }
   }
   invisible(x)
@@ -241,14 +235,14 @@ fit_xy.cluster_spec <-
     control <- parsnip::condense_control(control, control_cluster())
 
     if (is.null(colnames(x))) {
-      rlang::abort("'x' should have column names.")
+      cli::cli_abort("{.arg x} should have column names.")
     }
 
     if (is.null(object$engine)) {
       eng_vals <- possible_engines(object)
       object$engine <- eng_vals[1]
       if (control$verbosity > 0) {
-        rlang::warn(glue::glue("Engine set to `{object$engine}`."))
+        cli::cli_warn("Engine set to {.code {object$engine}}.")
       }
     }
 
@@ -298,7 +292,7 @@ fit_xy.cluster_spec <-
           control = control,
           ...
         ),
-        rlang::abort(glue::glue("{interfaces} is unknown."))
+        cli::cli_abort("{interfaces} is unknown.")
       )
     model_classes <- class(res$fit)
     class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
@@ -309,7 +303,7 @@ check_x_interface <- function(x, cl, model) {
   sparse_ok <- allow_sparse(model)
   sparse_x <- inherits(x, "dgCMatrix")
   if (!sparse_ok && sparse_x) {
-    rlang::abort(
+    cli::cli_abort(
       "Sparse matrices not supported by this model/engine combination."
     )
   }
@@ -334,7 +328,7 @@ check_x_interface <- function(x, cl, model) {
   if (df_interface) {
     return("data.frame")
   }
-  rlang::abort("Error when checking the interface")
+  cli::cli_abort("Error when checking the interface")
 }
 
 allow_sparse <- function(x) {

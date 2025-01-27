@@ -4,7 +4,8 @@
       silhouette(spec)
     Condition
       Error in `silhouette()`:
-      ! This function requires a fitted model. Please use `fit()` on your cluster specification.
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
 # silhouette_avg() errors for cluster spec
 
@@ -12,5 +13,6 @@
       silhouette_avg(spec)
     Condition
       Error in `silhouette_avg()`:
-      ! This function requires a fitted model. Please use `fit()` on your cluster specification.
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
