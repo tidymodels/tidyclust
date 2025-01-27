@@ -113,17 +113,14 @@
     Condition
       Warning:
       The `...` are not used in this function but one or more objects were passed: 'something'
-      Warning:
-      `grid_latin_hypercube()` was deprecated in dials 1.3.0.
-      i Please use `grid_space_filling()` instead.
     Output
       # Tuning results
       # 2-fold cross-validation 
       # A tibble: 2 x 4
         splits          id    .metrics         .notes          
         <list>          <chr> <list>           <list>          
-      1 <split [16/16]> Fold1 <tibble [4 x 5]> <tibble [0 x 3]>
-      2 <split [16/16]> Fold2 <tibble [4 x 5]> <tibble [0 x 3]>
+      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 3]>
+      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 3]>
 
 # select_best() and show_best() works
 
