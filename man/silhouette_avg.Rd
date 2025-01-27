@@ -20,7 +20,7 @@ silhouette_avg_vec(
   object,
   new_data = NULL,
   dists = NULL,
-  dist_fun = Rfast::Dist,
+  dist_fun = philentropy::distance,
   ...
 )
 }

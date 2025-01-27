@@ -9,8 +9,18 @@ test_that("partition models", {
   expect_equal(
     colnames(augment(reg_form, head(mtcars))),
     c(
-      "mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am",
-      "gear", "carb", ".pred_cluster"
+      "mpg",
+      "cyl",
+      "disp",
+      "hp",
+      "drat",
+      "wt",
+      "qsec",
+      "vs",
+      "am",
+      "gear",
+      "carb",
+      ".pred_cluster"
     )
   )
   expect_equal(nrow(augment(reg_form, head(mtcars))), 6)
@@ -18,8 +28,18 @@ test_that("partition models", {
   expect_equal(
     colnames(augment(reg_xy, head(mtcars))),
     c(
-      "mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am",
-      "gear", "carb", ".pred_cluster"
+      "mpg",
+      "cyl",
+      "disp",
+      "hp",
+      "drat",
+      "wt",
+      "qsec",
+      "vs",
+      "am",
+      "gear",
+      "carb",
+      ".pred_cluster"
     )
   )
   expect_equal(nrow(augment(reg_xy, head(mtcars))), 6)

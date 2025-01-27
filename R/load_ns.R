@@ -28,8 +28,7 @@ load_namespace <- function(x) {
     did_load <- map_lgl(x, requireNamespace, quietly = TRUE)
     if (any(!did_load)) {
       bad <- x[!did_load]
-      msg <- paste0("'", bad, "'", collapse = ", ")
-      rlang::abort(paste("These packages could not be loaded:", msg))
+      cli::cli_abort("The package{?s} {.pkg {bad}} could not be loaded.")
     }
   }
 
@@ -37,6 +36,17 @@ load_namespace <- function(x) {
 }
 
 infra_pkgs <- c(
-  "tune", "recipes", "tidyclust", "yardstick", "purrr", "dplyr", "tibble",
-  "dials", "rsample", "workflows", "tidyr", "rlang", "vctrs"
+  "tune",
+  "recipes",
+  "tidyclust",
+  "yardstick",
+  "purrr",
+  "dplyr",
+  "tibble",
+  "dials",
+  "rsample",
+  "workflows",
+  "tidyr",
+  "rlang",
+  "vctrs"
 )

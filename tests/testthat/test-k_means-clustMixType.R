@@ -115,4 +115,3 @@ test_that("modifies errors about suggested other models", {
       fit(~., data = data.frame(letters, LETTERS))
   )
 })
-

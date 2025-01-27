@@ -64,11 +64,10 @@ make_k_means <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".k_means_predict_stats"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
 
@@ -131,15 +130,14 @@ make_k_means <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".k_means_predict_ClusterR"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
 
-# ----------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------
 
   modelenv::set_model_engine("k_means", "partition", "clustMixType")
   modelenv::set_dependency(
@@ -198,11 +196,10 @@ make_k_means <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".k_means_predict_clustMixType"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
 
@@ -265,11 +262,10 @@ make_k_means <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".k_means_predict_klaR"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
 }

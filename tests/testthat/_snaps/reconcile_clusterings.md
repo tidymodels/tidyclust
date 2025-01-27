@@ -5,7 +5,7 @@
         alt_cluster_assignment, one_to_one = TRUE)
     Condition
       Error in `reconcile_clusterings_mapping()`:
-      ! For one-to-one matching, must have the same number of clusters inprimary and alt.
+      ! For one-to-one matching, must have the same number of clusters in primary and alt.
 
 # reconciliation errors for uneven lengths
 

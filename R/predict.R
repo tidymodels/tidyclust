@@ -88,13 +88,17 @@
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
 #' @export
-predict.cluster_fit <- function(object,
-                                new_data,
-                                type = NULL,
-                                opts = list(),
-                                ...) {
+predict.cluster_fit <- function(
+  object,
+  new_data,
+  type = NULL,
+  opts = list(),
+  ...
+) {
   if (inherits(object$fit, "try-error")) {
-    rlang::warn("Model fit failed; cannot make predictions.")
+    cli::cli_warn(
+      "Model fit failed; cannot make predictions."
+    )
     return(NULL)
   }
 
@@ -103,34 +107,28 @@ predict.cluster_fit <- function(object,
 
   type <- check_pred_type(object, type)
 
-  res <- switch(type,
+  res <- switch(
+    type,
     cluster = predict_cluster(object = object, new_data = new_data, ...),
     raw = predict_raw(object = object, new_data = new_data, opts = opts, ...),
-    rlang::abort(glue::glue("I don't know about type = '{type}'"))
+    cli::cli_abort("I don't know about type = {.val {type}}")
   )
 
-  res <- switch(type,
-    cluster = format_cluster(res),
-    res
-  )
+  res <- switch(type, cluster = format_cluster(res), res)
   res
 }
 
 check_pred_type <- function(object, type, ...) {
   if (is.null(type)) {
     type <-
-      switch(object$spec$mode,
+      switch(
+        object$spec$mode,
         partition = "cluster",
-        rlang::abort("`type` should be 'cluster'.")
+        cli::cli_abort("The {.arg type} argument should be {.val cluster}.")
       )
   }
   if (!(type %in% pred_types)) {
-    rlang::abort(
-      glue::glue(
-        "`type` should be one of: ",
-        glue::glue_collapse(pred_types, sep = ", ", last = " and ")
-      )
-    )
+    cli::cli_abort("{.arg type} should be {.or {pred_types}}.")
   }
   type
 }
@@ -154,13 +152,14 @@ prepare_data <- function(object, new_data) {
 
   remove_intercept <-
     modelenv::get_encoding(class(object$spec)[1]) %>%
-    dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
-    dplyr::pull(remove_intercept)
+      dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
+      dplyr::pull(remove_intercept)
   if (remove_intercept && any(grepl("Intercept", names(new_data)))) {
     new_data <- new_data %>% dplyr::select(-dplyr::one_of("(Intercept)"))
   }
 
-  switch(fit_interface,
+  switch(
+    fit_interface,
     none = new_data,
     data.frame = as.data.frame(new_data),
     matrix = as.matrix(new_data),
@@ -180,10 +179,10 @@ make_pred_call <- function(x) {
 
 #' @export
 predict.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }

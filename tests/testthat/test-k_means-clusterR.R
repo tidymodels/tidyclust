@@ -27,8 +27,12 @@ test_that("predicting", {
 
   expect_identical(
     preds,
-    tibble::tibble(.pred_cluster = factor(paste0("Cluster_", c(1, 1, 1, 2, 2)),
-                                          paste0("Cluster_", 1:3)))
+    tibble::tibble(
+      .pred_cluster = factor(
+        paste0("Cluster_", c(1, 1, 1, 2, 2)),
+        paste0("Cluster_", 1:3)
+      )
+    )
   )
 })
 

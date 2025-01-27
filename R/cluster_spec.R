@@ -10,11 +10,19 @@
 #' @export
 #' @keywords internal
 new_cluster_spec <- function(cls, args, eng_args, mode, method, engine) {
-  modelenv::check_spec_mode_engine_val(model = cls, mode = mode, eng = engine)
+  modelenv::check_spec_mode_engine_val(
+    model = cls,
+    mode = mode,
+    eng = engine,
+    call = rlang::caller_env()
+  )
 
   out <- list(
-    args = args, eng_args = eng_args,
-    mode = mode, method = method, engine = engine
+    args = args,
+    eng_args = eng_args,
+    mode = mode,
+    method = method,
+    engine = engine
   )
   class(out) <- make_classes_tidyclust(cls)
   out <- modelenv::new_unsupervised_spec(out)

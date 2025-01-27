@@ -4,7 +4,8 @@
       extract_centroids(spec)
     Condition
       Error in `extract_centroids()`:
-      ! This function requires a fitted model. Please use `fit()` on your cluster specification.
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
 # extract_centroids() errors for hier_clust() with missing args
 
@@ -20,7 +21,8 @@
       hclust_fit %>% extract_centroids(k = 3)
     Condition
       Error in `extract_centroids()`:
-      ! Using `k` argument is not supported. Please use `num_clusters` instead.
+      ! Using `k` argument is not supported.
+      i Please use `num_clusters` instead.
 
 # extract_centroids() errors for hier_clust() with h arg
 
@@ -28,5 +30,6 @@
       hclust_fit %>% extract_centroids(h = 3)
     Condition
       Error in `extract_centroids()`:
-      ! Using `h` argument is not supported. Please use `cut_height` instead.
+      ! Using `h` argument is not supported.
+      i Please use `cut_height` instead.
 

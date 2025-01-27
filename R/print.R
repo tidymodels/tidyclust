@@ -5,7 +5,8 @@ print.cluster_fit <- function(x, ...) {
   cat("tidyclust cluster object\n\n")
   if (!is.na(x$elapsed[["elapsed"]])) {
     cat(
-      "Fit time: ", prettyunits::pretty_sec(x$elapsed[["elapsed"]]),
+      "Fit time: ",
+      prettyunits::pretty_sec(x$elapsed[["elapsed"]]),
       "\n"
     )
   }

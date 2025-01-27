@@ -85,7 +85,8 @@
       ! The following predi...
     Condition
       Warning:
-      All models failed. See the `.notes` column.
+      All models failed.
+      i See the `.notes` column.
 
 # argument order gives errors for recipes
 
@@ -94,7 +95,7 @@
       rsample::vfold_cv(mtcars, v = 2))
     Condition
       Error in `tune_cluster()`:
-      ! The first argument to [tune_cluster()] should be either a model or workflow.
+      ! The first argument to `tune_cluster()` should be either a model or workflow.
 
 # argument order gives errors for formula
 
@@ -103,7 +104,7 @@
         mtcars, v = 2))
     Condition
       Error in `tune_cluster()`:
-      ! The first argument to [tune_cluster()] should be either a model or workflow.
+      ! The first argument to `tune_cluster()` should be either a model or workflow.
 
 # ellipses with tune_cluster
 
@@ -118,8 +119,8 @@
       # A tibble: 2 x 4
         splits          id    .metrics         .notes          
         <list>          <chr> <list>           <list>          
-      1 <split [16/16]> Fold1 <tibble [4 x 5]> <tibble [0 x 3]>
-      2 <split [16/16]> Fold2 <tibble [4 x 5]> <tibble [0 x 3]>
+      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 3]>
+      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 3]>
 
 # select_best() and show_best() works
 

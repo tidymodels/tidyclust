@@ -77,10 +77,10 @@ find_tune_id <- function(x) {
   }
 
   if (sum(tunable_elems == "", na.rm = TRUE) > 1) {
-    rlang::abort(
-      glue::glue(
-        "Only one tunable value is currently allowed per argument. ",
-        "The current argument has: `{paste0(deparse(x), collapse = '')}`."
+    cli::cli_abort(
+      c(
+        "Only one tunable value is currently allowed per argument.",
+        "i" = "The current argument has: {.code {paste0(deparse(x), collapse = '')}}."
       )
     )
   }
@@ -124,24 +124,20 @@ tune_id <- function(x) {
   NA_character_
 }
 
-tune_tbl <- function(name = character(),
-                     tunable = logical(),
-                     id = character(),
-                     source = character(),
-                     component = character(),
-                     component_id = character(),
-                     full = FALSE) {
+tune_tbl <- function(
+  name = character(),
+  tunable = logical(),
+  id = character(),
+  source = character(),
+  component = character(),
+  component_id = character(),
+  full = FALSE
+) {
   complete_id <- id[!is.na(id)]
   dups <- duplicated(complete_id)
   if (any(dups)) {
-    rlang::abort(
-      paste(
-        "There are duplicate `id` values listed in [tune()]: ",
-        paste0("'", unique(complete_id[dups]), "'", collapse = ", "),
-        ".",
-        sep = ""
-      ),
-      call. = FALSE
+    cli::cli_abort(
+      "There are duplicate {.code id} values listed in [{.fn tune}]: {.val {unique(complete_id[dups])}}."
     )
   }
 

@@ -56,7 +56,7 @@ test_that("passed arguments overwrites model arguments", {
 
 test_that("prefix is passed in extract_centroids()", {
   spec <- tidyclust::k_means(num_clusters = 4) %>%
-    fit(~ ., data = mtcars)
+    fit(~., data = mtcars)
 
   res <- extract_centroids(spec, prefix = "C_")
 

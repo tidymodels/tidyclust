@@ -32,15 +32,19 @@
 #' @inheritParams fit.cluster_spec
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_form_to_x_fit <- function(formula,
-                                   data,
-                                   ...,
-                                   na.action = na.omit,
-                                   indicators = "traditional",
-                                   composition = "data.frame",
-                                   remove_intercept = TRUE) {
+.convert_form_to_x_fit <- function(
+  formula,
+  data,
+  ...,
+  na.action = na.omit,
+  indicators = "traditional",
+  composition = "data.frame",
+  remove_intercept = TRUE
+) {
   if (!(composition %in% c("data.frame", "matrix"))) {
-    rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
+    cli::cli_abort(
+      "{.arg composition} should be {.cls data.frame} or {.cls matrix}."
+    )
   }
 
   ## Assemble model.frame call from call arguments
@@ -57,7 +61,7 @@
 
   w <- as.vector(model.weights(mod_frame))
   if (!is.null(w) && !is.numeric(w)) {
-    rlang::abort("`weights` must be a numeric vector")
+    cli::cli_abort("The {.arg weights} must be a numeric vector.")
   }
 
   # TODO: Do we actually use the offset when fitting?
@@ -122,15 +126,11 @@ check_form_dots <- function(x) {
   good_args <- c("subset", "weights")
   good_names <- names(x) %in% good_args
   if (any(!good_names)) {
-    rlang::abort(
-      glue::glue(
-        "These argument(s) cannot be used to create the data: ",
-        glue::glue_collapse(
-          glue::glue("`{names(x)[!good_names]}`"),
-          sep = ", "
-        ),
-        ". Possible arguments are: ",
-        glue::glue_collapse(glue::glue("`{good_args}`"), sep = ", ")
+    cli::cli_abort(
+      c(
+        "The argument{?s} {.code {names(x)[!good_names]}} cannot be used
+        to create the data.",
+        "i" = "Possible arguments are: {.code {good_args}}."
       )
     )
   }
@@ -155,11 +155,9 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 #' @inheritParams .convert_form_to_x_fit
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_x_to_form_fit <- function(x,
-                                   weights = NULL,
-                                   remove_intercept = TRUE) {
+.convert_x_to_form_fit <- function(x, weights = NULL, remove_intercept = TRUE) {
   if (is.vector(x)) {
-    rlang::abort("`x` cannot be a vector.")
+    cli::cli_abort("{.arg x} cannot be a vector.")
   }
 
   if (remove_intercept) {
@@ -182,10 +180,10 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 
   if (!is.null(weights)) {
     if (!is.numeric(weights)) {
-      rlang::abort("`weights` must be a numeric vector")
+      cli::cli_abort("The {.arg weights} must be a numeric vector.")
     }
     if (length(weights) != nrow(x)) {
-      rlang::abort(glue::glue("`weights` should have {nrow(x)} elements"))
+      cli::cli_abort("{.arg weights} should have {nrow(x)} elements.")
     }
   }
 
@@ -212,12 +210,16 @@ make_formula <- function(x, short = TRUE) {
 #' @inheritParams predict.cluster_fit
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_form_to_x_new <- function(object,
-                                   new_data,
-                                   na.action = stats::na.pass,
-                                   composition = "data.frame") {
+.convert_form_to_x_new <- function(
+  object,
+  new_data,
+  na.action = stats::na.pass,
+  composition = "data.frame"
+) {
   if (!(composition %in% c("data.frame", "matrix"))) {
-    rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
+    cli::cli_abort(
+      "{.arg composition} should be either {.code data.frame} or {.code matrix}."
+    )
   }
 
   mod_terms <- object$terms

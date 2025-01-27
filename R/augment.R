@@ -31,7 +31,7 @@ augment.cluster_fit <- function(x, new_data, ...) {
       stats::predict(x, new_data = new_data)
     )
   } else {
-    rlang::abort(paste("Unknown mode:", x$spec$mode))
+    cli::cli_abort("Unknown mode: {x$spec$mode}")
   }
   as_tibble(ret)
 }

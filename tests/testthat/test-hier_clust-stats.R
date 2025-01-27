@@ -53,8 +53,15 @@ test_that("extract_centroids() works", {
 
   expect_identical(
     colnames(centroids),
-    c(".cluster", "Sepal.Length", "Sepal.Width", "Petal.Length",
-      "Petal.Width", "Speciesversicolor", "Speciesvirginica")
+    c(
+      ".cluster",
+      "Sepal.Length",
+      "Sepal.Width",
+      "Petal.Length",
+      "Petal.Width",
+      "Speciesversicolor",
+      "Speciesvirginica"
+    )
   )
 
   expect_identical(
@@ -73,7 +80,9 @@ test_that("extract_cluster_assignment() works", {
   clusters <- extract_cluster_assignment(res)
 
   expected <- vctrs::vec_cbind(
-    tibble::tibble(.cluster = factor(paste0("Cluster_", cutree(res$fit, k = 3))))
+    tibble::tibble(
+      .cluster = factor(paste0("Cluster_", cutree(res$fit, k = 3)))
+    )
   )
 
   expect_identical(

@@ -40,14 +40,14 @@ translate_tidyclust <- function(x, ...) {
 translate_tidyclust.default <- function(x, engine = x$engine, ...) {
   check_empty_ellipse_tidyclust(...)
   if (is.null(engine)) {
-    rlang::abort("Please set an engine.")
+    cli::cli_abort("Please set an engine.")
   }
 
   mod_name <- specific_model(x)
 
   x$engine <- engine
   if (x$mode == "unknown") {
-    rlang::abort("Model code depends on the mode; please specify one.")
+    cli::cli_abort("Model code depends on the mode. Please specify one.")
   }
 
   modelenv::check_spec_mode_engine_val(
@@ -103,20 +103,20 @@ get_cluster_spec <- function(model, mode, engine) {
   res <- list()
   res$libs <-
     rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
-    dplyr::filter(engine == !!engine) %>%
-    .[["pkg"]] %>%
-    .[[1]]
+      dplyr::filter(engine == !!engine) %>%
+      .[["pkg"]] %>%
+      .[[1]]
 
   res$fit <-
     rlang::env_get(m_env, paste0(model, "_fit")) %>%
-    dplyr::filter(mode == !!mode & engine == !!engine) %>%
-    dplyr::pull(value) %>%
-    .[[1]]
+      dplyr::filter(mode == !!mode & engine == !!engine) %>%
+      dplyr::pull(value) %>%
+      .[[1]]
 
   pred_code <-
     rlang::env_get(m_env, paste0(model, "_predict")) %>%
-    dplyr::filter(mode == !!mode & engine == !!engine) %>%
-    dplyr::select(-engine, -mode)
+      dplyr::filter(mode == !!mode & engine == !!engine) %>%
+      dplyr::select(-engine, -mode)
 
   res$pred <- pred_code[["value"]]
   names(res$pred) <- pred_code$type
@@ -139,7 +139,7 @@ deharmonize <- function(args, key) {
   parsn <- tibble::tibble(exposed = names(args), order = seq_along(args))
   merged <-
     dplyr::left_join(parsn, key, by = "exposed") %>%
-    dplyr::arrange(order)
+      dplyr::arrange(order)
   # TODO correct for bad merge?
 
   names(args) <- merged$original
@@ -149,8 +149,8 @@ deharmonize <- function(args, key) {
 check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {
-    rlang::abort(
-      "Please pass other arguments to the model function via `set_engine()`."
+    cli::cli_abort(
+      "Please pass other arguments to the model function via {.fn set_engine}."
     )
   }
   terms

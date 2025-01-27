@@ -5,37 +5,33 @@ tunable.cluster_spec <- function(x, ...) {
   mod_env <- rlang::ns_env("modelenv")$modelenv
 
   if (is.null(x$engine)) {
-    rlang::abort(
-      "Please declare an engine first using `set_engine()`.",
-      call. = FALSE
+    cli::cli_abort(
+      "Please declare an engine first using {.fn set_engine}.",
+      call = FALSE
     )
   }
 
   arg_name <- paste0(mod_type(x), "_args")
   if (!(any(arg_name == names(mod_env)))) {
-    rlang::abort(
-      paste(
-        "The `tidyclust` model database doesn't know about the arguments for ",
-        "model `", mod_type(x), "`. Was it registered?",
-        sep = ""
-      ),
-      call. = FALSE
+    cli::cli_abort(
+      "The {.pkg tidyclust} model database doesn't know about the arguments for 
+   model {.code {mod_type(x)}}. Was it registered?"
     )
   }
 
   arg_vals <-
     mod_env[[arg_name]] %>%
-    dplyr::filter(engine == x$engine) %>%
-    dplyr::select(name = exposed, call_info = func) %>%
-    dplyr::full_join(
-      tibble::tibble(name = c(names(x$args), names(x$eng_args))),
-      by = "name"
-    ) %>%
-    dplyr::mutate(
-      source = "cluster_spec",
-      component = mod_type(x),
-      component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
-    )
+      dplyr::filter(engine == x$engine) %>%
+      dplyr::select(name = exposed, call_info = func) %>%
+      dplyr::full_join(
+        tibble::tibble(name = c(names(x$args), names(x$eng_args))),
+        by = "name"
+      ) %>%
+      dplyr::mutate(
+        source = "cluster_spec",
+        component = mod_type(x),
+        component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
+      )
 
   if (nrow(arg_vals) > 0) {
     has_info <- map_lgl(arg_vals$call_info, is.null)

@@ -12,13 +12,12 @@ check_args.default <- function(object) {
 check_spec_pred_type <- function(object, type) {
   if (!spec_has_pred_type(object, type)) {
     possible_preds <- names(object$spec$method$pred)
-    rlang::abort(c(
-      glue::glue("No {type} prediction method available for this model."),
-      glue::glue(
-        "Value for `type` should be one of: ",
-        glue::glue_collapse(glue::glue("'{possible_preds}'"), sep = ", ")
+    cli::cli_abort(
+      c(
+        "No {type} prediction method available for this model.",
+        "i" = "{.arg type} should be one of {.val {possible_preds}}."
       )
-    ))
+    )
   }
   invisible(NULL)
 }

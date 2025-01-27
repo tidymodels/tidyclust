@@ -69,10 +69,10 @@ extract_cluster_assignment <- function(object, ...) {
 
 #' @export
 extract_cluster_assignment.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }
@@ -111,28 +111,30 @@ extract_cluster_assignment.kmodes <- function(object, ...) {
 }
 
 #' @export
-extract_cluster_assignment.hclust <- function(object,
-                                              ...,
-                                              call = rlang::caller_env(0)) {
+extract_cluster_assignment.hclust <- function(
+  object,
+  ...,
+  call = rlang::caller_env(0)
+) {
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification
   args <- list(...)
 
   if (!is.null(args[["h"]])) {
-    rlang::abort(
-      paste(
-        "Using `h` argument is not supported.",
-        "Please use `cut_height` instead."
+    cli::cli_abort(
+      c(
+        "Using {.arg h} argument is not supported.",
+        "i" = "Please use {.arg cut_height} instead."
       ),
       call = call
     )
   }
 
   if (!is.null(args[["k"]])) {
-    rlang::abort(
-      paste(
-        "Using `k` argument is not supported.",
-        "Please use `num_clusters` instead."
+    cli::cli_abort(
+      c(
+        "Using {.arg k} argument is not supported.",
+        "i" = "Please use {.arg num_clusters} instead."
       ),
       call = call
     )
@@ -147,8 +149,8 @@ extract_cluster_assignment.hclust <- function(object,
   }
 
   if (is.null(num_clusters) && is.null(cut_height)) {
-    rlang::abort(
-      "Please specify either `num_clusters` or `cut_height`.",
+    cli::cli_abort(
+      "Please specify either {.arg num_clusters} or {.arg cut_height}.",
       call = call
     )
   }
@@ -159,10 +161,12 @@ extract_cluster_assignment.hclust <- function(object,
 
 # ------------------------------------------------------------------------------
 
-cluster_assignment_tibble <- function(clusters,
-                                      n_clusters,
-                                      ...,
-                                      prefix = "Cluster_") {
+cluster_assignment_tibble <- function(
+  clusters,
+  n_clusters,
+  ...,
+  prefix = "Cluster_"
+) {
   reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
   names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]

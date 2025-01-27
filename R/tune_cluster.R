@@ -62,24 +62,27 @@ tune_cluster <- function(object, ...) {
 
 #' @export
 tune_cluster.default <- function(object, ...) {
-  msg <- paste0(
-    "The first argument to [tune_cluster()] should be either ",
-    "a model or workflow."
+  cli::cli_abort(
+    "The first argument to {.fn tune_cluster} should be either a model or workflow."
   )
-  rlang::abort(msg)
 }
 
 #' @export
 #' @rdname tune_cluster
-tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
-                                      param_info = NULL, grid = 10,
-                                      metrics = NULL,
-                                      control = tune::control_grid()) {
+tune_cluster.cluster_spec <- function(
+  object,
+  preprocessor,
+  resamples,
+  ...,
+  param_info = NULL,
+  grid = 10,
+  metrics = NULL,
+  control = tune::control_grid()
+) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
-    rlang::abort(paste(
-      "To tune a model spec, you must preprocess",
-      "with a formula or recipe"
-    ))
+    cli::cli_abort(
+      "To tune a model spec, you must preprocess with a formula or recipe."
+    )
   }
 
   tune::empty_ellipses(...)
@@ -106,9 +109,15 @@ tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
 
 #' @export
 #' @rdname tune_cluster
-tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
-                                  grid = 10, metrics = NULL,
-                                  control = tune::control_grid()) {
+tune_cluster.workflow <- function(
+  object,
+  resamples,
+  ...,
+  param_info = NULL,
+  grid = 10,
+  metrics = NULL,
+  control = tune::control_grid()
+) {
   tune::empty_ellipses(...)
 
   control <- parsnip::condense_control(control, tune::control_grid())
@@ -116,7 +125,7 @@ tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
   # Disallow `NULL` grids in `tune_cluster()`, as this is the special signal
   # used when no tuning is required
   if (is.null(grid)) {
-    rlang::abort(grid_msg)
+    cli::cli_abort(grid_msg)
   }
 
   tune_cluster_workflow(
@@ -131,13 +140,15 @@ tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
 
 # ------------------------------------------------------------------------------
 
-tune_cluster_workflow <- function(workflow,
-                                  resamples,
-                                  grid = 10,
-                                  metrics = NULL,
-                                  pset = NULL,
-                                  control = NULL,
-                                  rng = TRUE) {
+tune_cluster_workflow <- function(
+  workflow,
+  resamples,
+  grid = 10,
+  metrics = NULL,
+  pset = NULL,
+  control = NULL,
+  rng = TRUE
+) {
   tune::check_rset(resamples)
 
   metrics <- check_metrics(metrics, workflow)
@@ -171,7 +182,12 @@ tune_cluster_workflow <- function(workflow,
   )
 
   if (is_cataclysmic(resamples)) {
-    rlang::warn("All models failed. See the `.notes` column.")
+    cli::cli_warn(
+      c(
+        "All models failed.",
+        "i" = "See the {.code .notes} column."
+      )
+    )
   }
 
   workflow <- set_workflow(workflow, control)
@@ -185,12 +201,14 @@ tune_cluster_workflow <- function(workflow,
   )
 }
 
-tune_cluster_loop <- function(resamples,
-                              grid,
-                              workflow,
-                              metrics,
-                              control,
-                              rng) {
+tune_cluster_loop <- function(
+  resamples,
+  grid,
+  workflow,
+  metrics,
+  control,
+  rng
+) {
   `%op%` <- get_operator(control$allow_par, workflow)
   `%:%` <- foreach::`%:%`
 
@@ -222,69 +240,73 @@ tune_cluster_loop <- function(resamples,
     # created by `eval()`. This causes the handler to run much too early. By evaluating in
     # a local environment, we prevent `defer()`/`on.exit()` from finding the short-lived
     # context of `%op%`. Instead it looks all the way up here to register the handler.
-    
+
     results <- local({
       suppressPackageStartupMessages(
         foreach::foreach(
-        split = splits,
-        seed = seeds,
-        .packages = packages,
-        .errorhandling = "pass"
-      ) %op% {
-        # Extract internal function from tune namespace
-        tune_cluster_loop_iter_safely <- utils::getFromNamespace(
-          x = "tune_cluster_loop_iter_safely",
-          ns = "tidyclust"
-        )
+          split = splits,
+          seed = seeds,
+          .packages = packages,
+          .errorhandling = "pass"
+        ) %op%
+          {
+            # Extract internal function from tune namespace
+            tune_cluster_loop_iter_safely <- utils::getFromNamespace(
+              x = "tune_cluster_loop_iter_safely",
+              ns = "tidyclust"
+            )
 
-        tune_cluster_loop_iter_safely(
-          split = split,
-          grid_info = grid_info,
-          workflow = workflow,
-          metrics = metrics,
-          control = control,
-          seed = seed
-        )
-      }
-    )
-  })
+            tune_cluster_loop_iter_safely(
+              split = split,
+              grid_info = grid_info,
+              workflow = workflow,
+              metrics = metrics,
+              control = control,
+              seed = seed
+            )
+          }
+      )
+    })
   } else if (identical(parallel_over, "everything")) {
     seeds <- generate_seeds(rng, n_resamples * n_grid_info)
 
-    results <- local(suppressPackageStartupMessages(
-      foreach::foreach(
-        iteration = iterations,
-        split = splits,
-        .packages = packages,
-        .errorhandling = "pass"
-      ) %:%
+    results <- local(
+      suppressPackageStartupMessages(
         foreach::foreach(
-          row = rows,
-          seed = slice_seeds(seeds, iteration, n_grid_info),
+          iteration = iterations,
+          split = splits,
           .packages = packages,
-          .errorhandling = "pass",
-          .combine = iter_combine
-        ) %op% {
-          # Extract internal function from tidyclust namespace
-          tune_grid_loop_iter_safely <- utils::getFromNamespace(
-            x = "tune_cluster_loop_iter_safely",
-            ns = "tidyclust"
-          )
+          .errorhandling = "pass"
+        ) %:%
+          foreach::foreach(
+            row = rows,
+            seed = slice_seeds(seeds, iteration, n_grid_info),
+            .packages = packages,
+            .errorhandling = "pass",
+            .combine = iter_combine
+          ) %op%
+          {
+            # Extract internal function from tidyclust namespace
+            tune_grid_loop_iter_safely <- utils::getFromNamespace(
+              x = "tune_cluster_loop_iter_safely",
+              ns = "tidyclust"
+            )
 
-          grid_info_row <- vctrs::vec_slice(grid_info, row)
+            grid_info_row <- vctrs::vec_slice(grid_info, row)
 
-          tune_grid_loop_iter_safely(
-            split = split,
-            grid_info = grid_info_row,
-            workflow = workflow,
-            metrics = metrics,
-            control = control,
-            seed = seed
-          )
-        }
-    ))
+            tune_grid_loop_iter_safely(
+              split = split,
+              grid_info = grid_info_row,
+              workflow = workflow,
+              metrics = metrics,
+              control = control,
+              seed = seed
+            )
+          }
+      )
+    )
   } else {
-    rlang::abort("Internal error: Invalid `parallel_over`.")
+    cli::cli_abort("Internal error: Invalid {.arg parallel_over}.")
   }
 
   resamples <- pull_metrics(resamples, results, control)
@@ -311,7 +333,8 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_model_and_preprocessor(
         workflow,
-        grid, parameters_model
+        grid,
+        parameters_model
       )
     } else {
       compute_grid_info_model(workflow, grid, parameters_model)
@@ -320,23 +343,24 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_preprocessor(workflow, grid, parameters_model)
     } else {
-      rlang::abort(
-        paste0(
-          "Internal error: ",
-          "`workflow` should have some tunable parameters ",
-          "if `grid` is not `NULL`."
+      cli::cli_abort(
+        c(
+          "Internal error: {.code workflow} should have some tunable parameters
+     if {.code grid} is not {.code NULL}."
         )
       )
     }
   }
 }
 
-tune_cluster_loop_iter <- function(split,
-                                   grid_info,
-                                   workflow,
-                                   metrics,
-                                   control,
-                                   seed) {
+tune_cluster_loop_iter <- function(
+  split,
+  grid_info,
+  workflow,
+  metrics,
+  control,
+  seed
+) {
   load_pkgs(workflow)
   load_namespace(control$pkgs)
 
@@ -541,12 +565,14 @@ tune_cluster_loop_iter <- function(split,
   )
 }
 
-tune_cluster_loop_iter_safely <- function(split,
-                                          grid_info,
-                                          workflow,
-                                          metrics,
-                                          control,
-                                          seed) {
+tune_cluster_loop_iter_safely <- function(
+  split,
+  grid_info,
+  workflow,
+  metrics,
+  control,
+  seed
+) {
   tune_cluster_loop_iter_wrapper <- super_safely(tune_cluster_loop_iter)
 
   time <- proc.time()
@@ -617,7 +643,8 @@ super_safely <- function(fn) {
       expr = tryCatch(
         expr = list(
           result = fn(...),
-          error = NULL, warnings = warnings
+          error = NULL,
+          warnings = warnings
         ),
         error = handle_error
       ),
@@ -636,37 +663,45 @@ compute_grid_info_model <- function(workflow, grid, parameters_model) {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
   msgs_preprocessor <- rep(msgs_preprocessor, times = n_fit_models)
   msgs_model <- new_msgs_model(
-    i = seq_fit_models, n = n_fit_models,
+    i = seq_fit_models,
+    n = n_fit_models,
     msgs_preprocessor = msgs_preprocessor
   )
   iter_configs <- compute_config_ids(out, "Preprocessor1")
   out <- tibble::add_column(
-    .data = out, .iter_preprocessor = 1L,
+    .data = out,
+    .iter_preprocessor = 1L,
     .before = 1L
   )
   out <- tibble::add_column(
-    .data = out, .msg_preprocessor = msgs_preprocessor,
+    .data = out,
+    .msg_preprocessor = msgs_preprocessor,
     .after = ".iter_preprocessor"
   )
   out <- tibble::add_column(
-    .data = out, .iter_model = seq_fit_models,
+    .data = out,
+    .iter_model = seq_fit_models,
     .after = ".msg_preprocessor"
   )
   out <- tibble::add_column(
-    .data = out, .iter_config = iter_configs,
+    .data = out,
+    .iter_config = iter_configs,
     .after = ".iter_model"
   )
   out <- tibble::add_column(
-    .data = out, .msg_model = msgs_model,
+    .data = out,
+    .msg_model = msgs_model,
     .after = ".iter_config"
   )
   out
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L484
-compute_grid_info_model_and_preprocessor <- function(workflow,
-                                                     grid,
-                                                     parameters_model) {
+compute_grid_info_model_and_preprocessor <- function(
+  workflow,
+  grid,
+  parameters_model
+) {
   parameter_names_model <- parameters_model[["id"]]
 
   # Nest model parameters, keep preprocessor parameters outside
@@ -751,9 +786,7 @@ compute_grid_info_model_and_preprocessor <- function(workflow,
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L359
-compute_grid_info_preprocessor <- function(workflow,
-                                           grid,
-                                           parameters_model) {
+compute_grid_info_preprocessor <- function(workflow, grid, parameters_model) {
   out <- grid
 
   n_preprocessors <- nrow(out)
@@ -825,19 +858,17 @@ check_metrics <- function(x, object) {
   mode <- extract_spec_parsnip(object)$mode
 
   if (is.null(x)) {
-    switch(mode,
+    switch(
+      mode,
       partition = {
         x <- cluster_metric_set(sse_within_total, sse_total)
       },
       unknown = {
-        rlang::abort(
-          paste0(
-            "Internal error: ",
-            "`check_installs()` should have caught an `unknown` mode."
-          )
+        cli::cli_abort(
+          "Internal error: {.fn check_installs} should have caught an {.code unknown} mode."
         )
       },
-      rlang::abort("Unknown `mode` for parsnip model.")
+      cli::cli_abort("Unknown {.arg mode} for tidyclust model.")
     )
 
     return(x)
@@ -846,21 +877,20 @@ check_metrics <- function(x, object) {
   is_cluster_metric_set <- inherits(x, "cluster_metric_set")
 
   if (!is_cluster_metric_set) {
-    rlang::abort(
-      paste0(
-        "The `metrics` argument should be the results of ",
-        "[cluster_metric_set()]."
-      )
+    cli::cli_abort(
+      "The {.arg metrics} argument should be the results of {.fn cluster_metric_set}."
     )
   }
   x
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L144
-check_parameters <- function(workflow,
-                             pset = NULL,
-                             data,
-                             grid_names = character(0)) {
+check_parameters <- function(
+  workflow,
+  pset = NULL,
+  data,
+  grid_names = character(0)
+) {
   if (is.null(pset)) {
     pset <- hardhat::extract_parameter_set_dials(workflow)
   }
@@ -874,11 +904,11 @@ check_parameters <- function(workflow,
 
   if (needs_finalization(pset, grid_names)) {
     if (tune_recipe) {
-      rlang::abort(
-        paste(
-          "Some tuning parameters require finalization but there are recipe",
-          "parameters that require tuning. Please use `parameters()` to",
-          "finalize the parameter ranges."
+      cli::cli_abort(
+        c(
+          "Some tuning parameters require finalization but there are recipe 
+          parameters that require tuning.",
+          "i" = "Please use {.fn parameters} to finalize the parameter ranges."
         )
       )
     }
@@ -913,15 +943,17 @@ needs_finalization <- function(x, nms = character(0)) {
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L274
 check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   if (!inherits(x, "workflow")) {
-    rlang::abort("The `object` argument should be a 'workflow' object.")
+    cli::cli_abort(
+      "The {.arg object} argument should be a {.cls workflow} object."
+    )
   }
 
   if (!has_preprocessor(x)) {
-    rlang::abort("A formula, recipe, or variables preprocessor is required.")
+    cli::cli_abort("A formula, recipe, or variables preprocessor is required.")
   }
 
   if (!has_spec(x)) {
-    rlang::abort("A tidyclust model is required.")
+    cli::cli_abort("A tidyclust model is required.")
   }
 
   if (check_dials) {
@@ -934,10 +966,9 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
     incompl <- dials::has_unknowns(pset$object)
 
     if (any(incompl)) {
-      rlang::abort(paste0(
-        "The workflow has arguments whose ranges are not finalized: ",
-        paste0("'", pset$id[incompl], "'", collapse = ", ")
-      ))
+      cli::cli_abort(
+        "The workflow has arguments whose ranges are not finalized: {.arg {pset$id[incompl]}}."
+      )
     }
   }
 
@@ -952,11 +983,9 @@ check_param_objects <- function(pset) {
   params <- map_lgl(pset$object, inherits, "param")
 
   if (!all(params)) {
-    rlang::abort(paste0(
-      "The workflow has arguments to be tuned that are missing some ",
-      "parameter objects: ",
-      paste0("'", pset$id[!params], "'", collapse = ", ")
-    ))
+    cli::cli_abort(
+      "The workflow has arguments to be tuned that are missing parameter objects: {.arg {pset$id[!params]}}."
+    )
   }
   invisible(pset)
 }
@@ -975,12 +1004,13 @@ check_grid <- function(grid, workflow, pset = NULL) {
   }
 
   if (nrow(pset) == 0L) {
-    msg <- paste0(
-      "No tuning parameters have been detected, ",
-      "performance will be evaluated using the resamples with no tuning. ",
-      "Did you want to [tune()] parameters?"
+    cli::cli_warn(
+      c(
+        "No tuning parameters have been detected, performance will be evaluated using 
+        the resamples with no tuning.",
+        "i" = "Did you want to {.fn tune} parameters?"
+      )
     )
-    rlang::warn(msg)
 
     # Return `NULL` as the new `grid`, like what is used in `fit_resamples()`
     return(NULL)
@@ -988,12 +1018,12 @@ check_grid <- function(grid, workflow, pset = NULL) {
 
   if (!is.numeric(grid)) {
     if (!is.data.frame(grid)) {
-      rlang::abort(grid_msg)
+      cli::cli_abort(grid_msg)
     }
 
     grid_distinct <- dplyr::distinct(grid)
     if (!identical(nrow(grid_distinct), nrow(grid))) {
-      rlang::warn(
+      cli::cli_warn(
         "Duplicate rows in grid of tuning combinations found and removed."
       )
     }
@@ -1014,33 +1044,29 @@ check_grid <- function(grid, workflow, pset = NULL) {
       extra_grid_params <- glue::single_quote(extra_grid_params)
       extra_grid_params <- glue::glue_collapse(extra_grid_params, sep = ", ")
 
-      msg <- glue::glue(
-        "The provided `grid` has the following parameter columns that have ",
-        "not been marked for tuning by `tune()`: {extra_grid_params}."
+      cli::cli_abort(
+        "The provided {.arg grid} has parameter column{?s} {extra_grid_params} 
+  that {?has/have} not been marked for tuning by {.fn tune}."
       )
-
-      rlang::abort(msg)
     }
 
     if (length(extra_tune_params) != 0L) {
       extra_tune_params <- glue::single_quote(extra_tune_params)
       extra_tune_params <- glue::glue_collapse(extra_tune_params, sep = ", ")
 
-      msg <- glue::glue(
-        "The provided `grid` is missing the following parameter columns that ",
-        "have been marked for tuning by `tune()`: {extra_tune_params}."
+      cli::cli_abort(
+        "The provided {.arg grid} is missing parameter column{?s} {.val {extra_tune_params}}
+   that {?has/have} been marked for tuning by {.fn tune}."
       )
-
-      rlang::abort(msg)
     }
   } else {
     grid <- as.integer(grid[1])
     if (grid < 1) {
-      rlang::abort(grid_msg)
+      cli::cli_abort(grid_msg)
     }
     check_workflow(workflow, pset = pset, check_dials = TRUE)
 
-    grid <- dials::grid_latin_hypercube(pset, size = grid)
+    grid <- dials::grid_space_filling(pset, size = grid)
     grid <- dplyr::distinct(grid)
   }
 
