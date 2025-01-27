@@ -291,7 +291,7 @@ matrix (i.e., all pairwise distances between observations).
 
 ```{r}
 my_dist_1 <- function(x) {
-  Rfast::Dist(x, method = "manhattan")
+  philentropy::distance(x, method = "manhattan")
 }
 
 my_dist_2 <- function(x, y) {

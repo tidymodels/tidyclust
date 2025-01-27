@@ -43,7 +43,9 @@ sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
       n_members = summ$n_members
     )
   } else {
-    dist_to_centroids <- dist_fun(summ$centroids, new_data)
+    suppressMessages(
+      dist_to_centroids <- dist_fun(summ$centroids, new_data)
+    )
 
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
@@ -253,7 +255,9 @@ sse_total_impl <- function(
   } else {
     overall_mean <- colSums(summ$centroids * summ$n_members) /
       sum(summ$n_members)
-    tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
+    suppressMessages(
+      tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
+    )
   }
 
   return(tot)

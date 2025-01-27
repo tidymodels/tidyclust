@@ -9,7 +9,7 @@
   num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
-  dist_fun = Rfast::Dist
+  dist_fun = philentropy::distance
 )
 }
 \arguments{

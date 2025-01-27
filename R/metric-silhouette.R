@@ -27,7 +27,7 @@ silhouette <- function(
   object,
   new_data = NULL,
   dists = NULL,
-  dist_fun = Rfast::Dist
+  dist_fun = philentropy::distance
 ) {
   if (inherits(object, "cluster_spec")) {
     rlang::abort(
@@ -126,7 +126,7 @@ silhouette_avg.cluster_fit <- function(
   ...
 ) {
   if (is.null(dist_fun)) {
-    dist_fun <- Rfast::Dist
+    dist_fun <- philentropy::distance
   }
 
   res <- silhouette_avg_impl(object, new_data, dists, dist_fun, ...)
@@ -148,7 +148,7 @@ silhouette_avg_vec <- function(
   object,
   new_data = NULL,
   dists = NULL,
-  dist_fun = Rfast::Dist,
+  dist_fun = philentropy::distance,
   ...
 ) {
   silhouette_avg_impl(object, new_data, dists, dist_fun, ...)
@@ -158,7 +158,7 @@ silhouette_avg_impl <- function(
   object,
   new_data = NULL,
   dists = NULL,
-  dist_fun = Rfast::Dist,
+  dist_fun = philentropy::distance,
   ...
 ) {
   mean(silhouette(object, new_data, dists, dist_fun, ...)$sil_width)

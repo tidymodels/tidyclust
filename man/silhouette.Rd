@@ -4,7 +4,7 @@
 \alias{silhouette}
 \title{Measures silhouette between clusters}
 \usage{
-silhouette(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
+silhouette(object, new_data = NULL, dists = NULL, dist_fun = philentropy::distance)
 }
 \arguments{
 \item{object}{A fitted tidyclust model}
