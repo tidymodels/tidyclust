@@ -107,7 +107,7 @@ fake_dat %>%
 ```
 
 This process continues, with the closest two clusters being joined (or 
-"aggolermated") at each step.
+"agglomerated") at each step.
 
 
 ```{r, echo = FALSE}
@@ -198,7 +198,7 @@ tibble(
 ```
 
 
-### Methods of aggolmeration
+### Methods of agglomeration
 
 At every step of the agglomeration, we measure distances between current
 clusters.  With each cluster containing (possibly) multiple points, what does
@@ -331,7 +331,7 @@ hc_preds
 
 It's important to note that there is no guarantee that `predict()` on the 
 training data will produce the same results as `extract_cluster_assignments()`.
-The process by which clusters are created during the aggolmerations results in
+The process by which clusters are created during the agglomerations results in
 a particular partition; but if a training observation is treated as new data, it
 is predicted in the same manner as truly new information.
 
