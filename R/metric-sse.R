@@ -19,7 +19,13 @@
 #'
 #' sse_within(kmeans_fit)
 #' @export
-sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
+sse_within <- function(
+  object,
+  new_data = NULL,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  }
+) {
   if (inherits(object, "cluster_spec")) {
     rlang::abort(
       paste(
@@ -43,7 +49,12 @@ sse_within <- function(object, new_data = NULL, dist_fun = Rfast::dista) {
       n_members = summ$n_members
     )
   } else {
-    dist_to_centroids <- dist_fun(summ$centroids, new_data)
+    suppressMessages(
+      dist_to_centroids <- dist_fun(
+        as.matrix(summ$centroids),
+        as.matrix(new_data)
+      )
+    )
 
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
@@ -121,7 +132,9 @@ sse_within_total.cluster_fit <- function(
   ...
 ) {
   if (is.null(dist_fun)) {
-    dist_fun <- Rfast::dista
+    dist_fun <- function(x, y) {
+      philentropy::dist_many_many(x, y, method = "euclidean")
+    }
   }
 
   res <- sse_within_total_impl(object, new_data, dist_fun, ...)
@@ -142,7 +155,9 @@ sse_within_total.workflow <- sse_within_total.cluster_fit
 sse_within_total_vec <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   sse_within_total_impl(object, new_data, dist_fun, ...)
@@ -151,7 +166,9 @@ sse_within_total_vec <- function(
 sse_within_total_impl <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   sum(sse_within(object, new_data, dist_fun, ...)$wss, na.rm = TRUE)
@@ -208,7 +225,9 @@ sse_total.cluster_fit <- function(
   ...
 ) {
   if (is.null(dist_fun)) {
-    dist_fun <- Rfast::dista
+    dist_fun <- function(x, y) {
+      philentropy::dist_many_many(x, y, method = "euclidean")
+    }
   }
 
   res <- sse_total_impl(object, new_data, dist_fun, ...)
@@ -229,7 +248,9 @@ sse_total.workflow <- sse_total.cluster_fit
 sse_total_vec <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   sse_total_impl(object, new_data, dist_fun, ...)
@@ -238,7 +259,9 @@ sse_total_vec <- function(
 sse_total_impl <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   # Preprocess data before computing distances if appropriate
@@ -253,7 +276,10 @@ sse_total_impl <- function(
   } else {
     overall_mean <- colSums(summ$centroids * summ$n_members) /
       sum(summ$n_members)
-    tot <- dist_fun(t(as.matrix(overall_mean)), new_data)^2 %>% sum()
+    suppressMessages(
+      tot <- dist_fun(t(as.matrix(overall_mean)), as.matrix(new_data))^2 %>%
+        sum()
+    )
   }
 
   return(tot)
@@ -310,7 +336,9 @@ sse_ratio.cluster_fit <- function(
   ...
 ) {
   if (is.null(dist_fun)) {
-    dist_fun <- Rfast::dista
+    dist_fun <- function(x, y) {
+      philentropy::dist_many_many(x, y, method = "euclidean")
+    }
   }
   res <- sse_ratio_impl(object, new_data, dist_fun, ...)
 
@@ -330,7 +358,9 @@ sse_ratio.workflow <- sse_ratio.cluster_fit
 sse_ratio_vec <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   sse_ratio_impl(object, new_data, dist_fun, ...)
@@ -339,7 +369,9 @@ sse_ratio_vec <- function(
 sse_ratio_impl <- function(
   object,
   new_data = NULL,
-  dist_fun = Rfast::dista,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  },
   ...
 ) {
   sse_within_total_vec(object, new_data, dist_fun) /

@@ -193,9 +193,11 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
   num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
-  dist_fun = Rfast::Dist
+  dist_fun = philentropy::distance
 ) {
-  dmat <- dist_fun(x)
+  suppressMessages(
+    dmat <- dist_fun(x)
+  )
   res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
   attr(res, "num_clusters") <- num_clusters
   attr(res, "cut_height") <- cut_height
