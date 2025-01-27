@@ -3,8 +3,8 @@
     Code
       hier_clust(mode = "bogus")
     Condition
-      Error in `modelenv::check_spec_mode_engine_val()`:
-      ! 'bogus' is not a known mode for model `hier_clust()`.
+      Error in `hier_clust()`:
+      ! "bogus" is not a known mode for model `hier_clust()`.
 
 ---
 
