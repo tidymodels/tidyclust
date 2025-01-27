@@ -37,10 +37,10 @@ check_control <- function(x, call = rlang::caller_env()) {
     abs(x - round(x)) < tol
   }
   if (!int_check(x$verbosity)) {
-    rlang::abort("verbosity should be an integer.", call = call)
+    cli::cli_abort("verbosity should be an integer.", call = call)
   }
   if (!is.logical(x$catch)) {
-    rlang::abort("catch should be a logical.", call = call)
+    cli::cli_abort("catch should be a logical.", call = call)
   }
   x
 }

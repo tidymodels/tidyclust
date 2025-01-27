@@ -30,10 +30,10 @@ silhouette <- function(
   dist_fun = philentropy::distance
 ) {
   if (inherits(object, "cluster_spec")) {
-    rlang::abort(
-      paste(
+    cli::cli_abort(
+      c(
         "This function requires a fitted model.",
-        "Please use `fit()` on your cluster specification."
+        "i" = "Please use {.fn fit} on your cluster specification."
       )
     )
   }
@@ -74,7 +74,6 @@ silhouette <- function(
 #' @param dist_fun A function for calculating distances between observations.
 #'   Defaults to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
-#'
 #' @details Not to be confused with [silhouette()] that returns a tibble
 #'   with silhouette for each observation.
 #'
@@ -108,10 +107,10 @@ silhouette_avg <- new_cluster_metric(
 #' @export
 #' @rdname silhouette_avg
 silhouette_avg.cluster_spec <- function(object, ...) {
-  rlang::abort(
-    paste(
+  cli::cli_abort(
+    c(
       "This function requires a fitted model.",
-      "Please use `fit()` on your cluster specification."
+      "i" = "Please use {.fn fit} on your cluster specification."
     )
   )
 }

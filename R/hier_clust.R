@@ -156,7 +156,7 @@ check_args.hier_clust <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
 
   if (all(is.numeric(args$num_clusters)) && any(args$num_clusters < 0)) {
-    rlang::abort("The number of centers should be >= 0.")
+    cli::cli_abort("The number of centers should be >= 0.")
   }
 
   invisible(object)

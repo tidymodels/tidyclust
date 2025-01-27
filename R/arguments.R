@@ -32,7 +32,7 @@ make_x_call <- function(object, target) {
       none = rlang::expr(x),
       data.frame = rlang::expr(maybe_data_frame(x)),
       matrix = rlang::expr(maybe_matrix(x)),
-      rlang::abort(glue::glue("Invalid data type target: {target}."))
+      cli::cli_abort("Invalid data type target: {target}.")
     )
 
   fit_call <- make_call(
@@ -78,7 +78,7 @@ make_form_call <- function(object, env = NULL) {
 set_args.cluster_spec <- function(object, ...) {
   the_dots <- enquos(...)
   if (length(the_dots) == 0) {
-    rlang::abort("Please pass at least one named argument.")
+    cli::cli_abort("Please pass at least one named argument.")
   }
   main_args <- names(object$args)
   new_args <- names(the_dots)

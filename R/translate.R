@@ -40,14 +40,14 @@ translate_tidyclust <- function(x, ...) {
 translate_tidyclust.default <- function(x, engine = x$engine, ...) {
   check_empty_ellipse_tidyclust(...)
   if (is.null(engine)) {
-    rlang::abort("Please set an engine.")
+    cli::cli_abort("Please set an engine.")
   }
 
   mod_name <- specific_model(x)
 
   x$engine <- engine
   if (x$mode == "unknown") {
-    rlang::abort("Model code depends on the mode; please specify one.")
+    cli::cli_abort("Model code depends on the mode. Please specify one.")
   }
 
   modelenv::check_spec_mode_engine_val(
@@ -149,8 +149,8 @@ deharmonize <- function(args, key) {
 check_empty_ellipse_tidyclust <- function(...) {
   terms <- quos(...)
   if (!rlang::is_empty(terms)) {
-    rlang::abort(
-      "Please pass other arguments to the model function via `set_engine()`."
+    cli::cli_abort(
+      "Please pass other arguments to the model function via {.fn set_engine}."
     )
   }
   terms

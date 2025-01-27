@@ -167,10 +167,8 @@ make_predictions <- function(x, prefix, n_clusters) {
 
     pred_clusts_num <- map_dbl(change_in_ess, which.min)
   } else {
-    rlang::abort(
-      glue::glue(
-        "linkage_method {linkage_method} is not supported for prediction."
-      )
+    cli::cli_abort(
+      "linkage_method {.val {linkage_method}} is not supported for prediction."
     )
   }
   pred_clusts <- unique(clusters$.cluster)[pred_clusts_num]

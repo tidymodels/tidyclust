@@ -16,7 +16,7 @@ prep_data_dist <- function(
 ) {
   # Sihouettes requires a distance matrix
   if (is.null(new_data) && is.null(dists)) {
-    rlang::abort(
+    cli::cli_abort(
       "Must supply either a dataset or distance matrix to compute silhouettes."
     )
   }
@@ -31,9 +31,9 @@ prep_data_dist <- function(
   # If they supplied distance, check that it matches the data dimension
   if (!is.null(dists)) {
     if (!is.null(new_data) && nrow(new_data) != attr(dists, "Size")) {
-      rlang::abort("Dimensions of dataset and distance matrix must match.")
+      cli::cli_abort("Dimensions of dataset and distance matrix must match.")
     } else if (is.null(new_data) && length(clusters) != attr(dists, "Size")) {
-      rlang::abort(
+      cli::cli_abort(
         "Dimensions of training dataset and distance matrix must match."
       )
     }
@@ -75,7 +75,6 @@ get_centroid_dists <- function(
   }
 ) {
   if (ncol(new_data) != ncol(centroids)) {
-    rlang::abort("Centroids must have same columns as data.")
   }
 
   suppressMessages(

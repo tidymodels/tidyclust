@@ -4,7 +4,7 @@
       k_means(num_clusters = 5) %>% fit_xy(mtcars, y = mtcars$mpg)
     Condition
       Error in `x_x()`:
-      ! Outcomes are not used in `cluster_spec` objects.
+      ! Outcomes are not used in <cluster_spec> objects.
 
 ---
 
@@ -12,5 +12,5 @@
       workflows::workflow(mpg ~ ., km) %>% fit(mtcars)
     Condition
       Error in `x_x()`:
-      ! Outcomes are not used in `cluster_spec` objects.
+      ! Outcomes are not used in <cluster_spec> objects.
 
