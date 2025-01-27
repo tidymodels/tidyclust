@@ -79,10 +79,10 @@
         1
       }, save_pred = TRUE))
     Message
-      x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
-      x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
+      x Fold1: preprocessor 1/1: Error in `hardhat::mold()`:
+      ! The following predictor ...
+      x Fold2: preprocessor 1/1: Error in `hardhat::mold()`:
+      ! The following predictor ...
     Condition
       Warning:
       All models failed. See the `.notes` column.
@@ -112,6 +112,9 @@
     Condition
       Warning:
       The `...` are not used in this function but one or more objects were passed: 'something'
+      Warning:
+      `grid_latin_hypercube()` was deprecated in dials 1.3.0.
+      i Please use `grid_space_filling()` instead.
     Output
       # Tuning results
       # 2-fold cross-validation 
