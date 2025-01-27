@@ -117,7 +117,7 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">tidyclust</span>::<span style="color: #00BB00;">list_md_problems()</span> masks <span style="color: #0000BB;">parsnip</span>::list_md_problems()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>             masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>               masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Search for functions across packages at <span style="color: #00BB00;">https://www.tidymodels.org/find/</span></span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Learn how to get started at <span style="color: #00BB00;">https://www.tidymodels.org/start/</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">838383</span><span class="op">)</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -149,7 +149,7 @@ observations.</p>
 cluster.</p>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-5-1.png" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
 <p>This process continues, with the closest two clusters being joined
-(or “aggolermated”) at each step.</p>
+(or “agglomerated”) at each step.</p>
 <p><img src="hier_clust_files/figure-html/unnamed-chunk-6-1.png" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
 <p>The result of the process is a <strong>dendrogram</strong>, which
 shows the joining of clusters in tree form:</p>
@@ -173,7 +173,7 @@ height are considered to be in a cluster together:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> e                            3</span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="methods-of-aggolmeration">Methods of aggolmeration<a class="anchor" aria-label="anchor" href="#methods-of-aggolmeration"></a>
+<h3 id="methods-of-agglomeration">Methods of agglomeration<a class="anchor" aria-label="anchor" href="#methods-of-agglomeration"></a>
 </h3>
 <p>At every step of the agglomeration, we measure distances between
 current clusters. With each cluster containing (possibly) multiple
@@ -336,7 +336,7 @@ of the cluster.</p></li>
 <p>It’s important to note that there is no guarantee that
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> on the training data will produce the same
 results as <code>extract_cluster_assignments()</code>. The process by
-which clusters are created during the aggolmerations results in a
+which clusters are created during the agglomerations results in a
 particular partition; but if a training observation is treated as new
 data, it is predicted in the same manner as truly new information.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
