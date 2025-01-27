@@ -96,7 +96,11 @@ make_predictions <- function(x, prefix, n_clusters) {
     )
 
     # need this to be obs on rows, dist to new data on cols
-    dists_new <- Rfast::dista(xnew = training_data, x = new_data, trans = TRUE)
+    dists_new <- philentropy::dist_many_many(
+      training_data,
+      new_data,
+      method = "euclidean"
+    )
 
     cluster_dists <- dplyr::bind_cols(data.frame(dists_new), clusters) %>%
       dplyr::group_by(.cluster) %>%
@@ -109,7 +113,12 @@ make_predictions <- function(x, prefix, n_clusters) {
     ## Centroid linkage_method, dist to center
 
     cluster_centers <- extract_centroids(object) %>% dplyr::select(-.cluster)
-    dists_means <- Rfast::dista(new_data, cluster_centers)
+
+    dists_means <- philentropy::dist_many_many(
+      new_data,
+      cluster_centers,
+      method = "euclidean"
+    )
 
     pred_clusts_num <- apply(dists_means, 1, which.min)
   } else if (linkage_method %in% c("ward.D", "ward", "ward.D2")) {

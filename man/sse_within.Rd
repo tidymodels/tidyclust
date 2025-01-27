@@ -4,7 +4,14 @@
 \alias{sse_within}
 \title{Calculates Sum of Squared Error in each cluster}
 \usage{
-sse_within(object, new_data = NULL, dist_fun = Rfast::dista)
+sse_within(
+  object,
+  new_data = NULL,
+  dist_fun = function(x, y) {
+     philentropy::dist_many_many(x, y, method =
+    "euclidean")
+ }
+)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}

@@ -4,7 +4,14 @@
 \alias{get_centroid_dists}
 \title{Computes distance from observations to centroids}
 \usage{
-get_centroid_dists(new_data, centroids, dist_fun = Rfast::dista)
+get_centroid_dists(
+  new_data,
+  centroids,
+  dist_fun = function(x, y) {
+     philentropy::dist_many_many(x, y, method =
+    "euclidean")
+ }
+)
 }
 \arguments{
 \item{new_data}{A data frame}
@@ -12,7 +19,8 @@ get_centroid_dists(new_data, centroids, dist_fun = Rfast::dista)
 \item{centroids}{A data frame where each row is a centroid.}
 
 \item{dist_fun}{A function for computing matrix-to-matrix distances. Defaults
-to \code{Rfast::dista()}}
+to
+\code{function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")}.}
 }
 \description{
 Computes distance from observations to centroids

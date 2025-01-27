@@ -65,13 +65,20 @@ prep_data_dist <- function(
 #' @param new_data A data frame
 #' @param centroids A data frame where each row is a centroid.
 #' @param dist_fun A function for computing matrix-to-matrix distances. Defaults
-#'   to `Rfast::dista()`
-get_centroid_dists <- function(new_data, centroids, dist_fun = Rfast::dista) {
+#'   to
+#'   `function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")`.
+get_centroid_dists <- function(
+  new_data,
+  centroids,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  }
+) {
   if (ncol(new_data) != ncol(centroids)) {
     rlang::abort("Centroids must have same columns as data.")
   }
 
   suppressMessages(
-    dist_fun(centroids, new_data)
+    dist_fun(as.matrix(centroids), as.matrix(new_data))
   )
 }

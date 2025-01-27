@@ -16,7 +16,15 @@ sse_within_total(object, ...)
 
 \method{sse_within_total}{workflow}(object, new_data = NULL, dist_fun = NULL, ...)
 
-sse_within_total_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+sse_within_total_vec(
+  object,
+  new_data = NULL,
+  dist_fun = function(x, y) {
+     philentropy::dist_many_many(x, y, method =
+    "euclidean")
+ },
+  ...
+)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}

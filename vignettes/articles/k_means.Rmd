@@ -295,7 +295,7 @@ my_dist_1 <- function(x) {
 }
 
 my_dist_2 <- function(x, y) {
-  Rfast::dista(x, y, method = "manhattan")
+  philentropy::dist_many_many(x, y, method = "manhattan")
 }
 
 kmeans_fit %>% sse_ratio(dist_fun = my_dist_2)
@@ -404,7 +404,7 @@ pens %>%
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. Point are colored according to how close they were to the color points."
-closest_center <- Rfast::dista(as.matrix(pens), as.matrix(pens[init, ])) %>%
+closest_center <- philentropy::dist_many_many(as.matrix(pens), as.matrix(pens[init, ]), method = "euclidean") %>%
   apply(1, which.min)
 
 pens %>%
