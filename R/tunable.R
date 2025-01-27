@@ -16,7 +16,9 @@ tunable.cluster_spec <- function(x, ...) {
     rlang::abort(
       paste(
         "The `tidyclust` model database doesn't know about the arguments for ",
-        "model `", mod_type(x), "`. Was it registered?",
+        "model `",
+        mod_type(x),
+        "`. Was it registered?",
         sep = ""
       ),
       call. = FALSE
@@ -25,17 +27,17 @@ tunable.cluster_spec <- function(x, ...) {
 
   arg_vals <-
     mod_env[[arg_name]] %>%
-    dplyr::filter(engine == x$engine) %>%
-    dplyr::select(name = exposed, call_info = func) %>%
-    dplyr::full_join(
-      tibble::tibble(name = c(names(x$args), names(x$eng_args))),
-      by = "name"
-    ) %>%
-    dplyr::mutate(
-      source = "cluster_spec",
-      component = mod_type(x),
-      component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
-    )
+      dplyr::filter(engine == x$engine) %>%
+      dplyr::select(name = exposed, call_info = func) %>%
+      dplyr::full_join(
+        tibble::tibble(name = c(names(x$args), names(x$eng_args))),
+        by = "name"
+      ) %>%
+      dplyr::mutate(
+        source = "cluster_spec",
+        component = mod_type(x),
+        component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
+      )
 
   if (nrow(arg_vals) > 0) {
     has_info <- map_lgl(arg_vals$call_info, is.null)

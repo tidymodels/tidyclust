@@ -4,7 +4,12 @@
 \alias{prep_data_dist}
 \title{Prepares data and distance matrices for metric calculation}
 \usage{
-prep_data_dist(object, new_data = NULL, dists = NULL, dist_fun = Rfast::Dist)
+prep_data_dist(
+  object,
+  new_data = NULL,
+  dists = NULL,
+  dist_fun = philentropy::distance
+)
 }
 \arguments{
 \item{object}{A fitted \code{\link{cluster_spec}} object.}

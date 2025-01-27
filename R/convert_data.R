@@ -32,13 +32,15 @@
 #' @inheritParams fit.cluster_spec
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_form_to_x_fit <- function(formula,
-                                   data,
-                                   ...,
-                                   na.action = na.omit,
-                                   indicators = "traditional",
-                                   composition = "data.frame",
-                                   remove_intercept = TRUE) {
+.convert_form_to_x_fit <- function(
+  formula,
+  data,
+  ...,
+  na.action = na.omit,
+  indicators = "traditional",
+  composition = "data.frame",
+  remove_intercept = TRUE
+) {
   if (!(composition %in% c("data.frame", "matrix"))) {
     rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
   }
@@ -155,9 +157,7 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
 #' @inheritParams .convert_form_to_x_fit
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_x_to_form_fit <- function(x,
-                                   weights = NULL,
-                                   remove_intercept = TRUE) {
+.convert_x_to_form_fit <- function(x, weights = NULL, remove_intercept = TRUE) {
   if (is.vector(x)) {
     rlang::abort("`x` cannot be a vector.")
   }
@@ -212,10 +212,12 @@ make_formula <- function(x, short = TRUE) {
 #' @inheritParams predict.cluster_fit
 #' @rdname convert_helpers
 #' @keywords internal
-.convert_form_to_x_new <- function(object,
-                                   new_data,
-                                   na.action = stats::na.pass,
-                                   composition = "data.frame") {
+.convert_form_to_x_new <- function(
+  object,
+  new_data,
+  na.action = stats::na.pass,
+  composition = "data.frame"
+) {
   if (!(composition %in% c("data.frame", "matrix"))) {
     rlang::abort("`composition` should be either 'data.frame' or 'matrix'.")
   }

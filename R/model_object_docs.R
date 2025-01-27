@@ -185,4 +185,3 @@ NULL
 #' @rdname cluster_fit
 #' @name cluster_fit
 NULL
-

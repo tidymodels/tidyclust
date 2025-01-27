@@ -71,15 +71,23 @@ tune_cluster.default <- function(object, ...) {
 
 #' @export
 #' @rdname tune_cluster
-tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
-                                      param_info = NULL, grid = 10,
-                                      metrics = NULL,
-                                      control = tune::control_grid()) {
+tune_cluster.cluster_spec <- function(
+  object,
+  preprocessor,
+  resamples,
+  ...,
+  param_info = NULL,
+  grid = 10,
+  metrics = NULL,
+  control = tune::control_grid()
+) {
   if (rlang::is_missing(preprocessor) || !tune::is_preprocessor(preprocessor)) {
-    rlang::abort(paste(
-      "To tune a model spec, you must preprocess",
-      "with a formula or recipe"
-    ))
+    rlang::abort(
+      paste(
+        "To tune a model spec, you must preprocess",
+        "with a formula or recipe"
+      )
+    )
   }
 
   tune::empty_ellipses(...)
@@ -106,9 +114,15 @@ tune_cluster.cluster_spec <- function(object, preprocessor, resamples, ...,
 
 #' @export
 #' @rdname tune_cluster
-tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
-                                  grid = 10, metrics = NULL,
-                                  control = tune::control_grid()) {
+tune_cluster.workflow <- function(
+  object,
+  resamples,
+  ...,
+  param_info = NULL,
+  grid = 10,
+  metrics = NULL,
+  control = tune::control_grid()
+) {
   tune::empty_ellipses(...)
 
   control <- parsnip::condense_control(control, tune::control_grid())
@@ -131,13 +145,15 @@ tune_cluster.workflow <- function(object, resamples, ..., param_info = NULL,
 
 # ------------------------------------------------------------------------------
 
-tune_cluster_workflow <- function(workflow,
-                                  resamples,
-                                  grid = 10,
-                                  metrics = NULL,
-                                  pset = NULL,
-                                  control = NULL,
-                                  rng = TRUE) {
+tune_cluster_workflow <- function(
+  workflow,
+  resamples,
+  grid = 10,
+  metrics = NULL,
+  pset = NULL,
+  control = NULL,
+  rng = TRUE
+) {
   tune::check_rset(resamples)
 
   metrics <- check_metrics(metrics, workflow)
@@ -185,12 +201,14 @@ tune_cluster_workflow <- function(workflow,
   )
 }
 
-tune_cluster_loop <- function(resamples,
-                              grid,
-                              workflow,
-                              metrics,
-                              control,
-                              rng) {
+tune_cluster_loop <- function(
+  resamples,
+  grid,
+  workflow,
+  metrics,
+  control,
+  rng
+) {
   `%op%` <- get_operator(control$allow_par, workflow)
   `%:%` <- foreach::`%:%`
 
@@ -226,63 +244,67 @@ tune_cluster_loop <- function(resamples,
     results <- local({
       suppressPackageStartupMessages(
         foreach::foreach(
-        split = splits,
-        seed = seeds,
-        .packages = packages,
-        .errorhandling = "pass"
-      ) %op% {
-        # Extract internal function from tune namespace
-        tune_cluster_loop_iter_safely <- utils::getFromNamespace(
-          x = "tune_cluster_loop_iter_safely",
-          ns = "tidyclust"
-        )
+          split = splits,
+          seed = seeds,
+          .packages = packages,
+          .errorhandling = "pass"
+        ) %op%
+          {
+            # Extract internal function from tune namespace
+            tune_cluster_loop_iter_safely <- utils::getFromNamespace(
+              x = "tune_cluster_loop_iter_safely",
+              ns = "tidyclust"
+            )
 
-        tune_cluster_loop_iter_safely(
-          split = split,
-          grid_info = grid_info,
-          workflow = workflow,
-          metrics = metrics,
-          control = control,
-          seed = seed
-        )
-      }
-    )
-  })
+            tune_cluster_loop_iter_safely(
+              split = split,
+              grid_info = grid_info,
+              workflow = workflow,
+              metrics = metrics,
+              control = control,
+              seed = seed
+            )
+          }
+      )
+    })
   } else if (identical(parallel_over, "everything")) {
     seeds <- generate_seeds(rng, n_resamples * n_grid_info)
 
-    results <- local(suppressPackageStartupMessages(
-      foreach::foreach(
-        iteration = iterations,
-        split = splits,
-        .packages = packages,
-        .errorhandling = "pass"
-      ) %:%
+    results <- local(
+      suppressPackageStartupMessages(
         foreach::foreach(
-          row = rows,
-          seed = slice_seeds(seeds, iteration, n_grid_info),
+          iteration = iterations,
+          split = splits,
           .packages = packages,
-          .errorhandling = "pass",
-          .combine = iter_combine
-        ) %op% {
-          # Extract internal function from tidyclust namespace
-          tune_grid_loop_iter_safely <- utils::getFromNamespace(
-            x = "tune_cluster_loop_iter_safely",
-            ns = "tidyclust"
-          )
+          .errorhandling = "pass"
+        ) %:%
+          foreach::foreach(
+            row = rows,
+            seed = slice_seeds(seeds, iteration, n_grid_info),
+            .packages = packages,
+            .errorhandling = "pass",
+            .combine = iter_combine
+          ) %op%
+          {
+            # Extract internal function from tidyclust namespace
+            tune_grid_loop_iter_safely <- utils::getFromNamespace(
+              x = "tune_cluster_loop_iter_safely",
+              ns = "tidyclust"
+            )
 
-          grid_info_row <- vctrs::vec_slice(grid_info, row)
+            grid_info_row <- vctrs::vec_slice(grid_info, row)
 
-          tune_grid_loop_iter_safely(
-            split = split,
-            grid_info = grid_info_row,
-            workflow = workflow,
-            metrics = metrics,
-            control = control,
-            seed = seed
-          )
-        }
-    ))
+            tune_grid_loop_iter_safely(
+              split = split,
+              grid_info = grid_info_row,
+              workflow = workflow,
+              metrics = metrics,
+              control = control,
+              seed = seed
+            )
+          }
+      )
+    )
   } else {
     rlang::abort("Internal error: Invalid `parallel_over`.")
   }
@@ -311,7 +333,8 @@ compute_grid_info <- function(workflow, grid) {
     if (any_parameters_preprocessor) {
       compute_grid_info_model_and_preprocessor(
         workflow,
-        grid, parameters_model
+        grid,
+        parameters_model
       )
     } else {
       compute_grid_info_model(workflow, grid, parameters_model)
@@ -331,12 +354,14 @@ compute_grid_info <- function(workflow, grid) {
   }
 }
 
-tune_cluster_loop_iter <- function(split,
-                                   grid_info,
-                                   workflow,
-                                   metrics,
-                                   control,
-                                   seed) {
+tune_cluster_loop_iter <- function(
+  split,
+  grid_info,
+  workflow,
+  metrics,
+  control,
+  seed
+) {
   load_pkgs(workflow)
   load_namespace(control$pkgs)
 
@@ -541,12 +566,14 @@ tune_cluster_loop_iter <- function(split,
   )
 }
 
-tune_cluster_loop_iter_safely <- function(split,
-                                          grid_info,
-                                          workflow,
-                                          metrics,
-                                          control,
-                                          seed) {
+tune_cluster_loop_iter_safely <- function(
+  split,
+  grid_info,
+  workflow,
+  metrics,
+  control,
+  seed
+) {
   tune_cluster_loop_iter_wrapper <- super_safely(tune_cluster_loop_iter)
 
   time <- proc.time()
@@ -617,7 +644,8 @@ super_safely <- function(fn) {
       expr = tryCatch(
         expr = list(
           result = fn(...),
-          error = NULL, warnings = warnings
+          error = NULL,
+          warnings = warnings
         ),
         error = handle_error
       ),
@@ -636,37 +664,45 @@ compute_grid_info_model <- function(workflow, grid, parameters_model) {
   msgs_preprocessor <- new_msgs_preprocessor(i = 1L, n = 1L)
   msgs_preprocessor <- rep(msgs_preprocessor, times = n_fit_models)
   msgs_model <- new_msgs_model(
-    i = seq_fit_models, n = n_fit_models,
+    i = seq_fit_models,
+    n = n_fit_models,
     msgs_preprocessor = msgs_preprocessor
   )
   iter_configs <- compute_config_ids(out, "Preprocessor1")
   out <- tibble::add_column(
-    .data = out, .iter_preprocessor = 1L,
+    .data = out,
+    .iter_preprocessor = 1L,
     .before = 1L
   )
   out <- tibble::add_column(
-    .data = out, .msg_preprocessor = msgs_preprocessor,
+    .data = out,
+    .msg_preprocessor = msgs_preprocessor,
     .after = ".iter_preprocessor"
   )
   out <- tibble::add_column(
-    .data = out, .iter_model = seq_fit_models,
+    .data = out,
+    .iter_model = seq_fit_models,
     .after = ".msg_preprocessor"
   )
   out <- tibble::add_column(
-    .data = out, .iter_config = iter_configs,
+    .data = out,
+    .iter_config = iter_configs,
     .after = ".iter_model"
   )
   out <- tibble::add_column(
-    .data = out, .msg_model = msgs_model,
+    .data = out,
+    .msg_model = msgs_model,
     .after = ".iter_config"
   )
   out
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L484
-compute_grid_info_model_and_preprocessor <- function(workflow,
-                                                     grid,
-                                                     parameters_model) {
+compute_grid_info_model_and_preprocessor <- function(
+  workflow,
+  grid,
+  parameters_model
+) {
   parameter_names_model <- parameters_model[["id"]]
 
   # Nest model parameters, keep preprocessor parameters outside
@@ -751,9 +787,7 @@ compute_grid_info_model_and_preprocessor <- function(workflow,
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L359
-compute_grid_info_preprocessor <- function(workflow,
-                                           grid,
-                                           parameters_model) {
+compute_grid_info_preprocessor <- function(workflow, grid, parameters_model) {
   out <- grid
 
   n_preprocessors <- nrow(out)
@@ -825,7 +859,8 @@ check_metrics <- function(x, object) {
   mode <- extract_spec_parsnip(object)$mode
 
   if (is.null(x)) {
-    switch(mode,
+    switch(
+      mode,
       partition = {
         x <- cluster_metric_set(sse_within_total, sse_total)
       },
@@ -857,10 +892,12 @@ check_metrics <- function(x, object) {
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L144
-check_parameters <- function(workflow,
-                             pset = NULL,
-                             data,
-                             grid_names = character(0)) {
+check_parameters <- function(
+  workflow,
+  pset = NULL,
+  data,
+  grid_names = character(0)
+) {
   if (is.null(pset)) {
     pset <- hardhat::extract_parameter_set_dials(workflow)
   }
@@ -934,10 +971,12 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
     incompl <- dials::has_unknowns(pset$object)
 
     if (any(incompl)) {
-      rlang::abort(paste0(
-        "The workflow has arguments whose ranges are not finalized: ",
-        paste0("'", pset$id[incompl], "'", collapse = ", ")
-      ))
+      rlang::abort(
+        paste0(
+          "The workflow has arguments whose ranges are not finalized: ",
+          paste0("'", pset$id[incompl], "'", collapse = ", ")
+        )
+      )
     }
   }
 
@@ -952,11 +991,13 @@ check_param_objects <- function(pset) {
   params <- map_lgl(pset$object, inherits, "param")
 
   if (!all(params)) {
-    rlang::abort(paste0(
-      "The workflow has arguments to be tuned that are missing some ",
-      "parameter objects: ",
-      paste0("'", pset$id[!params], "'", collapse = ", ")
-    ))
+    rlang::abort(
+      paste0(
+        "The workflow has arguments to be tuned that are missing some ",
+        "parameter objects: ",
+        paste0("'", pset$id[!params], "'", collapse = ", ")
+      )
+    )
   }
   invisible(pset)
 }

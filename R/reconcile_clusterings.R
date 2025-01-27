@@ -31,10 +31,12 @@
 #' factor2 <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Parrot")
 #' reconcile_clusterings_mapping(factor1, factor2, one_to_one = FALSE)
 #' @export
-reconcile_clusterings_mapping <- function(primary,
-                                          alternative,
-                                          one_to_one = TRUE,
-                                          optimize = "accuracy") {
+reconcile_clusterings_mapping <- function(
+  primary,
+  alternative,
+  one_to_one = TRUE,
+  optimize = "accuracy"
+) {
   rlang::check_installed("RcppHungarian")
   if (length(primary) != length(alternative)) {
     rlang::abort(

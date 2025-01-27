@@ -8,8 +8,12 @@
 #' @param dist_fun A custom distance functions.
 #'
 #' @return A list
-prep_data_dist <- function(object, new_data = NULL,
-                           dists = NULL, dist_fun = Rfast::Dist) {
+prep_data_dist <- function(
+  object,
+  new_data = NULL,
+  dists = NULL,
+  dist_fun = philentropy::distance
+) {
   # Sihouettes requires a distance matrix
   if (is.null(new_data) && is.null(dists)) {
     rlang::abort(
@@ -42,14 +46,18 @@ prep_data_dist <- function(object, new_data = NULL,
 
   # Calculate distances including optionally supplied params
   if (is.null(dists)) {
-    dists <- dist_fun(new_data)
+    suppressMessages(
+      dists <- dist_fun(new_data)
+    )
   }
 
-  return(list(
-    clusters = clusters,
-    data = new_data,
-    dists = dists
-  ))
+  return(
+    list(
+      clusters = clusters,
+      data = new_data,
+      dists = dists
+    )
+  )
 }
 
 #' Computes distance from observations to centroids
@@ -57,11 +65,20 @@ prep_data_dist <- function(object, new_data = NULL,
 #' @param new_data A data frame
 #' @param centroids A data frame where each row is a centroid.
 #' @param dist_fun A function for computing matrix-to-matrix distances. Defaults
-#'   to `Rfast::dista()`
-get_centroid_dists <- function(new_data, centroids, dist_fun = Rfast::dista) {
+#'   to
+#'   `function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")`.
+get_centroid_dists <- function(
+  new_data,
+  centroids,
+  dist_fun = function(x, y) {
+    philentropy::dist_many_many(x, y, method = "euclidean")
+  }
+) {
   if (ncol(new_data) != ncol(centroids)) {
     rlang::abort("Centroids must have same columns as data.")
   }
 
-  dist_fun(centroids, new_data)
+  suppressMessages(
+    dist_fun(as.matrix(centroids), as.matrix(new_data))
+  )
 }

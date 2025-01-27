@@ -16,7 +16,15 @@ sse_ratio(object, ...)
 
 \method{sse_ratio}{workflow}(object, new_data = NULL, dist_fun = NULL, ...)
 
-sse_ratio_vec(object, new_data = NULL, dist_fun = Rfast::dista, ...)
+sse_ratio_vec(
+  object,
+  new_data = NULL,
+  dist_fun = function(x, y) {
+     philentropy::dist_many_many(x, y, method =
+    "euclidean")
+ },
+  ...
+)
 }
 \arguments{
 \item{object}{A fitted kmeans tidyclust model}

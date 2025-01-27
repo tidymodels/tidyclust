@@ -85,11 +85,13 @@
 #' @return A fitted [`cluster_fit`] object.
 #' @export
 #' @export fit.cluster_spec
-fit.cluster_spec <- function(object,
-                             formula,
-                             data,
-                             control = control_cluster(),
-                             ...) {
+fit.cluster_spec <- function(
+  object,
+  formula,
+  data,
+  control = control_cluster(),
+  ...
+) {
   if (object$mode == "unknown") {
     rlang::abort("Please set the mode in the model specification.")
   }
@@ -133,32 +135,30 @@ fit.cluster_spec <- function(object,
   # used here, `fit_interface_formula` will determine if a
   # translation has to be made if the model interface is x/y/
   res <-
-    switch(interfaces,
+    switch(
+      interfaces,
       # homogeneous combinations:
-      formula_formula =
-        form_form(
-          object = object,
-          control = control,
-          env = eval_env
-        ),
+      formula_formula = form_form(
+        object = object,
+        control = control,
+        env = eval_env
+      ),
 
       # heterogenous combinations
-      formula_matrix =
-        form_x(
-          object = object,
-          control = control,
-          env = eval_env,
-          target = object$method$fit$interface,
-          ...
-        ),
-      formula_data.frame =
-        form_x(
-          object = object,
-          control = control,
-          env = eval_env,
-          target = object$method$fit$interface,
-          ...
-        ),
+      formula_matrix = form_x(
+        object = object,
+        control = control,
+        env = eval_env,
+        target = object$method$fit$interface,
+        ...
+      ),
+      formula_data.frame = form_x(
+        object = object,
+        control = control,
+        env = eval_env,
+        target = object$method$fit$interface,
+        ...
+      ),
       rlang::abort(glue::glue("{interfaces} is unknown."))
     )
   model_classes <- class(res$fit)
@@ -270,36 +270,34 @@ fit_xy.cluster_spec <-
     # used here, `fit_interface_formula` will determine if a
     # translation has to be made if the model interface is x/y/
     res <-
-      switch(interfaces,
+      switch(
+        interfaces,
         # homogeneous combinations:
         matrix_matrix = ,
-        data.frame_matrix =
-          x_x(
-            object = object,
-            env = eval_env,
-            control = control,
-            target = "matrix",
-            ...
-          ),
+        data.frame_matrix = x_x(
+          object = object,
+          env = eval_env,
+          control = control,
+          target = "matrix",
+          ...
+        ),
         data.frame_data.frame = ,
-        matrix_data.frame =
-          x_x(
-            object = object,
-            env = eval_env,
-            control = control,
-            target = "data.frame",
-            ...
-          ),
+        matrix_data.frame = x_x(
+          object = object,
+          env = eval_env,
+          control = control,
+          target = "data.frame",
+          ...
+        ),
 
         # heterogenous combinations
         matrix_formula = ,
-        data.frame_formula =
-          x_form(
-            object = object,
-            env = eval_env,
-            control = control,
-            ...
-          ),
+        data.frame_formula = x_form(
+          object = object,
+          env = eval_env,
+          control = control,
+          ...
+        ),
         rlang::abort(glue::glue("{interfaces} is unknown."))
       )
     model_classes <- class(res$fit)

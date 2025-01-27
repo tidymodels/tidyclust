@@ -56,11 +56,13 @@
 #' hier_clust()
 #' @export
 hier_clust <-
-  function(mode = "partition",
-           engine = "stats",
-           num_clusters = NULL,
-           cut_height = NULL,
-           linkage_method = "complete") {
+  function(
+    mode = "partition",
+    engine = "stats",
+    num_clusters = NULL,
+    cut_height = NULL,
+    linkage_method = "complete"
+  ) {
     args <- list(
       num_clusters = enquo(num_clusters),
       cut_height = enquo(cut_height),
@@ -95,15 +97,19 @@ print.hier_clust <- function(x, ...) {
 #' @method update hier_clust
 #' @rdname tidyclust_update
 #' @export
-update.hier_clust <- function(object,
-                              parameters = NULL,
-                              num_clusters = NULL,
-                              cut_height = NULL,
-                              linkage_method = NULL,
-                              fresh = FALSE, ...) {
+update.hier_clust <- function(
+  object,
+  parameters = NULL,
+  num_clusters = NULL,
+  cut_height = NULL,
+  linkage_method = NULL,
+  fresh = FALSE,
+  ...
+) {
   eng_args <- parsnip::update_engine_parameters(
     object$eng_args,
-    fresh = fresh, ...
+    fresh = fresh,
+    ...
   )
 
   if (!is.null(parameters)) {
@@ -182,12 +188,16 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #' @return A dendrogram
 #' @keywords internal
 #' @export
-.hier_clust_fit_stats <- function(x,
-                                  num_clusters = NULL,
-                                  cut_height = NULL,
-                                  linkage_method = NULL,
-                                  dist_fun = Rfast::Dist) {
-  dmat <- dist_fun(x)
+.hier_clust_fit_stats <- function(
+  x,
+  num_clusters = NULL,
+  cut_height = NULL,
+  linkage_method = NULL,
+  dist_fun = philentropy::distance
+) {
+  suppressMessages(
+    dmat <- dist_fun(x)
+  )
   res <- stats::hclust(stats::as.dist(dmat), method = linkage_method)
   attr(res, "num_clusters") <- num_clusters
   attr(res, "cut_height") <- cut_height

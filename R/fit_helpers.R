@@ -41,7 +41,7 @@ form_form <- function(object, control, env, ...) {
 form_x <- function(object, control, env, target = "none", ...) {
   encoding_info <-
     modelenv::get_encoding(class(object)[1]) %>%
-    dplyr::filter(mode == object$mode, engine == object$engine)
+      dplyr::filter(mode == object$mode, engine == object$engine)
 
   indicators <- encoding_info %>% dplyr::pull(predictor_indicators)
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
@@ -74,7 +74,7 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
   }
   encoding_info <-
     modelenv::get_encoding(class(object)[1]) %>%
-    dplyr::filter(mode == object$mode, engine == object$engine)
+      dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
   if (remove_intercept) {
@@ -120,7 +120,7 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
 x_form <- function(object, env, control, ...) {
   encoding_info <-
     modelenv::get_encoding(class(object)[1]) %>%
-    dplyr::filter(mode == object$mode, engine == object$engine)
+      dplyr::filter(mode == object$mode, engine == object$engine)
 
   remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
 

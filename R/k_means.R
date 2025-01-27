@@ -39,9 +39,7 @@
 #' k_means()
 #' @export
 k_means <-
-  function(mode = "partition",
-           engine = "stats",
-           num_clusters = NULL) {
+  function(mode = "partition", engine = "stats", num_clusters = NULL) {
     args <- list(
       num_clusters = enquo(num_clusters)
     )
@@ -80,13 +78,17 @@ translate_tidyclust.k_means <- function(x, engine = x$engine, ...) {
 #' @method update k_means
 #' @rdname tidyclust_update
 #' @export
-update.k_means <- function(object,
-                           parameters = NULL,
-                           num_clusters = NULL,
-                           fresh = FALSE, ...) {
+update.k_means <- function(
+  object,
+  parameters = NULL,
+  num_clusters = NULL,
+  fresh = FALSE,
+  ...
+) {
   eng_args <- parsnip::update_engine_parameters(
     object$eng_args,
-    fresh = fresh, ...
+    fresh = fresh,
+    ...
   )
 
   if (!is.null(parameters)) {
@@ -170,17 +172,19 @@ check_args.k_means <- function(object) {
 #'   obs_per_cluster, between.SS_DIV_total.SS
 #' @keywords internal
 #' @export
-.k_means_fit_ClusterR <- function(data,
-                                  clusters,
-                                  num_init = 1,
-                                  max_iters = 100,
-                                  initializer = "kmeans++",
-                                  fuzzy = FALSE,
-                                  verbose = FALSE,
-                                  CENTROIDS = NULL,
-                                  tol = 1e-04,
-                                  tol_optimal_init = 0.3,
-                                  seed = 1) {
+.k_means_fit_ClusterR <- function(
+  data,
+  clusters,
+  num_init = 1,
+  max_iters = 100,
+  initializer = "kmeans++",
+  fuzzy = FALSE,
+  verbose = FALSE,
+  CENTROIDS = NULL,
+  tol = 1e-04,
+  tol_optimal_init = 0.3,
+  seed = 1
+) {
   if (is.null(clusters)) {
     rlang::abort(
       "Please specify `num_clust` to be able to fit specification.",
@@ -259,8 +263,8 @@ check_args.k_means <- function(object) {
           c(
             "Engine `clustMixType` requires both numeric and categorical \\
           predictors.",
-          "x" = "Only numeric predictors where used.",
-          "i" = "Try using the `stats` engine with \\
+            "x" = "Only numeric predictors where used.",
+            "i" = "Try using the `stats` engine with \\
           {.code mod %>% set_engine(\"stats\")}."
           ),
           call = call("fit")
@@ -271,8 +275,8 @@ check_args.k_means <- function(object) {
           c(
             "Engine `clustMixType` requires both numeric and categorical \\
           predictors.",
-          "x" = "Only categorical predictors where used.",
-          "i" = "Try using the `klaR` engine with \\
+            "x" = "Only categorical predictors where used.",
+            "i" = "Try using the `klaR` engine with \\
           {.code mod %>% set_engine(\"klaR\")}."
           ),
           call = call("fit")

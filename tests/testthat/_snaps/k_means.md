@@ -3,7 +3,7 @@
     Code
       k_means(mode = "bogus")
     Condition
-      Error in `new_cluster_spec()`:
+      Error in `k_means()`:
       ! "bogus" is not a known mode for model `k_means()`.
 
 ---

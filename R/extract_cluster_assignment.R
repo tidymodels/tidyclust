@@ -111,9 +111,11 @@ extract_cluster_assignment.kmodes <- function(object, ...) {
 }
 
 #' @export
-extract_cluster_assignment.hclust <- function(object,
-                                              ...,
-                                              call = rlang::caller_env(0)) {
+extract_cluster_assignment.hclust <- function(
+  object,
+  ...,
+  call = rlang::caller_env(0)
+) {
   # if k or h is passed in the dots, use those.  Otherwise, use attributes
   # from original model specification
   args <- list(...)
@@ -159,10 +161,12 @@ extract_cluster_assignment.hclust <- function(object,
 
 # ------------------------------------------------------------------------------
 
-cluster_assignment_tibble <- function(clusters,
-                                      n_clusters,
-                                      ...,
-                                      prefix = "Cluster_") {
+cluster_assignment_tibble <- function(
+  clusters,
+  n_clusters,
+  ...,
+  prefix = "Cluster_"
+) {
   reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
   names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]

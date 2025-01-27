@@ -163,7 +163,11 @@ test_that("tune model and recipe", {
   expect_equal(
     colnames(res$.metrics[[1]]),
     c(
-      "num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
+      "num_clusters",
+      "num_comp",
+      ".metric",
+      ".estimator",
+      ".estimate",
       ".config"
     )
   )
@@ -233,7 +237,11 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   expect_equal(
     colnames(res$.metrics[[1]]),
     c(
-      "num_clusters", "num_comp", ".metric", ".estimator", ".estimate",
+      "num_clusters",
+      "num_comp",
+      ".metric",
+      ".estimator",
+      ".estimate",
       ".config"
     )
   )
@@ -258,9 +266,12 @@ test_that("tune model only - failure in formula is caught elegantly", {
       ~z,
       resamples = data_folds,
       grid = cars_grid,
-      control = tune::control_grid(extract = function(x) {
-        1
-      }, save_pred = TRUE)
+      control = tune::control_grid(
+        extract = function(x) {
+          1
+        },
+        save_pred = TRUE
+      )
     )
   )
 

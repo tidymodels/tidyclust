@@ -17,12 +17,10 @@ res <- data.frame(
 )
 
 for (k in 2:10) {
-
   km <- k_means(k = k) %>%
     set_engine("stats")
 
   for (i in 1:5) {
-
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
 
@@ -36,11 +34,8 @@ for (k in 2:10) {
     sil <- km_fit %>%
       silhouette_avg(tmp_test)
 
-    res <- rbind(res,
-                 c(k = k, i = i, wss = wss, sil = sil, wss_2 = wss_2))
-
+    res <- rbind(res, c(k = k, i = i, wss = wss, sil = sil, wss_2 = wss_2))
   }
-
 }
 
 res %>%
@@ -63,14 +58,12 @@ res <- data.frame(
 )
 
 for (k in 2:10) {
-
   km <- k_means(k = k) %>%
     set_engine("stats")
 
   full_fit <- km %>% fit(~., data = ir)
 
   for (i in 1:10) {
-
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
 
@@ -87,11 +80,11 @@ for (k in 2:10) {
     acc <- accuracy(thing, clusters_1, clusters_2)
     f1 <- f_meas(thing, clusters_1, clusters_2)
 
-    res <- rbind(res,
-                 c(k = k, i = i, acc = acc$.estimate[1], f1 = f1$.estimate))
-
+    res <- rbind(
+      res,
+      c(k = k, i = i, acc = acc$.estimate[1], f1 = f1$.estimate)
+    )
   }
-
 }
 
 res %>%
