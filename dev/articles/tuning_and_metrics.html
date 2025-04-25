@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Tuning Cluster Models">
@@ -89,7 +89,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -167,29 +167,29 @@ clusters.</p>
 <span><span class="co">#&gt; # Tuning results</span></span>
 <span><span class="co">#&gt; # 5-fold cross-validation </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
-<span><span class="co">#&gt;   splits           id    .metrics          .notes   .extracts .predictions</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble [30 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble [30 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble [30 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [267/66]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble [30 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [267/66]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble [30 × 5]&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   splits           id    .metrics .notes   .extracts .predictions      </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold1 <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble [670 × 4]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold2 <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble [670 × 4]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">&lt;split [266/67]&gt;</span> Fold3 <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble [670 × 4]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #949494;">&lt;split [267/66]&gt;</span> Fold4 <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble [660 × 4]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #949494;">&lt;split [267/66]&gt;</span> Fold5 <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span> <span style="color: #949494;">&lt;tibble&gt;</span>  <span style="color: #949494;">&lt;tibble [660 × 4]&gt;</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op">&lt;-</span> <span class="va">res</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">res_metrics</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 30 × 7</span></span></span>
-<span><span class="co">#&gt;    num_clusters .metric          .estimator     mean     n std_err .config</span></span>
-<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>            1 sse_ratio        standard      1         5 0   <span style="color: #949494;"> </span>   Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>            1 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>            1 sse_within_total standard   <span style="text-decoration: underline;">8</span>971.        5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>            2 sse_ratio        standard      0.321     5 1.41<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>            2 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>            2 sse_within_total standard   <span style="text-decoration: underline;">2</span>885.        5 4.73<span style="color: #949494;">e</span>+1 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>            3 sse_ratio        standard      0.202     5 2.21<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>            3 sse_total        standard   <span style="text-decoration: underline;">8</span>971.        5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>            3 sse_within_total standard   <span style="text-decoration: underline;">1</span>809.        5 3.47<span style="color: #949494;">e</span>+1 Prepro…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>            4 sse_ratio        standard      0.160     5 5.79<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
+<span><span class="co">#&gt;    num_clusters .metric        .estimator    mean     n std_err .config</span></span>
+<span><span class="co">#&gt;           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>            1 sse_ratio      standard   1   <span style="color: #949494;">e</span>+0     5 0   <span style="color: #949494;"> </span>   Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>            1 sse_total      standard   8.97<span style="color: #949494;">e</span>+3     5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>            1 sse_within_to… standard   8.97<span style="color: #949494;">e</span>+3     5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>            2 sse_ratio      standard   3.21<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span>     5 1.41<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>            2 sse_total      standard   8.97<span style="color: #949494;">e</span>+3     5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>            2 sse_within_to… standard   2.88<span style="color: #949494;">e</span>+3     5 4.73<span style="color: #949494;">e</span>+1 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>            3 sse_ratio      standard   2.02<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span>     5 2.21<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>            3 sse_total      standard   8.97<span style="color: #949494;">e</span>+3     5 1.19<span style="color: #949494;">e</span>+2 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>            3 sse_within_to… standard   1.81<span style="color: #949494;">e</span>+3     5 3.47<span style="color: #949494;">e</span>+1 Prepro…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>            4 sse_ratio      standard   1.60<span style="color: #949494;">e</span><span style="color: #BB0000;">-1</span>     5 5.79<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> Prepro…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="choosing-hyperparameters">Choosing hyperparameters<a class="anchor" aria-label="anchor" href="#choosing-hyperparameters"></a>
@@ -202,8 +202,8 @@ expect the within sum-of-squares to be smaller.</p>
 “elbow”, or notable bend, in the plot of WSS/TSS ratio by cluster
 number:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"sse_ratio"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">res_metrics</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"sse_ratio"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">num_clusters</span>, y <span class="op">=</span> <span class="va">mean</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -220,8 +220,8 @@ so we should probably choose three or four clusters.</p>
 <!-- ## Comparison to auxilary variables -->
 <!-- It is sometimes of interest to compare to external variables -->
 <!-- ```{r, eval=FALSE} -->
-<!-- kmeans_fit %>% -->
-<!--   augment(penguins) %>% -->
+<!-- kmeans_fit |> -->
+<!--   augment(penguins) |> -->
 <!--   enrichment(.pred_cluster, species) -->
 <!-- ``` -->
 </div>

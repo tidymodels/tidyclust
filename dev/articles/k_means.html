@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="k-means">
@@ -91,13 +91,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># shuffle rows</span></span>
-<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>At the end of this vignette, you will find a brief overview of the
 k-means algorithm, as well as some further algorithmic variant details,
@@ -124,10 +124,10 @@ and <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="ext
 implementation, by changing the engine and/or using the corresponding
 arguments from the engine functions:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_spec_lloyd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_spec_lloyd</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">parsnip</span><span class="fu">::</span><span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"stats"</span>, algorithm <span class="op">=</span> <span class="st">"Lloyd"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">kmeans_spec_cr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">kmeans_spec_cr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">parsnip</span><span class="fu">::</span><span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ClusterR"</span>, initializer <span class="op">=</span> <span class="st">"random"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that the <code><a href="https://rdrr.io/r/stats/kmeans.html" class="external-link">stats::kmeans</a></code> and the
 <code><a href="https://rdrr.io/pkg/ClusterR/man/KMeans_rcpp.html" class="external-link">ClusterR::KMeans_rcpp</a></code> implementations have very different
@@ -144,12 +144,12 @@ model fit.<br>
 Note that unlike in supervised modeling, the formula should not include
 a response variable.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_spec</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">penguins</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         Length Class   Mode</span></span>
 <span><span class="co">#&gt; spec    4      k_means list</span></span>
@@ -170,44 +170,48 @@ model object:</p>
 <span><span class="co">#&gt; 1       50.90353      17.33647</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Clustering vector:</span></span>
-<span><span class="co">#&gt;   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18 </span></span>
-<span><span class="co">#&gt;   1   1   1   2   3   3   2   2   1   3   3   1   1   1   2   1   3   2 </span></span>
-<span><span class="co">#&gt;  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36 </span></span>
-<span><span class="co">#&gt;   2   1   1   1   3   1   3   3   2   2   2   2   2   3   2   2   2   3 </span></span>
-<span><span class="co">#&gt;  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54 </span></span>
-<span><span class="co">#&gt;   3   1   2   3   2   3   2   2   2   3   1   1   1   3   1   1   2   1 </span></span>
-<span><span class="co">#&gt;  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72 </span></span>
-<span><span class="co">#&gt;   3   2   2   1   2   1   2   2   1   3   3   1   1   1   3   3   1   1 </span></span>
-<span><span class="co">#&gt;  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90 </span></span>
-<span><span class="co">#&gt;   1   1   3   2   3   1   3   1   1   1   1   3   3   2   1   2   3   1 </span></span>
-<span><span class="co">#&gt;  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108 </span></span>
-<span><span class="co">#&gt;   1   2   1   2   3   1   1   2   2   2   2   2   1   1   2   1   1   2 </span></span>
-<span><span class="co">#&gt; 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 </span></span>
-<span><span class="co">#&gt;   1   2   1   1   1   2   3   2   2   3   2   2   1   1   1   1   3   2 </span></span>
-<span><span class="co">#&gt; 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 </span></span>
-<span><span class="co">#&gt;   1   1   2   1   3   1   1   3   1   2   3   2   1   1   2   2   3   2 </span></span>
-<span><span class="co">#&gt; 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 </span></span>
-<span><span class="co">#&gt;   2   2   3   3   1   3   2   1   2   3   3   1   3   2   1   2   1   2 </span></span>
-<span><span class="co">#&gt; 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 </span></span>
-<span><span class="co">#&gt;   1   2   3   2   2   2   1   2   1   2   1   1   1   2   3   3   1   2 </span></span>
-<span><span class="co">#&gt; 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 </span></span>
-<span><span class="co">#&gt;   1   1   2   2   1   2   1   1   2   1   2   3   3   1   1   3   1   1 </span></span>
-<span><span class="co">#&gt; 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 </span></span>
-<span><span class="co">#&gt;   2   2   1   3   2   1   1   1   1   2   3   3   1   1   1   2   1   3 </span></span>
-<span><span class="co">#&gt; 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 </span></span>
-<span><span class="co">#&gt;   3   1   1   1   3   3   1   1   2   1   1   2   3   1   1   2   3   1 </span></span>
-<span><span class="co">#&gt; 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 </span></span>
-<span><span class="co">#&gt;   1   3   1   1   2   3   2   2   1   3   3   3   2   1   1   3   1   1 </span></span>
-<span><span class="co">#&gt; 253 254 255 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 </span></span>
-<span><span class="co">#&gt;   2   3   1   2   2   3   1   2   3   3   2   1   3   3   2   2   1   1 </span></span>
-<span><span class="co">#&gt; 271 272 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 </span></span>
-<span><span class="co">#&gt;   2   1   1   1   1   1   2   1   1   3   3   3   2   1   2   1   1   1 </span></span>
-<span><span class="co">#&gt; 289 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 </span></span>
-<span><span class="co">#&gt;   2   1   2   1   1   3   2   2   2   3   2   1   3   1   1   1   3   1 </span></span>
-<span><span class="co">#&gt; 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 324 </span></span>
-<span><span class="co">#&gt;   2   2   2   1   3   2   3   3   2   1   2   2   1   3   2   2   2   2 </span></span>
-<span><span class="co">#&gt; 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 341 342 </span></span>
-<span><span class="co">#&gt;   3   2   2   2   3   1   3   1   2   1   3   3   3   1   3   1   2   2 </span></span>
+<span><span class="co">#&gt;   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17 </span></span>
+<span><span class="co">#&gt;   1   1   1   2   3   3   2   2   1   3   3   1   1   1   2   1   3 </span></span>
+<span><span class="co">#&gt;  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34 </span></span>
+<span><span class="co">#&gt;   2   2   1   1   1   3   1   3   3   2   2   2   2   2   3   2   2 </span></span>
+<span><span class="co">#&gt;  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51 </span></span>
+<span><span class="co">#&gt;   2   3   3   1   2   3   2   3   2   2   2   3   1   1   1   3   1 </span></span>
+<span><span class="co">#&gt;  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68 </span></span>
+<span><span class="co">#&gt;   1   2   1   3   2   2   1   2   1   2   2   1   3   3   1   1   1 </span></span>
+<span><span class="co">#&gt;  69  70  71  72  73  74  75  76  77  78  79  80  81  82  83  84  85 </span></span>
+<span><span class="co">#&gt;   3   3   1   1   1   1   3   2   3   1   3   1   1   1   1   3   3 </span></span>
+<span><span class="co">#&gt;  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100 101 102 </span></span>
+<span><span class="co">#&gt;   2   1   2   3   1   1   2   1   2   3   1   1   2   2   2   2   2 </span></span>
+<span><span class="co">#&gt; 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 </span></span>
+<span><span class="co">#&gt;   1   1   2   1   1   2   1   2   1   1   1   2   3   2   2   3   2 </span></span>
+<span><span class="co">#&gt; 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 </span></span>
+<span><span class="co">#&gt;   2   1   1   1   1   3   2   1   1   2   1   3   1   1   3   1   2 </span></span>
+<span><span class="co">#&gt; 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 </span></span>
+<span><span class="co">#&gt;   3   2   1   1   2   2   3   2   2   2   3   3   1   3   2   1   2 </span></span>
+<span><span class="co">#&gt; 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 </span></span>
+<span><span class="co">#&gt;   3   3   1   3   2   1   2   1   2   1   2   3   2   2   2   1   2 </span></span>
+<span><span class="co">#&gt; 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 </span></span>
+<span><span class="co">#&gt;   1   2   1   1   1   2   3   3   1   2   1   1   2   2   1   2   1 </span></span>
+<span><span class="co">#&gt; 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 </span></span>
+<span><span class="co">#&gt;   1   2   1   2   3   3   1   1   3   1   1   2   2   1   3   2   1 </span></span>
+<span><span class="co">#&gt; 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 </span></span>
+<span><span class="co">#&gt;   1   1   1   2   3   3   1   1   1   2   1   3   3   1   1   1   3 </span></span>
+<span><span class="co">#&gt; 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 </span></span>
+<span><span class="co">#&gt;   3   1   1   2   1   1   2   3   1   1   2   3   1   1   3   1   1 </span></span>
+<span><span class="co">#&gt; 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 </span></span>
+<span><span class="co">#&gt;   2   3   2   2   1   3   3   3   2   1   1   3   1   1   2   3   1 </span></span>
+<span><span class="co">#&gt; 256 257 258 259 260 261 262 263 264 265 266 267 268 269 270 271 272 </span></span>
+<span><span class="co">#&gt;   2   2   3   1   2   3   3   2   1   3   3   2   2   1   1   2   1 </span></span>
+<span><span class="co">#&gt; 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289 </span></span>
+<span><span class="co">#&gt;   1   1   1   1   2   1   1   3   3   3   2   1   2   1   1   1   2 </span></span>
+<span><span class="co">#&gt; 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306 </span></span>
+<span><span class="co">#&gt;   1   2   1   1   3   2   2   2   3   2   1   3   1   1   1   3   1 </span></span>
+<span><span class="co">#&gt; 307 308 309 310 311 312 313 314 315 316 317 318 319 320 321 322 323 </span></span>
+<span><span class="co">#&gt;   2   2   2   1   3   2   3   3   2   1   2   2   1   3   2   2   2 </span></span>
+<span><span class="co">#&gt; 324 325 326 327 328 329 330 331 332 333 334 335 336 337 338 339 340 </span></span>
+<span><span class="co">#&gt;   2   3   2   2   2   3   1   3   1   2   1   3   3   3   1   3   1 </span></span>
+<span><span class="co">#&gt; 341 342 </span></span>
+<span><span class="co">#&gt;   2   2 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Within cluster sum of squares by cluster:</span></span>
 <span><span class="co">#&gt; [1] 944.4986 754.7437 617.9859</span></span>
@@ -223,10 +227,10 @@ model object:</p>
 information in a format that is consistent across all cluster model
 specifications and engines</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_summary</span> <span class="op">&lt;-</span> <span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_summary</span> <span class="op">&lt;-</span> <span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">kmeans_summary</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">kmeans_summary</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 7</span></span>
 <span><span class="co">#&gt;  $ cluster_names         : Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 2 3</span></span>
 <span><span class="co">#&gt;  $ centroids             : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -245,7 +249,7 @@ specifications and engines</p>
 assign observations to clusters. To access these, use
 <code><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment()</a></code> function:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/extract_cluster_assignment.html">extract_cluster_assignment</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 1</span></span></span>
 <span><span class="co">#&gt;    .cluster </span></span>
@@ -308,7 +312,7 @@ values in the predictor space, a.k.a. the centroids.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>           50.9          17.3</span></span></code></pre></div>
 <p>They can also be accessed directly from the fitted model with:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster  bill_length_mm bill_depth_mm</span></span>
@@ -340,7 +344,7 @@ fitted model centroids.</p>
 <span>  bill_depth_mm <span class="op">=</span> <span class="fl">17</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">new_penguin</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#&gt;   .pred_cluster</span></span>
@@ -350,14 +354,14 @@ fitted model centroids.</p>
 <!-- metric to measure closest centroid.  This is not recommended unless the original -->
 <!-- model fit also used an alternate distance function in the $k$-means algorithm. -->
 <!-- ```{r} -->
-<!-- kmeans_fit %>% -->
+<!-- kmeans_fit |> -->
 <!--   predict(new_penguin, -->
 <!--           dist_fun = dist(., method = "manhattan")) -->
 <!-- ``` -->
 <p>To attach all predictions to a dataset as a column, use
 <code><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment()</a></code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html" class="external-link">augment</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 3</span></span></span>
 <span><span class="co">#&gt;    bill_length_mm bill_depth_mm .pred_cluster</span></span>
@@ -401,18 +405,18 @@ can be accessed directly from the model fit:</p>
 <span><span class="va">kmeans_summary</span><span class="op">$</span><span class="va">sse_total</span></span>
 <span><span class="co">#&gt; [1] 11494.04</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/sse_within_total.html">sse_within_total</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/sse_within_total.html">sse_within_total</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric          .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_within_total standard       <span style="text-decoration: underline;">2</span>317.</span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/sse_total.html">sse_total</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/sse_total.html">sse_total</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric   .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_total standard      <span style="text-decoration: underline;">11</span>494.</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/sse_ratio.html">sse_ratio</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/sse_ratio.html">sse_ratio</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric   .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -420,7 +424,7 @@ can be accessed directly from the model fit:</p>
 <p>We can also see the within sum-of-squares by cluster, rather than
 totalled, with <code><a href="../reference/sse_within.html">sse_within()</a></code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/sse_within.html">sse_within</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster    wss n_members</span></span>
@@ -446,7 +450,7 @@ clustering fit. Beause the computation of the silhouette depends on the
 original observation values, a dataset must also be supplied to the
 function.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/silhouette_avg.html">silhouette_avg</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric        .estimator .estimate</span></span>
@@ -473,13 +477,13 @@ between observations).</p>
 <span>  <span class="fu">philentropy</span><span class="fu">::</span><span class="fu"><a href="https://drostlab.github.io/philentropy/reference/dist_many_many.html" class="external-link">dist_many_many</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/sse_ratio.html">sse_ratio</a></span><span class="op">(</span>dist_fun <span class="op">=</span> <span class="va">my_dist_2</span><span class="op">)</span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/sse_ratio.html">sse_ratio</a></span><span class="op">(</span>dist_fun <span class="op">=</span> <span class="va">my_dist_2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric   .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_ratio standard       0.202</span></span>
 <span></span>
-<span><span class="va">kmeans_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/silhouette_avg.html">silhouette_avg</a></span><span class="op">(</span><span class="va">penguins</span>, dist_fun <span class="op">=</span> <span class="va">my_dist_1</span><span class="op">)</span></span>
+<span><span class="va">kmeans_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/silhouette_avg.html">silhouette_avg</a></span><span class="op">(</span><span class="va">penguins</span>, dist_fun <span class="op">=</span> <span class="va">my_dist_1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;   .metric        .estimator .estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -502,19 +506,19 @@ recipe, we log-scale both predictors before clustering.</p>
 <span></span>
 <span><span class="va">penguins_recipe_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>  data <span class="op">=</span> <span class="va">penguins</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_log.html" class="external-link">step_log</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_numeric_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">wflow_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">kmeans_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">wflow_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">kmeans_spec</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_recipe.html" class="external-link">add_recipe</a></span><span class="op">(</span><span class="va">penguins_recipe_1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">wflow_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">kmeans_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">wflow_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://workflows.tidymodels.org/reference/workflow.html" class="external-link">workflow</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_model.html" class="external-link">add_model</a></span><span class="op">(</span><span class="va">kmeans_spec</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://workflows.tidymodels.org/reference/add_recipe.html" class="external-link">add_recipe</a></span><span class="op">(</span><span class="va">penguins_recipe_2</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">wflow_1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">wflow_1</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster  bill_length_mm bill_depth_mm</span></span>
@@ -523,8 +527,8 @@ recipe, we log-scale both predictors before clustering.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Cluster_2           45.5          15.6</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Cluster_3           50.9          17.3</span></span>
 <span></span>
-<span><span class="va">wflow_2</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">wflow_2</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster  bill_length_mm bill_depth_mm</span></span>
