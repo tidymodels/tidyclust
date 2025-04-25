@@ -20,18 +20,18 @@ tunable.cluster_spec <- function(x, ...) {
   }
 
   arg_vals <-
-    mod_env[[arg_name]] %>%
-      dplyr::filter(engine == x$engine) %>%
-      dplyr::select(name = exposed, call_info = func) %>%
-      dplyr::full_join(
-        tibble::tibble(name = c(names(x$args), names(x$eng_args))),
-        by = "name"
-      ) %>%
-      dplyr::mutate(
-        source = "cluster_spec",
-        component = mod_type(x),
-        component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
-      )
+    mod_env[[arg_name]] |>
+    dplyr::filter(engine == x$engine) |>
+    dplyr::select(name = exposed, call_info = func) |>
+    dplyr::full_join(
+      tibble::tibble(name = c(names(x$args), names(x$eng_args))),
+      by = "name"
+    ) |>
+    dplyr::mutate(
+      source = "cluster_spec",
+      component = mod_type(x),
+      component_id = dplyr::if_else(name %in% names(x$args), "main", "engine")
+    )
 
   if (nrow(arg_vals) > 0) {
     has_info <- map_lgl(arg_vals$call_info, is.null)
@@ -39,7 +39,7 @@ tunable.cluster_spec <- function(x, ...) {
 
     arg_vals <- arg_vals[rm_list, ]
   }
-  arg_vals %>% dplyr::select(name, call_info, source, component, component_id)
+  arg_vals |> dplyr::select(name, call_info, source, component, component_id)
 }
 
 mod_type <- function(.mod) class(.mod)[class(.mod) != "cluster_spec"][1]
@@ -49,7 +49,7 @@ add_engine_parameters <- function(pset, engines) {
   if (any(is_engine_param)) {
     pset <- pset[!is_engine_param, ]
     pset <-
-      dplyr::bind_rows(pset, engines %>% dplyr::filter(name %in% engines$name))
+      dplyr::bind_rows(pset, engines |> dplyr::filter(name %in% engines$name))
   }
   pset
 }

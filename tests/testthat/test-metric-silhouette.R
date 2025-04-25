@@ -1,11 +1,11 @@
 test_that("silhouette works", {
-  kmeans_spec <- k_means(num_clusters = 1) %>%
+  kmeans_spec <- k_means(num_clusters = 1) |>
     set_engine("stats")
 
   kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-  dists <- mtcars %>%
-    as.matrix() %>%
+  dists <- mtcars |>
+    as.matrix() |>
     dist()
 
   res <- silhouette(kmeans_fit, dists = dists)

@@ -88,13 +88,13 @@ library(dplyr)
 kmeans_mod <- k_means(num_clusters = 5)
 
 using_formula <-
-  kmeans_mod \%>\%
-  set_engine("stats") \%>\%
+  kmeans_mod |>
+  set_engine("stats") |>
   fit(~., data = mtcars)
 
 using_x <-
-  kmeans_mod \%>\%
-  set_engine("stats") \%>\%
+  kmeans_mod |>
+  set_engine("stats") |>
   fit_xy(x = mtcars)
 
 using_formula

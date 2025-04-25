@@ -2,10 +2,10 @@ test_that("tune recipe only", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod_no_tune)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -38,8 +38,8 @@ test_that("tune model only (with recipe)", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_no_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_no_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
@@ -76,8 +76,8 @@ test_that("tune model only (with variables)", {
 
   set.seed(4400)
 
-  wflow <- workflows::workflow() %>%
-    workflows::add_variables(outcomes = NULL, predictors = everything()) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_variables(outcomes = NULL, predictors = everything()) |>
     workflows::add_model(helper_objects$kmeans_mod)
 
   pset <- hardhat::extract_parameter_set_dials(wflow)
@@ -104,8 +104,8 @@ test_that("tune model only (with formula)", {
 
   set.seed(4400)
 
-  wflow <- workflows::workflow() %>%
-    workflows::add_formula(~.) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
     workflows::add_model(helper_objects$kmeans_mod)
 
   pset <- hardhat::extract_parameter_set_dials(wflow)
@@ -131,10 +131,10 @@ test_that("tune model and recipe", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
@@ -184,10 +184,10 @@ test_that("verbose argument works", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
@@ -210,10 +210,10 @@ test_that('tune model and recipe (parallel_over = "everything")', {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   grid$num_clusters <- grid$num_clusters + 1
@@ -316,10 +316,10 @@ test_that("metrics can be NULL", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod_no_tune)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -350,10 +350,10 @@ test_that("tune recipe only", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod_no_tune)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_comp = dials::num_comp(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars, v = 2)
@@ -384,8 +384,8 @@ test_that("tune recipe only", {
 test_that("ellipses with tune_cluster", {
   helper_objects <- helper_objects_tidyclust()
 
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod_no_tune)
   folds <- rsample::vfold_cv(mtcars, v = 2)
   expect_snapshot(
@@ -407,8 +407,8 @@ test_that("retain extra attributes", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_no_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_no_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 3)
@@ -430,8 +430,8 @@ test_that("select_best() and show_best() works", {
   helper_objects <- helper_objects_tidyclust()
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(helper_objects$rec_no_tune_1) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_no_tune_1) |>
     workflows::add_model(helper_objects$kmeans_mod)
   pset <- hardhat::extract_parameter_set_dials(wflow)
   grid <- dials::grid_regular(pset, levels = 2)
@@ -452,15 +452,15 @@ test_that("select_best() and show_best() works", {
 
   expect_equal(
     tune::show_best(res, metric = "sse_within_total"),
-    tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "sse_within_total") %>%
+    tune::collect_metrics(res) |>
+      dplyr::filter(.metric == "sse_within_total") |>
       dplyr::slice_min(mean, n = 5, with_ties = FALSE)
   )
 
   expect_equal(
     tune::show_best(res, metric = "sse_total"),
-    tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "sse_total") %>%
+    tune::collect_metrics(res) |>
+      dplyr::filter(.metric == "sse_total") |>
       dplyr::slice_min(mean, n = 5, with_ties = FALSE)
   )
 
@@ -468,17 +468,17 @@ test_that("select_best() and show_best() works", {
 
   expect_equal(
     tune::select_best(res, metric = "sse_within_total"),
-    tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "sse_within_total") %>%
-      dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
+    tune::collect_metrics(res) |>
+      dplyr::filter(.metric == "sse_within_total") |>
+      dplyr::slice_min(mean, n = 1, with_ties = FALSE) |>
       dplyr::select(num_clusters, .config)
   )
 
   expect_equal(
     tune::select_best(res, metric = "sse_total"),
-    tune::collect_metrics(res) %>%
-      dplyr::filter(.metric == "sse_total") %>%
-      dplyr::slice_min(mean, n = 1, with_ties = FALSE) %>%
+    tune::collect_metrics(res) |>
+      dplyr::filter(.metric == "sse_total") |>
+      dplyr::slice_min(mean, n = 1, with_ties = FALSE) |>
       dplyr::select(num_clusters, .config)
   )
 })
@@ -486,18 +486,18 @@ test_that("select_best() and show_best() works", {
 test_that("doesn't error if recipes uses id variables", {
   helper_objects <- helper_objects_tidyclust()
 
-  mtcars_id <- mtcars %>%
+  mtcars_id <- mtcars |>
     tibble::rownames_to_column(var = "model")
 
-  rec_id <- recipes::recipe(~., data = mtcars_id) %>%
-    recipes::update_role(model, new_role = "id variable") %>%
+  rec_id <- recipes::recipe(~., data = mtcars_id) |>
+    recipes::update_role(model, new_role = "id variable") |>
     recipes::step_normalize(recipes::all_numeric_predictors())
 
   set.seed(4400)
-  wflow <- workflows::workflow() %>%
-    workflows::add_recipe(rec_id) %>%
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(rec_id) |>
     workflows::add_model(helper_objects$kmeans_mod)
-  pset <- hardhat::extract_parameter_set_dials(wflow) %>%
+  pset <- hardhat::extract_parameter_set_dials(wflow) |>
     update(num_clusters = dials::num_clusters(c(1, 3)))
   grid <- dials::grid_regular(pset, levels = 3)
   folds <- rsample::vfold_cv(mtcars_id, v = 2)

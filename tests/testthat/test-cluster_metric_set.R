@@ -1,5 +1,5 @@
 test_that("cluster_metric_set works", {
-  kmeans_spec <- k_means(num_clusters = 5) %>%
+  kmeans_spec <- k_means(num_clusters = 5) |>
     set_engine("stats")
 
   kmeans_fit <- fit(kmeans_spec, ~., mtcars)

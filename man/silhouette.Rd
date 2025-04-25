@@ -32,13 +32,13 @@ Measures silhouette between clusters
 returns the average of the values given by \code{silhouette()}.
 }
 \examples{
-kmeans_spec <- k_means(num_clusters = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) |>
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-dists <- mtcars \%>\%
-  as.matrix() \%>\%
+dists <- mtcars |>
+  as.matrix() |>
   dist()
 
 silhouette(kmeans_fit, dists = dists)

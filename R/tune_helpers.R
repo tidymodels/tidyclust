@@ -17,8 +17,9 @@ is_cataclysmic <- function(x) {
   if (any(!is_err)) {
     is_good <- map_lgl(
       x$.metrics[!is_err],
-      ~tibble::is_tibble(.x) &&
-        nrow(.x) > 0
+      \(.x)
+        tibble::is_tibble(.x) &&
+          nrow(.x) > 0
     )
     is_err[!is_err] <- !is_good
   }
@@ -159,10 +160,10 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 }
 
 blank_submodels <- function(grid) {
-  grid %>%
+  grid |>
     dplyr::mutate(
-      .submodels = map(seq_along(nrow(grid)), ~list())
-    ) %>%
+      .submodels = map(seq_along(nrow(grid)), \(x) list())
+    ) |>
     dplyr::mutate_if(is.factor, as.character)
 }
 
@@ -261,7 +262,7 @@ log_problems <- function(notes, control, split, loc, res, bad_only = FALSE) {
   control2$verbose <- TRUE
   wrn <- res$signals
   if (length(wrn) > 0) {
-    wrn_msg <- map_chr(wrn, ~.x$message)
+    wrn_msg <- map_chr(wrn, \(x) x$message)
     wrn_msg <- unique(wrn_msg)
     wrn_msg <- paste(wrn_msg, collapse = ", ")
     wrn_msg <- tibble::tibble(
@@ -324,35 +325,35 @@ merger <- function(x, y, ...) {
   }
   pset <- hardhat::extract_parameter_set_dials(x)
   if (nrow(pset) == 0) {
-    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), \(.x) x))
     return(res)
   }
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
     updater <- update_recipe
-    step_ids <- map_chr(x$steps, ~.x$id)
+    step_ids <- map_chr(x$steps, \(.x) .x$id)
   } else {
     updater <- update_model
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
-    res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
+    res <- tibble::tibble(x = map(seq_along(nrow(y)), \(.x) x))
     return(res)
   }
-  y %>%
+  y |>
     dplyr::mutate(
       ..object = map(
         seq_along(nrow(y)),
-        ~updater(y[.x, ], x, pset, step_ids, grid_name)
+        \(.x) updater(y[.x, ], x, pset, step_ids, grid_name)
       )
-    ) %>%
+    ) |>
     dplyr::select(x = ..object)
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_model <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
-    param_info <- pset %>% dplyr::filter(id == i & source == "cluster_spec")
+    param_info <- pset |> dplyr::filter(id == i & source == "cluster_spec")
     if (nrow(param_info) > 1) {
       # TODO figure this out and write a better message
       cli::cli_abort("There are too many things.")
@@ -373,7 +374,7 @@ update_model <- function(grid, object, pset, step_id, nms, ...) {
 # https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_recipe <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
-    param_info <- pset %>% dplyr::filter(id == i & source == "recipe")
+    param_info <- pset |> dplyr::filter(id == i & source == "recipe")
     if (nrow(param_info) == 1) {
       idx <- which(step_id == param_info$component_id)
       # check index
@@ -450,9 +451,9 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   for (type_iter in types) {
     # Regular predictions
     tmp_res <-
-      stats::predict(model, x_vals, type = type_iter) %>%
-        dplyr::mutate(.row = orig_rows) %>%
-        cbind(grid, row.names = NULL)
+      stats::predict(model, x_vals, type = type_iter) |>
+      dplyr::mutate(.row = orig_rows) |>
+      cbind(grid, row.names = NULL)
 
     if (!is.null(submodels)) {
       submod_length <- lengths(submodels)
@@ -470,14 +471,14 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       #       !!!make_submod_arg(grid, model, submodels)
       #     )
       #   tmp_res <-
-      #     eval_tidy(mp_call) %>%
-      #     mutate(.row = orig_rows) %>%
-      #     unnest(cols = dplyr::starts_with(".pred")) %>%
+      #     eval_tidy(mp_call) |>
+      #     mutate(.row = orig_rows) |>
+      #     unnest(cols = dplyr::starts_with(".pred")) |>
       #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)),
-      #           row.names = NULL) %>%
+      #           row.names = NULL) |>
       #     # go back to user-defined name
-      #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) %>%
-      #     dplyr::select(dplyr::one_of(names(tmp_res))) %>%
+      #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) |>
+      #     dplyr::select(dplyr::one_of(names(tmp_res))) |>
       #     dplyr::bind_rows(tmp_res)
       # }
     }
@@ -581,10 +582,10 @@ slice_seeds <- function(x, i, n) {
 
 iter_combine <- function(...) {
   results <- list(...)
-  metrics <- map(results, ~.x[[".metrics"]])
-  extracts <- map(results, ~.x[[".extracts"]])
-  predictions <- map(results, ~.x[[".predictions"]])
-  notes <- map(results, ~.x[[".notes"]])
+  metrics <- map(results, \(.x) .x[[".metrics"]])
+  extracts <- map(results, \(.x) .x[[".extracts"]])
+  predictions <- map(results, \(.x) .x[[".predictions"]])
+  notes <- map(results, \(.x) .x[[".notes"]])
   metrics <- vctrs::vec_c(!!!metrics)
   extracts <- vctrs::vec_c(!!!extracts)
   predictions <- vctrs::vec_c(!!!predictions)

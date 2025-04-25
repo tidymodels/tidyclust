@@ -19,17 +19,17 @@ knit_engine_docs <- function(pattern = NULL) {
   }
   outputs <- gsub("Rmd$", "md", files)
 
-  res <- map2(files, outputs, ~try(knitr::knit(.x, .y), silent = TRUE))
-  is_error <- map_lgl(res, ~inherits(.x, "try-error"))
+  res <- map2(files, outputs, \(.x, .y) try(knitr::knit(.x, .y), silent = TRUE))
+  is_error <- map_lgl(res, \(.x) inherits(.x, "try-error"))
 
   if (any(is_error)) {
     # In some cases where there are issues, the md file is empty.
     errors <- res[which(is_error)]
     error_nms <- basename(files)[which(is_error)]
     errors <-
-      map_chr(errors, ~cli::ansi_strip(as.character(.x))) %>%
-        map2_chr(error_nms, ~paste0(.y, ": ", .x)) %>%
-        map_chr(~gsub("Error in .f(.x[[i]], ...) :", "", .x, fixed = TRUE))
+      map_chr(errors, \(.x) cli::ansi_strip(as.character(.x))) |>
+      map2_chr(error_nms, \(.x, .y) paste0(.y, ": ", .x)) |>
+      map_chr(\(.x) gsub("Error in .f(.x[[i]], ...) :", "", .x, fixed = TRUE))
     cat("There were failures duing knitting:\n\n")
     cat(errors)
     cat("\n\n")
@@ -62,5 +62,5 @@ list_md_problems <- function() {
     tibble::tibble(basename(file), line, problem)
   }
 
-  map(md_files, get_errors) %>% vctrs::vec_rbind()
+  map(md_files, get_errors) |> vctrs::vec_rbind()
 }

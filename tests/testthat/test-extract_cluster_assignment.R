@@ -14,7 +14,7 @@ test_that("extract_cluster_assignment() errors for hier_clust() with missing arg
 
   expect_snapshot(
     error = TRUE,
-    hclust_fit %>%
+    hclust_fit |>
       extract_cluster_assignment()
   )
 })
@@ -26,7 +26,7 @@ test_that("extract_cluster_assignment() errors for hier_clust() with k arg", {
 
   expect_snapshot(
     error = TRUE,
-    hclust_fit %>%
+    hclust_fit |>
       extract_cluster_assignment(k = 3)
   )
 })
@@ -38,7 +38,7 @@ test_that("extract_cluster_assignment() errors for hier_clust() with h arg", {
 
   expect_snapshot(
     error = TRUE,
-    hclust_fit %>%
+    hclust_fit |>
       extract_cluster_assignment(h = 3)
   )
 })
@@ -48,14 +48,14 @@ test_that("passed arguments overwrites model arguments", {
 
   hclust_fit <- fit(hclust_spec, ~., mtcars)
 
-  res <- hclust_fit %>%
+  res <- hclust_fit |>
     extract_cluster_assignment(num_clusters = 1)
 
   expect_identical(length(levels(res$.cluster)), 1L)
 })
 
 test_that("prefix is passed in extract_cluster_assignment()", {
-  spec <- tidyclust::k_means(num_clusters = 4) %>%
+  spec <- tidyclust::k_means(num_clusters = 4) |>
     fit(~., data = mtcars)
 
   res <- extract_cluster_assignment(spec, prefix = "C_")

@@ -15,8 +15,8 @@ required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
 get_pkgs <- function(x, infra) {
   cls <- class(x)[1]
   pkgs <-
-    modelenv::get_from_env(paste0(cls, "_pkgs")) %>%
-      dplyr::filter(engine == x$engine)
+    modelenv::get_from_env(paste0(cls, "_pkgs")) |>
+    dplyr::filter(engine == x$engine)
   res <- pkgs$pkg[[1]]
   if (length(res) == 0) {
     res <- character(0)

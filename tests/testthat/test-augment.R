@@ -2,9 +2,9 @@ test_that("partition models", {
   x <- k_means(num_clusters = 2)
 
   set.seed(1234)
-  reg_form <- x %>% fit(~., data = mtcars)
+  reg_form <- x |> fit(~., data = mtcars)
   set.seed(1234)
-  reg_xy <- x %>% fit_xy(mtcars)
+  reg_xy <- x |> fit_xy(mtcars)
 
   expect_equal(
     colnames(augment(reg_form, head(mtcars))),

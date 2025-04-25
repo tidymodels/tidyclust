@@ -102,21 +102,20 @@ get_cluster_spec <- function(model, mode, engine) {
 
   res <- list()
   res$libs <-
-    rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
-      dplyr::filter(engine == !!engine) %>%
-      .[["pkg"]] %>%
-      .[[1]]
+    rlang::env_get(m_env, paste0(model, "_pkgs")) |>
+    dplyr::filter(engine == !!engine)
+  res$libs <- res$libs[["pkg"]][[1]]
 
   res$fit <-
-    rlang::env_get(m_env, paste0(model, "_fit")) %>%
-      dplyr::filter(mode == !!mode & engine == !!engine) %>%
-      dplyr::pull(value) %>%
-      .[[1]]
+    rlang::env_get(m_env, paste0(model, "_fit")) |>
+    dplyr::filter(mode == !!mode & engine == !!engine) |>
+    dplyr::pull(value)
+  res$fit <- res$fit[[1]]
 
   pred_code <-
-    rlang::env_get(m_env, paste0(model, "_predict")) %>%
-      dplyr::filter(mode == !!mode & engine == !!engine) %>%
-      dplyr::select(-engine, -mode)
+    rlang::env_get(m_env, paste0(model, "_predict")) |>
+    dplyr::filter(mode == !!mode & engine == !!engine) |>
+    dplyr::select(-engine, -mode)
 
   res$pred <- pred_code[["value"]]
   names(res$pred) <- pred_code$type
@@ -126,8 +125,8 @@ get_cluster_spec <- function(model, mode, engine) {
 
 get_args <- function(model, engine) {
   m_env <- modelenv::get_model_env()
-  rlang::env_get(m_env, paste0(model, "_args")) %>%
-    dplyr::filter(engine == !!engine) %>%
+  rlang::env_get(m_env, paste0(model, "_args")) |>
+    dplyr::filter(engine == !!engine) |>
     dplyr::select(-engine)
 }
 
@@ -138,8 +137,8 @@ deharmonize <- function(args, key) {
   }
   parsn <- tibble::tibble(exposed = names(args), order = seq_along(args))
   merged <-
-    dplyr::left_join(parsn, key, by = "exposed") %>%
-      dplyr::arrange(order)
+    dplyr::left_join(parsn, key, by = "exposed") |>
+    dplyr::arrange(order)
   # TODO correct for bad merge?
 
   names(args) <- merged$original

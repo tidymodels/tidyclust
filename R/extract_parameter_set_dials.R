@@ -6,11 +6,11 @@ extract_parameter_set_dials.cluster_spec <- function(x, ...) {
 
   res <-
     dplyr::inner_join(
-      tuning_param %>% dplyr::select(-tunable, -component_id),
+      tuning_param |> dplyr::select(-tunable, -component_id),
       all_args,
       by = c("name", "source", "component")
-    ) %>%
-      dplyr::mutate(object = map(call_info, eval_call_info))
+    ) |>
+    dplyr::mutate(object = map(call_info, eval_call_info))
 
   dials::parameters_constr(
     res$name,

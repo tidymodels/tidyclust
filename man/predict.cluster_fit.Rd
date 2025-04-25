@@ -79,25 +79,25 @@ observation belongs to
 }
 }
 \examples{
-kmeans_spec <- k_means(num_clusters = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) |>
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-kmeans_fit \%>\%
+kmeans_fit |>
   predict(new_data = mtcars)
 
 # Some models such as `hier_clust()` fits in such a way that you can specify
 # the number of clusters after the model is fit
-hclust_spec <- hier_clust() \%>\%
+hclust_spec <- hier_clust() |>
   set_engine("stats")
 
 hclust_fit <- fit(hclust_spec, ~., mtcars)
 
-hclust_fit \%>\%
+hclust_fit |>
   predict(new_data = mtcars[4:6, ], num_clusters = 2)
 
-hclust_fit \%>\%
+hclust_fit |>
   predict(new_data = mtcars[4:6, ], cut_height = 250)
 }
 \seealso{

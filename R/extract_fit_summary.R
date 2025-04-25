@@ -10,12 +10,12 @@
 #' The elements `cluster_names` and `cluster_assignments` will be factors.
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
+#' kmeans_fit |>
 #'   extract_fit_summary()
 #' @export
 extract_fit_summary <- function(object, ...) {
@@ -152,22 +152,22 @@ extract_fit_summary.hclust <- function(object, ...) {
 
   overall_centroid <- colMeans(training_data)
 
-  by_clust <- training_data %>%
-    tibble::as_tibble() %>%
+  by_clust <- training_data |>
+    tibble::as_tibble() |>
     dplyr::mutate(
       .cluster = clusts
-    ) %>%
-    dplyr::group_by(.cluster) %>%
+    ) |>
+    dplyr::group_by(.cluster) |>
     tidyr::nest()
 
-  centroids <- by_clust$data %>%
-    map(dplyr::summarize_all, mean) %>%
+  centroids <- by_clust$data |>
+    map(dplyr::summarize_all, mean) |>
     dplyr::bind_rows()
 
   sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
-    ~sum(
+    ~ sum(
       philentropy::dist_many_many(
         as.matrix(centroids[.y, ]),
         as.matrix(.x),

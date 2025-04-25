@@ -1,40 +1,49 @@
-```{r, child = "aaa.Rmd", include = FALSE}
+```{r}
+#| child: aaa.Rmd
+#| include: false
 ```
 
 `r descr_models("hier_clust", "stats")`
 
 ## Tuning Parameters
 
-```{r stats-param-info, echo = FALSE}
+```{r}
+#| label: stats-param-info
+#| echo: false
 defaults <- 
   tibble::tibble(tidyclust = c("num_clusters"),
                  default = c("no default"))
 
 param <-
- hier_clust() %>% 
-  set_engine("stats") %>% 
-  set_mode("partition") %>% 
+ hier_clust() |> 
+  set_engine("stats") |> 
+  set_mode("partition") |> 
   make_parameter_list(defaults)
 ```
 
 This model has `r nrow(param)` tuning parameters:
 
-```{r stats-param-list, echo = FALSE, results = "asis"}
+```{r}
+#| label: stats-param-list
+#| echo: false
+#| results: asis
 param$item
 ```
 
 ## Translation from tidyclust to the original package (partition)
 
-```{r stats-cls}
-hier_clust(num_clusters = integer(1)) %>% 
-  set_engine("stats") %>% 
-  set_mode("partition") %>% 
+```{r}
+#| label: stats-cls
+hier_clust(num_clusters = integer(1)) |> 
+  set_engine("stats") |> 
+  set_mode("partition") |> 
   translate_tidyclust()
 ```
 
 ## Preprocessing requirements
 
-```{r child = "template-makes-dummies.Rmd"}
+```{r}
+#| child: template-makes-dummies.Rmd
 ```
 
 ## References

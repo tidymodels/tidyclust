@@ -9,7 +9,7 @@
 ---
 
     Code
-      bt <- hier_clust(linkage_method = "bogus") %>% set_engine("stats")
+      bt <- set_engine(hier_clust(linkage_method = "bogus"), "stats")
       fit(bt, mpg ~ ., mtcars)
     Condition
       Error in `stats::hclust()`:
@@ -61,7 +61,7 @@
 # updating
 
     Code
-      hier_clust(num_clusters = 5) %>% update(num_clusters = tune())
+      update(hier_clust(num_clusters = 5), num_clusters = tune())
     Output
       Hierarchical Clustering Specification (partition)
       

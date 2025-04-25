@@ -1,4 +1,5 @@
-```{r, include = FALSE}
+```{r}
+#| include: false
 # pillar/cli options to try to lock down formatting
 options(useFancyQuotes = FALSE)
 options(dplyr.print_min = 6, dplyr.print_max = 6)
@@ -13,8 +14,8 @@ library(workflows)
 # These are required to build md docs for parsnip and extensions
 
 check_pkg_for_docs <- function(x){
-  purrr::map(x, ~ rlang::check_installed(.x))
-  purrr::map(x, ~ require(.x, character.only = TRUE))
+  purrr::map(x, rlang::check_installed)
+  purrr::map(x, require, character.only = TRUE)
 }
 
 rmd_pkgs <- c("tune", "glue", "dplyr", "tidyclust", "dials")
@@ -32,9 +33,9 @@ combine_words <- function(x) {
 }
 
 descr_models <- function(mod, eng) {
-  res <- modelenv::get_from_env(mod) %>%
-    dplyr::filter(engine == eng) %>%
-    dplyr::distinct() %>%
+  res <- modelenv::get_from_env(mod) |>
+    dplyr::filter(engine == eng) |>
+    dplyr::distinct() |>
     purrr::pluck("mode")
 
   if (length(res) == 1) {
@@ -56,15 +57,15 @@ get_dials <- function(x) {
 }
 
 make_parameter_list <- function(x, defaults) {
-  x %>%
-    tune::tunable() %>%
-    dplyr::select(-source, -component, -component_id, tidyclust = name) %>%
+  x |>
+    tune::tunable() |>
+    dplyr::select(-source, -component, -component_id, tidyclust = name) |>
     dplyr::mutate(
       dials = purrr::map(call_info, get_dials),
-      label = purrr::map_chr(dials, ~ .x$label),
-      type = purrr::map_chr(dials, ~ .x$type)
-    ) %>%
-    dplyr::inner_join(defaults, by = "tidyclust") %>%
+      label = purrr::map_chr(dials, \(.x) .x$label),
+      type = purrr::map_chr(dials, \(.x) .x$type)
+    ) |>
+    dplyr::inner_join(defaults, by = "tidyclust") |>
     dplyr::mutate(
       item =
         glue::glue("- `{tidyclust}`: {label} (type: {type}, default: {default})\n\n")

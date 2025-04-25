@@ -43,8 +43,8 @@ append_metrics <- function(
     return(collection)
   }
 
-  params <- predictions %>%
-    dplyr::select(dplyr::all_of(param_names)) %>%
+  params <- predictions |>
+    dplyr::select(dplyr::all_of(param_names)) |>
     dplyr::distinct()
 
   tmp_est <- metrics(workflow, new_data = rsample::analysis(split))
@@ -67,13 +67,13 @@ append_extracts <- function(
   .config = NULL
 ) {
   extracts <-
-    grid %>%
-      dplyr::bind_cols(labels(split)) %>%
-      dplyr::mutate(
-        .extracts = list(
-          extract_details(workflow, ctrl$extract)
-        )
+    grid |>
+    dplyr::bind_cols(labels(split)) |>
+    dplyr::mutate(
+      .extracts = list(
+        extract_details(workflow, ctrl$extract)
       )
+    )
 
   if (!rlang::is_null(.config)) {
     extracts <- cbind(extracts, .config)

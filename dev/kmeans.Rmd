@@ -7,14 +7,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r}
+#| label: setup
 library(tidyclust)
 library(palmerpenguins)
 library(tidymodels)
@@ -23,24 +25,24 @@ library(tidymodels)
 ## Fit
 
 ```{r}
-kmeans_spec <- k_means(k = 5) %>%
+kmeans_spec <- k_means(k = 5) |>
   set_engine("stats")
 
-penguins_rec_1 <- recipe(~ ., data = penguins) %>%
-  update_role(species, island, new_role = "demographic") %>%
+penguins_rec_1 <- recipe(~ ., data = penguins) |>
+  update_role(species, island, new_role = "demographic") |>
   step_dummy(sex)
   
   
-penguins_rec_2 <- recipe(species ~ ., data = penguins) %>%
+penguins_rec_2 <- recipe(species ~ ., data = penguins) |>
   step_dummy(sex, island)
 
-wflow_1 <- workflow() %>%
-  add_model(kmeans_spec) %>%
+wflow_1 <- workflow() |>
+  add_model(kmeans_spec) |>
   add_recipe(penguins_rec_1)
 
 
-wflow_2 <- workflow() %>%
-  add_model(kmeans_spec) %>%
+wflow_2 <- workflow() |>
+  add_model(kmeans_spec) |>
   add_recipe(penguins_rec_2)
 ```
 
@@ -48,17 +50,17 @@ We need workflows!
 
 ```{r}
 # dropping NA first so rows match up later, this is clunky
-pen_sub <- penguins %>% 
-  drop_na() %>%
+pen_sub <- penguins |> 
+  drop_na() |>
   select(-species, -island, -sex)
 
-kmeans_fit <- kmeans_spec %>% fit( ~., pen_sub)
+kmeans_fit <- kmeans_spec |> fit( ~., pen_sub)
 
-kmeans_fit %>%
+kmeans_fit |>
   predict(new_data = pen_sub)
 
 ### try my new version
-kmeans_fit %>%
+kmeans_fit |>
   extract_cluster_assignment()
 ```
 
@@ -70,11 +72,11 @@ kmeans_fit %>%
 
 
 ```{r}
-penguins %>%
-  drop_na() %>%
+penguins |>
+  drop_na() |>
   mutate(
     preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
-  ) %>%
+  ) |>
   count(preds, sex, species)
 ```
 
@@ -97,7 +99,7 @@ something with indices
 * Cluster density followup: is it kind of a model?
 
 ```{r}
-recipe( ~ demo1 + predictor1) %>%
+recipe( ~ demo1 + predictor1) |>
   step_tidyclust(kmeans_fit) # doesn't quite make sense
   
 ```
@@ -106,8 +108,8 @@ recipe( ~ demo1 + predictor1) %>%
 
 ```{r}
 get_SS(Cluster ~ v1 + v2)
-recipe(Cluster ~ v1 + v2) %>%
-  step_pca() %>%
+recipe(Cluster ~ v1 + v2) |>
+  step_pca() |>
   get_ss()
 ```
 
@@ -120,13 +122,13 @@ How does `fit()` access the right variables?
 
 
 ```{r}
-penguins_2 <- penguins %>%
-  drop_na() %>%
+penguins_2 <- penguins |>
+  drop_na() |>
   mutate(
     preds = predict(kmeans_fit, new_data = pen_sub)$.pred_cluster
   ) 
 
 debugonce(enrichment)
-penguins_2 %>%
+penguins_2 |>
   enrichment(preds, species)
 ```

@@ -1,34 +1,42 @@
-```{r, child = "aaa.Rmd", include = FALSE}
+```{r}
+#| child: aaa.Rmd
+#| include: false
 ```
 
 `r descr_models("k_means", "klaR")`
 
 ## Tuning Parameters
 
-```{r klaR-param-info, echo = FALSE}
+```{r}
+#| label: klaR-param-info
+#| echo: false
 defaults <- 
   tibble::tibble(tidyclust = c("num_clusters"),
                  default = c("no default"))
 
 param <-
- k_means() %>% 
-  set_engine("klaR") %>% 
-  set_mode("partition") %>% 
+ k_means() |> 
+  set_engine("klaR") |> 
+  set_mode("partition") |> 
   make_parameter_list(defaults)
 ```
 
 This model has `r nrow(param)` tuning parameters:
 
-```{r klaR-param-list, echo = FALSE, results = "asis"}
+```{r}
+#| label: klaR-param-list
+#| echo: false
+#| results: asis
 param$item
 ```
 
 ## Translation from tidyclust to the original package (partition)
 
-```{r klaR-cls}
-k_means(num_clusters = integer(1)) %>% 
-  set_engine("klaR") %>% 
-  set_mode("partition") %>% 
+```{r}
+#| label: klaR-cls
+k_means(num_clusters = integer(1)) |> 
+  set_engine("klaR") |> 
+  set_mode("partition") |> 
   translate_tidyclust()
 ```
 

@@ -24,5 +24,5 @@
 #'
 #' param_values <- tibble::tibble(num_clusters = 10)
 #'
-#' kmeans_spec %>% update(param_values)
+#' kmeans_spec |> update(param_values)
 NULL

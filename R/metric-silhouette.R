@@ -12,13 +12,13 @@
 #' @return A tibble giving the silhouette for each observation.
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' dists <- mtcars %>%
-#'   as.matrix() %>%
+#' dists <- mtcars |>
+#'   as.matrix() |>
 #'   dist()
 #'
 #' silhouette(kmeans_fit, dists = dists)
@@ -56,9 +56,9 @@ silhouette <- function(
     return(res)
   }
 
-  sil %>%
-    unclass() %>%
-    tibble::as_tibble() %>%
+  sil |>
+    unclass() |>
+    tibble::as_tibble() |>
     dplyr::mutate(
       cluster = factor(paste0("Cluster_", cluster)),
       neighbor = factor(paste0("Cluster_", neighbor)),
@@ -82,13 +82,13 @@ silhouette <- function(
 #' @return A double; the average silhouette.
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' dists <- mtcars %>%
-#'   as.matrix() %>%
+#' dists <- mtcars |>
+#'   as.matrix() |>
 #'   dist()
 #'
 #' silhouette_avg(kmeans_fit, dists = dists)

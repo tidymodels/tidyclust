@@ -1,43 +1,53 @@
-```{r, child = "aaa.Rmd", include = FALSE}
+```{r}
+#| child: aaa.Rmd
+#| include: false
 ```
 
 `r descr_models("k_means", "ClusterR")`
 
 ## Tuning Parameters
 
-```{r ClusterR-param-info, echo = FALSE}
+```{r}
+#| label: ClusterR-param-info
+#| echo: false
 defaults <- 
   tibble::tibble(tidyclust = c("num_clusters"),
                  default = c("no default"))
 
 param <-
- k_means() %>% 
-  set_engine("ClusterR") %>% 
-  set_mode("partition") %>% 
+ k_means() |> 
+  set_engine("ClusterR") |> 
+  set_mode("partition") |> 
   make_parameter_list(defaults)
 ```
 
 This model has `r nrow(param)` tuning parameters:
 
-```{r ClusterR-param-list, echo = FALSE, results = "asis"}
+```{r}
+#| label: ClusterR-param-list
+#| echo: false
+#| results: asis
 param$item
 ```
 
 ## Translation from tidyclust to the original package (partition)
 
-```{r ClusterR-cls}
-k_means(num_clusters = integer(1)) %>% 
-  set_engine("ClusterR") %>% 
-  set_mode("partition") %>% 
+```{r}
+#| label: ClusterR-cls
+k_means(num_clusters = integer(1)) |> 
+  set_engine("ClusterR") |> 
+  set_mode("partition") |> 
   translate_tidyclust()
 ```
 
 ## Preprocessing requirements
 
-```{r child = "template-makes-dummies.Rmd"}
+```{r}
+#| child: template-makes-dummies.Rmd
 ```
 
-```{r child = "template-same-scale.Rmd"}
+```{r}
+#| child: template-same-scale.Rmd
 ```
 
 ## References

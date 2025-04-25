@@ -4,7 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -46,7 +47,7 @@ The first thing you do is to create a `cluster specification`. For this example 
 library(tidyclust)
 set.seed(1234)
 
-kmeans_spec <- k_means(num_clusters = 3) %>%
+kmeans_spec <- k_means(num_clusters = 3) |>
   set_engine("stats")
 
 kmeans_spec
@@ -55,7 +56,7 @@ kmeans_spec
 This specification can then be fit using data.
 
 ```{r}
-kmeans_spec_fit <- kmeans_spec %>%
+kmeans_spec_fit <- kmeans_spec |>
   fit(~., data = mtcars)
 kmeans_spec_fit
 ```
@@ -82,7 +83,13 @@ extract_centroids(kmeans_spec_fit)
 
 Below is a visualization of the available models and how they compare using 2 dimensional toy data sets.
 
-```{r comparison, echo=FALSE, message=FALSE, fig.asp=1/2, dpi=105, dev="svglite"}
+```{r}
+#| label: comparison
+#| echo: false
+#| message: false
+#| fig-asp: !expr 1/2
+#| fig-dpi: 105
+#| fig-format: svglite
 #| fig-alt: "Mock comparison for different clustering methods for different data sets. Each row correspods to a clustering method, each column corresponds to a data set type."
 library(tidymodels)
 library(tidyclust)
@@ -170,7 +177,7 @@ expand_grid(
     uniform_data
   )
 ) |>
-  pmap_dfr(~ augment_model(.x, .y)) |>
+  pmap_dfr(\(.x) augment_model(.x, .y)) |>
   ggplot(aes(x, y, color = .pred_cluster)) +
   geom_point(alpha = 0.5) +
   facet_grid(model_name ~ data_name, scales = "free", switch = "y") +

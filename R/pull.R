@@ -31,21 +31,21 @@ pull_predictions <- function(resamples, res, control) {
 pulley <- function(resamples, res, col) {
   if (all(map_lgl(res, inherits, "simpleError"))) {
     res <-
-      resamples %>%
-        dplyr::mutate(col = map(splits, ~NULL)) %>%
-        stats::setNames(c(names(resamples), col))
+      resamples |>
+      dplyr::mutate(col = map(splits, \(x) NULL)) |>
+      stats::setNames(c(names(resamples), col))
     return(res)
   }
 
   id_cols <- grep("^id", names(resamples), value = TRUE)
   resamples <- dplyr::arrange(resamples, !!!rlang::syms(id_cols))
-  pulled_vals <- dplyr::bind_rows(map(res, ~.x[[col]]))
+  pulled_vals <- dplyr::bind_rows(map(res, \(x) x[[col]]))
 
   if (nrow(pulled_vals) == 0) {
     res <-
-      resamples %>%
-        dplyr::mutate(col = map(splits, ~NULL)) %>%
-        stats::setNames(c(names(resamples), col))
+      resamples |>
+      dplyr::mutate(col = map(splits, \(x) NULL)) |>
+      stats::setNames(c(names(resamples), col))
     return(res)
   }
 
