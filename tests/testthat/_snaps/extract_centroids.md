@@ -10,7 +10,7 @@
 # extract_centroids() errors for hier_clust() with missing args
 
     Code
-      hclust_fit %>% extract_centroids()
+      extract_centroids(hclust_fit)
     Condition
       Error in `extract_centroids()`:
       ! Please specify either `num_clusters` or `cut_height`.
@@ -18,7 +18,7 @@
 # extract_centroids() errors for hier_clust() with k arg
 
     Code
-      hclust_fit %>% extract_centroids(k = 3)
+      extract_centroids(hclust_fit, k = 3)
     Condition
       Error in `extract_centroids()`:
       ! Using `k` argument is not supported.
@@ -27,7 +27,7 @@
 # extract_centroids() errors for hier_clust() with h arg
 
     Code
-      hclust_fit %>% extract_centroids(h = 3)
+      extract_centroids(hclust_fit, h = 3)
     Condition
       Error in `extract_centroids()`:
       ! Using `h` argument is not supported.

@@ -1,5 +1,5 @@
 test_that("control class", {
-  x <- k_means(num_clusters = 5) %>% set_engine("stats")
+  x <- k_means(num_clusters = 5) |> set_engine("stats")
 
   expect_no_error(
     fit(x, ~., data = mtcars, control = parsnip::control_parsnip())

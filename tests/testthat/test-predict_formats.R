@@ -1,7 +1,7 @@
 test_that("partition predictions", {
   kmeans_fit <-
-    k_means(num_clusters = 3, mode = "partition") %>%
-    set_engine("stats") %>%
+    k_means(num_clusters = 3, mode = "partition") |>
+    set_engine("stats") |>
     fit(~., data = mtcars)
 
   expect_true(tibble::is_tibble(predict(kmeans_fit, new_data = mtcars)))

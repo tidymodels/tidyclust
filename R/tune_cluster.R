@@ -32,14 +32,14 @@
 #' library(workflows)
 #' library(tune)
 #'
-#' rec_spec <- recipe(~., data = mtcars) %>%
-#'   step_normalize(all_numeric_predictors()) %>%
+#' rec_spec <- recipe(~., data = mtcars) |>
+#'   step_normalize(all_numeric_predictors()) |>
 #'   step_pca(all_numeric_predictors())
 #'
 #' kmeans_spec <- k_means(num_clusters = tune())
 #'
-#' wflow <- workflow() %>%
-#'   add_recipe(rec_spec) %>%
+#' wflow <- workflow() |>
+#'   add_recipe(rec_spec) |>
 #'   add_model(kmeans_spec)
 #'
 #' grid <- tibble(num_clusters = 1:3)

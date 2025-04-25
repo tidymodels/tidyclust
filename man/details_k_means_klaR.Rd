@@ -21,9 +21,9 @@ This model has 1 tuning parameters:
 
 \subsection{Translation from tidyclust to the original package (partition)}{
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{k_means(num_clusters = integer(1)) \%>\% 
-  set_engine("klaR") \%>\% 
-  set_mode("partition") \%>\% 
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{k_means(num_clusters = integer(1)) |> 
+  set_engine("klaR") |> 
+  set_mode("partition") |> 
   translate_tidyclust()
 }\if{html}{\out{</div>}}
 

@@ -3,16 +3,16 @@ test_that("integrates with workflows::add_variables()", {
 
   kmeans_spec <- k_means(num_clusters = 2)
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_variables(outcomes = NULL, predictors = everything()) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_variables(outcomes = NULL, predictors = everything()) |>
     workflows::add_model(kmeans_spec)
 
   expect_no_error(
     fit(wf_spec, data = mtcars)
   )
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_variables(outcomes = mpg, predictors = everything()) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_variables(outcomes = mpg, predictors = everything()) |>
     workflows::add_model(kmeans_spec)
 
   expect_snapshot(
@@ -26,16 +26,16 @@ test_that("integrates with workflows::add_formula()", {
 
   kmeans_spec <- k_means(num_clusters = 2)
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_formula(~.) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
     workflows::add_model(kmeans_spec)
 
   expect_no_error(
     fit(wf_spec, data = mtcars)
   )
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_formula(mpg ~ .) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_formula(mpg ~ .) |>
     workflows::add_model(kmeans_spec)
 
   expect_snapshot(
@@ -50,16 +50,16 @@ test_that("integrates with workflows::add_recipe()", {
 
   kmeans_spec <- k_means(num_clusters = 2)
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_recipe(recipes::recipe(~., data = mtcars)) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_recipe(recipes::recipe(~., data = mtcars)) |>
     workflows::add_model(kmeans_spec)
 
   expect_no_error(
     fit(wf_spec, data = mtcars)
   )
 
-  wf_spec <- workflows::workflow() %>%
-    workflows::add_recipe(recipes::recipe(mpg ~ ., data = mtcars)) %>%
+  wf_spec <- workflows::workflow() |>
+    workflows::add_recipe(recipes::recipe(mpg ~ ., data = mtcars)) |>
     workflows::add_model(kmeans_spec)
 
   expect_snapshot(

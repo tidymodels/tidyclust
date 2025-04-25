@@ -12,7 +12,7 @@
 #'   cluster.
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
@@ -56,19 +56,19 @@ sse_within <- function(
       )
     )
 
-    res <- dist_to_centroids %>%
-      tibble::as_tibble(.name_repair = "minimal") %>%
+    res <- dist_to_centroids |>
+      tibble::as_tibble(.name_repair = "minimal") |>
       map(
         ~ c(
           .cluster = which.min(.x),
           dist = min(.x)^2
         )
-      ) %>%
-      dplyr::bind_rows() %>%
+      ) |>
+      dplyr::bind_rows() |>
       dplyr::mutate(
         .cluster = factor(paste0("Cluster_", .cluster))
-      ) %>%
-      dplyr::group_by(.cluster) %>%
+      ) |>
+      dplyr::group_by(.cluster) |>
       dplyr::summarize(
         wss = sum(dist),
         n_obs = dplyr::n()
@@ -94,7 +94,7 @@ sse_within <- function(
 #' @family cluster metric
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
@@ -187,7 +187,7 @@ sse_within_total_impl <- function(
 #' @family cluster metric
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
@@ -277,7 +277,7 @@ sse_total_impl <- function(
     overall_mean <- colSums(summ$centroids * summ$n_members) /
       sum(summ$n_members)
     suppressMessages(
-      tot <- dist_fun(t(as.matrix(overall_mean)), as.matrix(new_data))^2 %>%
+      tot <- dist_fun(t(as.matrix(overall_mean)), as.matrix(new_data))^2 |>
         sum()
     )
   }
@@ -298,7 +298,7 @@ sse_total_impl <- function(
 #' @family cluster metric
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)

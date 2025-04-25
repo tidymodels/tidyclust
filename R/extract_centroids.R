@@ -46,12 +46,12 @@
 #'
 #' @examples
 #' set.seed(1234)
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
+#' kmeans_fit |>
 #'   extract_centroids()
 #'
 #' # Some models such as `hier_clust()` fits in such a way that you can specify
@@ -59,15 +59,15 @@
 #' # A Hierarchical (Agglomerative) Clustering method doesn't technically have
 #' # clusters, so the center of the observation within each cluster is returned
 #' # instead.
-#' hclust_spec <- hier_clust() %>%
+#' hclust_spec <- hier_clust() |>
 #'   set_engine("stats")
 #'
 #' hclust_fit <- fit(hclust_spec, ~., mtcars)
 #'
-#' hclust_fit %>%
+#' hclust_fit |>
 #'   extract_centroids(num_clusters = 2)
 #'
-#' hclust_fit %>%
+#' hclust_fit |>
 #'   extract_centroids(cut_height = 250)
 #' @export
 extract_centroids <- function(object, ...) {

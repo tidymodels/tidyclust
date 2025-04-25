@@ -40,7 +40,7 @@ example we are creating a K-means model, using the `stats` engine.
 library(tidyclust)
 set.seed(1234)
 
-kmeans_spec <- k_means(num_clusters = 3) %>%
+kmeans_spec <- k_means(num_clusters = 3) |>
   set_engine("stats")
 
 kmeans_spec
@@ -55,7 +55,7 @@ kmeans_spec
 This specification can then be fit using data.
 
 ``` r
-kmeans_spec_fit <- kmeans_spec %>%
+kmeans_spec_fit <- kmeans_spec |>
   fit(~., data = mtcars)
 kmeans_spec_fit
 #> tidyclust cluster object

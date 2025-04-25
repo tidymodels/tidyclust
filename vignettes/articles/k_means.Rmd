@@ -41,13 +41,13 @@ Load and clean a dataset:
 ```{r}
 data("penguins", package = "modeldata")
 
-penguins <- penguins %>%
-  select(bill_length_mm, bill_depth_mm) %>%
+penguins <- penguins |>
+  select(bill_length_mm, bill_depth_mm) |>
   drop_na()
 
 
 # shuffle rows
-penguins <- penguins %>%
+penguins <- penguins |>
   sample_n(nrow(penguins))
 ```
 
@@ -73,10 +73,10 @@ changing the engine and/or using the corresponding arguments from the engine
 functions:
 
 ```{r}
-kmeans_spec_lloyd <- k_means(num_clusters = 3) %>%
+kmeans_spec_lloyd <- k_means(num_clusters = 3) |>
   parsnip::set_engine("stats", algorithm = "Lloyd")
 
-kmeans_spec_cr <- k_means(num_clusters = 3) %>%
+kmeans_spec_cr <- k_means(num_clusters = 3) |>
   parsnip::set_engine("ClusterR", initializer = "random")
 ```
 
@@ -93,12 +93,12 @@ Note that unlike in supervised modeling, the formula should not include a
 response variable.
 
 ```{r}
-kmeans_fit <- kmeans_spec %>%
+kmeans_fit <- kmeans_spec |>
   fit(~ bill_length_mm + bill_depth_mm,
     data = penguins
   )
 
-kmeans_fit %>%
+kmeans_fit |>
   summary()
 ```
 
@@ -114,10 +114,10 @@ list of model summary information in a format that
 is consistent across all cluster model specifications and engines
 
 ```{r}
-kmeans_summary <- kmeans_fit %>%
+kmeans_summary <- kmeans_fit |>
   extract_fit_summary()
 
-kmeans_summary %>% str()
+kmeans_summary |> str()
 ```
 
 ## Cluster assignments and centers
@@ -127,7 +127,7 @@ observations to clusters.  To access these, use `extract_cluster_assignment()`
 function:
 
 ```{r}
-kmeans_fit %>%
+kmeans_fit |>
   extract_cluster_assignment()
 ```
 
@@ -165,7 +165,7 @@ kmeans_summary$centroids
 They can also be accessed directly from the fitted model with:
 
 ```{r}
-kmeans_fit %>%
+kmeans_fit |>
   extract_centroids()
 ```
 
@@ -200,7 +200,7 @@ new_penguin <- tibble(
   bill_depth_mm = 17
 )
 
-kmeans_fit %>%
+kmeans_fit |>
   predict(new_penguin)
 ```
 <!-- It is possible to tweak the prediction process by using a different distance -->
@@ -208,7 +208,7 @@ kmeans_fit %>%
 <!-- model fit also used an alternate distance function in the $k$-means algorithm. -->
 
 <!-- ```{r} -->
-<!-- kmeans_fit %>% -->
+<!-- kmeans_fit |> -->
 <!--   predict(new_penguin, -->
 <!--           dist_fun = dist(., method = "manhattan")) -->
 <!-- ``` -->
@@ -217,7 +217,7 @@ kmeans_fit %>%
 To attach all predictions to a dataset as a column, use `augment()`:
 
 ```{r}
-kmeans_fit %>%
+kmeans_fit |>
   augment(penguins)
 ```
 
@@ -246,17 +246,17 @@ directly from the model fit:
 kmeans_summary$sse_within_total_total
 kmeans_summary$sse_total
 
-kmeans_fit %>% sse_within_total()
-kmeans_fit %>% sse_total()
+kmeans_fit |> sse_within_total()
+kmeans_fit |> sse_total()
 
-kmeans_fit %>% sse_ratio()
+kmeans_fit |> sse_ratio()
 ```
 
 We can also see the within sum-of-squares by cluster, rather than totalled,
 with `sse_within()`:
 
 ```{r}
-kmeans_fit %>%
+kmeans_fit |>
   sse_within()
 ```
 
@@ -274,7 +274,7 @@ Beause the computation of the silhouette depends on the original observation
 values, a dataset must also be supplied to the function.
 
 ```{r}
-kmeans_fit %>%
+kmeans_fit |>
   silhouette_avg(penguins)
 ```
 
@@ -298,9 +298,9 @@ my_dist_2 <- function(x, y) {
   philentropy::dist_many_many(x, y, method = "manhattan")
 }
 
-kmeans_fit %>% sse_ratio(dist_fun = my_dist_2)
+kmeans_fit |> sse_ratio(dist_fun = my_dist_2)
 
-kmeans_fit %>% silhouette_avg(penguins, dist_fun = my_dist_1)
+kmeans_fit |> silhouette_avg(penguins, dist_fun = my_dist_1)
 ```
 
 For more on using metrics for cluster model selection, see the Tuning vignette.
@@ -319,23 +319,23 @@ penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
 
 penguins_recipe_2 <- recipe(~ bill_length_mm + bill_depth_mm,
   data = penguins
-) %>%
+) |>
   step_log(all_numeric_predictors())
 
-wflow_1 <- workflow() %>%
-  add_model(kmeans_spec) %>%
+wflow_1 <- workflow() |>
+  add_model(kmeans_spec) |>
   add_recipe(penguins_recipe_1)
 
-wflow_2 <- workflow() %>%
-  add_model(kmeans_spec) %>%
+wflow_2 <- workflow() |>
+  add_model(kmeans_spec) |>
   add_recipe(penguins_recipe_2)
 
-wflow_1 %>%
-  fit(penguins) %>%
+wflow_1 |>
+  fit(penguins) |>
   extract_centroids()
 
-wflow_2 %>%
-  fit(penguins) %>%
+wflow_2 |>
+  fit(penguins) |>
   extract_centroids()
 ```
 
@@ -354,7 +354,7 @@ space is determined by the bill length and bill depth of that penguin.
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud."
-penguins %>%
+penguins |>
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point() +
   theme_minimal()
@@ -368,8 +368,8 @@ declared to be the **initial centroids**.
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. 3 random points have been highlighted red, green, and blue."
-pens <- penguins %>%
-  select(bill_length_mm, bill_depth_mm) %>%
+pens <- penguins |>
+  select(bill_length_mm, bill_depth_mm) |>
   drop_na()
 
 init <- sample(seq_len(nrow(pens)), 3)
@@ -378,7 +378,7 @@ thing <- kmeans(pens, centers = pens[init, ], iter.max = 1)
 
 centers <- data.frame(thing$centers)
 
-pens %>%
+pens |>
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point(
@@ -404,10 +404,10 @@ pens %>%
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. Point are colored according to how close they were to the color points."
-closest_center <- philentropy::dist_many_many(as.matrix(pens), as.matrix(pens[init, ]), method = "euclidean") %>%
+closest_center <- philentropy::dist_many_many(as.matrix(pens), as.matrix(pens[init, ]), method = "euclidean") |>
   apply(1, which.min)
 
-pens %>%
+pens |>
   ggplot() +
   geom_point(
     data = pens,
@@ -426,14 +426,14 @@ pens %>%
 
 ```{r, echo = FALSE}
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. New highlights are placed in the center of the points of the same color in the previous chart."
-centers <- pens %>%
+centers <- pens |>
   mutate(
     clust = closest_center
-  ) %>%
-  group_by(clust) %>%
+  ) |>
+  group_by(clust) |>
   summarize_all(mean)
 
-pens %>%
+pens |>
   ggplot() +
   geom_point(aes(x = bill_length_mm, y = bill_depth_mm)) +
   geom_point(
@@ -464,7 +464,7 @@ thing <- kmeans(pens, centers = pens[init, ])
 
 centers <- data.frame(thing$centers)
 
-pens %>%
+pens |>
   ggplot() +
   geom_point(
     data = pens,

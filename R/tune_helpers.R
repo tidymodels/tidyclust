@@ -159,10 +159,10 @@ min_grid.cluster_spec <- function(x, grid, ...) {
 }
 
 blank_submodels <- function(grid) {
-  grid %>%
+  grid |>
     dplyr::mutate(
       .submodels = map(seq_along(nrow(grid)), ~ list())
-    ) %>%
+    ) |>
     dplyr::mutate_if(is.factor, as.character)
 }
 
@@ -339,20 +339,20 @@ merger <- function(x, y, ...) {
     res <- tibble::tibble(x = map(seq_along(nrow(y)), ~x))
     return(res)
   }
-  y %>%
+  y |>
     dplyr::mutate(
       ..object = map(
         seq_along(nrow(y)),
         ~ updater(y[.x, ], x, pset, step_ids, grid_name)
       )
-    ) %>%
+    ) |>
     dplyr::select(x = ..object)
 }
 
 # https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_model <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
-    param_info <- pset %>% dplyr::filter(id == i & source == "cluster_spec")
+    param_info <- pset |> dplyr::filter(id == i & source == "cluster_spec")
     if (nrow(param_info) > 1) {
       # TODO figure this out and write a better message
       cli::cli_abort("There are too many things.")
@@ -373,7 +373,7 @@ update_model <- function(grid, object, pset, step_id, nms, ...) {
 # https://github.com/tidymodels/tune/blob/main/R/merge.R
 update_recipe <- function(grid, object, pset, step_id, nms, ...) {
   for (i in nms) {
-    param_info <- pset %>% dplyr::filter(id == i & source == "recipe")
+    param_info <- pset |> dplyr::filter(id == i & source == "recipe")
     if (nrow(param_info) == 1) {
       idx <- which(step_id == param_info$component_id)
       # check index
@@ -450,8 +450,8 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
   for (type_iter in types) {
     # Regular predictions
     tmp_res <-
-      stats::predict(model, x_vals, type = type_iter) %>%
-      dplyr::mutate(.row = orig_rows) %>%
+      stats::predict(model, x_vals, type = type_iter) |>
+      dplyr::mutate(.row = orig_rows) |>
       cbind(grid, row.names = NULL)
 
     if (!is.null(submodels)) {
@@ -470,14 +470,14 @@ predict_model <- function(split, workflow, grid, metrics, submodels = NULL) {
       #       !!!make_submod_arg(grid, model, submodels)
       #     )
       #   tmp_res <-
-      #     eval_tidy(mp_call) %>%
-      #     mutate(.row = orig_rows) %>%
-      #     unnest(cols = dplyr::starts_with(".pred")) %>%
+      #     eval_tidy(mp_call) |>
+      #     mutate(.row = orig_rows) |>
+      #     unnest(cols = dplyr::starts_with(".pred")) |>
       #     cbind(dplyr::select(grid, -dplyr::all_of(submod_param)),
-      #           row.names = NULL) %>%
+      #           row.names = NULL) |>
       #     # go back to user-defined name
-      #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) %>%
-      #     dplyr::select(dplyr::one_of(names(tmp_res))) %>%
+      #     dplyr::rename(!!!make_rename_arg(grid, model, submodels)) |>
+      #     dplyr::select(dplyr::one_of(names(tmp_res))) |>
       #     dplyr::bind_rows(tmp_res)
       # }
     }

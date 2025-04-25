@@ -31,8 +31,8 @@ pull_predictions <- function(resamples, res, control) {
 pulley <- function(resamples, res, col) {
   if (all(map_lgl(res, inherits, "simpleError"))) {
     res <-
-      resamples %>%
-      dplyr::mutate(col = map(splits, ~NULL)) %>%
+      resamples |>
+      dplyr::mutate(col = map(splits, ~NULL)) |>
       stats::setNames(c(names(resamples), col))
     return(res)
   }
@@ -43,8 +43,8 @@ pulley <- function(resamples, res, col) {
 
   if (nrow(pulled_vals) == 0) {
     res <-
-      resamples %>%
-      dplyr::mutate(col = map(splits, ~NULL)) %>%
+      resamples |>
+      dplyr::mutate(col = map(splits, ~NULL)) |>
       stats::setNames(c(names(resamples), col))
     return(res)
   }

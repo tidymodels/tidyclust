@@ -27,8 +27,8 @@ knit_engine_docs <- function(pattern = NULL) {
     errors <- res[which(is_error)]
     error_nms <- basename(files)[which(is_error)]
     errors <-
-      map_chr(errors, ~ cli::ansi_strip(as.character(.x))) %>%
-      map2_chr(error_nms, ~ paste0(.y, ": ", .x)) %>%
+      map_chr(errors, ~ cli::ansi_strip(as.character(.x))) |>
+      map2_chr(error_nms, ~ paste0(.y, ": ", .x)) |>
       map_chr(~ gsub("Error in .f(.x[[i]], ...) :", "", .x, fixed = TRUE))
     cat("There were failures duing knitting:\n\n")
     cat(errors)
@@ -62,5 +62,5 @@ list_md_problems <- function() {
     tibble::tibble(basename(file), line, problem)
   }
 
-  map(md_files, get_errors) %>% vctrs::vec_rbind()
+  map(md_files, get_errors) |> vctrs::vec_rbind()
 }

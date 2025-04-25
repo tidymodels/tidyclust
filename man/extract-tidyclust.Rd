@@ -42,12 +42,12 @@ silently generating incorrect predictions.
 
 \strong{Good}:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{   tidyclust_fit \%>\% predict(new_data)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{   tidyclust_fit |> predict(new_data)
 }\if{html}{\out{</div>}}
 
 \strong{Bad}:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{   tidyclust_fit \%>\% extract_fit_engine() \%>\% predict(new_data)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{   tidyclust_fit |> extract_fit_engine() |> predict(new_data)
 }\if{html}{\out{</div>}}
 }
 \examples{

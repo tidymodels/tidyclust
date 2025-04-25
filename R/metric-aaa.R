@@ -235,8 +235,8 @@ extract_post_preprocessor <- function(object, new_data) {
   } else if (rlang::is_formula(preprocessor)) {
     new_data <- hardhat::mold(preprocessor, new_data)$predictors
   } else if (inherits(preprocessor, "recipe")) {
-    new_data <- object %>%
-      hardhat::extract_recipe() %>%
+    new_data <- object |>
+      hardhat::extract_recipe() |>
       recipes::bake(new_data, recipes::all_predictors())
   }
   new_data

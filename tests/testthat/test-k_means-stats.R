@@ -1,6 +1,6 @@
 test_that("fitting", {
   set.seed(1234)
-  spec <- k_means(num_clusters = 5) %>%
+  spec <- k_means(num_clusters = 5) |>
     set_engine("stats")
 
   expect_no_error(
@@ -14,7 +14,7 @@ test_that("fitting", {
 
 test_that("predicting", {
   set.seed(1234)
-  spec <- k_means(num_clusters = 3) %>%
+  spec <- k_means(num_clusters = 3) |>
     set_engine("stats")
 
   res <- fit(spec, ~., iris)
@@ -29,7 +29,7 @@ test_that("predicting", {
 
 test_that("all levels are preserved with 1 row predictions", {
   set.seed(1234)
-  spec <- k_means(num_clusters = 3) %>%
+  spec <- k_means(num_clusters = 3) |>
     set_engine("stats")
 
   res <- fit(spec, ~., mtcars)
@@ -44,7 +44,7 @@ test_that("all levels are preserved with 1 row predictions", {
 
 test_that("extract_centroids() works", {
   set.seed(1234)
-  spec <- k_means(num_clusters = 3) %>%
+  spec <- k_means(num_clusters = 3) |>
     set_engine("stats")
 
   res <- fit(spec, ~., iris)
@@ -64,7 +64,7 @@ test_that("extract_centroids() works", {
 
 test_that("extract_cluster_assignment() works", {
   set.seed(1234)
-  spec <- k_means(num_clusters = 3) %>%
+  spec <- k_means(num_clusters = 3) |>
     set_engine("stats")
 
   res <- fit(spec, ~., iris)

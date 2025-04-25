@@ -40,11 +40,11 @@ form_form <- function(object, control, env, ...) {
 
 form_x <- function(object, control, env, target = "none", ...) {
   encoding_info <-
-    modelenv::get_encoding(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) |>
     dplyr::filter(mode == object$mode, engine == object$engine)
 
-  indicators <- encoding_info %>% dplyr::pull(predictor_indicators)
-  remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
+  indicators <- encoding_info |> dplyr::pull(predictor_indicators)
+  remove_intercept <- encoding_info |> dplyr::pull(remove_intercept)
 
   data_obj <- .convert_form_to_x_fit(
     formula = env$formula,
@@ -73,10 +73,10 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
     cli::cli_abort("Outcomes are not used in {.cls cluster_spec} objects.")
   }
   encoding_info <-
-    modelenv::get_encoding(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) |>
     dplyr::filter(mode == object$mode, engine == object$engine)
 
-  remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
+  remove_intercept <- encoding_info |> dplyr::pull(remove_intercept)
   if (remove_intercept) {
     env$x <- env$x[, colnames(env$x) != "(Intercept)", drop = FALSE]
   }
@@ -119,10 +119,10 @@ x_x <- function(object, env, control, target = "none", y = NULL, ...) {
 
 x_form <- function(object, env, control, ...) {
   encoding_info <-
-    modelenv::get_encoding(class(object)[1]) %>%
+    modelenv::get_encoding(class(object)[1]) |>
     dplyr::filter(mode == object$mode, engine == object$engine)
 
-  remove_intercept <- encoding_info %>% dplyr::pull(remove_intercept)
+  remove_intercept <- encoding_info |> dplyr::pull(remove_intercept)
 
   data_obj <-
     .convert_x_to_form_fit(

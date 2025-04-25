@@ -33,7 +33,7 @@ Load and clean a dataset:
 ```{r}
 data("penguins", package = "modeldata")
 
-penguins <- penguins %>%
+penguins <- penguins |>
   drop_na()
 ```
 
@@ -103,7 +103,7 @@ res
 ```
 
 ```{r}
-res_metrics <- res %>% collect_metrics()
+res_metrics <- res |> collect_metrics()
 res_metrics
 ```
 
@@ -119,8 +119,8 @@ or notable bend, in the plot of WSS/TSS ratio by cluster number:
 
 ```{r}
 #| fig-alt: "Connected line chart. Number of clusters along the x-axis, mean WSS/TSS ratio, over 5 folds along the y-axis. X-axis ranges from 1 to 10, with 1 having an value of 1, 2 having a value of 0.35, and the rest haver an ever decreasing value."
-res_metrics %>%
-  filter(.metric == "sse_ratio") %>%
+res_metrics |>
+  filter(.metric == "sse_ratio") |>
   ggplot(aes(x = num_clusters, y = mean)) +
   geom_point() +
   geom_line() +
@@ -143,8 +143,8 @@ four clusters.
 <!-- It is sometimes of interest to compare to external variables -->
 
 <!-- ```{r, eval=FALSE} -->
-<!-- kmeans_fit %>% -->
-<!--   augment(penguins) %>% -->
+<!-- kmeans_fit |> -->
+<!--   augment(penguins) |> -->
 <!--   enrichment(.pred_cluster, species) -->
 <!-- ``` -->
 

@@ -32,9 +32,9 @@ combine_words <- function(x) {
 }
 
 descr_models <- function(mod, eng) {
-  res <- modelenv::get_from_env(mod) %>%
-    dplyr::filter(engine == eng) %>%
-    dplyr::distinct() %>%
+  res <- modelenv::get_from_env(mod) |>
+    dplyr::filter(engine == eng) |>
+    dplyr::distinct() |>
     purrr::pluck("mode")
 
   if (length(res) == 1) {
@@ -56,15 +56,15 @@ get_dials <- function(x) {
 }
 
 make_parameter_list <- function(x, defaults) {
-  x %>%
-    tune::tunable() %>%
-    dplyr::select(-source, -component, -component_id, tidyclust = name) %>%
+  x |>
+    tune::tunable() |>
+    dplyr::select(-source, -component, -component_id, tidyclust = name) |>
     dplyr::mutate(
       dials = purrr::map(call_info, get_dials),
       label = purrr::map_chr(dials, ~ .x$label),
       type = purrr::map_chr(dials, ~ .x$type)
-    ) %>%
-    dplyr::inner_join(defaults, by = "tidyclust") %>%
+    ) |>
+    dplyr::inner_join(defaults, by = "tidyclust") |>
     dplyr::mutate(
       item =
         glue::glue("- `{tidyclust}`: {label} (type: {type}, default: {default})\n\n")

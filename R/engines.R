@@ -30,8 +30,8 @@ set_engine.cluster_spec <- function(object, engine, ...) {
 
 stop_missing_engine <- function(cls, call = rlang::caller_env()) {
   info <-
-    modelenv::get_from_env(cls) %>%
-    dplyr::group_by(mode) %>%
+    modelenv::get_from_env(cls) |>
+    dplyr::group_by(mode) |>
     dplyr::summarize(
       msg = paste0(
         unique(mode),

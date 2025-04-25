@@ -102,17 +102,17 @@ make_predictions <- function(x, prefix, n_clusters) {
       method = "euclidean"
     )
 
-    cluster_dists <- dplyr::bind_cols(data.frame(dists_new), clusters) %>%
-      dplyr::group_by(.cluster) %>%
+    cluster_dists <- dplyr::bind_cols(data.frame(dists_new), clusters) |>
+      dplyr::group_by(.cluster) |>
       dplyr::summarize_all(cluster_dist_fun)
 
-    pred_clusts_num <- cluster_dists %>%
-      dplyr::select(-.cluster) %>%
+    pred_clusts_num <- cluster_dists |>
+      dplyr::select(-.cluster) |>
       map_dbl(which.min)
   } else if (linkage_method == "centroid") {
     ## Centroid linkage_method, dist to center
 
-    cluster_centers <- extract_centroids(object) %>% dplyr::select(-.cluster)
+    cluster_centers <- extract_centroids(object) |> dplyr::select(-.cluster)
 
     dists_means <- philentropy::dist_many_many(
       new_data,

@@ -33,7 +33,7 @@ Calculates Sum of Squared Error in each cluster
 that returns the sum of the values given by \code{sse_within()}.
 }
 \examples{
-kmeans_spec <- k_means(num_clusters = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) |>
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)

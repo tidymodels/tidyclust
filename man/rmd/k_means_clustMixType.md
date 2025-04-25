@@ -15,9 +15,9 @@ This model has 1 tuning parameters:
 
 
 ```r
-k_means(num_clusters = integer(1)) %>% 
-  set_engine("clustMixType") %>% 
-  set_mode("partition") %>% 
+k_means(num_clusters = integer(1)) |> 
+  set_engine("clustMixType") |> 
+  set_mode("partition") |> 
   translate_tidyclust()
 ```
 

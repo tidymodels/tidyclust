@@ -9,7 +9,7 @@
 ---
 
     Code
-      bt <- k_means(num_clusters = -1) %>% set_engine("stats")
+      bt <- set_engine(k_means(num_clusters = -1), "stats")
       fit(bt, mpg ~ ., mtcars)
     Condition
       Error in `check_args()`:
@@ -57,7 +57,7 @@
 # updating
 
     Code
-      k_means(num_clusters = 5) %>% update(num_clusters = tune())
+      update(k_means(num_clusters = 5), num_clusters = tune())
     Output
       K Means Cluster Specification (partition)
       
@@ -70,7 +70,7 @@
 # errors if `num_clust` isn't specified
 
     Code
-      k_means() %>% set_engine("stats") %>% fit(~., data = mtcars)
+      fit(set_engine(k_means(), "stats"), ~., data = mtcars)
     Condition
       Error in `fit()`:
       ! Please specify `num_clust` to be able to fit specification.
@@ -78,7 +78,7 @@
 ---
 
     Code
-      k_means() %>% set_engine("ClusterR") %>% fit(~., data = mtcars)
+      fit(set_engine(k_means(), "ClusterR"), ~., data = mtcars)
     Condition
       Error in `tidyclust::.k_means_fit_ClusterR()`:
       ! argument "clusters" is missing, with no default

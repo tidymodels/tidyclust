@@ -265,7 +265,7 @@ check_args.k_means <- function(object) {
           predictors.",
             "x" = "Only numeric predictors where used.",
             "i" = "Try using the `stats` engine with \\
-          {.code mod %>% set_engine(\"stats\")}."
+          {.code mod |> set_engine(\"stats\")}."
           ),
           call = call("fit")
         )
@@ -277,7 +277,7 @@ check_args.k_means <- function(object) {
           predictors.",
             "x" = "Only categorical predictors where used.",
             "i" = "Try using the `klaR` engine with \\
-          {.code mod %>% set_engine(\"klaR\")}."
+          {.code mod |> set_engine(\"klaR\")}."
           ),
           call = call("fit")
         )

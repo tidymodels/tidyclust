@@ -65,25 +65,25 @@
 #' @seealso [extract_cluster_assignment()] [extract_centroids()]
 #'
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
+#' kmeans_fit |>
 #'   predict(new_data = mtcars)
 #'
 #' # Some models such as `hier_clust()` fits in such a way that you can specify
 #' # the number of clusters after the model is fit
-#' hclust_spec <- hier_clust() %>%
+#' hclust_spec <- hier_clust() |>
 #'   set_engine("stats")
 #'
 #' hclust_fit <- fit(hclust_spec, ~., mtcars)
 #'
-#' hclust_fit %>%
+#' hclust_fit |>
 #'   predict(new_data = mtcars[4:6, ], num_clusters = 2)
 #'
-#' hclust_fit %>%
+#' hclust_fit |>
 #'   predict(new_data = mtcars[4:6, ], cut_height = 250)
 #' @method predict cluster_fit
 #' @export predict.cluster_fit
@@ -151,11 +151,11 @@ prepare_data <- function(object, new_data) {
   }
 
   remove_intercept <-
-    modelenv::get_encoding(class(object$spec)[1]) %>%
-    dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) %>%
+    modelenv::get_encoding(class(object$spec)[1]) |>
+    dplyr::filter(mode == object$spec$mode, engine == object$spec$engine) |>
     dplyr::pull(remove_intercept)
   if (remove_intercept && any(grepl("Intercept", names(new_data)))) {
-    new_data <- new_data %>% dplyr::select(-dplyr::one_of("(Intercept)"))
+    new_data <- new_data |> dplyr::select(-dplyr::one_of("(Intercept)"))
   }
 
   switch(

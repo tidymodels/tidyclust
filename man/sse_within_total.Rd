@@ -47,7 +47,7 @@ Not to be confused with \code{\link[=sse_within]{sse_within()}} that returns a t
 with within-cluster SSE, one row for each cluster.
 }
 \examples{
-kmeans_spec <- k_means(num_clusters = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) |>
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)

@@ -4,7 +4,7 @@ library(tidyclust)
 
 ## "Cross-validation" for kmeans
 
-ir <- iris %>% select(-Species)
+ir <- iris |> select(-Species)
 
 cvs <- vfold_cv(ir, v = 5)
 
@@ -17,29 +17,29 @@ res <- data.frame(
 )
 
 for (k in 2:10) {
-  km <- k_means(k = k) %>%
+  km <- k_means(k = k) |>
     set_engine("stats")
 
   for (i in 1:5) {
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
 
-    km_fit <- km %>% fit(~., data = tmp_train)
+    km_fit <- km |> fit(~., data = tmp_train)
 
-    wss <- km_fit %>%
+    wss <- km_fit |>
       sse_within_total_total(tmp_test)
 
     wss_2 <- km_fit$fit$tot.withinss
 
-    sil <- km_fit %>%
+    sil <- km_fit |>
       silhouette_avg(tmp_test)
 
     res <- rbind(res, c(k = k, i = i, wss = wss, sil = sil, wss_2 = wss_2))
   }
 }
 
-res %>%
-  drop_na() %>%
+res |>
+  drop_na() |>
   ggplot(aes(x = factor(k), y = sil)) +
   geom_point()
 
@@ -58,18 +58,18 @@ res <- data.frame(
 )
 
 for (k in 2:10) {
-  km <- k_means(k = k) %>%
+  km <- k_means(k = k) |>
     set_engine("stats")
 
-  full_fit <- km %>% fit(~., data = ir)
+  full_fit <- km |> fit(~., data = ir)
 
   for (i in 1:10) {
     tmp_train <- training(cvs$splits[[i]])
     tmp_test <- testing(cvs$splits[[i]])
 
-    km_fit <- km %>% fit(~., data = tmp_train)
+    km_fit <- km |> fit(~., data = tmp_train)
 
-    dat <- tmp_test %>%
+    dat <- tmp_test |>
       mutate(
         truth = predict(full_fit, tmp_test)$.pred_cluster,
         estimate = predict(km_fit, tmp_test)$.pred_cluster
@@ -87,7 +87,7 @@ for (k in 2:10) {
   }
 }
 
-res %>%
+res |>
   ggplot(aes(x = factor(k), y = f1)) +
   geom_point()
 

@@ -46,7 +46,7 @@ The first thing you do is to create a `cluster specification`. For this example 
 library(tidyclust)
 set.seed(1234)
 
-kmeans_spec <- k_means(num_clusters = 3) %>%
+kmeans_spec <- k_means(num_clusters = 3) |>
   set_engine("stats")
 
 kmeans_spec
@@ -55,7 +55,7 @@ kmeans_spec
 This specification can then be fit using data.
 
 ```{r}
-kmeans_spec_fit <- kmeans_spec %>%
+kmeans_spec_fit <- kmeans_spec |>
   fit(~., data = mtcars)
 kmeans_spec_fit
 ```

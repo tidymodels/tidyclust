@@ -27,12 +27,12 @@
 #'
 #' **Good**:
 #' ```r
-#'    tidyclust_fit %>% predict(new_data)
+#'    tidyclust_fit |> predict(new_data)
 #' ```
 #'
 #' **Bad**:
 #' ```r
-#'    tidyclust_fit %>% extract_fit_engine() %>% predict(new_data)
+#'    tidyclust_fit |> extract_fit_engine() |> predict(new_data)
 #' ```
 #' @return
 #' The extracted value from the tidyclust object, `x`, as described in the

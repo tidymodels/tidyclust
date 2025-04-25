@@ -14,12 +14,12 @@
 #' @return A `tibble::tibble()` with containing `new_data` with columns added
 #'   depending on the mode of the model.
 #' @examples
-#' kmeans_spec <- k_means(num_clusters = 5) %>%
+#' kmeans_spec <- k_means(num_clusters = 5) |>
 #'   set_engine("stats")
 #'
 #' kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 #'
-#' kmeans_fit %>%
+#' kmeans_fit |>
 #'   augment(new_data = mtcars)
 #' @export
 augment.cluster_fit <- function(x, new_data, ...) {

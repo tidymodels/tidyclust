@@ -47,13 +47,13 @@ Not to be confused with \code{\link[=silhouette]{silhouette()}} that returns a t
 with silhouette for each observation.
 }
 \examples{
-kmeans_spec <- k_means(num_clusters = 5) \%>\%
+kmeans_spec <- k_means(num_clusters = 5) |>
   set_engine("stats")
 
 kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
-dists <- mtcars \%>\%
-  as.matrix() \%>\%
+dists <- mtcars |>
+  as.matrix() |>
   dist()
 
 silhouette_avg(kmeans_fit, dists = dists)
