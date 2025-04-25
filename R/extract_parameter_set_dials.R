@@ -10,7 +10,7 @@ extract_parameter_set_dials.cluster_spec <- function(x, ...) {
       all_args,
       by = c("name", "source", "component")
     ) %>%
-      dplyr::mutate(object = map(call_info, eval_call_info))
+    dplyr::mutate(object = map(call_info, eval_call_info))
 
   dials::parameters_constr(
     res$name,

@@ -68,12 +68,12 @@ append_extracts <- function(
 ) {
   extracts <-
     grid %>%
-      dplyr::bind_cols(labels(split)) %>%
-      dplyr::mutate(
-        .extracts = list(
-          extract_details(workflow, ctrl$extract)
-        )
+    dplyr::bind_cols(labels(split)) %>%
+    dplyr::mutate(
+      .extracts = list(
+        extract_details(workflow, ctrl$extract)
       )
+    )
 
   if (!rlang::is_null(.config)) {
     extracts <- cbind(extracts, .config)

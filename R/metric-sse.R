@@ -59,7 +59,7 @@ sse_within <- function(
     res <- dist_to_centroids %>%
       tibble::as_tibble(.name_repair = "minimal") %>%
       map(
-        ~c(
+        ~ c(
           .cluster = which.min(.x),
           dist = min(.x)^2
         )

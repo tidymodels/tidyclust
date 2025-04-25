@@ -133,7 +133,7 @@ make_predictions <- function(x, prefix, n_clusters) {
 
     d_means <- map(
       seq_len(n_clust),
-      ~t(
+      ~ t(
         t(training_data[clusters$.cluster == cluster_names[.x], ]) -
           cluster_centers[.x, ]
       )
@@ -144,7 +144,7 @@ make_predictions <- function(x, prefix, n_clusters) {
       function(new_obs) {
         map(
           seq_len(n_clust),
-          ~t(
+          ~ t(
             t(training_data[clusters$.cluster == cluster_names[.x], ]) -
               new_data[new_obs, ]
           )
@@ -160,7 +160,7 @@ make_predictions <- function(x, prefix, n_clusters) {
         map2_dbl(
           d_means,
           v,
-          ~sum((n * .x + .y)^2 / (n + 1)^2 - .x^2)
+          ~ sum((n * .x + .y)^2 / (n + 1)^2 - .x^2)
         )
       }
     )

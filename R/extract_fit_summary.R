@@ -167,7 +167,7 @@ extract_fit_summary.hclust <- function(object, ...) {
   sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
-    ~sum(
+    ~ sum(
       philentropy::dist_many_many(
         as.matrix(centroids[.y, ]),
         as.matrix(.x),

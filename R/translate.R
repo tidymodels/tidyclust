@@ -103,20 +103,20 @@ get_cluster_spec <- function(model, mode, engine) {
   res <- list()
   res$libs <-
     rlang::env_get(m_env, paste0(model, "_pkgs")) %>%
-      dplyr::filter(engine == !!engine) %>%
-      .[["pkg"]] %>%
-      .[[1]]
+    dplyr::filter(engine == !!engine) %>%
+    .[["pkg"]] %>%
+    .[[1]]
 
   res$fit <-
     rlang::env_get(m_env, paste0(model, "_fit")) %>%
-      dplyr::filter(mode == !!mode & engine == !!engine) %>%
-      dplyr::pull(value) %>%
-      .[[1]]
+    dplyr::filter(mode == !!mode & engine == !!engine) %>%
+    dplyr::pull(value) %>%
+    .[[1]]
 
   pred_code <-
     rlang::env_get(m_env, paste0(model, "_predict")) %>%
-      dplyr::filter(mode == !!mode & engine == !!engine) %>%
-      dplyr::select(-engine, -mode)
+    dplyr::filter(mode == !!mode & engine == !!engine) %>%
+    dplyr::select(-engine, -mode)
 
   res$pred <- pred_code[["value"]]
   names(res$pred) <- pred_code$type
@@ -139,7 +139,7 @@ deharmonize <- function(args, key) {
   parsn <- tibble::tibble(exposed = names(args), order = seq_along(args))
   merged <-
     dplyr::left_join(parsn, key, by = "exposed") %>%
-      dplyr::arrange(order)
+    dplyr::arrange(order)
   # TODO correct for bad merge?
 
   names(args) <- merged$original
