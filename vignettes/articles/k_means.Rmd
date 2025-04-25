@@ -7,7 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -25,13 +26,16 @@ library(parsnip)
 
 Load libraries:
 
-```{r setup}
+```{r}
+#| label: setup
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
 ```
 
-```{r setup_secret, echo = FALSE}
+```{r}
+#| label: setup_secret
+#| echo: false
 library(ggforce)
 set.seed(838383)
 ```
@@ -169,7 +173,8 @@ kmeans_fit |>
   extract_centroids()
 ```
 
-```{r, echo=FALSE}
+```{r}
+#| echo: false
 centroids <- extract_centroids(kmeans_fit)
 
 small_length <- centroids$.cluster[which.min(centroids$bill_length_mm)]
@@ -352,7 +357,8 @@ on axes in multidimensional space.  For example, in the plot below,
 each point represents an observation of one penguin, and the location in 2-dimensional
 space is determined by the bill length and bill depth of that penguin.
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud."
 penguins |>
   ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
@@ -366,7 +372,8 @@ initial conditions.  The algorithm typically proceeds as follows:
 1. Choose *k* random observations in the dataset.  These locations in space are
 declared to be the **initial centroids**.
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. 3 random points have been highlighted red, green, and blue."
 pens <- penguins |>
   select(bill_length_mm, bill_depth_mm) |>
@@ -402,7 +409,8 @@ pens |>
 
 2. Assign each observation to the nearest centroid.
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. Point are colored according to how close they were to the color points."
 closest_center <- philentropy::dist_many_many(as.matrix(pens), as.matrix(pens[init, ]), method = "euclidean") |>
   apply(1, which.min)
@@ -424,7 +432,8 @@ pens |>
 
 3. Compute the new centroids of each cluster.
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. New highlights are placed in the center of the points of the same color in the previous chart."
 centers <- pens |>
   mutate(
@@ -458,7 +467,8 @@ pens |>
 
 4. Repeat steps 2 and 3 until the centroids do not change.
 
-```{r, echo = FALSE}
+```{r}
+#| echo: false
 #| fig-alt: "scatter chart. bill_length_mm along the x-axis, bill_depth_mm along the y-axis. 3 vague cluster appears in the point cloud. All points have been colored of the 3 colors, with an ellipse acound each color."
 thing <- kmeans(pens, centers = pens[init, ])
 

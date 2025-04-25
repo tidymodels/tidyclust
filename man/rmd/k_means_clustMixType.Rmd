@@ -1,11 +1,15 @@
-```{r, child = "aaa.Rmd", include = FALSE}
+```{r}
+#| child: aaa.Rmd
+#| include: false
 ```
 
 `r descr_models("k_means", "clustMixType")`
 
 ## Tuning Parameters
 
-```{r clustMixType-param-info, echo = FALSE}
+```{r}
+#| label: clustMixType-param-info
+#| echo: false
 defaults <- 
   tibble::tibble(tidyclust = c("num_clusters"),
                  default = c("no default"))
@@ -19,13 +23,17 @@ param <-
 
 This model has `r nrow(param)` tuning parameters:
 
-```{r clustMixType-param-list, echo = FALSE, results = "asis"}
+```{r}
+#| label: clustMixType-param-list
+#| echo: false
+#| results: asis
 param$item
 ```
 
 ## Translation from tidyclust to the original package (partition)
 
-```{r clustMixType-cls}
+```{r}
+#| label: clustMixType-cls
 k_means(num_clusters = integer(1)) |> 
   set_engine("clustMixType") |> 
   set_mode("partition") |> 
