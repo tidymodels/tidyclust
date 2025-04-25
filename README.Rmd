@@ -170,7 +170,7 @@ expand_grid(
     uniform_data
   )
 ) |>
-  pmap_dfr(~ augment_model(.x, .y)) |>
+  pmap_dfr(\(.x) augment_model(.x, .y)) |>
   ggplot(aes(x, y, color = .pred_cluster)) +
   geom_point(alpha = 0.5) +
   facet_grid(model_name ~ data_name, scales = "free", switch = "y") +

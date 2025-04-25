@@ -13,8 +13,8 @@ library(workflows)
 # These are required to build md docs for parsnip and extensions
 
 check_pkg_for_docs <- function(x){
-  purrr::map(x, ~ rlang::check_installed(.x))
-  purrr::map(x, ~ require(.x, character.only = TRUE))
+  purrr::map(x, rlang::check_installed)
+  purrr::map(x, require, character.only = TRUE)
 }
 
 rmd_pkgs <- c("tune", "glue", "dplyr", "tidyclust", "dials")
@@ -61,8 +61,8 @@ make_parameter_list <- function(x, defaults) {
     dplyr::select(-source, -component, -component_id, tidyclust = name) |>
     dplyr::mutate(
       dials = purrr::map(call_info, get_dials),
-      label = purrr::map_chr(dials, ~ .x$label),
-      type = purrr::map_chr(dials, ~ .x$type)
+      label = purrr::map_chr(dials, \(.x) .x$label),
+      type = purrr::map_chr(dials, \(.x) .x$type)
     ) |>
     dplyr::inner_join(defaults, by = "tidyclust") |>
     dplyr::mutate(
