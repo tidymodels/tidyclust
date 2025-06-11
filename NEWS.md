@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* Fixed bug when trying to tune the `linkage_method` argument. (#206, @lgaborini)
+
 # tidyclust 0.2.4
 
 * The philentropy package is now used to calculate distances rather than Rfast. (#199)
