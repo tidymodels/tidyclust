@@ -28,7 +28,6 @@ The goal of tidyclust is to provide a tidy, unified interface to clustering mode
 You can install the released version of tidyclust from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-
 install.packages("tidyclust")
 ```
 
