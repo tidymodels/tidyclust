@@ -112,7 +112,7 @@
       tune_cluster(wflow, resamples = folds, grid = 3, something = "wrong")
     Condition
       Warning:
-      The `...` are not used in this function but one or more objects were passed: 'something'
+      The `...` are not used in this function but 1 object was passed: "something"
     Output
       # Tuning results
       # 2-fold cross-validation 
