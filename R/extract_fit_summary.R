@@ -192,3 +192,115 @@ extract_fit_summary.hclust <- function(object, ...) {
     cluster_assignments = clusts
   )
 }
+
+#' @export
+extract_fit_summary.dbscan <- function(object, ...) {
+  clusts <- extract_cluster_assignment(object, ...)$.cluster
+  n_clust <- dplyr::n_distinct(clusts)
+  training_data <- attr(object, "training_data")
+
+  overall_centroid <- colMeans(training_data)
+
+  by_clust <- training_data %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(
+      .cluster = clusts
+    ) %>%
+    dplyr::group_by(.cluster) %>%
+    tidyr::nest()
+
+  centroids <- by_clust$data %>%
+    map(dplyr::summarize_all, mean) %>%
+    dplyr::bind_rows()
+
+  outlier_idx <- which(unique(clusts) == "Outlier")
+
+
+  sse_within_total_total <- map2_dbl(
+    by_clust$data,
+    seq_len(n_clust),
+    ~sum(
+      philentropy::dist_many_many(
+        as.matrix(centroids[.y, ]),
+        as.matrix(.x),
+        method = "euclidean"
+      )
+    )
+  )
+
+
+  clust_names <- unique(clusts)[c(outlier_idx, setdiff(1:n_clust, outlier_idx))]
+  summary <- list(
+    cluster_names = clust_names,
+    centroids = centroids,
+    n_members = unname(as.integer(table(clusts))),
+    sse_within_total_total = sse_within_total_total,
+    sse_total = sum(
+      philentropy::dist_many_many(
+        t(overall_centroid),
+        as.matrix(training_data),
+        method = "euclidean"
+      )
+    ),
+    orig_labels = NULL,
+    cluster_assignments = clusts
+  )
+
+  summary$centroids[outlier_idx, ] <- rep(NA, ncol(summary$centroids))
+  summary$sse_within_total_total[outlier_idx] <- NA
+
+  # reorder centroids
+  summary$centroids <- summary$centroids[c(outlier_idx, setdiff(1:n_clust, outlier_idx)), ]
+
+  summary
+}
+
+#' @export
+extract_fit_summary.Mclust <- function(object, ...) {
+  clusts <- extract_cluster_assignment(object, ...)$.cluster
+  n_clust <- dplyr::n_distinct(clusts)
+  training_data <- attr(object, "training_data")
+
+  overall_centroid <- colMeans(training_data)
+
+  by_clust <- training_data %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(
+      .cluster = clusts
+    ) %>%
+    dplyr::filter(.cluster != "Outlier") %>%
+    dplyr::group_by(.cluster) %>%
+    tidyr::nest()
+
+  centroids <- by_clust$data %>%
+    map(dplyr::summarize_all, mean) %>%
+    dplyr::bind_rows()
+
+  sse_within_total_total <- map2_dbl(
+    by_clust$data,
+    seq_len(n_clust),
+    ~sum(
+      philentropy::dist_many_many(
+        as.matrix(centroids[.y, ]),
+        as.matrix(.x),
+        method = "euclidean"
+      )
+    )
+  )
+
+  list(
+    cluster_names = unique(clusts),
+    centroids = centroids,
+    n_members = unname(as.integer(table(clusts))),
+    sse_within_total_total = sse_within_total_total,
+    sse_total = sum(
+      philentropy::dist_many_many(
+        t(overall_centroid),
+        as.matrix(training_data),
+        method = "euclidean"
+      )
+    ),
+    orig_labels = NULL,
+    cluster_assignments = clusts
+  )
+}

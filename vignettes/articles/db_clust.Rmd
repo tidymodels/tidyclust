@@ -1,0 +1,279 @@
+---
+title: "Density-Based Clustering"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Density-Based Clustering}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+
+## Setup
+
+```{r}
+library(workflows)
+library(parsnip)
+```
+
+Load libraries:
+
+```{r setup}
+library(tidyclust)
+library(tidyverse)
+library(tidymodels)
+```
+
+
+```{r setup_secret, echo = FALSE}
+library(ggforce)
+set.seed(822)
+```
+
+Load and clean a dataset:
+
+
+```{r}
+data("penguins", package = "modeldata")
+
+penguins <- penguins %>%
+  select(bill_length_mm, bill_depth_mm) %>%
+  drop_na()
+
+# shuffle rows
+penguins <- penguins %>%
+  sample_n(nrow(penguins))
+```
+
+At the end of this vignette, you will find a brief overview of the DBSCAN algorithm.
+
+
+
+## `db_clust` specification in {`tidyclust`}
+
+To specify a DBSCAN model in `tidyclust`, simply set the values for `radius` and `min_pts`:
+
+```{r}
+db_clust_spec <- db_clust(radius = 0.35, min_points = 10)
+
+db_clust_spec
+```
+
+There is currently one engine: `dbscan::dbscan` (default)
+
+## Fitting db_clust models
+
+After specifying the model specification, we fit the model to data in the usual way:
+
+Note that I have standardized bill length and bill depth since DBSCAN uses euclidean distance to fit clusters and these variables are on different scales.
+
+```{r}
+
+penguins_recipe <- recipe(~bill_length_mm + bill_depth_mm, data = penguins) %>%
+  step_normalize(all_numeric_predictors())
+
+db_workflow <- workflow() %>%
+  add_model(db_clust_spec) %>%
+  add_recipe(penguins_recipe)
+
+db_clust_fit <- db_workflow %>%
+  fit(data = penguins)
+
+db_clust_fit %>% 
+  summary()
+
+```
+
+We can also extract the standard `tidyclust` summary list:
+
+```{r}
+db_clust_summary <- db_clust_fit %>% extract_fit_summary()
+
+db_clust_summary %>% str()
+
+```
+
+## Cluster assignments and centers
+
+The cluster assignments for the training data can be accessed using the `extract_cluster_assignment()` function.
+
+Note that the DBSCAN algorithm allows for some points to not be assigned clusters. These points are labeled as outliers.
+
+
+```{r}
+db_clust_fit %>% extract_cluster_assignment()
+```
+
+### Centroids
+
+While the centroids produced by a db_clust fit may not be of primary interest, they can still be accessed via the `extract_fit_summary()` object.
+
+```{r}
+db_clust_fit %>% extract_centroids()
+```
+
+## Prediction
+
+
+Since $DBSCAN$ algorithm ultimately assigns training observations to the clusters based on proximity to core points, it is natural to "predict" that test  observations belong to a cluster if they are within `radius` distance to a core point. To reconcile points being within the radius of two core points that belong to different clusters, the `predict()` function assigns new observations to the cluster of the closest core point. If a point is not within the `radius` of any core points, it is predicted to be an outlier.
+
+
+```{r}
+new_penguin <- tibble(
+  bill_length_mm = 45,
+  bill_depth_mm = 15
+)
+
+db_clust_fit %>%
+  predict(new_penguin)
+```
+
+
+## A brief introduction to density-based clustering
+
+Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a method of unsupervised learning that groups observations into clusters based on their density in multidimensional space. Unlike methods such as k-means, DBSCAN does not require specifying the number of clusters beforehand and can identify clusters of arbitrary shapes. Additionally, it can classify points that do not belong to any cluster as outliers, allowing for greater flexibility in handling real-world data.
+
+In DBSCAN, observations are considered as locations in multidimensional space. The algorithm works by defining a cluster as a dense region of connected points. During the fitting process, points are classified as core points, border points, or noise based on their proximity to other points (**radius**) and a density threshold (**min_points**).
+
+```{r, include = FALSE}
+penguins_std <- penguins %>%
+  mutate(bill_length_std = scale(bill_length_mm)[,1],
+         bill_depth_std  = scale(bill_depth_mm)[,1]) %>%
+  select(bill_length_std, bill_depth_std)
+```
+
+
+The fitting process can be described as follows:
+
+```{r, echo = FALSE, include = FALSE}
+
+penguins_std %>%
+ggplot() +
+geom_point(aes(x = bill_length_std, y = bill_depth_std)) +
+theme_minimal() +
+coord_fixed() +
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+```
+
+1. Begin scanning the dataset for core points. A core point is defined as an observation which has more than the specified **min_points** points (including the point itself) within the specified **radius** around the point.
+
+
+```{r, include = FALSE}
+library(dbscan)
+eps <- 0.35
+min_points <- 10
+dbscan_fit <- dbscan(penguins_std, eps = eps, minPts = min_points)
+
+```
+
+```{r, echo = FALSE}
+
+penguins_std %>%
+  ggplot() +
+  geom_point(aes(x = bill_length_std, y = bill_depth_std)) +
+  theme_minimal() +
+  geom_circle(tibble(x = c(-0.79162259), y = c(0.2), radius = rep(eps,1)),
+              mapping = aes(x0 = x, y0 = y, r = eps),
+              color = "gray", linewidth = 0.8) +
+  geom_point(tibble(x = c(-0.79162259), y = c(0.2)), mapping = aes(x = x, y = y, color = c("1"))) +
+  coord_fixed() +
+  theme(legend.position = "none") +
+  scale_color_manual(values = c("red"))+
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+
+```
+
+
+2. If a core point is found, form a cluster with the core point and begin recursively building out the cluster to nearby core points.
+
+
+```{r}
+
+penguins_std %>%
+  ggplot() +
+  geom_point(aes(x = bill_length_std, y = bill_depth_std)) +
+  theme_minimal() +
+  geom_circle(tibble(x = c(-0.79162259), y = c(0.2), radius = rep(eps,1)),
+              mapping = aes(x0 = x, y0 = y, r = eps),
+              color = "gray", linewidth = 0.8) +
+  geom_point(tibble(x = c(-0.79162259), y = c(0.2)), mapping = aes(x = x, y = y, color = c("1")), size = 2) +
+  coord_fixed() +
+  theme(legend.position = "none") +
+  scale_color_manual(values = c("#619CFF"))+
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+
+```
+
+
+3. For every other point within the specified **radius** of the core point, search for other core points to add to the cluster. For every core point added, recursively search for core points within **radius** distance of any core point added until core points for the single cluster have been found.
+
+```{r}
+penguins_new <- penguins_std
+penguins_new$cluster <- (db_clust_fit %>% extract_cluster_assignment())$.cluster
+# factor(dbscan_fit$cluster)
+penguins_new$cp2 <- factor(if_else(as.numeric(is.corepoint(penguins_std, eps = eps, minPts = min_points)) == 1 & penguins_new$cluster == "Cluster_2", "Yes", "No"), levels = c("Yes", "No"))
+
+penguins_new$radius <- if_else(penguins_new$cp2 == "Yes", eps, 0)
+
+penguins_new_sub <- penguins_new %>% filter(cp2 == "Yes") %>%
+  .[c(2,3,4,5,7,9,16),]
+
+penguins_new %>%
+  ggplot(aes(x = bill_length_std, y = bill_depth_std, color = cp2)) +
+  geom_point() +
+  theme_minimal() +
+  geom_circle(mapping = aes(x0 = bill_length_std, y0 = bill_depth_std, r = radius), color = "gray", linewidth = 0.8, data = penguins_new_sub) +
+  coord_fixed() +
+  scale_color_manual(values = c("#619CFF", "black")) +
+  theme(legend.position = "none")+
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+
+
+```
+
+
+4. Repeat the previous steps until all core points for every cluster have been identified.
+
+```{r, echo = FALSE}
+penguins_new$cp <- factor(if_else(as.numeric(is.corepoint(penguins_std, eps = eps, minPts = min_points)) == 1, "Yes", "No"), levels = c("Yes", "No"))
+
+penguins_new %>%
+  mutate(cp_color = if_else(cp == "Yes", cluster, "0")) %>%
+  ggplot() +
+  geom_point(aes(x = bill_length_std, y = bill_depth_std, color = cp_color)) +
+  theme_minimal() +
+  coord_fixed() + 
+  scale_color_manual(values = c("black", "#F8766D", "#619CFF", "#00BA38")) +
+  theme(legend.position = "none")+
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+```
+
+5. For the remaining points not assigned to a cluster, check whether the point is within the radius of a core point and assign to cluster corresponding to nearest core point. Points not in the radius of any core points, are considered outliers.
+
+
+```{r, echo = FALSE}
+penguins_new %>%
+  ggplot() +
+  geom_point(aes(x = bill_length_std, y = bill_depth_std, color = cluster)) +
+  theme_minimal() +
+  coord_fixed() + 
+  scale_color_manual(values = c("black", "#F8766D", "#619CFF", "#00BA38")) +
+  theme(legend.position = "none")+
+labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
+
+```
+
+

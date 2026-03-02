@@ -79,10 +79,10 @@
         1
       }, save_pred = TRUE))
     Message
-      x Fold1: preprocessor 1/1: Error in `hardhat::mold()`:
-      ! The following predictor ...
-      x Fold2: preprocessor 1/1: Error in `hardhat::mold()`:
-      ! The following predictor ...
+      x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
+      ! The following predi...
+      x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
+      ! The following predi...
     Condition
       Warning:
       All models failed.

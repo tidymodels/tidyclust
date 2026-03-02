@@ -3,6 +3,8 @@
 .onLoad <- function(libname, pkgname) {
   make_hier_clust()
   make_k_means()
+  make_db_clust()
+  make_gm_clust()
 
   s3_register("generics::required_pkgs", "cluster_fit")
   s3_register("generics::required_pkgs", "cluster_spec")

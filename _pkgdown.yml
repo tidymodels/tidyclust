@@ -22,6 +22,8 @@ reference:
   contents:
     - k_means
     - hier_clust
+    - db_clust
+    - gm_clust
     - cluster_spec
     - cluster_fit
 - title: Fit and Inspect

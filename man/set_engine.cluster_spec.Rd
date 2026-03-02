@@ -7,7 +7,7 @@
 \method{set_engine}{cluster_spec}(object, engine, ...)
 }
 \arguments{
-\item{object}{A \link[parsnip:model_spec]{model specification}.}
+\item{object}{A model specification.}
 
 \item{engine}{A character string for the software that should
 be used to fit the model. This is highly dependent on the type

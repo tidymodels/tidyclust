@@ -159,6 +159,22 @@ extract_cluster_assignment.hclust <- function(
   cluster_assignment_tibble(clusters, length(unique(clusters)), ...)
 }
 
+#' @export
+extract_cluster_assignment.dbscan <- function(object, ...) {
+  clusters <- dbscan_helper(object)
+
+  n_clusters <- length(unique(clusters[clusters != 0])) + 1
+  cluster_assignment_tibble_w_outliers(clusters, n_clusters, ...)
+}
+
+#' @export
+extract_cluster_assignment.Mclust <- function(object, ...) {
+  clusters <- object$classification
+  n_clusters <- length(unique(clusters))
+  cluster_assignment_tibble(clusters, n_clusters, ...)
+}
+
+
 # ------------------------------------------------------------------------------
 
 cluster_assignment_tibble <- function(
@@ -172,4 +188,22 @@ cluster_assignment_tibble <- function(
   res <- names[reorder_clusts][clusters]
 
   tibble::tibble(.cluster = factor(res))
+}
+
+cluster_assignment_tibble_w_outliers <- function(clusters,
+                                                 n_clusters,
+                                                 ...,
+                                                 prefix = "Cluster_") {
+
+  no_outliers <- clusters[clusters != 0]
+  if (n_clusters == 1) {
+    res <- rep("Outlier", length(clusters))
+  } else {
+    new_mappings <- c(0,order(union(unique(no_outliers), seq_len(n_clusters-1))))
+    names <- paste0(prefix, 0:(n_clusters-1))
+    names[1] <- "Outlier"
+    res <- names[new_mappings[(clusters+1)]+1]
+  }
+
+  tibble::tibble(.cluster = factor(res, levels = names))
 }

@@ -1,5 +1,11 @@
 # tidyclust (development version)
 
+## New Clustering Specifications
+
+* The `db_clust()` clustering specification has been added. This specification allows for the use of the DBSCAN algorithm using the dbscan engine. (#209)
+
+* The `gm_clust()` clustering specification has been added. This specification allows for the fitting of Gaussian mixture models using the mclust engine. (#209)
+
 # tidyclust 0.2.4
 
 * The philentropy package is now used to calculate distances rather than Rfast. (#199)

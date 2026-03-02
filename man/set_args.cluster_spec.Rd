@@ -7,7 +7,7 @@
 \method{set_args}{cluster_spec}(object, ...)
 }
 \arguments{
-\item{object}{A \link[parsnip:model_spec]{model specification}.}
+\item{object}{A model specification.}
 
 \item{...}{One or more named model arguments.}
 }

@@ -1,0 +1,58 @@
+```{r, child = "aaa.Rmd", include = FALSE}
+```
+
+`r descr_models("db_clust", "dbscan")`
+
+## Tuning Parameters
+
+```{r stats-param-info, echo = FALSE}
+defaults <- 
+  tibble::tibble(tidyclust = c("radius", "min_points"),
+                 default = c("no default", "no_default"))
+
+param <-
+ db_clust() %>% 
+  set_engine("dbscan") %>% 
+  set_mode("partition") %>% 
+  make_parameter_list(defaults)
+```
+
+This model has `r nrow(param)` tuning parameters:
+
+```{r dbscan-param-list, echo = FALSE, results = "asis"}
+param$item
+```
+
+## Translation from tidyclust to the original package (partition)
+
+```{r stats-cls}
+db_clust(radius = 0.5, min_points = 5)%>% 
+  set_engine("dbscan") %>% 
+  set_mode("partition") %>% 
+  translate_tidyclust()
+```
+
+## Preprocessing requirements
+
+```{r child = "template-makes-dummies.Rmd"}
+```
+
+```{r child = "template-same-scale.Rmd"}
+```
+
+
+## References
+
+- Ester, M., Kriegel, H.-P., Sander, J., & Xu, X. (1996). A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise.
+
+- Hahsler, M., Piekenbrock, M., & Doran, D. (2019a). Dbscan : Fast Density-Based Clustering with r. Journal of Statistical Software, 91(1). https://doi.org/10.18637/jss.v091.i01
+
+- Hahsler, M., Piekenbrock, M., & Doran, D. (2019b). dbscan: Fast density-based clustering
+with R. Journal of Statistical Software, 91(1), 1–30. https://doi.org/10.18637/jss.v091.
+i01
+
+- Kriegel, H., Kröger, P., Sander, J., & Zimek, A. (2011). Density-based clustering. WIREs Data Mining and Knowledge Discovery, 1(3), 231–240. https://doi.org/10.1002/widm. 30
+
+- Tran, T. N., Drab, K., & Daszykowski, M. (2013). Revised DBSCAN algorithm to cluster data with dense adjacent clusters. Chemometrics and Intelligent Laboratory Systems, 49 120, 92–96. https://doi.org/10.1016/j.chemolab.2012.11.006
+
+

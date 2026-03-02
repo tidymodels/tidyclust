@@ -7,7 +7,7 @@
 \method{set_mode}{cluster_spec}(object, mode, ...)
 }
 \arguments{
-\item{object}{A \link[parsnip:model_spec]{model specification}.}
+\item{object}{A model specification.}
 
 \item{mode}{A character string for the model type (e.g. "classification" or
 "regression")}
