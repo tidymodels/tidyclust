@@ -1,4 +1,4 @@
-# fit and fit_xy errors if outcome is provided
+# fit() and fit_xy() errors if outcome is provided
 
     Code
       fit_xy(k_means(num_clusters = 5), mtcars, y = mtcars$mpg)
@@ -14,7 +14,7 @@
       Error in `x_x()`:
       ! Outcomes are not used in <cluster_spec> objects.
 
-# k_means errors when num_clusters > distinct data points
+# k_means() errors when num_clusters > distinct data points
 
     Code
       fit(set_engine(k_means(num_clusters = 10), "stats"), ~., data = small_data)

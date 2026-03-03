@@ -63,7 +63,7 @@ test_that("sse_within_total() returns expected structure", {
   expect_equal(res, expected)
 })
 
-test_that("sse_within_total equals sum of sse_within", {
+test_that("sse_within_total() equals sum of sse_within()", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -90,7 +90,7 @@ test_that("sse_total() returns expected structure", {
   expect_equal(res, expected)
 })
 
-test_that("sse_ratio is between 0 and 1", {
+test_that("sse_ratio() is between 0 and 1", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -108,7 +108,7 @@ test_that("sse_ratio is between 0 and 1", {
   expect_lte(res$.estimate, 1)
 })
 
-test_that("sse_ratio equals sse_within_total / sse_total", {
+test_that("sse_ratio() equals sse_within_total() / sse_total()", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -120,7 +120,7 @@ test_that("sse_ratio equals sse_within_total / sse_total", {
   expect_equal(ratio$.estimate, within_total$.estimate / total$.estimate)
 })
 
-test_that("sse_within_total_vec returns numeric value", {
+test_that("sse_within_total_vec() returns numeric value", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -128,7 +128,7 @@ test_that("sse_within_total_vec returns numeric value", {
   expect_type(sse_within_total_vec(kmeans_fit), "double")
 })
 
-test_that("sse_total_vec returns numeric value", {
+test_that("sse_total_vec() returns numeric value", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -136,7 +136,7 @@ test_that("sse_total_vec returns numeric value", {
   expect_type(sse_total_vec(kmeans_fit), "double")
 })
 
-test_that("sse_ratio_vec returns numeric value between 0 and 1", {
+test_that("sse_ratio_vec() returns numeric value between 0 and 1", {
   kmeans_fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)

@@ -85,7 +85,7 @@ test_that("workflow with recipe preprocessing", {
   expect_true(wf_fit$trained)
 })
 
-test_that("extract_centroids works on workflows", {
+test_that("extract_centroids() works on workflows", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("recipes")
 
@@ -105,7 +105,7 @@ test_that("extract_centroids works on workflows", {
   expect_contains(names(centroids), ".cluster")
 })
 
-test_that("extract_cluster_assignment works on workflows", {
+test_that("extract_cluster_assignment() works on workflows", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("recipes")
 
@@ -125,7 +125,7 @@ test_that("extract_cluster_assignment works on workflows", {
   expect_named(assignments, ".cluster")
 })
 
-test_that("sse_within_total works on workflow fits", {
+test_that("sse_within_total() works on workflow fits", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("recipes")
 
@@ -144,7 +144,7 @@ test_that("sse_within_total works on workflow fits", {
   expect_identical(res$.metric, "sse_within_total")
 })
 
-test_that("silhouette_avg works on workflow fits", {
+test_that("silhouette_avg() works on workflow fits", {
   skip_if_not_installed("workflows")
   skip_if_not_installed("recipes")
 

@@ -1,4 +1,4 @@
-test_that("silhouette works", {
+test_that("silhouette() works", {
   kmeans_spec <- k_means(num_clusters = 1) |>
     set_engine("stats")
 
@@ -35,7 +35,7 @@ test_that("silhouette_avg() errors for cluster spec", {
   )
 })
 
-test_that("silhouette_avg returns NA for single cluster", {
+test_that("silhouette_avg() returns NA for single cluster", {
   fit <- k_means(num_clusters = 1) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -46,7 +46,7 @@ test_that("silhouette_avg returns NA for single cluster", {
   expect_identical(res$.estimate, NA_real_)
 })
 
-test_that("silhouette values are in [-1, 1]", {
+test_that("silhouette() values are in [-1, 1]", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -58,7 +58,7 @@ test_that("silhouette values are in [-1, 1]", {
   expect_true(all(res$sil_width <= 1 | is.na(res$sil_width)))
 })
 
-test_that("silhouette_avg returns expected structure", {
+test_that("silhouette_avg() returns expected structure", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)

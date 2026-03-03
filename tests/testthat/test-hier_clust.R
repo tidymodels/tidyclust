@@ -73,7 +73,7 @@ test_that("predictions", {
   )
 })
 
-test_that("extract_cluster_assignment works if you don't set num_clusters", {
+test_that("extract_cluster_assignment() works if you don't set num_clusters", {
   set.seed(1234)
   hclust_fit <- hier_clust(num_clusters = 4) |>
     set_engine("stats") |>
@@ -90,7 +90,7 @@ test_that("extract_cluster_assignment works if you don't set num_clusters", {
   )
 })
 
-test_that("predict works if you don't set num_clusters", {
+test_that("predict() works if you don't set num_clusters", {
   set.seed(1234)
   hclust_fit <- hier_clust(num_clusters = 4) |>
     set_engine("stats") |>
@@ -107,7 +107,7 @@ test_that("predict works if you don't set num_clusters", {
   )
 })
 
-test_that("extract_centroids work", {
+test_that("extract_centroids() work", {
   set.seed(1234)
   hclust_fit <- hier_clust(num_clusters = 4) |>
     set_engine("stats") |>
@@ -127,7 +127,7 @@ test_that("extract_centroids work", {
   )
 })
 
-test_that("extract_centroids work if you don't set num_clusters", {
+test_that("extract_centroids() work if you don't set num_clusters", {
   set.seed(1234)
   hclust_fit <- hier_clust() |>
     set_engine("stats") |>

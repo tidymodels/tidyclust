@@ -1,4 +1,4 @@
-test_that("tunable.k_means returns expected parameters", {
+test_that("tunable() returns expected parameters for k_means", {
   spec <- k_means(num_clusters = tune()) |>
     set_engine("stats")
 
@@ -15,7 +15,7 @@ test_that("tunable.k_means returns expected parameters", {
   expect_identical(res, expected)
 })
 
-test_that("tunable.hier_clust returns expected parameters", {
+test_that("tunable() returns expected parameters for hier_clust", {
   spec <- hier_clust(num_clusters = tune()) |>
     set_engine("stats")
 
@@ -36,7 +36,7 @@ test_that("tunable.hier_clust returns expected parameters", {
   expect_identical(res, expected)
 })
 
-test_that("tunable returns tibble for models with fixed params", {
+test_that("tunable() returns tibble for models with fixed params", {
   spec <- k_means(num_clusters = 3) |>
     set_engine("stats")
 

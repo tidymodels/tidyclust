@@ -65,7 +65,7 @@ test_that("prefix is passed in predict()", {
   )
 })
 
-test_that("predict with type = 'raw' errors when not available", {
+test_that("predict() with type = 'raw' errors when not available", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -76,7 +76,7 @@ test_that("predict with type = 'raw' errors when not available", {
   )
 })
 
-test_that("predict errors with NA in new_data", {
+test_that("predict() errors with NA in new_data", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -90,7 +90,7 @@ test_that("predict errors with NA in new_data", {
   )
 })
 
-test_that("predict works with different column order", {
+test_that("predict() works with different column order", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -102,7 +102,7 @@ test_that("predict works with different column order", {
   expect_identical(res, original)
 })
 
-test_that("predict ignores extra columns", {
+test_that("predict() ignores extra columns", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -115,7 +115,7 @@ test_that("predict ignores extra columns", {
   expect_identical(res, original)
 })
 
-test_that("predict errors with missing required columns", {
+test_that("predict() errors with missing required columns", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., data = mtcars)

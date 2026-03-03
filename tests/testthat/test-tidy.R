@@ -1,4 +1,4 @@
-test_that("tidy.cluster_fit returns expected columns for k_means", {
+test_that("tidy() returns expected columns for k_means", {
   skip_if_not_installed("broom")
 
   kmeans_fit <- k_means(num_clusters = 3) |>
@@ -16,7 +16,7 @@ test_that("tidy.cluster_fit returns expected columns for k_means", {
   )
 })
 
-test_that("glance.cluster_fit returns single row summary", {
+test_that("glance() returns single row summary", {
   skip_if_not_installed("broom")
 
   kmeans_fit <- k_means(num_clusters = 3) |>

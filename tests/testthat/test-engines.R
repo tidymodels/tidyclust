@@ -135,7 +135,7 @@ test_that("k_means stats and ClusterR produce consistent cluster counts", {
   expect_equal(length(unique(preds_clusterr$.pred_cluster)), n_clusters)
 })
 
-test_that("extract_centroids works across engines", {
+test_that("extract_centroids() works across engines", {
   skip_if_not_installed("ClusterR")
 
   n_clusters <- 3
@@ -159,7 +159,7 @@ test_that("extract_centroids works across engines", {
   expect_contains(names(centroids_clusterr), ".cluster")
 })
 
-test_that("extract_cluster_assignment works across engines", {
+test_that("extract_cluster_assignment() works across engines", {
   skip_if_not_installed("ClusterR")
 
   n_clusters <- 3

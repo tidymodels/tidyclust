@@ -1,4 +1,4 @@
-test_that("fit with formula and fit_xy produce same results", {
+test_that("fit() with formula and fit_xy() produce same results", {
   set.seed(123)
   fit_formula <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
@@ -44,7 +44,7 @@ test_that("fit_xy interface works for hier_clust", {
   expect_equal(nrow(extract_cluster_assignment(fit)), nrow(mtcars))
 })
 
-test_that("fit and fit_xy produce same results for hier_clust", {
+test_that("fit() and fit_xy() produce same results for hier_clust", {
   fit_formula <- hier_clust(num_clusters = 3) |>
     set_engine("stats") |>
     fit(~., mtcars)

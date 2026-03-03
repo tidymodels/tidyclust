@@ -1,4 +1,4 @@
-test_that("fit and fit_xy errors if outcome is provided", {
+test_that("fit() and fit_xy() errors if outcome is provided", {
   expect_no_error(
     k_means(num_clusters = 5) |> fit_xy(mtcars)
   )
@@ -20,7 +20,7 @@ test_that("fit and fit_xy errors if outcome is provided", {
   )
 })
 
-test_that("k_means works with num_clusters = 1", {
+test_that("k_means() works with num_clusters = 1", {
   fit <- k_means(num_clusters = 1) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
@@ -31,7 +31,7 @@ test_that("k_means works with num_clusters = 1", {
   expect_identical(levels(res$.pred_cluster), "Cluster_1")
 })
 
-test_that("k_means errors when num_clusters > distinct data points", {
+test_that("k_means() errors when num_clusters > distinct data points", {
   small_data <- mtcars[1:5, 1:3]
 
   expect_snapshot(
@@ -42,7 +42,7 @@ test_that("k_means errors when num_clusters > distinct data points", {
   )
 })
 
-test_that("hier_clust with cut_height = 0 produces n clusters", {
+test_that("hier_clust() with cut_height = 0 produces n clusters", {
   fit <- hier_clust(cut_height = 0) |>
     set_engine("stats") |>
     fit(~., data = mtcars)
