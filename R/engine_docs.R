@@ -1,3 +1,4 @@
+# nocov start
 # https://github.com/tidymodels/parsnip/blob/main/R/engine_docs.R
 
 #' Knit engine-specific documentation
@@ -64,3 +65,4 @@ list_md_problems <- function() {
 
   map(md_files, get_errors) |> vctrs::vec_rbind()
 }
+# nocov end
