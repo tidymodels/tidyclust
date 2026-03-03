@@ -17,9 +17,10 @@ is_cataclysmic <- function(x) {
   if (any(!is_err)) {
     is_good <- map_lgl(
       x$.metrics[!is_err],
-      \(.x)
+      \(.x) {
         tibble::is_tibble(.x) &&
           nrow(.x) > 0
+      }
     )
     is_err[!is_err] <- !is_good
   }

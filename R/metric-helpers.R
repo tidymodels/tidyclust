@@ -74,8 +74,7 @@ get_centroid_dists <- function(
     philentropy::dist_many_many(x, y, method = "euclidean")
   }
 ) {
-  if (ncol(new_data) != ncol(centroids)) {
-  }
+  if (ncol(new_data) != ncol(centroids)) {}
 
   suppressMessages(
     dist_fun(as.matrix(centroids), as.matrix(new_data))

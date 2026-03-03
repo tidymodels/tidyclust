@@ -33,3 +33,28 @@
       ! Using `h` argument is not supported.
       i Please use `cut_height` instead.
 
+# predict() with type = 'raw' errors when not available
+
+    Code
+      predict(fit, mtcars, type = "raw")
+    Condition
+      Error in `check_spec_pred_type()`:
+      ! No raw prediction method available for this model.
+      i `type` should be one of "cluster".
+
+# predict() errors with NA in new_data
+
+    Code
+      predict(fit, new_data)
+    Condition
+      Error in `flexclust::dist2()`:
+      ! Cannot handle missing values!
+
+# predict() errors with missing required columns
+
+    Code
+      predict(fit, missing_cols)
+    Condition
+      Error:
+      ! object 'wt' not found
+

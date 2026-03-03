@@ -235,6 +235,20 @@ check_args.k_means <- function(object) {
     )
   }
 
+  if (length(centers) == 1) {
+    n_distinct <- nrow(unique(data))
+    if (centers > n_distinct) {
+      cli::cli_abort(
+        c(
+          "{.arg num_clusters} must be at most the number of distinct data
+          points ({n_distinct}).",
+          "i" = "{.arg num_clusters} was set to {centers}."
+        ),
+        call = call("fit")
+      )
+    }
+  }
+
   res <- stats::kmeans(data, centers, ...)
   new_order <- unique(res$cluster)
   res$cluster <- set_names(order(new_order)[res$cluster], names(res$cluster))

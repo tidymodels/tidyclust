@@ -521,3 +521,95 @@ test_that("doesn't error if recipes uses id variables", {
   expect_equal(res_est$n, rep(2, nrow(grid) * 2))
   expect_true(res_workflow$trained)
 })
+
+test_that("check_grid warns when no tuning parameters detected", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod_no_tune)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- data.frame(num_clusters = 2)
+
+  expect_snapshot(
+    res <- tune_cluster(wflow, resamples = folds, grid = grid)
+  )
+})
+
+test_that("check_grid errors when grid is not a data frame", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+
+  expect_snapshot(
+    error = TRUE,
+    tune_cluster(wflow, resamples = folds, grid = "not a grid")
+  )
+})
+
+test_that("check_grid warns when duplicate rows in grid", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- data.frame(num_clusters = c(2, 2, 3))
+
+  expect_snapshot(
+    res <- tune_cluster(wflow, resamples = folds, grid = grid)
+  )
+})
+
+test_that("check_grid errors when grid has extra params", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- data.frame(num_clusters = 2, extra_param = 1)
+
+  expect_snapshot(
+    error = TRUE,
+    tune_cluster(wflow, resamples = folds, grid = grid)
+  )
+})
+
+test_that("check_grid errors when grid is missing params", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_recipe(helper_objects$rec_tune_1) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- data.frame(num_clusters = 2)
+
+  expect_snapshot(
+    error = TRUE,
+    tune_cluster(wflow, resamples = folds, grid = grid)
+  )
+})
+
+test_that("check_grid errors when numeric grid < 1", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+
+  expect_snapshot(
+    error = TRUE,
+    tune_cluster(wflow, resamples = folds, grid = 0)
+  )
+})
