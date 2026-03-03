@@ -77,3 +77,40 @@ test_that("print.cluster_metric_set() works", {
   metrics <- cluster_metric_set(sse_total, sse_ratio)
   expect_snapshot(print(metrics))
 })
+
+test_that("cluster_metric_set() works with namespaced functions", {
+  metrics <- cluster_metric_set(tidyclust::sse_total, tidyclust::sse_ratio)
+
+  kmeans_fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- metrics(kmeans_fit, new_data = mtcars)
+  expect_equal(res$.metric, c("sse_total", "sse_ratio"))
+})
+
+test_that("new_cluster_metric() works", {
+  fn <- function(object, new_data = NULL) {
+    tibble::tibble(.metric = "test", .estimator = "standard", .estimate = 1)
+  }
+
+  metric <- new_cluster_metric(fn, direction = "maximize")
+
+  expect_s3_class(metric, "cluster_metric")
+  expect_equal(attr(metric, "direction"), "maximize")
+})
+
+test_that("new_cluster_metric() errors with non-function", {
+  expect_snapshot(
+    error = TRUE,
+    new_cluster_metric("not a function", direction = "maximize")
+  )
+})
+
+test_that("new_cluster_metric() errors with invalid direction", {
+  fn <- function(object, new_data = NULL) 1
+  expect_snapshot(
+    error = TRUE,
+    new_cluster_metric(fn, direction = "invalid")
+  )
+})

@@ -71,3 +71,19 @@
       1 sse_total cluster_metric zero     
       2 sse_ratio cluster_metric zero     
 
+# new_cluster_metric() errors with non-function
+
+    Code
+      new_cluster_metric("not a function", direction = "maximize")
+    Condition
+      Error in `new_cluster_metric()`:
+      ! `fn` must be a function.
+
+# new_cluster_metric() errors with invalid direction
+
+    Code
+      new_cluster_metric(fn, direction = "invalid")
+    Condition
+      Error in `new_cluster_metric()`:
+      ! `direction` must be one of "maximize", "minimize", or "zero", not "invalid".
+
