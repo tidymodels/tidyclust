@@ -32,7 +32,7 @@ linkage_method <- function(values = values_linkage_method) {
   dials::new_qual_param(
     type = "character",
     values = values,
-    label = c(activation = "Linkage Method"),
+    label = c(linkage_method = "Linkage Method"),
     finalize = NULL
   )
 }
