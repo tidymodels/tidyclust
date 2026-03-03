@@ -24,6 +24,7 @@ reference:
     - hier_clust
     - cluster_spec
     - cluster_fit
+    - freq_itemsets
 - title: Fit and Inspect
   desc: >
     These functions are the generics that are supported for specifications
@@ -43,9 +44,11 @@ reference:
     at where the clusters are and which observations are associated with which
     cluster.
   contents:
+    - augment_itemset_predict
     - predict.cluster_fit
     - extract_cluster_assignment
     - extract_centroids
+    - extract_itemset_predictions
 - title: Model based performance metrics
   desc: >
     These metrics use the fitted clustering model to extract values denoting how

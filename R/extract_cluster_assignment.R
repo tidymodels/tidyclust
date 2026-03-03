@@ -159,6 +159,79 @@ extract_cluster_assignment.hclust <- function(
   cluster_assignment_tibble(clusters, length(unique(clusters)), ...)
 }
 
+#' @export
+extract_cluster_assignment.itemsets <- function(object, ...) {
+  max_iter = 1000
+  items <- attr(object, "item_names")
+  itemsets <- arules::DATAFRAME(object)
+
+  itemset_list <- lapply(strsplit(gsub("[{}]", "", itemsets$items), ","), trimws)
+  support <- itemsets$support
+  clusters <- numeric(length(items))
+  changed <- TRUE  # Flag to track convergence
+  iter <- 0 # Initialize iteration counter
+
+  # Continue until no changes occur
+  while (changed && iter < max_iter) {
+    changed <- FALSE
+    iter <- iter + 1
+    for (i in 1:length(items)) {
+      current_item <- items[i]
+      relevant_itemsets <- which(sapply(itemset_list, function(x) current_item %in% x))
+
+      if (length(relevant_itemsets) == 0) next  # Skip if no itemsets
+
+      # Find the best itemset (largest size, then highest support)
+      best_itemset <- relevant_itemsets[
+        which.max(
+          sapply(itemset_list[relevant_itemsets], length) * 1000 +  # Size dominates
+          support[relevant_itemsets]                                # Support breaks ties
+          )
+        ]
+      best_itemset_size <- length(itemset_list[[best_itemset]])
+      best_itemset_support <- support[best_itemset]
+
+      # Current cluster info (if any)
+      current_cluster <- clusters[i]
+      current_cluster_size <- if (current_cluster != 0)
+        length(itemset_list[[current_cluster]]) else 0
+      current_cluster_support <- if (current_cluster != 0)
+        support[current_cluster] else 0
+
+      # Reassign if:
+      # 1. No current cluster, OR
+      # 2. New itemset is larger, OR
+      # 3. Same size but higher support
+      if (current_cluster == 0 ||
+          best_itemset_size > current_cluster_size ||
+          (best_itemset_size == current_cluster_size &&
+          best_itemset_support > current_cluster_support)) {
+
+        # Assign all items in the best itemset to its cluster
+        new_cluster <- best_itemset
+        items_in_best <- match(itemset_list[[best_itemset]], items)
+
+        if (!all(clusters[items_in_best] == new_cluster)) {
+          clusters[items_in_best] <- new_cluster
+          changed <- TRUE  # Mark that a change occurred
+        }
+      }
+    }
+  }
+
+  if (iter == max_iter && changed) {
+    rlang::warn(
+      paste0(
+        "Cluster assignment did not converge within the maximum of ",
+        max_iter,
+        " iterations. Returning the current cluster assignments."
+      )
+    )
+  }
+
+  item_assignment_tibble_w_outliers(clusters, ...)
+}
+
 # ------------------------------------------------------------------------------
 
 cluster_assignment_tibble <- function(
@@ -170,6 +243,37 @@ cluster_assignment_tibble <- function(
   reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
   names <- paste0(prefix, seq_len(n_clusters))
   res <- names[reorder_clusts][clusters]
+
+  tibble::tibble(.cluster = factor(res))
+}
+
+item_assignment_tibble_w_outliers <- function(clusters,
+                                              ...,
+                                              prefix = "Cluster_") {
+  # Vector to store the resulting cluster names
+  res <- character(length(clusters))
+
+  # For items with cluster value 0, assign to "Cluster_0"
+  res[clusters == 0] <- "Cluster_0"
+  zero_count <- 0
+  res <- sapply(res, function(x) {
+    if (x == "Cluster_0") {
+      zero_count <<- zero_count + 1
+      paste0("Cluster_0_", zero_count)
+    } else {
+      x
+    }
+  })
+
+  # For non-zero clusters, assign sequential cluster numbers starting from "Cluster_1"
+  non_zero_clusters <- clusters[clusters != 0]
+  unique_non_zero_clusters <- unique(non_zero_clusters)
+
+  # Map each unique non-zero cluster to a new cluster starting from Cluster_1
+  cluster_map <- stats::setNames(paste0(prefix, seq_along(unique_non_zero_clusters)), unique_non_zero_clusters)
+
+  # Assign the corresponding cluster names to the non-zero clusters
+  res[clusters != 0] <- cluster_map[as.character(non_zero_clusters)]
 
   tibble::tibble(.cluster = factor(res))
 }

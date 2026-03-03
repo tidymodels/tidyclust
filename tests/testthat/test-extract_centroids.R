@@ -1,3 +1,11 @@
+toy_df <- data.frame(
+  "beer"    = c(FALSE, TRUE, TRUE, TRUE, FALSE),
+  "milk"    = c(TRUE, FALSE, TRUE, TRUE, TRUE),
+  "bread"   = c(TRUE, TRUE, FALSE, TRUE, TRUE),
+  "diapers" = c(TRUE, TRUE, TRUE, TRUE, TRUE),
+  "eggs"    = c(FALSE, TRUE, FALSE, FALSE, FALSE)
+)
+
 test_that("extract_centroids() errors for cluster spec", {
   spec <- tidyclust::k_means(num_clusters = 4)
 
@@ -63,4 +71,14 @@ test_that("prefix is passed in extract_centroids()", {
   expect_true(
     all(substr(res$.cluster, 1, 2) == "C_")
   )
+})
+
+test_that("extract_centroids errors for freq_itemsets", {
+  set.seed(1234)
+  skip_if_not_installed("arules")
+  fi_fit <- freq_itemsets(min_support = 0.5) %>%
+    set_engine("arules") %>%
+    fit(~., toy_df %>% dplyr::mutate(across(everything(), as.numeric)))
+
+  expect_snapshot(error = TRUE, extract_centroids(fi_fit))
 })

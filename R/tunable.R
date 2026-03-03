@@ -75,3 +75,25 @@ stats_k_means_engine_args <-
     component = "k_means",
     component_id = "engine"
   )
+
+#' @export
+tunable.freq_itemsets <- function(x, ...) {
+  res <- NextMethod()
+  if (x$engine == "arules") {
+    res <- add_engine_parameters(res, arules_freq_itemsets_engine_args)
+  }
+  res
+}
+
+arules_freq_itemsets_engine_args <-
+  tibble::tibble(
+    name = c(
+      "support"
+    ),
+    call_info = list(
+      list(pkg = "tidyclust", fun = "min_support")
+    ),
+    source = "cluster_spec",
+    component = "freq_itemsets",
+    component_id = "engine"
+  )

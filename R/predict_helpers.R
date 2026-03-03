@@ -177,3 +177,88 @@ make_predictions <- function(x, prefix, n_clusters) {
 
   pred_clusts
 }
+
+itemsets_predict_helper <- function(object, new_data, ..., prefix = "Cluster_") {
+  new_data <- as.data.frame(new_data)
+
+  # Extract frequent itemsets and their supports
+  items <- attr(object, "item_names")
+  itemsets <- arules::DATAFRAME(object)
+  frequent_itemsets <- lapply(strsplit(gsub("[{}]", "", itemsets$items), ","), trimws)
+  supports <- itemsets$support
+
+  # Calculate global support for each item (fallback)
+  global_supports <- sapply(items, function(item) {
+    containing <- sapply(frequent_itemsets, function(x) item %in% x)
+    if (any(containing)) {
+      sum(supports[containing]) / sum(containing)
+    } else {
+      0
+    }
+  })
+
+  # Process each row of new_data
+  result_list <- lapply(1:nrow(new_data), function(i) {
+    row_data <- new_data[i, ]
+    observed <- names(row_data)[row_data == 1]
+    missing <- names(row_data)[is.na(row_data)]
+
+    # Initialize prediction vector
+    pred_values <- rep(NA, length(items))
+    names(pred_values) <- items
+
+    # Calculate probabilities for missing items
+    for (item in missing) {
+      # Find itemsets containing both the current item and at least one observed item
+      relevant <- sapply(frequent_itemsets, function(x) {
+        item %in% x && any(observed %in% x)
+      })
+
+      if (!any(relevant)) {
+        pred_values[item] <- global_supports[item]
+        next
+      }
+
+      # Calculate confidences
+      confidences <- sapply(which(relevant), function(idx) {
+        itemset <- frequent_itemsets[[idx]]
+        itemset_without <- setdiff(itemset, item)
+
+        # Find support of itemset without the current item
+        if (length(itemset_without) == 0) return(NA)
+
+        matches <- sapply(frequent_itemsets, function(x) identical(x, itemset_without))
+        if (!any(matches)) return(NA)
+
+        supports[idx] / supports[matches][1]
+      })
+
+      pred_values[item] <- mean(confidences, na.rm = TRUE)
+      if (is.nan(pred_values[item])) pred_values[item] <- global_supports[item]
+    }
+
+    # Create result data frame
+    data.frame(
+      item = gsub("`", "", items), # Remove backticks from item names
+      .obs_item = unlist(row_data),
+      .pred_item = pred_values,
+      row.names = NULL
+    )
+  })
+}
+
+.freq_itemsets_predict_raw_arules <- function(object, new_data, ..., prefix = "Cluster_") {
+  res <- itemsets_predict_helper(object, new_data, ..., prefix = "Cluster_")
+  return(tibble::tibble(.pred_cluster = unname(res)))
+}
+
+.freq_itemsets_predict_arules <- function(object, new_data, ..., prefix = "Cluster_") {
+  res <- itemsets_predict_helper(object, new_data, ..., prefix = "Cluster_")
+  # Apply threshold to raw predictions
+  lapply(res, function(df) {
+    df$.pred_item <- ifelse(is.na(df$.obs_item),
+                            ifelse(df$.pred_item >= 0.5, 1, 0),
+                            NA)
+    df
+  })
+}

@@ -192,3 +192,14 @@ extract_fit_summary.hclust <- function(object, ...) {
     cluster_assignments = clusts
   )
 }
+
+#' @export
+extract_fit_summary.itemsets <- function(object, ...,
+                                         call = rlang::caller_env(n = 0)) {
+  cli::cli_abort(
+    "Centroids are not usfeul for frequent itemsets, we suggust looking at the
+    frequent itemsets directly.\n Please use arules::inspect() on the fit of
+    your cluster specification."
+  )
+
+}

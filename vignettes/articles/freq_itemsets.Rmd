@@ -1,0 +1,334 @@
+---
+title: "Frequent Itemset Mining"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Frequent Itemset Mining}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Setup
+
+```{r}
+library(workflows)
+library(parsnip)
+```
+
+Load libraries:
+
+```{r setup}
+library(tidyclust)
+library(arules)
+set.seed(838383)
+```
+
+Load and clean a dataset:
+
+```{r}
+data(Groceries)
+
+# convert to data frame
+groceries <- as.data.frame(as(Groceries, "matrix")) %>%
+  dplyr::mutate(across(everything(), ~.*1))
+```
+
+## A Brief Introduction to Frequent Itemset Mining
+
+*Frequent Itemset Mining* (FIM) is a fundamental technique in data mining that
+identifies sets of items that frequently appear together in
+transactional datasets. These itemsets are often used to uncover
+meaningful patterns, such as associations between items, which can then
+be leveraged to generate *association rules*.
+
+For example, in a supermarket transaction database, frequent itemset
+mining can identify groups of products that are commonly purchased
+together, such as `{milk, bread, eggs}`. These insights are valuable for
+applications like recommendation systems, inventory management, and
+targeted marketing.
+
+The key to frequent itemset mining is determining the sets of items that
+satisfy a user-defined threshold called the **minimum support**, where
+support is defined as the proportion of transactions in which a
+particular itemset appears.
+
+### Methods of Frequent Itemset Mining
+
+Efficiently discovering these frequent itemsets is a computational
+challenge, and several algorithms have been developed to address this
+challenge. The two implemented in `{tidyclust}` are the **Apriori**
+algorithm and the **Eclat** algorithm.
+
+#### Finding Frequent Itemsets with the Apriori Algorithm
+
+The *Apriori* algorithm is one of the earliest and most widely known
+methods for frequent itemset mining. It is based on the **Apriori
+Principle** (also known as **Downward Closure Property**): any subset of
+a frequent itemset must also be frequent.
+
+#### Process of the Apriori Algorithm
+
+1.  **Initialization**: Begin by identifying all individual items
+    (1-itemsets) that satisfy the minimum support threshold. These are
+    called *frequent 1-itemsets*.
+
+2.  **Candidate Generation**: Use the frequent itemsets from the
+    previous step to generate candidate itemsets of the next size (e.g.
+    combine frequent 1-itemsets to create candidate 2-itemsets).
+
+3.  **Prune Candidates**: Eliminate candidate itemsets that have subsets
+    not found to be frequent.
+
+4.  **Support Counting**: Scan the dataset to count the occurrences of
+    each candidate itemset.
+
+5.  **Iteration**: Repeat steps 2–4 for larger itemsets until no more
+    frequent itemsets can be generated.
+
+[![Apriori Princple
+Example](images/clipboard-4074102307.png){width="650"}](https://chih-ling-hsu.github.io/2017/03/25/apriori)
+
+The Apriori algorithm is computationally expensive due to repeated
+database scans and the generation of numerous candidates. However, its
+pruning strategy significantly reduces the search space compared to a
+naïve approach.
+
+[Source](https://dl.acm.org/doi/pdf/10.1145/170036.170072)
+
+#### Finding Frequent Itemsets with the Eclat Algorithm
+
+The *Eclat* (Equivalence Class Transformation) algorithm is an
+alternative to Apriori that uses a depth-first search strategy and
+vertical data representation. Instead of scanning the dataset
+repeatedly, Eclat represents transactions as *tid-lists* (transaction ID
+lists), which map each item or itemset to the IDs of transactions in
+which it appears.
+
+#### Process of the Eclat Algorithm
+
+1.  **Vertical Data Representation**: Transform the dataset into a
+    vertical format, where each item is associated with a list of
+    transaction IDs.
+
+2.  **Intersect Tid-lists**: Generate frequent itemsets by recursively
+    intersecting the tid-lists of individual items to form larger
+    itemsets. The intersection results in a new tid-list, representing
+    the transactions containing the larger itemset.
+
+3.  **Check Support**: The length of the resulting tid-list determines
+    the support of the itemset. Remove itemsets not found to be
+    frequent.
+
+4.  **Recursive Search**: Continue the process for all itemsets until no
+    further frequent itemsets can be found.
+
+[![Bookstore
+database](images/clipboard-2860408154.png){width="325"}](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=846291)
+
+[![Computing support of itemsets via tid-list
+intersections](images/clipboard-3198084587.png){width="650"}](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=846291)
+
+Eclat is generally more efficient than Apriori for datasets with many
+transactions but fewer unique items, as it avoids the need for multiple
+scans of the dataset. However, its performance can degrade for datasets
+with very large tid-lists.
+
+[Source](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=846291)
+
+## **`freq_itemsets` specification in {tidyclust}**
+
+To specify a frequent itemsets mining model in `tidyclust`, simply
+choose a value of `min_support` and (optionally) a mining method:
+
+```{r}
+fi_spec <- freq_itemsets(
+  min_support = 0.05,
+  mining_method = "eclat"
+  ) %>%
+  set_engine("arules") %>%
+  set_mode("partition")
+
+fi_spec
+```
+
+Currently, the only supported engine is `arules`. The default mining 
+method is eclat because it is generally faster in most practical cases. A 
+default `min_support` value is not provided as it varies significantly depending 
+on the data characteristics.
+
+## **Fitting `freq_itemsets` models**
+
+We fit the model to the data in the usual way:
+
+```{r}
+fi_fit <- fi_spec %>%
+  fit(~ .,
+    data = groceries
+  )
+
+fi_fit %>%
+  summary()
+```
+
+We can not extract the standard `tidyclust` summary list since centroids are not 
+useful for frequent itemsets, however we can extract the frequent itemsets:
+
+```{r}
+arules::inspect(fi_fit$fit)
+```
+
+Note that, although the frequent itemset algorithm is not focused on cluster's
+like other unsupervised learning algorithms, we have created clusters based on
+the itemsets. For each item, we find all itemsets that include that item:
+
+- Itemsets with the largest size are selected as the "dominate" itemset for the 
+item. If there is a tie in size, the itemset with the highest support is selected. 
+This prioritization aligns with findings that larger itemsets with higher 
+support exhibit greater predictive utility.
+
+- If an item has already been assigned a cluster, the algorithm compares the 
+current "best" itemset with the itemset under consideration and re-prioritizes 
+based on size and support. This process repeats until no items are reassigned to 
+a new cluster (convergence).
+
+- Items that appear in no frequent itemsets are labeled as outliers 
+(Cluster_0_X) while items within frequent itemsets are assigned sequential 
+cluster IDs (Cluster_1, Cluster_2, etc.). 
+
+```{r}
+fi_fit %>% 
+  extract_cluster_assignment()
+```
+
+## Prediction
+
+Since frequent itemset mining identifies patterns in co-occurring items rather 
+than learning a predictive function, the notion of "prediction" is not as 
+straightforward as in supervised learning. However, given a set of frequent 
+itemsets from historical data, it is possible to estimate the likelihood that a 
+missing item in new data is present based on observed co-occurring items.
+
+The `predict()` function utilizes frequent itemsets and their support values to 
+estimate probabilities for missing items in new transactions. For each row in 
+`new_data`, the function identifies observed items and missing items. It then 
+searches for frequent itemsets that contain both the missing item and at least 
+one observed item. Using the support values of these itemsets, it estimates the 
+probability that the missing item is present based on the confidence of 
+association between observed and missing items. If no relevant itemsets are 
+found, the item's global support (frequency in training data) is used as a 
+fallback prediction.
+
+The function fills in missing values with these probability estimates, 
+effectively "predicting" the likelihood of item presence based on historical 
+co-occurrence patterns. The type argument allows returning raw prediction 
+probabilities ('raw') or binary predictions based on a 0.5 threshold ('cluster').
+
+We display the predicted values in the column `.pred_item`, and the observed 
+values in the column `.obs_item`.
+
+```{r}
+new_data <- groceries[1:5,]  %>%
+  tidyclust:::random_na_with_truth(na_prob = 0.3)
+
+results <- fi_fit %>%
+  predict(new_data$na_data)
+
+results$.pred_cluster[[1]]
+```
+
+The function `random_na_with_truth()` is used for testing purposes to randomly 
+assign values to be `NA`, however it can be accessed using in `tidyclust` using 
+the `:::`.
+
+Additionally, we can extract the nested predicted output to be formatted in a 
+single data frame, filling in the `NA` values with their predicted value using
+`extract_itemset_predictions()`.
+
+```{r}
+results %>%
+  extract_itemset_predictions
+```
+
+## Evaluation Metrics
+
+While support values traditionally assess frequent itemset quality, they do not 
+guarantee predictive performance. Since the `predict()` methodology resembles a 
+recommender system, the results should be evaluated using similar metrics. 
+Common metrics such as root mean squared error (RMSE), accuracy, precision, and 
+recall are implemented in the `yardstick` package.
+
+To prepare the `predict()` output for metric calculation, we provide a new 
+function `augment_itemset_predict()`.
+
+```{r}
+# Generate data to predict on
+na_result <- tidyclust:::random_na_with_truth(groceries[1:5,], na_prob = 0.3)
+new_data <- na_result$na_data # In a real scenario, this would be new, untrained on, data
+truth_output <-  na_result$truth # In a real scenario, this would be a separate holdout set
+
+# Example for RMSE (using type = 'raw')
+fi_fit %>%
+  predict(new_data = new_data, type = 'raw') %>%
+  augment_itemset_predict(truth_output = truth_output) %>%
+  yardstick::rmse(truth, preds)
+
+# Example for Precision (using type = 'cluster')
+fi_fit %>%
+  predict(new_data = new_data, type = 'cluster') %>%
+  augment_itemset_predict(truth_output = truth_output) %>%
+  dplyr::mutate(
+    truth = factor(truth, levels = c(0, 1)),
+    preds = factor(preds, levels = c(0, 1))
+  ) %>%
+  yardstick::precision(truth, preds)
+```
+
+When using RMSE, the raw `predict()` output should be used, while accuracy, 
+precision, and recall will use the cluster output or user thresholded raw 
+output. Caution should be used when looking at accuracy, precision, and recall 
+for imbalanced datasets (where items are infrequently purchased). In such cases, 
+F1-Score offers a balance between precision and recall, and precision-recall 
+(PR) curves aid in determining the best threshold value.
+
+```{r}
+fi_fit %>%
+  predict(new_data = new_data, type = 'raw') %>%
+  augment_itemset_predict(truth = truth_output) %>%
+  dplyr::mutate(truth = factor(truth, levels = c(0, 1))) %>%
+  yardstick::pr_curve(truth, preds) %>%
+  autoplot()
+```
+
+Each point on the PR curve represents the precision and recall of the model at a 
+specific threshold. By varying this threshold, different precision and recall 
+values are obtained, creating the curve. The ideal curve is close to the 
+top-right corner, indicating high precision and high recall.
+
+## Hyperparameter Tuning
+
+The sole parameter capable of being tuned in a FIM model is `min_support.` 
+Selecting the correct value is imperative for finding useful frequent itemsets. 
+The default grid for `min_support` is from 0.1 to 0.5. The lower bound of 0.1 was 
+chosen to avoid reporting too many frequent itemsets, even for smaller datasets, 
+while the upper bound of 0.5 was selected since it ensures that each frequent 
+itemset has a support of at least 50%.
+
+```{r}
+dials::grid_regular(
+  dials::min_support(),
+  levels = 10
+)
+```
+
+Usually, the above object is paired with `tune_cluster`, however cross-validation 
+is not currently implemented for FIM. Future work will focus on improving tuning 
+and implementing cross-validation.

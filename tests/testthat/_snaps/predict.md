@@ -33,3 +33,12 @@
       ! Using `h` argument is not supported.
       i Please use `cut_height` instead.
 
+# predict() errors for cluster spec for freq_itemsets
+
+    Code
+      predict(spec)
+    Condition
+      Error in `predict()`:
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
+

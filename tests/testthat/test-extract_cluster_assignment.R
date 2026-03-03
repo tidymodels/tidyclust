@@ -1,3 +1,11 @@
+toy_df <- data.frame(
+  "beer"    = c(FALSE, TRUE, TRUE, TRUE, FALSE),
+  "milk"    = c(TRUE, FALSE, TRUE, TRUE, TRUE),
+  "bread"   = c(TRUE, TRUE, FALSE, TRUE, TRUE),
+  "diapers" = c(TRUE, TRUE, TRUE, TRUE, TRUE),
+  "eggs"    = c(FALSE, TRUE, FALSE, FALSE, FALSE)
+)
+
 test_that("extract_cluster_assignment() errors for cluster spec", {
   spec <- tidyclust::k_means(num_clusters = 4)
 
@@ -62,5 +70,16 @@ test_that("prefix is passed in extract_cluster_assignment()", {
 
   expect_true(
     all(substr(res$.cluster, 1, 2) == "C_")
+  )
+})
+
+test_that("extract_cluster_assignment() errors for freq_itemsets() cluster spec", {
+  skip_if_not_installed("arules")
+  fi_spec <- freq_itemsets(min_support = 0.5)
+
+  expect_snapshot(
+    error = TRUE,
+    fi_spec %>%
+      extract_cluster_assignment()
   )
 })

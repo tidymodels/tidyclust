@@ -33,3 +33,11 @@
       ! Using `h` argument is not supported.
       i Please use `cut_height` instead.
 
+# extract_centroids errors for freq_itemsets
+
+    Code
+      extract_centroids(fi_fit)
+    Condition
+      Error in `extract_fit_summary()`:
+      ! Centroids are not usfeul for frequent itemsets, we suggust looking at the frequent itemsets directly. Please use arules::inspect() on the fit of your cluster specification.
+
