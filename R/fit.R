@@ -158,7 +158,7 @@ check_interface <- function(formula, data, cl, model) {
   if (form_interface) {
     return("formula")
   }
-  cli::cli_abort("Error when checking the interface.")
+  cli::cli_abort("Error when checking the interface.", .internal = TRUE) # nocov
 }
 
 inher <- function(x, cls, cl) {
@@ -287,7 +287,7 @@ check_x_interface <- function(x, cl, model) {
   if (df_interface) {
     return("data.frame")
   }
-  cli::cli_abort("Error when checking the interface")
+  cli::cli_abort("Error when checking the interface", .internal = TRUE) # nocov
 }
 
 allow_sparse <- function(x) {
