@@ -1,26 +1,29 @@
 # sse_within() errors for cluster spec
 
     Code
-      sse_sse_within(spec)
+      sse_within(spec)
     Condition
-      Error in `sse_sse_within()`:
-      ! could not find function "sse_sse_within"
+      Error in `sse_within()`:
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
 # sse_within_total() errors for cluster spec
 
     Code
-      sse_sse_within_total(spec)
+      sse_within_total(spec)
     Condition
-      Error in `sse_sse_within_total()`:
-      ! could not find function "sse_sse_within_total"
+      Error in `sse_within_total()`:
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
 # sse_total() errors for cluster spec
 
     Code
-      sse_sse_within_total(spec)
+      sse_total(spec)
     Condition
-      Error in `sse_sse_within_total()`:
-      ! could not find function "sse_sse_within_total"
+      Error in `sse_total()`:
+      ! This function requires a fitted model.
+      i Please use `fit()` on your cluster specification.
 
 # sse_ratio() errors for cluster spec
 

@@ -1,4 +1,4 @@
-# cluster_metric_set works
+# cluster_metric_set() works
 
     Code
       my_metrics(kmeans_fit)
@@ -6,7 +6,7 @@
       Error in `value[[3L]]()`:
       ! In metric: `silhouette_avg` Must supply either a dataset or distance matrix to compute silhouettes.
 
-# cluster_metric_set error with wrong input
+# cluster_metric_set() error with wrong input
 
     Code
       cluster_metric_set(mean)
@@ -27,7 +27,7 @@
       - cluster (sse_ratio)
       - other (mean <namespace:base>)
 
-# cluster_metric_set errors with advice for some functions
+# cluster_metric_set() errors with advice for some functions
 
     Code
       cluster_metric_set(silhouette)
