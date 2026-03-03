@@ -205,3 +205,107 @@ test_that("reordering is done correctly for stats hier_clust", {
     unname(as.integer(table(summ$cluster_assignments)))
   )
 })
+
+test_that("prediction works with single linkage", {
+  fit <- hier_clust(num_clusters = 3, linkage_method = "single") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- predict(fit, mtcars[1:5, ])
+
+  expect_s3_class(res$.pred_cluster, "factor")
+  expect_equal(nrow(res), 5)
+})
+
+test_that("prediction works with complete linkage", {
+  fit <- hier_clust(num_clusters = 3, linkage_method = "complete") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- predict(fit, mtcars[1:5, ])
+
+  expect_s3_class(res$.pred_cluster, "factor")
+  expect_equal(nrow(res), 5)
+})
+
+test_that("prediction works with average linkage", {
+  fit <- hier_clust(num_clusters = 3, linkage_method = "average") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- predict(fit, mtcars[1:5, ])
+
+  expect_s3_class(res$.pred_cluster, "factor")
+  expect_equal(nrow(res), 5)
+})
+
+test_that("prediction works with ward.D linkage", {
+  fit <- hier_clust(num_clusters = 3, linkage_method = "ward.D") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- predict(fit, mtcars[1:5, ])
+
+  expect_s3_class(res$.pred_cluster, "factor")
+  expect_equal(nrow(res), 5)
+})
+
+test_that("different linkage methods can produce different predictions", {
+  fit_single <- hier_clust(num_clusters = 3, linkage_method = "single") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  fit_ward <- hier_clust(num_clusters = 3, linkage_method = "ward.D") |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  preds_single <- predict(fit_single, mtcars)
+  preds_ward <- predict(fit_ward, mtcars)
+
+  expect_false(identical(preds_single, preds_ward))
+})
+
+test_that("num_clusters = 2 produces exactly 2 clusters", {
+  fit <- hier_clust(num_clusters = 2) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  assignments <- extract_cluster_assignment(fit)
+
+  expect_identical(length(unique(assignments$.cluster)), 2L)
+})
+
+test_that("num_clusters = 4 produces exactly 4 clusters", {
+  fit <- hier_clust(num_clusters = 4) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  assignments <- extract_cluster_assignment(fit)
+
+  expect_identical(length(unique(assignments$.cluster)), 4L)
+})
+
+test_that("num_clusters = 6 produces exactly 6 clusters", {
+  fit <- hier_clust(num_clusters = 6) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  assignments <- extract_cluster_assignment(fit)
+
+  expect_identical(length(unique(assignments$.cluster)), 6L)
+})
+
+test_that("cut_height matches stats::cutree", {
+  fit <- hier_clust(cut_height = 300) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  ref <- stats::cutree(stats::hclust(dist(mtcars)), h = 300)
+
+  assignments <- extract_cluster_assignment(fit)
+
+  expect_identical(
+    length(unique(assignments$.cluster)),
+    length(unique(ref))
+  )
+})
