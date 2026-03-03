@@ -138,3 +138,52 @@
       Warning in `tune::select_best()`:
       No value of `metric` was given; "sse_within_total" will be used.
 
+# check_grid warns when no tuning parameters detected
+
+    Code
+      res <- tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Warning:
+      No tuning parameters have been detected, performance will be evaluated using the resamples with no tuning.
+      i Did you want to `tune()` parameters?
+
+# check_grid errors when grid is not a data frame
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = "not a grid")
+    Condition
+      Error in `check_grid()`:
+      ! `grid` should be a positive integer or a data frame.
+
+# check_grid warns when duplicate rows in grid
+
+    Code
+      res <- tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Warning:
+      Duplicate rows in grid of tuning combinations found and removed.
+
+# check_grid errors when grid has extra params
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Error in `check_grid()`:
+      ! The provided `grid` has parameter column 'extra_param' that has not been marked for tuning by `tune()`.
+
+# check_grid errors when grid is missing params
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Error in `check_grid()`:
+      ! The provided `grid` is missing parameter column "'num_comp'" that has been marked for tuning by `tune()`.
+
+# check_grid errors when numeric grid < 1
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = 0)
+    Condition
+      Error in `check_grid()`:
+      ! `grid` should be a positive integer or a data frame.
+
