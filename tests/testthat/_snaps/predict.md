@@ -42,3 +42,19 @@
       ! No raw prediction method available for this model.
       i `type` should be one of "cluster".
 
+# predict errors with NA in new_data
+
+    Code
+      predict(fit, new_data)
+    Condition
+      Error in `flexclust::dist2()`:
+      ! Cannot handle missing values!
+
+# predict errors with missing required columns
+
+    Code
+      predict(fit, missing_cols)
+    Condition
+      Error:
+      ! object 'wt' not found
+
