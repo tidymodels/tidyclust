@@ -64,3 +64,14 @@ test_that("prefix is passed in predict()", {
     all(substr(res$.pred_cluster, 1, 2) == "C_")
   )
 })
+
+test_that("predict with type = 'raw' errors when not available", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    predict(fit, mtcars, type = "raw")
+  )
+})

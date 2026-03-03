@@ -33,3 +33,12 @@
       ! Using `h` argument is not supported.
       i Please use `cut_height` instead.
 
+# predict with type = 'raw' errors when not available
+
+    Code
+      predict(fit, mtcars, type = "raw")
+    Condition
+      Error in `check_spec_pred_type()`:
+      ! No raw prediction method available for this model.
+      i `type` should be one of "cluster".
+

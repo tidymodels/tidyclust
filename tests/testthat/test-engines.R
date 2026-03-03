@@ -155,8 +155,8 @@ test_that("extract_centroids works across engines", {
   expect_s3_class(centroids_clusterr, "tbl_df")
   expect_equal(nrow(centroids_stats), n_clusters)
   expect_equal(nrow(centroids_clusterr), n_clusters)
-  expect_true(".cluster" %in% names(centroids_stats))
-  expect_true(".cluster" %in% names(centroids_clusterr))
+  expect_contains(names(centroids_stats), ".cluster")
+  expect_contains(names(centroids_clusterr), ".cluster")
 })
 
 test_that("extract_cluster_assignment works across engines", {
