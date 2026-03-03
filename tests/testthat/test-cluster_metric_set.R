@@ -1,4 +1,4 @@
-test_that("cluster_metric_set works", {
+test_that("cluster_metric_set() works", {
   kmeans_spec <- k_means(num_clusters = 5) |>
     set_engine("stats")
 
@@ -41,7 +41,7 @@ test_that("cluster_metric_set works", {
   )
 })
 
-test_that("cluster_metric_set error with wrong input", {
+test_that("cluster_metric_set() error with wrong input", {
   expect_snapshot(
     error = TRUE,
     cluster_metric_set(mean)
@@ -53,7 +53,7 @@ test_that("cluster_metric_set error with wrong input", {
   )
 })
 
-test_that("cluster_metric_set errors with advice for some functions", {
+test_that("cluster_metric_set() errors with advice for some functions", {
   expect_snapshot(
     error = TRUE,
     cluster_metric_set(silhouette)

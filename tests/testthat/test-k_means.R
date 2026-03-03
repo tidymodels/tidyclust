@@ -75,7 +75,7 @@ test_that("predictions", {
   )
 })
 
-test_that("extract_centroids work", {
+test_that("extract_centroids() work", {
   set.seed(1234)
   kmeans_fit <- k_means(num_clusters = 4) |>
     set_engine("stats") |>

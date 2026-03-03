@@ -64,3 +64,66 @@ test_that("prefix is passed in predict()", {
     all(substr(res$.pred_cluster, 1, 2) == "C_")
   )
 })
+
+test_that("predict() with type = 'raw' errors when not available", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    predict(fit, mtcars, type = "raw")
+  )
+})
+
+test_that("predict() errors with NA in new_data", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  new_data <- mtcars[1:3, ]
+  new_data[1, 1] <- NA
+
+  expect_snapshot(
+    error = TRUE,
+    predict(fit, new_data)
+  )
+})
+
+test_that("predict() works with different column order", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  reordered <- mtcars[, rev(names(mtcars))]
+  original <- predict(fit, mtcars)
+  res <- predict(fit, reordered)
+
+  expect_identical(res, original)
+})
+
+test_that("predict() ignores extra columns", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  extra_cols <- mtcars
+  extra_cols$extra <- seq_len(nrow(mtcars))
+  original <- predict(fit, mtcars)
+  res <- predict(fit, extra_cols)
+
+  expect_identical(res, original)
+})
+
+test_that("predict() errors with missing required columns", {
+  fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  missing_cols <- mtcars[, 1:5]
+
+  expect_snapshot(
+    error = TRUE,
+    predict(fit, missing_cols)
+  )
+})
