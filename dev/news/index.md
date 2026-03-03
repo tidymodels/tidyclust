@@ -2,6 +2,10 @@
 
 ## tidyclust (development version)
 
+- Fixed bug when trying to tune the `linkage_method` argument.
+  ([\#206](https://github.com/tidymodels/tidyclust/issues/206),
+  [@lgaborini](https://github.com/lgaborini))
+
 ## tidyclust 0.2.4
 
 CRAN release: 2025-01-27
