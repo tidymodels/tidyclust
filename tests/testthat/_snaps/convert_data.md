@@ -31,27 +31,3 @@
       Error in `.convert_form_to_x_new()`:
       ! `composition` should be either `data.frame` or `matrix`.
 
-# .convert_x_to_form_fit() errors when x is a vector
-
-    Code
-      .convert_x_to_form_fit(1:10)
-    Condition
-      Error in `.convert_x_to_form_fit()`:
-      ! `x` cannot be a vector.
-
-# .convert_x_to_form_fit() errors on non-numeric weights
-
-    Code
-      .convert_x_to_form_fit(mtcars, weights = letters[1:32])
-    Condition
-      Error in `.convert_x_to_form_fit()`:
-      ! The `weights` must be a numeric vector.
-
-# .convert_x_to_form_fit() errors on wrong length weights
-
-    Code
-      .convert_x_to_form_fit(mtcars, weights = 1:5)
-    Condition
-      Error in `.convert_x_to_form_fit()`:
-      ! `weights` should have 32 elements.
-

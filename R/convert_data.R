@@ -8,14 +8,12 @@
 #'   internals of `lm()` (and also see the notes at
 #'   https://developer.r-project.org/model-fitting-functions.html).
 #'
-#'   `.convert_form_to_x_fit()` and `.convert_x_to_form_fit()` are for when the
-#'   data are created for modeling. `.convert_form_to_x_fit()` saves both the
-#'   data objects as well as the objects needed when new data are predicted
-#'   (e.g. `terms`, etc.).
+#'   `.convert_form_to_x_fit()` is for when the data are created for modeling.
+#'   It saves both the data objects as well as the objects needed when new data
+#'   are predicted (e.g. `terms`, etc.).
 #'
-#'   `.convert_form_to_x_new()` and `.convert_x_to_form_new()` are used when new
-#'   samples are being predicted and only require the predictors to be
-#'   available.
+#'   `.convert_form_to_x_new()` is used when new samples are being predicted and
+#'   only requires the predictors to be available.
 #'
 #' @param data A data frame containing all relevant variables (e.g. predictors,
 #'   case weights, etc).
@@ -144,67 +142,6 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
   rlang::local_options(contrasts = contrasts, .frame = frame)
 }
 
-# ------------------------------------------------------------------------------
-
-# The other direction where we make a formula from the data
-# objects
-
-# TODO slots for other roles
-#' @param weights A numeric vector containing the weights.
-#' @inheritParams fit.cluster_spec
-#' @inheritParams .convert_form_to_x_fit
-#' @rdname convert_helpers
-#' @keywords internal
-.convert_x_to_form_fit <- function(x, weights = NULL, remove_intercept = TRUE) {
-  if (is.vector(x)) {
-    cli::cli_abort("{.arg x} cannot be a vector.")
-  }
-
-  if (remove_intercept) {
-    x <- x[, colnames(x) != "(Intercept)", drop = FALSE]
-  }
-
-  rn <- rownames(x)
-
-  if (!is.data.frame(x)) {
-    x <- as.data.frame(x)
-  }
-
-  x_var <- names(x)
-  form <- make_formula(names(x))
-
-  if (!is.null(rn) && !inherits(x, "tbl_df")) {
-    rownames(x) <- rn
-  }
-
-  if (!is.null(weights)) {
-    if (!is.numeric(weights)) {
-      cli::cli_abort("The {.arg weights} must be a numeric vector.")
-    }
-    if (length(weights) != nrow(x)) {
-      cli::cli_abort("{.arg weights} should have {nrow(x)} elements.")
-    }
-  }
-
-  res <- list(
-    formula = form,
-    data = x,
-    weights = weights,
-    x_var = x_var
-  )
-  res
-}
-
-make_formula <- function(x, short = TRUE) {
-  y_part <- "~"
-  if (short) {
-    form_text <- paste0(y_part, ".")
-  } else {
-    form_text <- paste0(y_part, paste0(x, collapse = "+"))
-  }
-  as.formula(form_text)
-}
-
 #' @param object An object of class [`cluster_fit`].
 #' @inheritParams predict.cluster_fit
 #' @rdname convert_helpers
@@ -260,14 +197,4 @@ make_formula <- function(x, short = TRUE) {
     new_data <- as.matrix(new_data)
   }
   list(x = new_data, offset = offset)
-}
-
-#' @rdname convert_helpers
-#' @keywords internal
-.convert_x_to_form_new <- function(object, new_data) {
-  new_data <- new_data[, object$x_var, drop = FALSE]
-  if (!is.data.frame(new_data)) {
-    new_data <- as.data.frame(new_data)
-  }
-  new_data
 }
