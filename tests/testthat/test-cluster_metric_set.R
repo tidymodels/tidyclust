@@ -64,3 +64,16 @@ test_that("cluster_metric_set() errors with advice for some functions", {
     cluster_metric_set(sse_within)
   )
 })
+
+test_that("cluster_metric_set() errors when empty", {
+  expect_snapshot(error = TRUE, cluster_metric_set())
+})
+
+test_that("cluster_metric_set() errors with non-functions", {
+  expect_snapshot(error = TRUE, cluster_metric_set("not_a_function"))
+})
+
+test_that("print.cluster_metric_set() works", {
+  metrics <- cluster_metric_set(sse_total, sse_ratio)
+  expect_snapshot(print(metrics))
+})
