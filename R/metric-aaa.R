@@ -61,10 +61,13 @@ cluster_metric_set <- function(...) {
   if (fn_cls == "cluster_metric") {
     make_cluster_metric_function(fns)
   } else {
+    # nocov start
     cli::cli_abort(
-      "Internal error: {.fn validate_function_class} should have errored on 
-      unknown classes."
+      "Internal error: {.fn validate_function_class} should have errored on
+      unknown classes.",
+      .internal = TRUE
     )
+    # nocov end
   }
 }
 
@@ -94,10 +97,13 @@ validate_inputs_are_functions <- function(fns) {
 get_quo_label <- function(quo) {
   out <- rlang::as_label(quo)
   if (length(out) != 1L) {
+    # nocov start
     cli::cli_abort(
       "Internal error: {.code as_label(quo)} resulted in a character vector
-   of length > 1."
+      of length > 1.",
+      .internal = TRUE
     )
+    # nocov end
   }
   is_namespaced <- grepl("::", out, fixed = TRUE)
   if (is_namespaced) {

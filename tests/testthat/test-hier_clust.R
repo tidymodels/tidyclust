@@ -191,6 +191,32 @@ test_that("updating", {
   )
 })
 
+test_that("update.hier_clust() works with parameters tibble", {
+  spec <- hier_clust(num_clusters = 3)
+  params <- tibble::tibble(num_clusters = 5)
+
+  updated <- update(spec, parameters = params)
+  expect_equal(rlang::eval_tidy(updated$args$num_clusters), 5)
+})
+
+test_that("update.hier_clust() works with fresh = TRUE", {
+  spec <- hier_clust(num_clusters = 3, linkage_method = "single")
+
+  updated <- update(spec, num_clusters = 7, fresh = TRUE)
+  expect_equal(rlang::eval_tidy(updated$args$num_clusters), 7)
+  expect_null(rlang::eval_tidy(updated$args$linkage_method))
+})
+
+test_that("check_args.hier_clust() errors on negative num_clusters", {
+  expect_snapshot(
+    error = TRUE,
+    {
+      spec <- hier_clust(num_clusters = -1) |> set_engine("stats")
+      fit(spec, ~., data = mtcars)
+    }
+  )
+})
+
 test_that("reordering is done correctly for stats hier_clust", {
   set.seed(42)
 

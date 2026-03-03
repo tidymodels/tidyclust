@@ -2,9 +2,7 @@
 % Please edit documentation in R/convert_data.R
 \name{.convert_form_to_x_fit}
 \alias{.convert_form_to_x_fit}
-\alias{.convert_x_to_form_fit}
 \alias{.convert_form_to_x_new}
-\alias{.convert_x_to_form_new}
 \title{Helper functions to convert between formula and matrix interface}
 \usage{
 .convert_form_to_x_fit(
@@ -17,16 +15,12 @@
   remove_intercept = TRUE
 )
 
-.convert_x_to_form_fit(x, weights = NULL, remove_intercept = TRUE)
-
 .convert_form_to_x_new(
   object,
   new_data,
   na.action = stats::na.pass,
   composition = "data.frame"
 )
-
-.convert_x_to_form_new(object, new_data)
 }
 \arguments{
 \item{formula}{An object of class \code{formula} (or one that can be coerced to
@@ -50,12 +44,6 @@ should be returned as a \code{"matrix"} or a \code{"data.frame"}.}
 \item{remove_intercept}{A logical indicating whether to remove the intercept
 column after \code{model.matrix()} is finished.}
 
-\item{x}{A matrix, sparse matrix, or data frame of predictors. Only some
-models have support for sparse matrix input. See \code{modelenv::get_encoding()}
-for details. \code{x} should have column names.}
-
-\item{weights}{A numeric vector containing the weights.}
-
 \item{object}{An object of class \code{\link{cluster_fit}}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
@@ -67,13 +55,11 @@ are intended for developer use. For the most part, this emulates the
 internals of \code{lm()} (and also see the notes at
 https://developer.r-project.org/model-fitting-functions.html).
 
-\code{.convert_form_to_x_fit()} and \code{.convert_x_to_form_fit()} are for when the
-data are created for modeling. \code{.convert_form_to_x_fit()} saves both the
-data objects as well as the objects needed when new data are predicted
-(e.g. \code{terms}, etc.).
+\code{.convert_form_to_x_fit()} is for when the data are created for modeling.
+It saves both the data objects as well as the objects needed when new data
+are predicted (e.g. \code{terms}, etc.).
 
-\code{.convert_form_to_x_new()} and \code{.convert_x_to_form_new()} are used when new
-samples are being predicted and only require the predictors to be
-available.
+\code{.convert_form_to_x_new()} is used when new samples are being predicted and
+only requires the predictors to be available.
 }
 \keyword{internal}

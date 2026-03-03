@@ -141,13 +141,8 @@ prepare_data <- function(object, new_data) {
   fit_interface <- object$spec$method$fit$interface
 
   pp_names <- names(object$preproc)
-  if (any(pp_names == "terms") || any(pp_names == "x_var")) {
-    # Translation code
-    if (fit_interface == "formula") {
-      new_data <- .convert_x_to_form_new(object$preproc, new_data)
-    } else {
-      new_data <- .convert_form_to_x_new(object$preproc, new_data)$x
-    }
+  if (any(pp_names == "terms")) {
+    new_data <- .convert_form_to_x_new(object$preproc, new_data)$x
   }
 
   remove_intercept <-

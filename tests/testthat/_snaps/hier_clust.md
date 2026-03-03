@@ -72,3 +72,12 @@
       Computational engine: stats 
       
 
+# check_args.hier_clust() errors on negative num_clusters
+
+    Code
+      spec <- set_engine(hier_clust(num_clusters = -1), "stats")
+      fit(spec, ~., data = mtcars)
+    Condition
+      Error in `check_args()`:
+      ! The number of centers should be >= 0.
+
