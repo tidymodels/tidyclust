@@ -173,7 +173,6 @@ local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
   x_var <- names(x)
   form <- make_formula(names(x))
 
-  x <- bind_cols(x, y)
   if (!is.null(rn) && !inherits(x, "tbl_df")) {
     rownames(x) <- rn
   }
