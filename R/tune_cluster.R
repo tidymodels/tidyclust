@@ -55,6 +55,7 @@
 #' res
 #'
 #' collect_metrics(res)
+#' @importFrom tune eval_mirai
 #' @export
 tune_cluster <- function(object, ...) {
   UseMethod("tune_cluster")

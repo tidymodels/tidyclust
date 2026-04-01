@@ -286,6 +286,28 @@ test_that("tune model only - failure in formula is caught elegantly", {
   expect_equal(extracts, list(NULL, NULL))
 })
 
+test_that(".notes column has trace structure", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(7898)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- tibble::tibble(num_clusters = 2)
+
+  res <- suppressWarnings(
+    tune_cluster(
+      helper_objects$kmeans_mod,
+      ~z,
+      resamples = folds,
+      grid = grid,
+      control = tune::control_grid(save_pred = TRUE)
+    )
+  )
+
+  notes <- tune::collect_notes(res)
+  expect_named(notes, c("id", "location", "type", "note", "trace"))
+  expect_s3_class(notes$trace[[1]], "rlang_trace")
+})
+
 test_that("argument order gives errors for recipes", {
   helper_objects <- helper_objects_tidyclust()
 
