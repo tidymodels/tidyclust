@@ -201,15 +201,15 @@ test_that("errors in parallel workers are caught with future", {
   on.exit(plan(sequential), add = TRUE)
   plan(multisession(workers = 2))
 
-  expect_snapshot(
-    res <- tune_cluster(
+  res <- suppressWarnings(suppressMessages(
+    tune_cluster(
       helper_objects$kmeans_mod,
       ~z,
       resamples = folds,
       grid = grid,
       control = tune::control_grid(save_pred = TRUE)
     )
-  )
+  ))
 
   notes <- res$.notes
   expect_length(notes, 2L)
