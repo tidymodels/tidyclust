@@ -2,9 +2,9 @@
 
 #' Model tuning via grid search
 #'
-#' [tune_cluster()] computes a set of performance metrics (e.g. accuracy or
-#' RMSE) for a pre-defined set of tuning parameters that correspond to a model
-#' or recipe across one or more resamples of the data.
+#' [tune_cluster()] computes a set of performance metrics for a pre-defined set
+#' of tuning parameters that correspond to a cluster model or recipe across one
+#' or more resamples of the data.
 #'
 #' @param object A `tidyclust` model specification or a [workflows::workflow()].
 #' @param preprocessor A traditional model formula or a recipe created using
@@ -24,7 +24,39 @@
 #' @return An updated version of `resamples` with extra list columns for
 #'   `.metrics` and `.notes` (optional columns are `.predictions` and
 #'   `.extracts`). `.notes` contains warnings and errors that occur during
-#'   execution.
+#'   execution. The `.notes` column is a tibble with columns `location`,
+#'   `type`, `note`, and `trace`. The `trace` column contains
+#'   [rlang::trace_back()] objects for errors and warnings, which can be
+#'   useful for debugging.
+#'
+#' @section Configuration column:
+#' The `.config` column in the results follows the pattern
+#' `pre{num}_mod{num}_post{num}`. The numbers encode which combination of
+#' preprocessor, model, and postprocessor parameters was used. A value of
+#' `0` means that element was not tuned. For example, `pre0_mod2_post0`
+#' means the preprocessor was not tuned and this is the second model
+#' parameter combination.
+#'
+#' @section Parallel processing:
+#' Parallel processing is supported via the `future` and `mirai` packages.
+#' To enable parallelism, set up a `future` plan or `mirai` daemons before
+#' calling `tune_cluster()`:
+#'
+#' ```r
+#' # Using future
+#' library(future)
+#' plan(multisession, workers = 4)
+#' res <- tune_cluster(wflow, resamples = folds, grid = grid)
+#' plan(sequential)
+#'
+#' # Using mirai
+#' library(mirai)
+#' daemons(4)
+#' res <- tune_cluster(wflow, resamples = folds, grid = grid)
+#' daemons(0)
+#' ```
+#'
+#' See [tune::parallelism] for more details.
 #'
 #' @examples
 #' library(recipes)
@@ -275,7 +307,7 @@ tune_cluster_loop <- function(
   }
 
   # Use tune's loop_call directly
-  cl <- tune:::loop_call(control$parallel_over, strategy, par_opt)
+  cl <- tune::loop_call(control$parallel_over, strategy, par_opt)
   res <- rlang::eval_bare(cl)
 
   # Process results
