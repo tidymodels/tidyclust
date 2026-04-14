@@ -286,8 +286,8 @@ tune_cluster_loop <- function(
 
   par_opt <- list()
 
-  # Create static object using tune's make_static
-  static <- tune::make_static(
+  # Create static object using tune's .make_static
+  static <- tune::.make_static(
     workflow,
     param_info = param_info,
     grid = grid,
