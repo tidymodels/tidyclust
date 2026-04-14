@@ -195,6 +195,7 @@ make_cluster_metric_function <- function(fns) {
   }
   class(metric_function) <- c(
     "cluster_metric_set",
+    "metric_set",
     class(metric_function)
   )
   attr(metric_function, "metrics") <- fns
