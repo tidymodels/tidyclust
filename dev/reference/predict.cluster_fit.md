@@ -121,10 +121,10 @@ kmeans_fit |>
 #>  1 Cluster_1    
 #>  2 Cluster_1    
 #>  3 Cluster_2    
-#>  4 Cluster_1    
-#>  5 Cluster_3    
+#>  4 Cluster_3    
+#>  5 Cluster_4    
 #>  6 Cluster_1    
-#>  7 Cluster_3    
+#>  7 Cluster_4    
 #>  8 Cluster_2    
 #>  9 Cluster_2    
 #> 10 Cluster_1    

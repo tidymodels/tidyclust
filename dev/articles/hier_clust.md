@@ -18,22 +18,22 @@ library(tidyclust)
 #>     knit_engine_docs, list_md_problems
 library(tidyverse)
 #> ── Attaching core tidyverse packages ─────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.2.0     ✔ readr     2.2.0
+#> ✔ dplyr     1.2.1     ✔ readr     2.2.0
 #> ✔ forcats   1.0.1     ✔ stringr   1.6.0
 #> ✔ ggplot2   4.0.2     ✔ tibble    3.3.1
 #> ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-#> ✔ purrr     1.2.1
+#> ✔ purrr     1.2.2
 #> ── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
 #> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 library(tidymodels)
 #> ── Attaching packages ───────────────────────────── tidymodels 1.4.1 ──
-#> ✔ broom        1.0.12     ✔ rsample      1.3.2 
-#> ✔ dials        1.4.2      ✔ tailor       0.1.0 
-#> ✔ infer        1.1.0      ✔ tune         2.0.1 
-#> ✔ modeldata    1.5.1      ✔ workflowsets 1.1.1 
-#> ✔ recipes      1.3.1      ✔ yardstick    1.3.2 
+#> ✔ broom        1.0.12         ✔ rsample      1.3.2     
+#> ✔ dials        1.4.3          ✔ tailor       0.1.0     
+#> ✔ infer        1.1.0          ✔ tune         2.0.1.9004
+#> ✔ modeldata    1.5.1          ✔ workflowsets 1.1.1     
+#> ✔ recipes      1.3.2          ✔ yardstick    1.4.0.9000
 #> ── Conflicts ──────────────────────────────── tidymodels_conflicts() ──
 #> ✖ scales::discard()             masks purrr::discard()
 #> ✖ dplyr::filter()               masks stats::filter()

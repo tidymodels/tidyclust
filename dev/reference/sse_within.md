@@ -53,9 +53,9 @@ sse_within(kmeans_fit)
 #> # A tibble: 5 × 3
 #>   .cluster     wss n_members
 #>   <fct>      <dbl>     <int>
-#> 1 Cluster_1  5808.         7
-#> 2 Cluster_2  8945.         9
-#> 3 Cluster_3   563.         2
-#> 4 Cluster_4  6816.         6
-#> 5 Cluster_5 42070.         8
+#> 1 Cluster_1  7256.         6
+#> 2 Cluster_2  3617.         7
+#> 3 Cluster_3  6356.         6
+#> 4 Cluster_4 46659.         9
+#> 5 Cluster_5   208.         4
 ```

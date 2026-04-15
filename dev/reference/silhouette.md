@@ -58,15 +58,15 @@ silhouette(kmeans_fit, dists = dists)
 #> # A tibble: 32 × 3
 #>    cluster   neighbor  sil_width
 #>    <fct>     <fct>         <dbl>
-#>  1 Cluster_1 Cluster_5    0.569 
-#>  2 Cluster_1 Cluster_5    0.570 
-#>  3 Cluster_2 Cluster_1    0.501 
-#>  4 Cluster_3 Cluster_1    0.246 
-#>  5 Cluster_4 Cluster_3   -0.153 
-#>  6 Cluster_1 Cluster_3    0.148 
-#>  7 Cluster_4 Cluster_3    0.365 
-#>  8 Cluster_1 Cluster_2    0.0271
-#>  9 Cluster_1 Cluster_2    0.162 
-#> 10 Cluster_1 Cluster_5    0.424 
+#>  1 Cluster_1 Cluster_2     0.572
+#>  2 Cluster_1 Cluster_2     0.572
+#>  3 Cluster_1 Cluster_2     0.752
+#>  4 Cluster_2 Cluster_1     0.540
+#>  5 Cluster_3 Cluster_4     0.149
+#>  6 Cluster_2 Cluster_1     0.224
+#>  7 Cluster_3 Cluster_4     0.649
+#>  8 Cluster_1 Cluster_2     0.613
+#>  9 Cluster_1 Cluster_2     0.692
+#> 10 Cluster_1 Cluster_2     0.460
 #> # ℹ 22 more rows
 ```

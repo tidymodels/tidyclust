@@ -75,8 +75,8 @@ sse_within_total(kmeans_fit)
 #> # A tibble: 1 × 3
 #>   .metric          .estimator .estimate
 #>   <chr>            <chr>          <dbl>
-#> 1 sse_within_total standard      64096.
+#> 1 sse_within_total standard      53990.
 
 sse_within_total_vec(kmeans_fit)
-#> [1] 64096.21
+#> [1] 53990.34
 ```

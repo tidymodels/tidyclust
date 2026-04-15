@@ -2,6 +2,31 @@
 
 ## tidyclust (development version)
 
+- The `.config` column produced by
+  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  has changed from the `Preprocessor{num}_Model{num}` pattern to
+  `pre{num}_mod{num}_post{num}` to align with updates in the tune
+  package. ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
+- The `foreach` package is no longer supported for parallel processing
+  in
+  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md).
+  Use the `future` or `mirai` packages instead. See
+  [`?tune::parallelism`](https://tune.tidymodels.org/reference/parallelism.html)
+  for details.
+  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
+- [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  now supports parallel processing via the `mirai` package in addition
+  to `future`.
+  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
+- The `.notes` column returned by
+  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  now includes a `trace` column containing backtraces for errors and
+  warnings, making it easier to debug failures.
+  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
 - Fixed bug when trying to tune the `linkage_method` argument.
   ([\#206](https://github.com/tidymodels/tidyclust/issues/206),
   [@lgaborini](https://github.com/lgaborini))

@@ -39,7 +39,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidyclust-development-version">tidyclust (development version)<a class="anchor" aria-label="anchor" href="#tidyclust-development-version"></a></h2>
-<ul><li>Fixed bug when trying to tune the <code>linkage_method</code> argument. (<a href="https://github.com/tidymodels/tidyclust/issues/206" class="external-link">#206</a>, <a href="https://github.com/lgaborini" class="external-link">@lgaborini</a>)</li>
+<ul><li><p>The <code>.config</code> column produced by <code><a href="../reference/tune_cluster.html">tune_cluster()</a></code> has changed from the <code>Preprocessor{num}_Model{num}</code> pattern to <code>pre{num}_mod{num}_post{num}</code> to align with updates in the tune package. (<a href="https://github.com/tidymodels/tidyclust/issues/220" class="external-link">#220</a>)</p></li>
+<li><p>The <code>foreach</code> package is no longer supported for parallel processing in <code><a href="../reference/tune_cluster.html">tune_cluster()</a></code>. Use the <code>future</code> or <code>mirai</code> packages instead. See <code><a href="https://tune.tidymodels.org/reference/parallelism.html" class="external-link">?tune::parallelism</a></code> for details. (<a href="https://github.com/tidymodels/tidyclust/issues/220" class="external-link">#220</a>)</p></li>
+<li><p><code><a href="../reference/tune_cluster.html">tune_cluster()</a></code> now supports parallel processing via the <code>mirai</code> package in addition to <code>future</code>. (<a href="https://github.com/tidymodels/tidyclust/issues/220" class="external-link">#220</a>)</p></li>
+<li><p>The <code>.notes</code> column returned by <code><a href="../reference/tune_cluster.html">tune_cluster()</a></code> now includes a <code>trace</code> column containing backtraces for errors and warnings, making it easier to debug failures. (<a href="https://github.com/tidymodels/tidyclust/issues/220" class="external-link">#220</a>)</p></li>
+<li><p>Fixed bug when trying to tune the <code>linkage_method</code> argument. (<a href="https://github.com/tidymodels/tidyclust/issues/206" class="external-link">#206</a>, <a href="https://github.com/lgaborini" class="external-link">@lgaborini</a>)</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.4" id="tidyclust-024">tidyclust 0.2.4<a class="anchor" aria-label="anchor" href="#tidyclust-024"></a></h2><p class="text-muted">CRAN release: 2025-01-27</p>

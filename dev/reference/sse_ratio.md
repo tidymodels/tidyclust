@@ -69,8 +69,8 @@ sse_ratio(kmeans_fit)
 #> # A tibble: 1 × 3
 #>   .metric   .estimator .estimate
 #>   <chr>     <chr>          <dbl>
-#> 1 sse_ratio standard       0.103
+#> 1 sse_ratio standard      0.0687
 
 sse_ratio_vec(kmeans_fit)
-#> [1] 0.1031185
+#> [1] 0.06873637
 ```

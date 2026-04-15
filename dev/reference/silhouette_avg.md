@@ -81,8 +81,8 @@ silhouette_avg(kmeans_fit, dists = dists)
 #> # A tibble: 1 × 3
 #>   .metric        .estimator .estimate
 #>   <chr>          <chr>          <dbl>
-#> 1 silhouette_avg standard       0.496
+#> 1 silhouette_avg standard       0.345
 
 silhouette_avg_vec(kmeans_fit, dists = dists)
-#> [1] 0.4961529
+#> [1] 0.3450963
 ```
