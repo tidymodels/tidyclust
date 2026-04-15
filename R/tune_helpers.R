@@ -1,32 +1,3 @@
-# new_tibble() currently doesn't strip attributes
-# https://github.com/tidyverse/tibble/pull/769
-new_bare_tibble <- function(x, ..., class = character()) {
-  x <- vctrs::new_data_frame(x)
-  tibble::new_tibble(x, nrow = nrow(x), ..., class = class)
-}
-
-is_cataclysmic <- function(x) {
-  is_err <- map_lgl(
-    x$.metrics,
-    inherits,
-    c(
-      "simpleError",
-      "error"
-    )
-  )
-  if (any(!is_err)) {
-    is_good <- map_lgl(
-      x$.metrics[!is_err],
-      \(.x) {
-        tibble::is_tibble(.x) &&
-          nrow(.x) > 0
-      }
-    )
-    is_err[!is_err] <- !is_good
-  }
-  all(is_err)
-}
-
 # https://github.com/tidymodels/tune/blob/main/R/tune_grid.R
 set_workflow <- function(workflow, control) {
   if (control$save_workflow) {
@@ -55,7 +26,7 @@ new_tune_results <- function(
   ...,
   class = character()
 ) {
-  new_bare_tibble(
+  tune::.new_bare_tibble(
     x = x,
     parameters = parameters,
     metrics = metrics,
@@ -160,43 +131,4 @@ update_recipe <- function(grid, object, pset, step_id, nms, ...) {
     }
   }
   object
-}
-
-# ------------------------------------------------------------------------------
-
-# https://github.com/tidymodels/tune/blob/main/R/grid_helpers.R#L613
-has_preprocessor <- function(workflow) {
-  has_preprocessor_recipe(workflow) ||
-    has_preprocessor_formula(workflow) ||
-    has_preprocessor_variables(workflow)
-}
-
-has_preprocessor_recipe <- function(workflow) {
-  "recipe" %in% names(workflow$pre$actions)
-}
-
-has_preprocessor_formula <- function(workflow) {
-  "formula" %in% names(workflow$pre$actions)
-}
-
-has_preprocessor_variables <- function(workflow) {
-  "variables" %in% names(workflow$pre$actions)
-}
-
-has_spec <- function(workflow) {
-  "model" %in% names(workflow$fit$actions)
-}
-
-set_workflow_spec <- function(workflow, spec) {
-  workflow$fit$actions$model$spec <- spec
-  workflow
-}
-
-set_workflow_recipe <- function(workflow, recipe) {
-  workflow$pre$actions$recipe$recipe <- recipe
-  workflow
-}
-
-is_workflow <- function(x) {
-  inherits(x, "workflow")
 }

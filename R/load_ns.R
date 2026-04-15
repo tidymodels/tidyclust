@@ -13,26 +13,7 @@ load_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
   if (infra) {
     pkgs <- c(infra_pkgs, pkgs)
   }
-  load_namespace(unique(pkgs))
-}
-
-load_namespace <- function(x) {
-  if (length(x) == 0) {
-    return(invisible(TRUE))
-  }
-
-  loaded <- map_lgl(x, isNamespaceLoaded)
-  x <- x[!loaded]
-
-  if (length(x) > 0) {
-    did_load <- map_lgl(x, requireNamespace, quietly = TRUE)
-    if (any(!did_load)) {
-      bad <- x[!did_load]
-      cli::cli_abort("The package{?s} {.pkg {bad}} could not be loaded.")
-    }
-  }
-
-  invisible(TRUE)
+  tune::.load_namespace(unique(pkgs))
 }
 
 infra_pkgs <- c(
