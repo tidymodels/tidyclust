@@ -1,22 +1,3 @@
-# https://github.com/tidymodels/tune/blob/main/R/tune_grid.R
-set_workflow <- function(workflow, control) {
-  if (control$save_workflow) {
-    if (!is.null(workflow$pre$actions$recipe)) {
-      w_size <- utils::object.size(workflow$pre$actions$recipe)
-      if (w_size / 1024^2 > 5) {
-        cli::cli_inform(
-          "The workflow being saved contains a recipe, which is {format(w_size, units = 'Mb', 
-          digits = 2)} in memory. If this was not intentional, please set the control 
-          setting {.code save_workflow = FALSE}."
-        )
-      }
-    }
-    workflow
-  } else {
-    NULL
-  }
-}
-
 # https://github.com/tidymodels/tune/blob/main/R/tune_results.R
 new_tune_results <- function(
   x,

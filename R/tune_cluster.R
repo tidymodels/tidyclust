@@ -222,7 +222,7 @@ tune_cluster_workflow <- function(
     )
   }
 
-  workflow <- set_workflow(workflow, control)
+  workflow <- tune::.set_workflow(workflow, control)
 
   new_tune_results(
     x = resamples,
