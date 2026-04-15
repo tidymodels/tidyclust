@@ -55,7 +55,7 @@ Suggests:
     testthat (>= 3.0.0),
     workflows (>= 1.1.2)
 Remotes:
-    tidymodels/tune#1181
+    tidymodels/tune
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce, tidyverse/tidytemplate
 Config/testthat/edition: 3
