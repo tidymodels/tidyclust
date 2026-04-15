@@ -186,8 +186,8 @@ tune_cluster_workflow <- function(
 
   metrics <- check_metrics(metrics, workflow)
 
-  pset <- check_parameters(
-    workflow = workflow,
+  pset <- tune::check_parameters(
+    wflow = workflow,
     pset = pset,
     data = resamples$splits[[1]]$data,
     grid_names = names(grid)
@@ -213,7 +213,7 @@ tune_cluster_workflow <- function(
     control = control
   )
 
-  if (is_cataclysmic(resamples)) {
+  if (tune::.is_cataclysmic(resamples)) {
     cli::cli_warn(
       c(
         "All models failed.",
@@ -222,7 +222,7 @@ tune_cluster_workflow <- function(
     )
   }
 
-  workflow <- set_workflow(workflow, control)
+  workflow <- tune::.set_workflow(workflow, control)
 
   new_tune_results(
     x = resamples,
@@ -260,7 +260,7 @@ tune_cluster_loop <- function(
   rset_info <- tune::pull_rset_attributes(resamples)
   split_args <- rsample::.get_split_args(resamples)
 
-  resamples <- new_bare_tibble(resamples)
+  resamples <- tune::new_bare_tibble(resamples)
   resamples <- vec_list_rowwise(resamples)
 
   # Package loading
@@ -378,62 +378,6 @@ check_metrics <- function(x, object) {
   x
 }
 
-# https://github.com/tidymodels/tune/blob/main/R/checks.R#L144
-check_parameters <- function(
-  workflow,
-  pset = NULL,
-  data,
-  grid_names = character(0)
-) {
-  if (is.null(pset)) {
-    pset <- hardhat::extract_parameter_set_dials(workflow)
-  }
-  unk <- map_lgl(pset$object, dials::has_unknowns)
-  if (!any(unk)) {
-    return(pset)
-  }
-  tune_param <- generics::tune_args(workflow)
-  tune_recipe <- tune_param$id[tune_param$source == "recipe"]
-  tune_recipe <- length(tune_recipe) > 0
-
-  if (needs_finalization(pset, grid_names)) {
-    if (tune_recipe) {
-      cli::cli_abort(
-        c(
-          "Some tuning parameters require finalization but there are recipe 
-          parameters that require tuning.",
-          "i" = "Please use {.fn parameters} to finalize the parameter ranges."
-        )
-      )
-    }
-    msg <- "Creating pre-processing data to finalize unknown parameter"
-    unk_names <- pset$id[unk]
-    if (length(unk_names) == 1) {
-      msg <- paste0(msg, ": ", unk_names)
-    } else {
-      msg <- paste0(msg, "s: ", paste0("'", unk_names, "'", collapse = ", "))
-    }
-
-    cli::cli_inform(msg)
-
-    x <- workflows::.fit_pre(workflow, data)$pre$mold$predictors
-    pset$object <- map(pset$object, dials::finalize, x = x)
-  }
-  pset
-}
-
-needs_finalization <- function(x, nms = character(0)) {
-  # If an unknown engine-specific parameter, the object column is missing and
-  # no need for finalization
-  x <- x[!is.na(x$object), ]
-  # If the parameter is in a pre-defined grid, then no need to finalize
-  x <- x[!(x$id %in% nms), ]
-  if (length(x) == 0) {
-    return(FALSE)
-  }
-  any(dials::has_unknowns(x$object))
-}
-
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L274
 check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   if (!inherits(x, "workflow")) {
@@ -442,11 +386,11 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
     )
   }
 
-  if (!has_preprocessor(x)) {
+  if (!tune::.has_preprocessor(x)) {
     cli::cli_abort("A formula, recipe, or variables preprocessor is required.")
   }
 
-  if (!has_spec(x)) {
+  if (!tune::.has_spec(x)) {
     cli::cli_abort("A tidyclust model is required.")
   }
 
@@ -455,7 +399,7 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
       pset <- hardhat::extract_parameter_set_dials(x)
     }
 
-    check_param_objects(pset)
+    tune::.check_param_objects(pset)
 
     incompl <- dials::has_unknowns(pset$object)
 
@@ -470,18 +414,6 @@ check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   check_installs(mod)
 
   invisible(NULL)
-}
-
-# https://github.com/tidymodels/tune/blob/main/R/checks.R#L257
-check_param_objects <- function(pset) {
-  params <- map_lgl(pset$object, inherits, "param")
-
-  if (!all(params)) {
-    cli::cli_abort(
-      "The workflow has arguments to be tuned that are missing parameter objects: {.arg {pset$id[!params]}}."
-    )
-  }
-  invisible(pset)
 }
 
 grid_msg <- "`grid` should be a positive integer or a data frame."
