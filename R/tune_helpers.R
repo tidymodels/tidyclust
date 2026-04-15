@@ -78,10 +78,10 @@ merger <- function(x, y, ...) {
   }
   grid_name <- colnames(y)
   if (inherits(x, "recipe")) {
-    updater <- update_recipe
+    updater <- tune::.update_recipe
     step_ids <- map_chr(x$steps, \(.x) .x$id)
   } else {
-    updater <- update_model
+    updater <- \(...) tune::.update_model(..., source = "cluster_spec")
     step_ids <- NULL
   }
   if (!any(grid_name %in% pset$id)) {
@@ -96,39 +96,4 @@ merger <- function(x, y, ...) {
       )
     ) |>
     dplyr::select(x = ..object)
-}
-
-# https://github.com/tidymodels/tune/blob/main/R/merge.R
-update_model <- function(grid, object, pset, step_id, nms, ...) {
-  for (i in nms) {
-    param_info <- pset |> dplyr::filter(id == i & source == "cluster_spec")
-    if (nrow(param_info) > 1) {
-      # TODO figure this out and write a better message
-      cli::cli_abort("There are too many things.")
-    }
-    if (nrow(param_info) == 1) {
-      if (param_info$component_id == "main") {
-        object$args[[param_info$name]] <-
-          rlang::as_quosure(grid[[i]], env = rlang::empty_env())
-      } else {
-        object$eng_args[[param_info$name]] <-
-          rlang::as_quosure(grid[[i]], env = rlang::empty_env())
-      }
-    }
-  }
-  object
-}
-
-# https://github.com/tidymodels/tune/blob/main/R/merge.R
-update_recipe <- function(grid, object, pset, step_id, nms, ...) {
-  for (i in nms) {
-    param_info <- pset |> dplyr::filter(id == i & source == "recipe")
-    if (nrow(param_info) == 1) {
-      idx <- which(step_id == param_info$component_id)
-      # check index
-      # should use the contructor but maybe dangerous/difficult
-      object$steps[[idx]][[param_info$name]] <- grid[[i]]
-    }
-  }
-  object
 }
