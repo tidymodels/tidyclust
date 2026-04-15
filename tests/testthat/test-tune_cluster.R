@@ -30,7 +30,7 @@ test_that("tune recipe only", {
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
   expect_equal(res_est$n, rep(2, nrow(grid) * 2))
-  expect_false(identical(num_comp, expr(tune())))
+  expect_false(identical(num_comp, rlang::expr(tune())))
   expect_true(res_workflow$trained)
 })
 
@@ -67,7 +67,7 @@ test_that("tune model only (with recipe)", {
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
   expect_equal(res_est$n, rep(2, nrow(grid) * 2))
-  expect_false(identical(num_clusters, expr(tune())))
+  expect_false(identical(num_clusters, rlang::expr(tune())))
   expect_true(res_workflow$trained)
 })
 
@@ -175,8 +175,8 @@ test_that("tune model and recipe", {
   expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
   expect_equal(res_est$n, rep(2, nrow(grid) * 2))
-  expect_false(identical(num_clusters, expr(tune())))
-  expect_false(identical(num_comp, expr(tune())))
+  expect_false(identical(num_clusters, rlang::expr(tune())))
+  expect_false(identical(num_comp, rlang::expr(tune())))
   expect_true(res_workflow$trained)
 })
 
@@ -279,13 +279,33 @@ test_that("tune model only - failure in formula is caught elegantly", {
   note <- notes[[1]]$note
 
   extracts <- cars_res$.extracts
-  predictions <- cars_res$.predictions
 
   expect_length(notes, 2L)
 
   # formula failed - no models run
   expect_equal(extracts, list(NULL, NULL))
-  expect_equal(predictions, list(NULL, NULL))
+})
+
+test_that(".notes column has trace structure", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(7898)
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+  grid <- tibble::tibble(num_clusters = 2)
+
+  res <- suppressWarnings(
+    tune_cluster(
+      helper_objects$kmeans_mod,
+      ~z,
+      resamples = folds,
+      grid = grid,
+      control = tune::control_grid(save_pred = TRUE)
+    )
+  )
+
+  notes <- tune::collect_notes(res)
+  expect_named(notes, c("id", "location", "type", "note", "trace"))
+  expect_s3_class(notes$trace[[1]], "rlang_trace")
 })
 
 test_that("argument order gives errors for recipes", {
@@ -377,7 +397,7 @@ test_that("tune recipe only", {
   expect_equal(nrow(res_est), nrow(grid))
   expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
   expect_equal(res_est$n, rep(2, nrow(grid)))
-  expect_false(identical(num_comp, expr(tune())))
+  expect_false(identical(num_comp, rlang::expr(tune())))
   expect_true(res_workflow$trained)
 })
 

@@ -5,71 +5,71 @@
         metrics = metrics)
     Message
       i Fold1: preprocessor 1/3
-      v Fold1: preprocessor 1/3
+      i Fold1: preprocessor 1/3 (prediction data)
       i Fold1: preprocessor 1/3, model 1/3
-      v Fold1: preprocessor 1/3, model 1/3
-      i Fold1: preprocessor 1/3, model 1/3 (predictions)
+      i Fold1: preprocessor 1/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 1/3 (extracts)
       i Fold1: preprocessor 1/3, model 2/3
-      v Fold1: preprocessor 1/3, model 2/3
-      i Fold1: preprocessor 1/3, model 2/3 (predictions)
+      i Fold1: preprocessor 1/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 2/3 (extracts)
       i Fold1: preprocessor 1/3, model 3/3
-      v Fold1: preprocessor 1/3, model 3/3
-      i Fold1: preprocessor 1/3, model 3/3 (predictions)
+      i Fold1: preprocessor 1/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 3/3 (extracts)
       i Fold1: preprocessor 2/3
-      v Fold1: preprocessor 2/3
+      i Fold1: preprocessor 2/3 (prediction data)
       i Fold1: preprocessor 2/3, model 1/3
-      v Fold1: preprocessor 2/3, model 1/3
-      i Fold1: preprocessor 2/3, model 1/3 (predictions)
+      i Fold1: preprocessor 2/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 1/3 (extracts)
       i Fold1: preprocessor 2/3, model 2/3
-      v Fold1: preprocessor 2/3, model 2/3
-      i Fold1: preprocessor 2/3, model 2/3 (predictions)
+      i Fold1: preprocessor 2/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 2/3 (extracts)
       i Fold1: preprocessor 2/3, model 3/3
-      v Fold1: preprocessor 2/3, model 3/3
-      i Fold1: preprocessor 2/3, model 3/3 (predictions)
+      i Fold1: preprocessor 2/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 3/3 (extracts)
       i Fold1: preprocessor 3/3
-      v Fold1: preprocessor 3/3
+      i Fold1: preprocessor 3/3 (prediction data)
       i Fold1: preprocessor 3/3, model 1/3
-      v Fold1: preprocessor 3/3, model 1/3
-      i Fold1: preprocessor 3/3, model 1/3 (predictions)
+      i Fold1: preprocessor 3/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 1/3 (extracts)
       i Fold1: preprocessor 3/3, model 2/3
-      v Fold1: preprocessor 3/3, model 2/3
-      i Fold1: preprocessor 3/3, model 2/3 (predictions)
+      i Fold1: preprocessor 3/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 2/3 (extracts)
       i Fold1: preprocessor 3/3, model 3/3
-      v Fold1: preprocessor 3/3, model 3/3
-      i Fold1: preprocessor 3/3, model 3/3 (predictions)
+      i Fold1: preprocessor 3/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 3/3 (extracts)
       i Fold2: preprocessor 1/3
-      v Fold2: preprocessor 1/3
+      i Fold2: preprocessor 1/3 (prediction data)
       i Fold2: preprocessor 1/3, model 1/3
-      v Fold2: preprocessor 1/3, model 1/3
-      i Fold2: preprocessor 1/3, model 1/3 (predictions)
+      i Fold2: preprocessor 1/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 1/3 (extracts)
       i Fold2: preprocessor 1/3, model 2/3
-      v Fold2: preprocessor 1/3, model 2/3
-      i Fold2: preprocessor 1/3, model 2/3 (predictions)
+      i Fold2: preprocessor 1/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 2/3 (extracts)
       i Fold2: preprocessor 1/3, model 3/3
-      v Fold2: preprocessor 1/3, model 3/3
-      i Fold2: preprocessor 1/3, model 3/3 (predictions)
+      i Fold2: preprocessor 1/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 3/3 (extracts)
       i Fold2: preprocessor 2/3
-      v Fold2: preprocessor 2/3
+      i Fold2: preprocessor 2/3 (prediction data)
       i Fold2: preprocessor 2/3, model 1/3
-      v Fold2: preprocessor 2/3, model 1/3
-      i Fold2: preprocessor 2/3, model 1/3 (predictions)
+      i Fold2: preprocessor 2/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 1/3 (extracts)
       i Fold2: preprocessor 2/3, model 2/3
-      v Fold2: preprocessor 2/3, model 2/3
-      i Fold2: preprocessor 2/3, model 2/3 (predictions)
+      i Fold2: preprocessor 2/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 2/3 (extracts)
       i Fold2: preprocessor 2/3, model 3/3
-      v Fold2: preprocessor 2/3, model 3/3
-      i Fold2: preprocessor 2/3, model 3/3 (predictions)
+      i Fold2: preprocessor 2/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 3/3 (extracts)
       i Fold2: preprocessor 3/3
-      v Fold2: preprocessor 3/3
+      i Fold2: preprocessor 3/3 (prediction data)
       i Fold2: preprocessor 3/3, model 1/3
-      v Fold2: preprocessor 3/3, model 1/3
-      i Fold2: preprocessor 3/3, model 1/3 (predictions)
+      i Fold2: preprocessor 3/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 1/3 (extracts)
       i Fold2: preprocessor 3/3, model 2/3
-      v Fold2: preprocessor 3/3, model 2/3
-      i Fold2: preprocessor 3/3, model 2/3 (predictions)
+      i Fold2: preprocessor 3/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 2/3 (extracts)
       i Fold2: preprocessor 3/3, model 3/3
-      v Fold2: preprocessor 3/3, model 3/3
-      i Fold2: preprocessor 3/3, model 3/3 (predictions)
+      i Fold2: preprocessor 3/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 3/3 (extracts)
 
 # tune model only - failure in formula is caught elegantly
 
@@ -79,10 +79,7 @@
         1
       }, save_pred = TRUE))
     Message
-      x Fold1: preprocessor 1/1: Error in `hardhat::mold()`:
-      ! The following predictor ...
-      x Fold2: preprocessor 1/1: Error in `hardhat::mold()`:
-      ! The following predictor ...
+      > A | error:   The following predictor was not found in `data`: "z".
     Condition
       Warning:
       All models failed.
@@ -119,8 +116,8 @@
       # A tibble: 2 x 4
         splits          id    .metrics         .notes          
         <list>          <chr> <list>           <list>          
-      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 3]>
-      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 3]>
+      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 4]>
+      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 4]>
 
 # select_best() and show_best() works
 

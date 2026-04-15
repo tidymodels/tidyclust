@@ -119,4 +119,3 @@ test_that("fit_xy() works with matrix input", {
 
   expect_s3_class(fit, "cluster_fit")
 })
-

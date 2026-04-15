@@ -6,6 +6,8 @@
 \alias{tidyclust-package}
 \title{tidyclust: A Common API to Clustering}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 A common interface to specifying clustering models, in the same style as 'parsnip'. Creates unified interface across different functions and computational engines.
 }
 \seealso{
@@ -27,7 +29,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Posit Software, PBC (03wc8by49) [copyright holder, funder]
+  \item Posit Software, PBC (\href{https://ror.org/03wc8by49}{ROR}) [copyright holder, funder]
 }
 
 }
