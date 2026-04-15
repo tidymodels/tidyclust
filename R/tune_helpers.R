@@ -26,7 +26,7 @@ new_tune_results <- function(
   ...,
   class = character()
 ) {
-  tune::.new_bare_tibble(
+  tune::new_bare_tibble(
     x = x,
     parameters = parameters,
     metrics = metrics,
