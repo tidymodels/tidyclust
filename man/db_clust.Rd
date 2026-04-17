@@ -20,7 +20,7 @@ to use for fitting. The engine for this model is \code{"dbscan"}.}
 
 \item{radius}{Positive double, Radius drawn around points to determine core-points and cluster assignments (required).}
 
-\item{min_points}{Positive integer, Minimum number of points required to form a core-point (required).}
+\item{min_points}{Positive integer, Minimum number of connected points required to form a core-point, including the point itself (required).}
 }
 \value{
 A \code{db_clust} cluster specification.
