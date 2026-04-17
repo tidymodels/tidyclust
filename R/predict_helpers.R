@@ -141,11 +141,12 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
 
     d_means <- map(
       seq_len(n_clust),
-      \(.x)
+      \(.x) {
         t(
           t(training_data[clusters$.cluster == cluster_names[.x], ]) -
             cluster_centers[.x, ]
         )
+      }
     )
 
     d_new_list <- map(
@@ -153,11 +154,12 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
       function(new_obs) {
         map(
           seq_len(n_clust),
-          \(.x)
+          \(.x) {
             t(
               t(training_data[clusters$.cluster == cluster_names[.x], ]) -
                 new_data[new_obs, ]
             )
+          }
         )
       }
     )

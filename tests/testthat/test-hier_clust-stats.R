@@ -90,3 +90,18 @@ test_that("extract_cluster_assignment() works", {
     expected
   )
 })
+
+test_that("all parameters are correctly named", {
+  # fixes issue #206
+
+  param_grid <- dials::parameters(
+    dials::num_clusters(range = c(2, 3)),
+    linkage_method(),
+    cut_height(range = c(0, 3))
+  )
+
+  expect_setequal(
+    param_grid$name,
+    c("num_clusters", "linkage_method", "cut_height")
+  )
+})

@@ -6,6 +6,23 @@
 
 * The `gm_clust()` clustering specification has been added. This specification allows for the fitting of Gaussian mixture models using the mclust engine. (#209)
 
+* The `.config` column produced by `tune_cluster()` has changed from the
+  `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to
+  align with updates in the tune package. (#220)
+
+* The `foreach` package is no longer supported for parallel processing in
+  `tune_cluster()`. Use the `future` or `mirai` packages instead. See
+  `?tune::parallelism` for details. (#220)
+
+* `tune_cluster()` now supports parallel processing via the `mirai` package in
+  addition to `future`. (#220)
+
+* The `.notes` column returned by `tune_cluster()` now includes a `trace`
+  column containing backtraces for errors and warnings, making it easier to
+  debug failures. (#220)
+
+* Fixed bug when trying to tune the `linkage_method` argument. (#206, @lgaborini)
+
 # tidyclust 0.2.4
 
 * The philentropy package is now used to calculate distances rather than Rfast. (#199)

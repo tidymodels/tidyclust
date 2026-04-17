@@ -52,12 +52,12 @@ finalize_workflow_tidyclust <- function(x, parameters) {
 
   mod <- extract_spec_parsnip(x)
   mod <- finalize_model_tidyclust(mod, parameters)
-  x <- set_workflow_spec(x, mod)
+  x <- tune::.set_workflow_spec(x, mod)
 
-  if (has_preprocessor_recipe(x)) {
+  if (tune::.has_preprocessor_recipe(x)) {
     rec <- extract_preprocessor(x)
     rec <- tune::finalize_recipe(rec, parameters)
-    x <- set_workflow_recipe(x, rec)
+    x <- tune::.set_workflow_recipe(x, rec)
   }
 
   x

@@ -1,4 +1,4 @@
-test_that("cluster_metric_set works", {
+test_that("cluster_metric_set() works", {
   kmeans_spec <- k_means(num_clusters = 5) |>
     set_engine("stats")
 
@@ -41,7 +41,7 @@ test_that("cluster_metric_set works", {
   )
 })
 
-test_that("cluster_metric_set error with wrong input", {
+test_that("cluster_metric_set() error with wrong input", {
   expect_snapshot(
     error = TRUE,
     cluster_metric_set(mean)
@@ -53,7 +53,7 @@ test_that("cluster_metric_set error with wrong input", {
   )
 })
 
-test_that("cluster_metric_set errors with advice for some functions", {
+test_that("cluster_metric_set() errors with advice for some functions", {
   expect_snapshot(
     error = TRUE,
     cluster_metric_set(silhouette)
@@ -62,5 +62,55 @@ test_that("cluster_metric_set errors with advice for some functions", {
   expect_snapshot(
     error = TRUE,
     cluster_metric_set(sse_within)
+  )
+})
+
+test_that("cluster_metric_set() errors when empty", {
+  expect_snapshot(error = TRUE, cluster_metric_set())
+})
+
+test_that("cluster_metric_set() errors with non-functions", {
+  expect_snapshot(error = TRUE, cluster_metric_set("not_a_function"))
+})
+
+test_that("print.cluster_metric_set() works", {
+  metrics <- cluster_metric_set(sse_total, sse_ratio)
+  expect_snapshot(print(metrics))
+})
+
+test_that("cluster_metric_set() works with namespaced functions", {
+  metrics <- cluster_metric_set(tidyclust::sse_total, tidyclust::sse_ratio)
+
+  kmeans_fit <- k_means(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  res <- metrics(kmeans_fit, new_data = mtcars)
+  expect_equal(res$.metric, c("sse_total", "sse_ratio"))
+})
+
+test_that("new_cluster_metric() works", {
+  fn <- function(object, new_data = NULL) {
+    tibble::tibble(.metric = "test", .estimator = "standard", .estimate = 1)
+  }
+
+  metric <- new_cluster_metric(fn, direction = "maximize")
+
+  expect_s3_class(metric, "cluster_metric")
+  expect_equal(attr(metric, "direction"), "maximize")
+})
+
+test_that("new_cluster_metric() errors with non-function", {
+  expect_snapshot(
+    error = TRUE,
+    new_cluster_metric("not a function", direction = "maximize")
+  )
+})
+
+test_that("new_cluster_metric() errors with invalid direction", {
+  fn <- function(object, new_data = NULL) 1
+  expect_snapshot(
+    error = TRUE,
+    new_cluster_metric(fn, direction = "invalid")
   )
 })

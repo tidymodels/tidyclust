@@ -1,4 +1,4 @@
-# reconciliation works with uneven numbers
+# reconcile_clusterings_mapping() works with uneven numbers
 
     Code
       reconcile_clusterings_mapping(primary_cluster_assignment,
@@ -7,7 +7,7 @@
       Error in `reconcile_clusterings_mapping()`:
       ! For one-to-one matching, must have the same number of clusters in primary and alt.
 
-# reconciliation errors for uneven lengths
+# reconcile_clusterings_mapping() errors for uneven lengths
 
     Code
       reconcile_clusterings_mapping(letters, letters[1:10])

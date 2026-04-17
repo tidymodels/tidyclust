@@ -57,13 +57,48 @@ parameter sets to be created automatically.}
 An updated version of \code{resamples} with extra list columns for
 \code{.metrics} and \code{.notes} (optional columns are \code{.predictions} and
 \code{.extracts}). \code{.notes} contains warnings and errors that occur during
-execution.
+execution. The \code{.notes} column is a tibble with columns \code{location},
+\code{type}, \code{note}, and \code{trace}. The \code{trace} column contains
+\code{\link[rlang:trace_back]{rlang::trace_back()}} objects for errors and warnings, which can be
+useful for debugging.
 }
 \description{
-\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics (e.g. accuracy or
-RMSE) for a pre-defined set of tuning parameters that correspond to a model
-or recipe across one or more resamples of the data.
+\code{\link[=tune_cluster]{tune_cluster()}} computes a set of performance metrics for a pre-defined set
+of tuning parameters that correspond to a cluster model or recipe across one
+or more resamples of the data.
 }
+\section{Configuration column}{
+
+The \code{.config} column in the results follows the pattern
+\verb{pre\{num\}_mod\{num\}_post\{num\}}. The numbers encode which combination of
+preprocessor, model, and postprocessor parameters was used. A value of
+\code{0} means that element was not tuned. For example, \code{pre0_mod2_post0}
+means the preprocessor was not tuned and this is the second model
+parameter combination.
+}
+
+\section{Parallel processing}{
+
+Parallel processing is supported via the \code{future} and \code{mirai} packages.
+To enable parallelism, set up a \code{future} plan or \code{mirai} daemons before
+calling \code{tune_cluster()}:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Using future
+library(future)
+plan(multisession, workers = 4)
+res <- tune_cluster(wflow, resamples = folds, grid = grid)
+plan(sequential)
+
+# Using mirai
+library(mirai)
+daemons(4)
+res <- tune_cluster(wflow, resamples = folds, grid = grid)
+daemons(0)
+}\if{html}{\out{</div>}}
+
+See \link[tune:parallelism]{tune::parallelism} for more details.
+}
+
 \examples{
 library(recipes)
 library(rsample)

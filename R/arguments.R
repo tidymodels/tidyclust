@@ -41,32 +41,6 @@ make_x_call <- function(object, target) {
   fit_call
 }
 
-make_form_call <- function(object, env = NULL) {
-  fit_args <- object$method$fit$args
-
-  # Get the arguments related to data:
-  if (is.null(object$method$fit$data)) {
-    data_args <- c(formula = "formula", data = "data")
-  } else {
-    data_args <- object$method$fit$data
-  }
-
-  # add data arguments
-  for (i in seq_along(data_args)) {
-    fit_args[[unname(data_args[i])]] <- sym(names(data_args)[i])
-  }
-
-  # sub in actual formula
-  fit_args[[unname(data_args["formula"])]] <- env$formula
-
-  fit_call <- make_call(
-    fun = object$method$fit$func["fun"],
-    ns = object$method$fit$func["pkg"],
-    fit_args
-  )
-  fit_call
-}
-
 #' Change arguments of a cluster specification
 #'
 #' @inheritParams parsnip::set_args

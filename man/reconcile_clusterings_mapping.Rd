@@ -43,7 +43,7 @@ assign multiple labels from the alternate assignment to the same primary
 label?
 }
 \examples{
-\dontshow{if (rlang::is_installed("RcppHungarian")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("RcppHungarian")) withAutoprint(\{ # examplesIf}
 factor1 <- c("Apple", "Apple", "Carrot", "Carrot", "Banana", "Banana")
 factor2 <- c("Dog", "Dog", "Cat", "Dog", "Fish", "Fish")
 reconcile_clusterings_mapping(factor1, factor2)

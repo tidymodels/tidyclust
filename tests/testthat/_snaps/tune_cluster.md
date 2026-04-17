@@ -5,71 +5,71 @@
         metrics = metrics)
     Message
       i Fold1: preprocessor 1/3
-      v Fold1: preprocessor 1/3
+      i Fold1: preprocessor 1/3 (prediction data)
       i Fold1: preprocessor 1/3, model 1/3
-      v Fold1: preprocessor 1/3, model 1/3
-      i Fold1: preprocessor 1/3, model 1/3 (predictions)
+      i Fold1: preprocessor 1/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 1/3 (extracts)
       i Fold1: preprocessor 1/3, model 2/3
-      v Fold1: preprocessor 1/3, model 2/3
-      i Fold1: preprocessor 1/3, model 2/3 (predictions)
+      i Fold1: preprocessor 1/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 2/3 (extracts)
       i Fold1: preprocessor 1/3, model 3/3
-      v Fold1: preprocessor 1/3, model 3/3
-      i Fold1: preprocessor 1/3, model 3/3 (predictions)
+      i Fold1: preprocessor 1/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 1/3, model 3/3 (extracts)
       i Fold1: preprocessor 2/3
-      v Fold1: preprocessor 2/3
+      i Fold1: preprocessor 2/3 (prediction data)
       i Fold1: preprocessor 2/3, model 1/3
-      v Fold1: preprocessor 2/3, model 1/3
-      i Fold1: preprocessor 2/3, model 1/3 (predictions)
+      i Fold1: preprocessor 2/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 1/3 (extracts)
       i Fold1: preprocessor 2/3, model 2/3
-      v Fold1: preprocessor 2/3, model 2/3
-      i Fold1: preprocessor 2/3, model 2/3 (predictions)
+      i Fold1: preprocessor 2/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 2/3 (extracts)
       i Fold1: preprocessor 2/3, model 3/3
-      v Fold1: preprocessor 2/3, model 3/3
-      i Fold1: preprocessor 2/3, model 3/3 (predictions)
+      i Fold1: preprocessor 2/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 2/3, model 3/3 (extracts)
       i Fold1: preprocessor 3/3
-      v Fold1: preprocessor 3/3
+      i Fold1: preprocessor 3/3 (prediction data)
       i Fold1: preprocessor 3/3, model 1/3
-      v Fold1: preprocessor 3/3, model 1/3
-      i Fold1: preprocessor 3/3, model 1/3 (predictions)
+      i Fold1: preprocessor 3/3, model 1/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 1/3 (extracts)
       i Fold1: preprocessor 3/3, model 2/3
-      v Fold1: preprocessor 3/3, model 2/3
-      i Fold1: preprocessor 3/3, model 2/3 (predictions)
+      i Fold1: preprocessor 3/3, model 2/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 2/3 (extracts)
       i Fold1: preprocessor 3/3, model 3/3
-      v Fold1: preprocessor 3/3, model 3/3
-      i Fold1: preprocessor 3/3, model 3/3 (predictions)
+      i Fold1: preprocessor 3/3, model 3/3 (model metrics)
+      i Fold1: preprocessor 3/3, model 3/3 (extracts)
       i Fold2: preprocessor 1/3
-      v Fold2: preprocessor 1/3
+      i Fold2: preprocessor 1/3 (prediction data)
       i Fold2: preprocessor 1/3, model 1/3
-      v Fold2: preprocessor 1/3, model 1/3
-      i Fold2: preprocessor 1/3, model 1/3 (predictions)
+      i Fold2: preprocessor 1/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 1/3 (extracts)
       i Fold2: preprocessor 1/3, model 2/3
-      v Fold2: preprocessor 1/3, model 2/3
-      i Fold2: preprocessor 1/3, model 2/3 (predictions)
+      i Fold2: preprocessor 1/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 2/3 (extracts)
       i Fold2: preprocessor 1/3, model 3/3
-      v Fold2: preprocessor 1/3, model 3/3
-      i Fold2: preprocessor 1/3, model 3/3 (predictions)
+      i Fold2: preprocessor 1/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 1/3, model 3/3 (extracts)
       i Fold2: preprocessor 2/3
-      v Fold2: preprocessor 2/3
+      i Fold2: preprocessor 2/3 (prediction data)
       i Fold2: preprocessor 2/3, model 1/3
-      v Fold2: preprocessor 2/3, model 1/3
-      i Fold2: preprocessor 2/3, model 1/3 (predictions)
+      i Fold2: preprocessor 2/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 1/3 (extracts)
       i Fold2: preprocessor 2/3, model 2/3
-      v Fold2: preprocessor 2/3, model 2/3
-      i Fold2: preprocessor 2/3, model 2/3 (predictions)
+      i Fold2: preprocessor 2/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 2/3 (extracts)
       i Fold2: preprocessor 2/3, model 3/3
-      v Fold2: preprocessor 2/3, model 3/3
-      i Fold2: preprocessor 2/3, model 3/3 (predictions)
+      i Fold2: preprocessor 2/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 2/3, model 3/3 (extracts)
       i Fold2: preprocessor 3/3
-      v Fold2: preprocessor 3/3
+      i Fold2: preprocessor 3/3 (prediction data)
       i Fold2: preprocessor 3/3, model 1/3
-      v Fold2: preprocessor 3/3, model 1/3
-      i Fold2: preprocessor 3/3, model 1/3 (predictions)
+      i Fold2: preprocessor 3/3, model 1/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 1/3 (extracts)
       i Fold2: preprocessor 3/3, model 2/3
-      v Fold2: preprocessor 3/3, model 2/3
-      i Fold2: preprocessor 3/3, model 2/3 (predictions)
+      i Fold2: preprocessor 3/3, model 2/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 2/3 (extracts)
       i Fold2: preprocessor 3/3, model 3/3
-      v Fold2: preprocessor 3/3, model 3/3
-      i Fold2: preprocessor 3/3, model 3/3 (predictions)
+      i Fold2: preprocessor 3/3, model 3/3 (model metrics)
+      i Fold2: preprocessor 3/3, model 3/3 (extracts)
 
 # tune model only - failure in formula is caught elegantly
 
@@ -79,10 +79,7 @@
         1
       }, save_pred = TRUE))
     Message
-      x Fold1: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
-      x Fold2: preprocessor 1/1: Error in `get_all_predictors()`:
-      ! The following predi...
+      > A | error:   The following predictor was not found in `data`: "z".
     Condition
       Warning:
       All models failed.
@@ -112,15 +109,15 @@
       tune_cluster(wflow, resamples = folds, grid = 3, something = "wrong")
     Condition
       Warning:
-      The `...` are not used in this function but one or more objects were passed: 'something'
+      The `...` are not used in this function but 1 object was passed: "something"
     Output
       # Tuning results
       # 2-fold cross-validation 
       # A tibble: 2 x 4
         splits          id    .metrics         .notes          
         <list>          <chr> <list>           <list>          
-      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 3]>
-      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 3]>
+      1 <split [16/16]> Fold1 <tibble [6 x 5]> <tibble [0 x 4]>
+      2 <split [16/16]> Fold2 <tibble [6 x 5]> <tibble [0 x 4]>
 
 # select_best() and show_best() works
 
@@ -137,4 +134,53 @@
     Condition
       Warning in `tune::select_best()`:
       No value of `metric` was given; "sse_within_total" will be used.
+
+# check_grid warns when no tuning parameters detected
+
+    Code
+      res <- tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Warning:
+      No tuning parameters have been detected, performance will be evaluated using the resamples with no tuning.
+      i Did you want to `tune()` parameters?
+
+# check_grid errors when grid is not a data frame
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = "not a grid")
+    Condition
+      Error in `check_grid()`:
+      ! `grid` should be a positive integer or a data frame.
+
+# check_grid warns when duplicate rows in grid
+
+    Code
+      res <- tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Warning:
+      Duplicate rows in grid of tuning combinations found and removed.
+
+# check_grid errors when grid has extra params
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Error in `check_grid()`:
+      ! The provided `grid` has parameter column 'extra_param' that has not been marked for tuning by `tune()`.
+
+# check_grid errors when grid is missing params
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = grid)
+    Condition
+      Error in `check_grid()`:
+      ! The provided `grid` is missing parameter column "'num_comp'" that has been marked for tuning by `tune()`.
+
+# check_grid errors when numeric grid < 1
+
+    Code
+      tune_cluster(wflow, resamples = folds, grid = 0)
+    Condition
+      Error in `check_grid()`:
+      ! `grid` should be a positive integer or a data frame.
 

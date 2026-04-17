@@ -75,7 +75,7 @@ test_that("predictions", {
   )
 })
 
-test_that("extract_centroids work", {
+test_that("extract_centroids() work", {
   set.seed(1234)
   kmeans_fit <- k_means(num_clusters = 4) |>
     set_engine("stats") |>
@@ -118,6 +118,29 @@ test_that("updating", {
     k_means(num_clusters = 5) |>
       update(num_clusters = tune())
   )
+})
+
+test_that("update.k_means() works with parameters tibble", {
+  spec <- k_means(num_clusters = 3)
+  params <- tibble::tibble(num_clusters = 5)
+
+  updated <- update(spec, parameters = params)
+  expect_equal(rlang::eval_tidy(updated$args$num_clusters), 5)
+})
+
+test_that("update.k_means() works with fresh = TRUE", {
+  spec <- k_means(num_clusters = 3) |> set_engine("stats", nstart = 5)
+
+  updated <- update(spec, num_clusters = 7, fresh = TRUE)
+  expect_equal(rlang::eval_tidy(updated$args$num_clusters), 7)
+  expect_null(rlang::eval_tidy(updated$eng_args$nstart))
+})
+
+test_that("update.k_means() works with engine args", {
+  spec <- k_means(num_clusters = 3) |> set_engine("stats", nstart = 5)
+
+  updated <- update(spec, nstart = 10)
+  expect_equal(rlang::eval_tidy(updated$eng_args$nstart), 10)
 })
 
 test_that("Engine-specific arguments are passed to ClusterR models", {

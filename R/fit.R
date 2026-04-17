@@ -120,48 +120,29 @@ fit.cluster_spec <- function(
 
   eval_env$data <- data
   eval_env$formula <- formula
-  fit_interface <-
-    check_interface(eval_env$formula, eval_env$data, cl, object)
+  check_interface(eval_env$formula, eval_env$data, cl, object)
 
   # populate `method` with the details for this model type
   object <- add_methods(object, engine = object$engine)
 
   check_installs(object)
 
-  interfaces <- paste(fit_interface, object$method$fit$interface, sep = "_")
-
-  # Now call the wrappers that transition between the interface
-  # called here ("fit" interface) that will direct traffic to
-  # what the underlying model uses. For example, if a formula is
-  # used here, `fit_interface_formula` will determine if a
-  # translation has to be made if the model interface is x/y/
-  res <-
-    switch(
-      interfaces,
-      # homogeneous combinations:
-      formula_formula = form_form(
-        object = object,
-        control = control,
-        env = eval_env
-      ),
-
-      # heterogenous combinations
-      formula_matrix = form_x(
-        object = object,
-        control = control,
-        env = eval_env,
-        target = object$method$fit$interface,
-        ...
-      ),
-      formula_data.frame = form_x(
-        object = object,
-        control = control,
-        env = eval_env,
-        target = object$method$fit$interface,
-        ...
-      ),
-      cli::cli_abort("{interfaces} is unknown.")
+  interface <- object$method$fit$interface
+  if (!interface %in% c("matrix", "data.frame")) {
+    # nocov start
+    cli::cli_abort(
+      "Column interface {.val {interface}} is not supported.",
+      .internal = TRUE
     )
+  } # nocov end
+
+  res <- form_x(
+    object = object,
+    control = control,
+    env = eval_env,
+    target = interface,
+    ...
+  )
   model_classes <- class(res$fit)
   class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
   res <- modelenv::new_unsupervised_fit(res)
@@ -177,7 +158,7 @@ check_interface <- function(formula, data, cl, model) {
   if (form_interface) {
     return("formula")
   }
-  cli::cli_abort("Error when checking the interface.")
+  cli::cli_abort("Error when checking the interface.", .internal = TRUE) # nocov
 }
 
 inher <- function(x, cls, cl) {
@@ -249,51 +230,29 @@ fit_xy.cluster_spec <-
     cl <- match.call(expand.dots = TRUE)
     eval_env <- rlang::env()
     eval_env$x <- x
-    fit_interface <- check_x_interface(eval_env$x, cl, object)
+    check_x_interface(eval_env$x, cl, object)
 
     # populate `method` with the details for this model type
     object <- add_methods(object, engine = object$engine)
 
     check_installs(object)
 
-    interfaces <- paste(fit_interface, object$method$fit$interface, sep = "_")
-
-    # Now call the wrappers that transition between the interface
-    # called here ("fit" interface) that will direct traffic to
-    # what the underlying model uses. For example, if a formula is
-    # used here, `fit_interface_formula` will determine if a
-    # translation has to be made if the model interface is x/y/
-    res <-
-      switch(
-        interfaces,
-        # homogeneous combinations:
-        matrix_matrix = ,
-        data.frame_matrix = x_x(
-          object = object,
-          env = eval_env,
-          control = control,
-          target = "matrix",
-          ...
-        ),
-        data.frame_data.frame = ,
-        matrix_data.frame = x_x(
-          object = object,
-          env = eval_env,
-          control = control,
-          target = "data.frame",
-          ...
-        ),
-
-        # heterogenous combinations
-        matrix_formula = ,
-        data.frame_formula = x_form(
-          object = object,
-          env = eval_env,
-          control = control,
-          ...
-        ),
-        cli::cli_abort("{interfaces} is unknown.")
+    interface <- object$method$fit$interface
+    if (!interface %in% c("matrix", "data.frame")) {
+      # nocov start
+      cli::cli_abort(
+        "Column interface {.val {interface}} is not supported.",
+        .internal = TRUE
       )
+    } # nocov end
+
+    res <- x_x(
+      object = object,
+      env = eval_env,
+      control = control,
+      target = interface,
+      ...
+    )
     model_classes <- class(res$fit)
     class(res) <- c(paste0("_", model_classes[1]), "cluster_fit")
     res
@@ -328,7 +287,7 @@ check_x_interface <- function(x, cl, model) {
   if (df_interface) {
     return("data.frame")
   }
-  cli::cli_abort("Error when checking the interface")
+  cli::cli_abort("Error when checking the interface", .internal = TRUE) # nocov
 }
 
 allow_sparse <- function(x) {
