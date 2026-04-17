@@ -59,7 +59,7 @@ Suggests:
 Remotes:
     tidymodels/tune
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
-    patchwork, ggforce, tidyverse/tidytemplate
+    patchwork, ggforce, tidyverse/tidytemplate, mvtnorm
 Config/testthat/edition: 3
 Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
