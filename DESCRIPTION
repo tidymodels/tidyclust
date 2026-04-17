@@ -25,6 +25,7 @@ Imports:
     generics (>= 0.1.2),
     glue (>= 1.6.2),
     hardhat (>= 1.0.0),
+    mclust,
     modelenv (>= 0.2.0),
     parsnip (>= 1.0.2),
     philentropy (>= 0.9.0),
@@ -43,6 +44,7 @@ Suggests:
     ClusterR,
     clustMixType (>= 0.3-5),
     covr,
+    dbscan,
     future,
     future.apply,
     klaR,
@@ -57,7 +59,7 @@ Suggests:
 Remotes:
     tidymodels/tune
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
-    patchwork, ggforce, tidyverse/tidytemplate
+    patchwork, ggforce, tidyverse/tidytemplate, mvtnorm
 Config/testthat/edition: 3
 Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8

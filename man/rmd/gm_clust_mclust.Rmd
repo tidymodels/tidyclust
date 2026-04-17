@@ -1,0 +1,57 @@
+```{r, child = "aaa.Rmd", include = FALSE}
+```
+
+`r descr_models("gm_clust", "mclust")`
+
+## Tuning Parameters
+
+```{r stats-param-info, echo = FALSE}
+defaults <- 
+  tibble::tibble(tidyclust = c("num_clusters", "circular", "zero_covariance", "shared_orientation", "shared_shape", "shared_size"),
+                 default = c("no default", "TRUE", "TRUE", "TRUE", "TRUE", "TRUE"))
+
+param <-
+ gm_clust() %>% 
+  set_engine("mclust") %>% 
+  set_mode("partition") %>% 
+  make_parameter_list(defaults)
+```
+
+This model has `r nrow(param)` tuning parameters:
+
+```{r dbscan-param-list, echo = FALSE, results = "asis"}
+param$item
+```
+
+## Translation from tidyclust to the original package (partition)
+
+```{r stats-cls}
+gm_clust(num_clusters = 3, circular = FALSE, zero_covariance = FALSE) %>% 
+  set_engine("mclust") %>% 
+  set_mode("partition") %>% 
+  translate_tidyclust()
+```
+
+## Preprocessing requirements
+
+Gaussian Mixture Models should be fit with only quantitative predictors and without any categorical predictors. No scaling is required since the variance-covariance matrices of the Gaussian distributions account for the unequal variances between predictors and their covariances.
+
+## References
+
+- Banfield, J. D., & Raftery, A. E. (1993). Model-Based Gaussian and Non-Gaussian Clustering. Biometrics, 49(3), 803. https://doi.org/10.2307/2532201
+
+- Celeux, G., & Govaert, G. (1995). Gaussian parsimonious clustering models. Pattern Recognition, 28(5), 781–793. https://doi.org/10.1016/0031-3203(94)00125-6
+
+- Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum Likelihood from Incomplete Data via the EM Algorithm.
+
+- McNicholas, P. D. (2016). Model-Based clustering. Journal of Classification, 33(3), 331–373. https://doi.org/10.1007/s00357-016-9211-9
+
+- Scrucca, L., Fop, M., Murphy, T., Brendan, & Raftery, A., E. (2016). Mclust 5: Clustering, Classification and Density Estimation Using Gaussian Finite Mixture Models. The R Journal, 8(1), 289. https://doi.org/10.32614/RJ-2016-021
+
+- Scrucca, L., Fraley, C., Murphy, T. B., & Raftery, A. E. (2023). Model-based clustering,
+classification, and density estimation using mclust in R. Chapman; Hall/CRC. https:
+//doi.org/10.1201/9781003277965
+
+
+
+
