@@ -52,12 +52,26 @@ updating. If the main arguments are used, these will supersede the values
 in \code{parameters}. Also, using engine arguments in this object will result in
 an error.}
 
+\item{radius}{Positive double, Radius drawn around points to determine core-points and cluster assignments (required).}
+
+\item{min_points}{Positive integer, Minimum number of connected points required to form a core-point, including the point itself (required).}
+
 \item{fresh}{A logical for whether the arguments should be modified in-place
 or replaced wholesale.}
 
 \item{...}{Not used for \code{update()}.}
 
 \item{num_clusters}{Positive integer, number of clusters in model.}
+
+\item{circular}{Boolean, whether or not to fit circular MVG distributions for each cluster. Default \code{TRUE}.}
+
+\item{zero_covariance}{Boolean, whether or not to assign covariances of 0 for each MVG. Default \code{TRUE}.}
+
+\item{shared_orientation}{Boolean, whether each cluster MVG should have the same orientation. Default \code{TRUE}.}
+
+\item{shared_shape}{Boolean, whether each cluster MVG should have the same shape. Default \code{TRUE}.}
+
+\item{shared_size}{Boolean, whether each cluster MVG should have the same size/volume. Default \code{TRUE}.}
 
 \item{cut_height}{Positive double, height at which to cut dendrogram to
 obtain cluster assignments (only used if \code{num_clusters} is \code{NULL})}
