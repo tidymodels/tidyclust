@@ -2,6 +2,20 @@
 
 ## tidyclust (development version)
 
+### New Clustering Specifications
+
+- The
+  [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
+  clustering specification has been added. This specification allows for
+  the use of the DBSCAN algorithm using the dbscan engine.
+  ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
+
+- The
+  [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)
+  clustering specification has been added. This specification allows for
+  the fitting of Gaussian mixture models using the mclust engine.
+  ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
+
 - The `.config` column produced by
   [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   has changed from the `Preprocessor{num}_Model{num}` pattern to

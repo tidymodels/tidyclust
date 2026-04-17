@@ -7,6 +7,30 @@ recreating the object from scratch.
 ## Usage
 
 ``` r
+# S3 method for class 'db_clust'
+update(
+  object,
+  parameters = NULL,
+  radius = NULL,
+  min_points = NULL,
+  fresh = FALSE,
+  ...
+)
+
+# S3 method for class 'gm_clust'
+update(
+  object,
+  parameters = NULL,
+  num_clusters = NULL,
+  circular = NULL,
+  zero_covariance = NULL,
+  shared_orientation = NULL,
+  shared_shape = NULL,
+  shared_size = NULL,
+  fresh = FALSE,
+  ...
+)
+
 # S3 method for class 'hier_clust'
 update(
   object,
@@ -36,9 +60,53 @@ update(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
   values in `parameters`. Also, using engine arguments in this object
   will result in an error.
 
+- radius:
+
+  Positive double, Radius drawn around points to determine core-points
+  and cluster assignments (required).
+
+- min_points:
+
+  Positive integer, Minimum number of connected points required to form
+  a core-point, including the point itself (required).
+
+- fresh:
+
+  A logical for whether the arguments should be modified in-place or
+  replaced wholesale.
+
+- ...:
+
+  Not used for [`update()`](https://rdrr.io/r/stats/update.html).
+
 - num_clusters:
 
   Positive integer, number of clusters in model.
+
+- circular:
+
+  Boolean, whether or not to fit circular MVG distributions for each
+  cluster. Default `TRUE`.
+
+- zero_covariance:
+
+  Boolean, whether or not to assign covariances of 0 for each MVG.
+  Default `TRUE`.
+
+- shared_orientation:
+
+  Boolean, whether each cluster MVG should have the same orientation.
+  Default `TRUE`.
+
+- shared_shape:
+
+  Boolean, whether each cluster MVG should have the same shape. Default
+  `TRUE`.
+
+- shared_size:
+
+  Boolean, whether each cluster MVG should have the same size/volume.
+  Default `TRUE`.
 
 - cut_height:
 
@@ -51,15 +119,6 @@ update(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
   abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA),
   `"median"` (= WPGMC) or `"centroid"` (= UPGMC).
-
-- fresh:
-
-  A logical for whether the arguments should be modified in-place or
-  replaced wholesale.
-
-- ...:
-
-  Not used for [`update()`](https://rdrr.io/r/stats/update.html).
 
 ## Value
 

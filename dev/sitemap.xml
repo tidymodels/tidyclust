@@ -2,6 +2,8 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/LICENSE-text.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/LICENSE.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/articles/db_clust.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/articles/gm_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/hier_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/index.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/k_means.html</loc></url>
@@ -16,11 +18,17 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/control_cluster.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/convert_helpers.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/cut_height.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/db_clust.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/dbscan_helper.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/details_db_clust_dbscan.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/details_gm_clust_mclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_hier_clust_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_ClusterR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_clustMixType.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_klaR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_stats.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-db_clust_fit_dbscan.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-gm_clust_fit_mclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-hier_clust_fit_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_ClusterR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_clustMixType.html</loc></url>
@@ -35,6 +43,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/fit.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/get_centroid_dists.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/glance.cluster_fit.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/gm_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/hier_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/index.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/k_means.html</loc></url>
@@ -43,6 +52,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/list_md_problems.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/load_pkgs.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/make_classes_tidyclust.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/mclust_helper.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/min_grid.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/new_cluster_spec.html</loc></url>
