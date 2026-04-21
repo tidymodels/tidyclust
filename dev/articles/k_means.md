@@ -441,7 +441,7 @@ kmeans_fit |> sse_ratio(dist_fun = my_dist_2)
 #> # A tibble: 1 × 3
 #>   .metric   .estimator .estimate
 #>   <chr>     <chr>          <dbl>
-#> 1 sse_ratio standard       0.202
+#> 1 sse_ratio standard       0.322
 
 kmeans_fit |> silhouette_avg(penguins, dist_fun = my_dist_1)
 #> # A tibble: 1 × 3

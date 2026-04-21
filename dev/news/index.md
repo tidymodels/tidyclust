@@ -45,6 +45,11 @@
   ([\#206](https://github.com/tidymodels/tidyclust/issues/206),
   [@lgaborini](https://github.com/lgaborini))
 
+- [`sse_within_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_within_total.md)
+  now correctly applies a custom `dist_fun` when `new_data` is `NULL` by
+  using training data stored in the model.
+  ([\#184](https://github.com/tidymodels/tidyclust/issues/184))
+
 - [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
   now has `direction = "maximize"` instead of `direction = "zero"`, so
   that
