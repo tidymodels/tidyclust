@@ -82,7 +82,9 @@ test_that("sse_within_total() respects dist_fun when new_data is NULL", {
   default_res <- sse_within_total(kmeans_fit)
   custom_res <- sse_within_total(
     kmeans_fit,
-    dist_fun = function(x, y) philentropy::dist_many_many(x, y, method = "manhattan")
+    dist_fun = function(x, y) {
+      philentropy::dist_many_many(x, y, method = "manhattan")
+    }
   )
 
   expect_false(isTRUE(all.equal(default_res$.estimate, custom_res$.estimate)))

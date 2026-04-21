@@ -184,6 +184,18 @@ tune_cluster_workflow <- function(
 ) {
   tune::check_rset(resamples)
 
+  if (inherits(resamples, "apparent")) {
+    cli::cli_warn(
+      c(
+        "{.fn tune_cluster} was passed an {.fn apparent} resample.",
+        "i" = "Metrics from apparent resamples are excluded when summarizing \\
+               with {.code collect_metrics(summarize = TRUE)} (the default). \\
+               Use {.code collect_metrics(summarize = FALSE)} to see \\
+               per-resample metrics."
+      )
+    )
+  }
+
   metrics <- check_metrics(metrics, workflow)
 
   pset <- tune::check_parameters(
