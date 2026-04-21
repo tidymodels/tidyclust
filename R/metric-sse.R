@@ -43,6 +43,13 @@ sse_within <- function(
   summ <- extract_fit_summary(object)
 
   if (is.null(new_data)) {
+    training_data <- extract_training_data(object)
+    if (!is.null(training_data)) {
+      new_data <- training_data
+    }
+  }
+
+  if (is.null(new_data)) {
     res <- tibble::tibble(
       .cluster = factor(summ$cluster_names),
       wss = summ$sse_within_total_total,
@@ -73,7 +80,7 @@ sse_within <- function(
       dplyr::group_by(.cluster) |>
       dplyr::summarize(
         wss = sum(dist),
-        n_obs = dplyr::n()
+        n_members = dplyr::n()
       )
   }
 
