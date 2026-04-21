@@ -1,5 +1,4 @@
 test_that("primary arguments", {
-
   basic <- db_clust(mode = "partition")
   basic_dbscan <- translate_tidyclust(basic %>% set_engine("dbscan"))
   expect_equal(
@@ -62,12 +61,18 @@ test_that("predictions", {
 
   expect_equal(
     ref_clusts,
-    predict(db_clust_fit, mtcars)$.pred_cluster %>% .[. != "Outlier"] %>% as.numeric() - 1
+    predict(db_clust_fit, mtcars)$.pred_cluster %>%
+      .[. != "Outlier"] %>%
+      as.numeric() -
+      1
   )
 
   expect_equal(
     relevel_preds(ref_clusts),
-    extract_cluster_assignment(db_clust_fit)$.cluster %>% .[. != "Outlier"] %>% as.numeric() - 1
+    extract_cluster_assignment(db_clust_fit)$.cluster %>%
+      .[. != "Outlier"] %>%
+      as.numeric() -
+      1
   )
 
   expect_equal(
@@ -155,7 +160,7 @@ test_that("errors if `radius` and `min_points` aren't specified", {
     error = TRUE,
     db_clust() %>%
       set_engine("dbscan") %>%
-      fit(~ ., data = mtcars)
+      fit(~., data = mtcars)
   )
 })
 
@@ -165,7 +170,7 @@ test_that("errors if `radius` isn't specified", {
     error = TRUE,
     db_clust(min_points = 10) %>%
       set_engine("dbscan") %>%
-      fit(~ ., data = mtcars)
+      fit(~., data = mtcars)
   )
 })
 
@@ -175,6 +180,6 @@ test_that("errors if `min_points` isn't specified", {
     error = TRUE,
     db_clust(radius = 20) %>%
       set_engine("dbscan") %>%
-      fit(~ ., data = mtcars)
+      fit(~., data = mtcars)
   )
 })

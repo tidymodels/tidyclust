@@ -215,11 +215,10 @@ extract_fit_summary.dbscan <- function(object, ...) {
 
   outlier_idx <- which(unique(clusts) == "Outlier")
 
-
   sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
-    ~sum(
+    ~ sum(
       philentropy::dist_many_many(
         as.matrix(centroids[.y, ]),
         as.matrix(.x),
@@ -227,7 +226,6 @@ extract_fit_summary.dbscan <- function(object, ...) {
       )
     )
   )
-
 
   clust_names <- unique(clusts)[c(outlier_idx, setdiff(1:n_clust, outlier_idx))]
   summary <- list(
@@ -250,7 +248,9 @@ extract_fit_summary.dbscan <- function(object, ...) {
   summary$sse_within_total_total[outlier_idx] <- NA
 
   # reorder centroids
-  summary$centroids <- summary$centroids[c(outlier_idx, setdiff(1:n_clust, outlier_idx)), ]
+  summary$centroids <- summary$centroids[
+    c(outlier_idx, setdiff(1:n_clust, outlier_idx)),
+  ]
 
   summary
 }
@@ -279,7 +279,7 @@ extract_fit_summary.Mclust <- function(object, ...) {
   sse_within_total_total <- map2_dbl(
     by_clust$data,
     seq_len(n_clust),
-    ~sum(
+    ~ sum(
       philentropy::dist_many_many(
         as.matrix(centroids[.y, ]),
         as.matrix(.x),

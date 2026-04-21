@@ -64,7 +64,6 @@ tunable.k_means <- function(x, ...) {
 }
 
 
-
 stats_k_means_engine_args <-
   tibble::tibble(
     name = c(
@@ -135,4 +134,3 @@ mclust_gm_clust_engine_args <-
     component = "mclust",
     component_id = "engine"
   )
-

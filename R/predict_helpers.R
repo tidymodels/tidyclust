@@ -4,7 +4,7 @@ make_predictions <- function(x, prefix, n_clusters) {
 }
 
 make_predictions_w_outliers <- function(x, prefix, n_clusters) {
-  levels <- 0:(n_clusters-1)
+  levels <- 0:(n_clusters - 1)
   labels <- paste0(prefix, levels)
   labels[1] <- "Outlier"
   factor(x, levels = levels, labels = labels)
@@ -189,10 +189,9 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
 }
 
 .db_clust_predict_dbscan <- function(object, new_data, prefix = "Cluster_") {
-
   is_core <- attr(object, "is_core")
   training_data <- attr(object, "training_data")
-  cp <- training_data[is_core,]
+  cp <- training_data[is_core, ]
   cp_clusters <- object$cluster[is_core]
   eps <- attr(object, "radius")
 
@@ -200,27 +199,23 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
     clusters <- (rep(0, nrow(new_data)))
     n_clusters <- 1
   } else {
-    nn <- dbscan::frNN(cp,
-               query = new_data,
-               eps = eps,
-               sort = TRUE)
+    nn <- dbscan::frNN(cp, query = new_data, eps = eps, sort = TRUE)
 
     clusters <- vapply(
-      nn$id, function(nns) if (length(nns) == 0L) 0L else cp_clusters[nns[1L]], integer(1L)
+      nn$id,
+      function(nns) if (length(nns) == 0L) 0L else cp_clusters[nns[1L]],
+      integer(1L)
     )
 
     n_clusters <- length(unique(object$cluster[object$cluster != 0])) + 1
   }
 
   make_predictions_w_outliers(clusters, prefix, n_clusters)
-
 }
 
 .gm_clust_predict_mclust <- function(object, new_data, prefix = "Cluster_") {
-
   clusters <- predict(object, newdata = new_data)$classification
   n_clusters <- attr(object, "num_clusters")
 
   make_predictions(clusters, prefix, n_clusters)
 }
-

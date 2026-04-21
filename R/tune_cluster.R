@@ -379,7 +379,6 @@ check_metrics <- function(x, object) {
 }
 
 
-
 # https://github.com/tidymodels/tune/blob/main/R/checks.R#L274
 check_workflow <- function(x, pset = NULL, check_dials = FALSE) {
   if (!inherits(x, "workflow")) {

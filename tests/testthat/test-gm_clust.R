@@ -109,7 +109,6 @@ test_that("bad input", {
 })
 
 test_that("predictions", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -141,7 +140,6 @@ test_that("predictions", {
 
 
 test_that("extract_centroids work", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -166,7 +164,6 @@ test_that("extract_centroids work", {
 
 
 test_that("predictions with new data", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -214,7 +211,6 @@ test_that("updating", {
 })
 
 test_that("reordering is done correctly for gm_clust", {
-
   skip_if_not_installed("mclust")
 
   set.seed(42)
@@ -232,17 +228,22 @@ test_that("reordering is done correctly for gm_clust", {
 })
 
 test_that("model errors when parameters cannot be estimated", {
-
   skip_if_not_installed("mclust")
 
   set.seed(42)
 
   expect_error(
-    gm_clust(num_clusters = 10, circular=F,zero_covariance=F,shared_orientation=F,shared_shape=F,shared_size=F) %>%
+    gm_clust(
+      num_clusters = 10,
+      circular = F,
+      zero_covariance = F,
+      shared_orientation = F,
+      shared_shape = F,
+      shared_size = F
+    ) %>%
       set_engine("mclust") %>%
       fit(~., data = mtcars)
   )
-
 })
 
 
@@ -306,166 +307,179 @@ test_that("mappings to different model names are correct", {
 })
 
 
-  test_that("mappings to different model names are correct", {
+test_that("mappings to different model names are correct", {
+  skip_if_not_installed("mclust")
 
-    skip_if_not_installed("mclust")
+  set.seed(42)
 
-    set.seed(42)
+  iris_sub <- iris %>% dplyr::select(Sepal.Length, Sepal.Width)
 
-    iris_sub <- iris %>% dplyr::select(Sepal.Length, Sepal.Width)
+  gm_fit <- gm_clust(num_clusters = 3) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EII"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EII"
-    )
+  gm_fit <- gm_clust(num_clusters = 3, shared_size = FALSE) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VII"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VII"
-    )
+  gm_fit <- gm_clust(num_clusters = 3, circular = FALSE) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EEI"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EEI"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    shared_shape = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       shared_shape = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EVI"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EVI"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    shared_size = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VEI"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VEI"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EEE"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EEE"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_shape = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_shape = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EVE"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EVE"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_size = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VEE"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VEE"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_shape = FALSE,
+    shared_size = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_shape = FALSE,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VVE"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VVE"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_orientation = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_orientation = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EEV"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EEV"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_orientation = FALSE,
+    shared_shape = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_orientation = FALSE,
-                       shared_shape = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "EVV"
+  )
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "EVV"
-    )
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_orientation = FALSE,
+    shared_size = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VEV"
+  )
 
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_orientation = FALSE,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
+  gm_fit <- gm_clust(
+    num_clusters = 3,
+    circular = FALSE,
+    zero_covariance = FALSE,
+    shared_orientation = FALSE,
+    shared_shape = FALSE,
+    shared_size = FALSE
+  ) %>%
+    set_engine("mclust") %>%
+    fit(~., data = iris_sub)
 
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VEV"
-    )
-
-    gm_fit <- gm_clust(num_clusters = 3,
-                       circular = FALSE,
-                       zero_covariance = FALSE,
-                       shared_orientation = FALSE,
-                       shared_shape = FALSE,
-                       shared_size = FALSE) %>%
-      set_engine("mclust") %>%
-      fit(~., data = iris_sub)
-
-    expect_identical(
-      gm_fit %>% extract_fit_engine() %>% .$modelName,
-      "VVV"
-    )
-
-
-
+  expect_identical(
+    gm_fit %>% extract_fit_engine() %>% .$modelName,
+    "VVV"
+  )
 })
