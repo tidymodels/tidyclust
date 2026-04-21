@@ -36,7 +36,7 @@ Imports:
     stats,
     tibble (>= 3.1.0),
     tidyr (>= 1.2.0),
-    tune (>= 2.0.1.9004),
+    tune (>= 2.1.0),
     utils,
     vctrs (>= 0.5.0)
 Suggests:
@@ -56,8 +56,6 @@ Suggests:
     rmarkdown,
     testthat (>= 3.0.0),
     workflows (>= 1.1.2)
-Remotes:
-    tidymodels/tune
 Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
     patchwork, ggforce, tidyverse/tidytemplate, mvtnorm
 Config/testthat/edition: 3
