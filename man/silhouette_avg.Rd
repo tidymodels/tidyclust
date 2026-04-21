@@ -44,7 +44,10 @@ Measures average silhouette across all observations
 }
 \details{
 Not to be confused with \code{\link[=silhouette]{silhouette()}} that returns a tibble
-with silhouette for each observation.
+with silhouette for each observation. The silhouette coefficient ranges
+from -1 to 1, where values close to 1 indicate well-separated clusters.
+This metric has \code{direction = "maximize"}, so \code{\link[tune:show_best]{tune::select_best()}} and
+\code{\link[tune:show_best]{tune::show_best()}} will return models with the highest silhouette values.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) |>

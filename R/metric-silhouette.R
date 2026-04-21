@@ -75,7 +75,10 @@ silhouette <- function(
 #'   Defaults to Euclidean distance on processed data.
 #' @param ... Other arguments passed to methods.
 #' @details Not to be confused with [silhouette()] that returns a tibble
-#'   with silhouette for each observation.
+#'   with silhouette for each observation. The silhouette coefficient ranges
+#'   from -1 to 1, where values close to 1 indicate well-separated clusters.
+#'   This metric has `direction = "maximize"`, so [tune::select_best()] and
+#'   [tune::show_best()] will return models with the highest silhouette values.
 #'
 #' @family cluster metric
 #'
@@ -101,7 +104,7 @@ silhouette_avg <- function(object, ...) {
 
 silhouette_avg <- new_cluster_metric(
   silhouette_avg,
-  direction = "zero"
+  direction = "maximize"
 )
 
 #' @export

@@ -58,6 +58,10 @@ test_that("silhouette() values are in [-1, 1]", {
   expect_true(all(res$sil_width <= 1 | is.na(res$sil_width)))
 })
 
+test_that("silhouette_avg() has direction maximize", {
+  expect_identical(attr(silhouette_avg, "direction"), "maximize")
+})
+
 test_that("silhouette_avg() returns expected structure", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>
