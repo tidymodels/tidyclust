@@ -2,6 +2,18 @@
 
 ## tidyclust (development version)
 
+- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
+  documentation now clarifies that
+  [`predict()`](https://rdrr.io/r/stats/predict.html) may not match
+  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
+  on training data. This is expected behavior:
+  [`predict()`](https://rdrr.io/r/stats/predict.html) uses a
+  distance-based heuristic while
+  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
+  uses [`cutree()`](https://rdrr.io/r/stats/cutree.html) based on the
+  dendrogram structure.
+  ([\#208](https://github.com/tidymodels/tidyclust/issues/208))
+
 ### New Clustering Specifications
 
 - The

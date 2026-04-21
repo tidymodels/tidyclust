@@ -50,10 +50,6 @@ hier_clust(
   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA),
   `"median"` (= WPGMC) or `"centroid"` (= UPGMC).
 
-## Value
-
-A `hier_clust` cluster specification.
-
 ## Details
 
 ### What does it mean to predict?
@@ -75,11 +71,6 @@ specified type of linkage in the model:
 
 - *centroid method*: The new observation is assigned to the cluster with
   the closest centroid, as in prediction for k_means.
-
-- *Ward’s method*: The new observation is assigned to the cluster with
-  the smallest increase in **error sum of squares (ESS)** due to the new
-  addition. The ESS is computed as the sum of squared distances between
-  observations in a cluster, and the centroid of the cluster.
 
 ## Examples
 
