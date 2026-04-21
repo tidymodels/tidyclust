@@ -23,6 +23,8 @@
 
 * Fixed bug when trying to tune the `linkage_method` argument. (#206, @lgaborini)
 
+* `sse_within_total()` now correctly applies a custom `dist_fun` when `new_data` is `NULL` by using training data stored in the model. (#184)
+
 * `silhouette_avg()` now has `direction = "maximize"` instead of `direction = "zero"`, so that `show_best()` and `select_best()` correctly return models with the highest silhouette values. (#212, @dnldelarosa)
 
 # tidyclust 0.2.4
