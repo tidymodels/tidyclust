@@ -23,6 +23,8 @@
 
 * Fixed bug when trying to tune the `linkage_method` argument. (#206, @lgaborini)
 
+* `silhouette_avg()` now has `direction = "maximize"` instead of `direction = "zero"`, so that `show_best()` and `select_best()` correctly return models with the highest silhouette values. (#212, @dnldelarosa)
+
 # tidyclust 0.2.4
 
 * The philentropy package is now used to calculate distances rather than Rfast. (#199)
