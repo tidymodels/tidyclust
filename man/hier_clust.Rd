@@ -30,9 +30,6 @@ unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"si
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
 WPGMC) or \code{"centroid"} (= UPGMC).}
 }
-\value{
-A \code{hier_clust} cluster specification.
-}
 \description{
 \code{hier_clust()} defines a model that fits clusters based on a distance-based
 dendrogram
@@ -61,10 +58,6 @@ smallest average distances between training observations and the new
 observation.
 \item \emph{centroid method}: The new observation is assigned to the cluster with the
 closest centroid, as in prediction for k_means.
-\item \emph{Ward’s method}: The new observation is assigned to the cluster with the
-smallest increase in \strong{error sum of squares (ESS)} due to the new
-addition. The ESS is computed as the sum of squared distances between
-observations in a cluster, and the centroid of the cluster.
 }
 }
 }

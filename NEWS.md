@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `hier_clust()` documentation now clarifies that `predict()` may not match `extract_cluster_assignment()` on training data. This is expected behavior: `predict()` uses a distance-based heuristic while `extract_cluster_assignment()` uses `cutree()` based on the dendrogram structure. (#208)
+
 ## New Clustering Specifications
 
 * The `db_clust()` clustering specification has been added. This specification allows for the use of the DBSCAN algorithm using the dbscan engine. (#209)

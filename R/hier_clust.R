@@ -42,12 +42,21 @@
 #'   observation.
 #' - *centroid method*: The new observation is assigned to the cluster with the
 #'   closest centroid, as in prediction for k_means.
-#' - *Ward’s method*: The new observation is assigned to the cluster with the
-#'   smallest increase in **error sum of squares (ESS)** due to the new
-#'   addition. The ESS is computed as the sum of squared distances between
-#'   observations in a cluster, and the centroid of the cluster.
-#'
-#' @return A `hier_clust` cluster specification.
+#’ - *Ward’s method*: The new observation is assigned to the cluster with the
+#’   smallest increase in **error sum of squares (ESS)** due to the new
+#’   addition. The ESS is computed as the sum of squared distances between
+#’   observations in a cluster, and the centroid of the cluster.
+#’
+#’ Note that these heuristics for assigning new observations to existing
+#’ clusters are approximations. For most linkage methods, the predictions on
+#’ training data may not match the cluster assignments from
+#’ `extract_cluster_assignment()`. This is because `extract_cluster_assignment()`
+#’ uses `cutree()` to cut the fitted dendrogram, which assigns clusters based on
+#’ the dendrogram structure rather than proximity to existing cluster members.
+#’ Observations on the boundary between clusters may therefore be assigned to
+#’ different clusters by the two methods.
+#’
+#’ @return A `hier_clust` cluster specification.
 #'
 #' @examples
 #' # Show all engines
