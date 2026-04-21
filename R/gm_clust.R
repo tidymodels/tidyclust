@@ -39,15 +39,16 @@
 #' gm_clust()
 #' @export
 gm_clust <-
-  function(mode = "partition",
-           engine = "mclust",
-           num_clusters = NULL,
-           circular = TRUE,
-           shared_size = TRUE,
-           zero_covariance = TRUE,
-           shared_orientation = TRUE,
-           shared_shape = TRUE
-           ) {
+  function(
+    mode = "partition",
+    engine = "mclust",
+    num_clusters = NULL,
+    circular = TRUE,
+    shared_size = TRUE,
+    zero_covariance = TRUE,
+    shared_orientation = TRUE,
+    shared_shape = TRUE
+  ) {
     args <- list(
       num_clusters = enquo(num_clusters),
       circular = enquo(circular),
@@ -85,18 +86,22 @@ print.gm_clust <- function(x, ...) {
 #' @method update gm_clust
 #' @rdname tidyclust_update
 #' @export
-update.gm_clust <- function(object,
-                            parameters = NULL,
-                            num_clusters = NULL,
-                            circular = NULL,
-                            zero_covariance = NULL,
-                            shared_orientation = NULL,
-                            shared_shape = NULL,
-                            shared_size = NULL,
-                            fresh = FALSE, ...) {
+update.gm_clust <- function(
+  object,
+  parameters = NULL,
+  num_clusters = NULL,
+  circular = NULL,
+  zero_covariance = NULL,
+  shared_orientation = NULL,
+  shared_shape = NULL,
+  shared_size = NULL,
+  fresh = FALSE,
+  ...
+) {
   eng_args <- parsnip::update_engine_parameters(
     object$eng_args,
-    fresh = fresh, ...
+    fresh = fresh,
+    ...
   )
 
   if (!is.null(parameters)) {
@@ -154,7 +159,9 @@ check_args.gm_clust <- function(object) {
   }
 
   if (all(!is.logical(args$circular))) {
-    cli::cli_abort("The circular cluster shape argument should be TRUE or FALSE.")
+    cli::cli_abort(
+      "The circular cluster shape argument should be TRUE or FALSE."
+    )
   }
 
   if (all(!is.logical(args$zero_covariance))) {
@@ -162,7 +169,9 @@ check_args.gm_clust <- function(object) {
   }
 
   if (all(!is.logical(args$shared_orientation))) {
-    cli::cli_abort("The shared cluster orientation argument should be TRUE or FALSE.")
+    cli::cli_abort(
+      "The shared cluster orientation argument should be TRUE or FALSE."
+    )
   }
 
   if (all(!is.logical(args$shared_shape))) {
@@ -201,14 +210,16 @@ translate_tidyclust.gm_clust <- function(x, engine = x$engine, ...) {
 #' @return mclust object
 #' @keywords internal
 #' @export
-.gm_clust_fit_mclust <- function(x,
-                                 num_clusters = NULL,
-                                 circular = NULL,
-                                 zero_covariance = NULL,
-                                 shared_orientation = NULL,
-                                 shared_shape = NULL,
-                                 shared_size = NULL,
-                                 ...) {
+.gm_clust_fit_mclust <- function(
+  x,
+  num_clusters = NULL,
+  circular = NULL,
+  zero_covariance = NULL,
+  shared_orientation = NULL,
+  shared_shape = NULL,
+  shared_size = NULL,
+  ...
+) {
   if (is.null(num_clusters)) {
     cli::cli_abort(
       "Please specify `num_clusters` to be able to fit specification.",
@@ -228,7 +239,6 @@ translate_tidyclust.gm_clust <- function(x, engine = x$engine, ...) {
     )
   }
   if (!circular) {
-
     if (is.null(zero_covariance)) {
       cli::cli_abort(
         "Please specify `zero_covariance` to be able to fit specification.",
@@ -244,7 +254,6 @@ translate_tidyclust.gm_clust <- function(x, engine = x$engine, ...) {
     }
 
     if (!zero_covariance) {
-
       if (is.null(shared_orientation)) {
         cli::cli_abort(
           "Please specify `shared_orientation` to be able to fit specification.",
@@ -256,32 +265,37 @@ translate_tidyclust.gm_clust <- function(x, engine = x$engine, ...) {
 
   if (circular) {
     if (!zero_covariance) {
-      warning("circular = TRUE so zero_covariance = FALSE has no effect on the fitted model specification")
+      warning(
+        "circular = TRUE so zero_covariance = FALSE has no effect on the fitted model specification"
+      )
     }
     if (!shared_orientation) {
-      warning("circular = TRUE so shared_orientation = FALSE has no effect on the fitted model specification")
+      warning(
+        "circular = TRUE so shared_orientation = FALSE has no effect on the fitted model specification"
+      )
     }
     if (!shared_shape) {
-      warning("circular = TRUE so shared_shape = FALSE has no effect on the fitted model specification")
+      warning(
+        "circular = TRUE so shared_shape = FALSE has no effect on the fitted model specification"
+      )
     }
-
   } else {
     if (zero_covariance) {
       if (!shared_orientation) {
-        warning("zero_covariance = TRUE so shared_orientation = FALSE has no effect on the fitted model specification")
+        warning(
+          "zero_covariance = TRUE so shared_orientation = FALSE has no effect on the fitted model specification"
+        )
       }
     }
   }
 
-
-
-  model_name <- mclust_helper(circular,
-                              zero_covariance,
-                              shared_orientation,
-                              shared_shape,
-                              shared_size)
-
-
+  model_name <- mclust_helper(
+    circular,
+    zero_covariance,
+    shared_orientation,
+    shared_shape,
+    shared_size
+  )
 
   res <- mclust::Mclust(x, G = num_clusters, modelNames = model_name)
 
@@ -317,27 +331,60 @@ translate_tidyclust.gm_clust <- function(x, engine = x$engine, ...) {
 #'
 #' @return string containing mclust model name
 #' @keywords internal
-mclust_helper <- function(circular,
-                          zero_covariance,
-                          shared_orientation,
-                          shared_shape,
-                          shared_size) {
+mclust_helper <- function(
+  circular,
+  zero_covariance,
+  shared_orientation,
+  shared_shape,
+  shared_size
+) {
   model_name <- dplyr::case_when(
     circular & shared_size ~ "EII",
     circular & !shared_size ~ "VII",
-    !circular & zero_covariance  & shared_shape & shared_size ~ "EEI",
-    !circular & zero_covariance  & !shared_shape & shared_size ~ "EVI",
-    !circular & zero_covariance  & shared_shape & !shared_size ~ "VEI",
-    !circular & zero_covariance  & !shared_shape & !shared_size ~ "VVI",
-    !circular & !zero_covariance & shared_orientation & shared_shape & shared_size ~ "EEE",
-    !circular & !zero_covariance & shared_orientation & !shared_shape & shared_size ~ "EVE",
-    !circular & !zero_covariance & shared_orientation & shared_shape & !shared_size ~ "VEE",
-    !circular & !zero_covariance & shared_orientation & !shared_shape & !shared_size ~ "VVE",
-    !circular & !zero_covariance & !shared_orientation & shared_shape & shared_size ~ "EEV",
-    !circular & !zero_covariance & !shared_orientation & !shared_shape & shared_size ~ "EVV",
-    !circular & !zero_covariance & !shared_orientation & shared_shape & !shared_size ~ "VEV",
-    !circular & !zero_covariance & !shared_orientation & !shared_shape & !shared_size ~ "VVV"
+    !circular & zero_covariance & shared_shape & shared_size ~ "EEI",
+    !circular & zero_covariance & !shared_shape & shared_size ~ "EVI",
+    !circular & zero_covariance & shared_shape & !shared_size ~ "VEI",
+    !circular & zero_covariance & !shared_shape & !shared_size ~ "VVI",
+    !circular &
+      !zero_covariance &
+      shared_orientation &
+      shared_shape &
+      shared_size ~ "EEE",
+    !circular &
+      !zero_covariance &
+      shared_orientation &
+      !shared_shape &
+      shared_size ~ "EVE",
+    !circular &
+      !zero_covariance &
+      shared_orientation &
+      shared_shape &
+      !shared_size ~ "VEE",
+    !circular &
+      !zero_covariance &
+      shared_orientation &
+      !shared_shape &
+      !shared_size ~ "VVE",
+    !circular &
+      !zero_covariance &
+      !shared_orientation &
+      shared_shape &
+      shared_size ~ "EEV",
+    !circular &
+      !zero_covariance &
+      !shared_orientation &
+      !shared_shape &
+      shared_size ~ "EVV",
+    !circular &
+      !zero_covariance &
+      !shared_orientation &
+      shared_shape &
+      !shared_size ~ "VEV",
+    !circular &
+      !zero_covariance &
+      !shared_orientation &
+      !shared_shape &
+      !shared_size ~ "VVV"
   )
   model_name
 }
-

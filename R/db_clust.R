@@ -37,10 +37,12 @@
 #' db_clust()
 #' @export
 db_clust <-
-  function(mode = "partition",
-           engine = "dbscan",
-           radius = NULL,
-           min_points = NULL) {
+  function(
+    mode = "partition",
+    engine = "dbscan",
+    radius = NULL,
+    min_points = NULL
+  ) {
     args <- list(
       radius = enquo(radius),
       min_points = enquo(min_points)
@@ -74,14 +76,18 @@ print.db_clust <- function(x, ...) {
 #' @method update db_clust
 #' @rdname tidyclust_update
 #' @export
-update.db_clust <- function(object,
-                              parameters = NULL,
-                              radius = NULL,
-                              min_points = NULL,
-                              fresh = FALSE, ...) {
+update.db_clust <- function(
+  object,
+  parameters = NULL,
+  radius = NULL,
+  min_points = NULL,
+  fresh = FALSE,
+  ...
+) {
   eng_args <- parsnip::update_engine_parameters(
     object$eng_args,
-    fresh = fresh, ...
+    fresh = fresh,
+    ...
   )
 
   if (!is.null(parameters)) {
@@ -158,10 +164,7 @@ translate_tidyclust.db_clust <- function(x, engine = x$engine, ...) {
 #' @return dbscan object
 #' @keywords internal
 #' @export
-.db_clust_fit_dbscan <- function(x,
-                                 radius = NULL,
-                                 min_points = NULL,
-                                 ...) {
+.db_clust_fit_dbscan <- function(x, radius = NULL, min_points = NULL, ...) {
   if (is.null(radius)) {
     cli::cli_abort(
       "Please specify `radius` to be able to fit specification.",
@@ -195,13 +198,11 @@ translate_tidyclust.db_clust <- function(x, engine = x$engine, ...) {
 #'
 #' @return numeric vector
 #' @keywords internal
-dbscan_helper <- function(object,
-                          ...) {
-
+dbscan_helper <- function(object, ...) {
   is_core <- attr(object, "is_core")
   training_data <- data.frame(attr(object, "training_data"))
-  cp <- training_data[is_core,]
-  non_cp <- training_data[!is_core,]
+  cp <- training_data[is_core, ]
+  non_cp <- training_data[!is_core, ]
   cp_clusters <- object$cluster[is_core]
   eps <- attr(object, "radius")
 
@@ -216,15 +217,13 @@ dbscan_helper <- function(object,
   }
 
   # get fit values according to closest core point
-  nn <- dbscan::frNN(cp,
-             query = non_cp,
-             eps = eps,
-             sort = TRUE)
+  nn <- dbscan::frNN(cp, query = non_cp, eps = eps, sort = TRUE)
 
   non_cp_clusters <- vapply(
-    nn$id, function(nns) if (length(nns) == 0L) 0L else cp_clusters[nns[1L]], integer(1L)
+    nn$id,
+    function(nns) if (length(nns) == 0L) 0L else cp_clusters[nns[1L]],
+    integer(1L)
   )
-
 
   # join back separated fits into proper order in training data
   non_cp_clusters <- data.frame(non_cp_clusters)
@@ -236,14 +235,31 @@ dbscan_helper <- function(object,
   non_cp_clusters$is_core <- "non cp"
   cp_clusters$is_core <- "cp"
 
-  training_data$id <- stats::ave(training_data$is_core, training_data$is_core, FUN = seq_along)
+  training_data$id <- stats::ave(
+    training_data$is_core,
+    training_data$is_core,
+    FUN = seq_along
+  )
   non_cp_clusters$id <- 1:nrow(non_cp_clusters)
   cp_clusters$id <- 1:nrow(cp_clusters)
 
-  training_data <- merge(x = training_data, y = non_cp_clusters, by = c("id", "is_core"), all.x = TRUE)
-  training_data <- merge(x = training_data, y = cp_clusters, by = c("id", "is_core"), all.x = TRUE)
+  training_data <- merge(
+    x = training_data,
+    y = non_cp_clusters,
+    by = c("id", "is_core"),
+    all.x = TRUE
+  )
+  training_data <- merge(
+    x = training_data,
+    y = cp_clusters,
+    by = c("id", "is_core"),
+    all.x = TRUE
+  )
 
-  training_data$cluster <- ifelse(!is.na(training_data$non_cp_clusters), training_data$non_cp_clusters, training_data$cp_clusters)
+  training_data$cluster <- ifelse(
+    !is.na(training_data$non_cp_clusters),
+    training_data$non_cp_clusters,
+    training_data$cp_clusters
+  )
   training_data$cluster[order(training_data$overall_order)]
-
 }

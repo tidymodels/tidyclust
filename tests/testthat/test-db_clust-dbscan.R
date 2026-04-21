@@ -22,16 +22,17 @@ test_that("predicting", {
   iris_temp <- iris %>% dplyr::select(-Species)
   res <- fit(spec, ~., iris_temp)
 
-
-  preds <- predict(res, iris_temp[c(58 ,25, 75, 125), ])
-  exp <- factor(c("Outlier", paste0("Cluster_", 1:3)), levels = c("Outlier", paste0("Cluster_", 1:3)))
+  preds <- predict(res, iris_temp[c(58, 25, 75, 125), ])
+  exp <- factor(
+    c("Outlier", paste0("Cluster_", 1:3)),
+    levels = c("Outlier", paste0("Cluster_", 1:3))
+  )
 
   expect_identical(
     preds,
     tibble::tibble(.pred_cluster = exp)
   )
 })
-
 
 
 test_that("all levels are preserved with 1 row predictions", {
@@ -87,7 +88,6 @@ test_that("extract_cluster_assignment() works", {
     as.factor() %>%
     relevel(ref = "Outlier") %>%
     tibble::tibble(.cluster = .)
-
 
   expect_identical(
     clusters,

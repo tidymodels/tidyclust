@@ -72,14 +72,12 @@ make_db_clust <- function() {
       pre = NULL,
       post = NULL,
       func = c(fun = ".db_clust_predict_dbscan"),
-      args =
-        list(
-          object = rlang::expr(object$fit),
-          new_data = rlang::expr(new_data)
-        )
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
     )
   )
-
 }
 
 # nocov end

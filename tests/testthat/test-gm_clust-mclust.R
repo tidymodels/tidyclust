@@ -1,5 +1,4 @@
 test_that("fitting", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -16,7 +15,6 @@ test_that("fitting", {
 })
 
 test_that("predicting", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -34,7 +32,6 @@ test_that("predicting", {
 })
 
 test_that("all levels are preserved with 1 row predictions", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -52,7 +49,6 @@ test_that("all levels are preserved with 1 row predictions", {
 })
 
 test_that("extract_centroids() works", {
-
   skip_if_not_installed("mclust")
 
   set.seed(1234)
@@ -65,8 +61,15 @@ test_that("extract_centroids() works", {
 
   expect_identical(
     colnames(centroids),
-    c(".cluster", "Sepal.Length", "Sepal.Width", "Petal.Length",
-      "Petal.Width", "Speciesversicolor", "Speciesvirginica")
+    c(
+      ".cluster",
+      "Sepal.Length",
+      "Sepal.Width",
+      "Petal.Length",
+      "Petal.Width",
+      "Speciesversicolor",
+      "Speciesvirginica"
+    )
   )
 
   expect_identical(
@@ -87,7 +90,9 @@ test_that("extract_cluster_assignment() works", {
   res$fit$classification
 
   expected <- vctrs::vec_cbind(
-    tibble::tibble(.cluster = factor(paste0("Cluster_", res$fit$classification)))
+    tibble::tibble(
+      .cluster = factor(paste0("Cluster_", res$fit$classification))
+    )
   )
 
   expect_identical(
