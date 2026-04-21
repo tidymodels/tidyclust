@@ -45,6 +45,16 @@
   ([\#206](https://github.com/tidymodels/tidyclust/issues/206),
   [@lgaborini](https://github.com/lgaborini))
 
+- [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
+  now has `direction = "maximize"` instead of `direction = "zero"`, so
+  that
+  [`show_best()`](https://tune.tidymodels.org/reference/show_best.html)
+  and
+  [`select_best()`](https://tune.tidymodels.org/reference/show_best.html)
+  correctly return models with the highest silhouette values.
+  ([\#212](https://github.com/tidymodels/tidyclust/issues/212),
+  [@dnldelarosa](https://github.com/dnldelarosa))
+
 ## tidyclust 0.2.4
 
 CRAN release: 2025-01-27

@@ -56,7 +56,14 @@ A double; the average silhouette.
 
 Not to be confused with
 [`silhouette()`](https://tidyclust.tidymodels.org/dev/reference/silhouette.md)
-that returns a tibble with silhouette for each observation.
+that returns a tibble with silhouette for each observation. The
+silhouette coefficient ranges from -1 to 1, where values close to 1
+indicate well-separated clusters. This metric has
+`direction = "maximize"`, so
+[`tune::select_best()`](https://tune.tidymodels.org/reference/show_best.html)
+and
+[`tune::show_best()`](https://tune.tidymodels.org/reference/show_best.html)
+will return models with the highest silhouette values.
 
 ## See also
 

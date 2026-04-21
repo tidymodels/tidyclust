@@ -98,7 +98,10 @@ Defaults to Euclidean distance on processed data.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Not to be confused with <code><a href="silhouette.html">silhouette()</a></code> that returns a tibble
-with silhouette for each observation.</p>
+with silhouette for each observation. The silhouette coefficient ranges
+from -1 to 1, where values close to 1 indicate well-separated clusters.
+This metric has <code>direction = "maximize"</code>, so <code><a href="https://tune.tidymodels.org/reference/show_best.html" class="external-link">tune::select_best()</a></code> and
+<code><a href="https://tune.tidymodels.org/reference/show_best.html" class="external-link">tune::show_best()</a></code> will return models with the highest silhouette values.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
