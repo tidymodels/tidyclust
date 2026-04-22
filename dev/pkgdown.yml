@@ -7,7 +7,7 @@ articles:
   articles/hier_clust: hier_clust.html
   articles/k_means: k_means.html
   articles/tuning_and_metrics: tuning_and_metrics.html
-last_built: 2026-04-21T19:56Z
+last_built: 2026-04-22T00:40Z
 urls:
   reference: https://tidyclust.tidymodels.org/reference
   article: https://tidyclust.tidymodels.org/articles

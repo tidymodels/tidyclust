@@ -2,6 +2,15 @@
 
 ## tidyclust (development version)
 
+- [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  now warns when passed an
+  [`apparent()`](https://rsample.tidymodels.org/reference/apparent.html)
+  resample. Metrics from apparent resamples are excluded by
+  `collect_metrics(summarize = TRUE)` (the default) since tune 1.2.0,
+  which caused unexpected `NA` values. Use
+  `collect_metrics(summarize = FALSE)` to see per-resample metrics.
+  ([\#193](https://github.com/tidymodels/tidyclust/issues/193))
+
 - [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
   documentation now clarifies that
   [`predict()`](https://rdrr.io/r/stats/predict.html) may not match
