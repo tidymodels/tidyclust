@@ -184,3 +184,19 @@
       Error in `check_grid()`:
       ! `grid` should be a positive integer or a data frame.
 
+# tune_cluster warns on apparent resamples
+
+    Code
+      tune_cluster(wflow, resamples = apparent_rs, grid = grid)
+    Condition
+      Warning:
+      `tune_cluster()` was passed an `apparent()` resample.
+      i Metrics from apparent resamples are excluded when summarizing with `collect_metrics(summarize = TRUE)` (the default). Use `collect_metrics(summarize = FALSE)` to see per-resample metrics.
+    Output
+      # Tuning results
+      # Apparent sampling 
+      # A tibble: 1 x 4
+        splits          id       .metrics         .notes          
+        <list>          <chr>    <list>           <list>          
+      1 <split [32/32]> Apparent <tibble [4 x 5]> <tibble [0 x 4]>
+

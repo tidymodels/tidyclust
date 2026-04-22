@@ -633,3 +633,18 @@ test_that("check_grid errors when numeric grid < 1", {
     tune_cluster(wflow, resamples = folds, grid = 0)
   )
 })
+
+test_that("tune_cluster warns on apparent resamples", {
+  helper_objects <- helper_objects_tidyclust()
+
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+
+  apparent_rs <- rsample::apparent(mtcars)
+  grid <- data.frame(num_clusters = 2:3)
+
+  expect_snapshot(
+    tune_cluster(wflow, resamples = apparent_rs, grid = grid)
+  )
+})

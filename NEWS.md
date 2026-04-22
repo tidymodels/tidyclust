@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `tune_cluster()` now warns when passed an `apparent()` resample. Metrics from apparent resamples are excluded by `collect_metrics(summarize = TRUE)` (the default) since tune 1.2.0, which caused unexpected `NA` values. Use `collect_metrics(summarize = FALSE)` to see per-resample metrics. (#193)
+
 * `hier_clust()` documentation now clarifies that `predict()` may not match `extract_cluster_assignment()` on training data. This is expected behavior: `predict()` uses a distance-based heuristic while `extract_cluster_assignment()` uses `cutree()` based on the dendrogram structure. (#208)
 
 ## New Clustering Specifications
