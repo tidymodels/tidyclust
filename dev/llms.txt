@@ -286,6 +286,8 @@ Dials objects.
 
 ## Developer tools
 
+- [`contr_one_hot()`](https://tidyclust.tidymodels.org/dev/reference/contr_one_hot.md)
+  : One-hot contrast matrix
 - [`extract_fit_summary()`](https://tidyclust.tidymodels.org/dev/reference/extract_fit_summary.md)
   : S3 method to get fitted model summary info depending on engine
 - [`get_centroid_dists()`](https://tidyclust.tidymodels.org/dev/reference/get_centroid_dists.md)

@@ -2,6 +2,13 @@
 
 ## tidyclust (development version)
 
+- `contr_one_hot` is now exported, fixing the `indicators = "one_hot"`
+  code path in
+  [`.convert_form_to_x_fit()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md)
+  and
+  [`.convert_form_to_x_new()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md).
+  ([\#218](https://github.com/tidymodels/tidyclust/issues/218))
+
 - [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
   and
   [`finalize_workflow_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
