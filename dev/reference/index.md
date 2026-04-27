@@ -96,7 +96,7 @@ Functions to allow multiple cluster specifications to be fit at once.
   : Update a cluster specification
 - [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
   [`finalize_workflow_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
-  : Splice final parameters into objects
+  **\[deprecated\]** : Splice final parameters into objects
 - [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   : Model tuning via grid search
 

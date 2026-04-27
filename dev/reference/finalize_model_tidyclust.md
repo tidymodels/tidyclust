@@ -1,7 +1,12 @@
 # Splice final parameters into objects
 
-The `finalize_*` functions take a list or tibble of tuning parameter
-values and update objects with those values.
+**\[deprecated\]**
+
+These functions are deprecated. Please use
+[`tune::finalize_model()`](https://tune.tidymodels.org/reference/finalize_model.html)
+and
+[`tune::finalize_workflow()`](https://tune.tidymodels.org/reference/finalize_model.html)
+instead, which now support `cluster_spec` objects natively.
 
 ## Usage
 
@@ -33,21 +38,22 @@ An updated version of `x`.
 
 ``` r
 kmeans_spec <- k_means(num_clusters = tune())
-kmeans_spec
+best_params <- data.frame(num_clusters = 5)
+
+# Old:
+finalize_model_tidyclust(kmeans_spec, best_params)
+#> Warning: `finalize_model_tidyclust()` was deprecated in tidyclust 0.3.0.
+#> ℹ Please use `tune::finalize_model()` instead.
 #> K Means Cluster Specification (partition)
 #> 
 #> Main Arguments:
-#>   num_clusters = tune()
+#>   num_clusters = 5
 #> 
 #> Computational engine: stats 
 #> 
 
-best_params <- data.frame(num_clusters = 5)
-best_params
-#>   num_clusters
-#> 1            5
-
-finalize_model_tidyclust(kmeans_spec, best_params)
+# New:
+tune::finalize_model(kmeans_spec, best_params)
 #> K Means Cluster Specification (partition)
 #> 
 #> Main Arguments:

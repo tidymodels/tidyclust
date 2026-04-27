@@ -2,6 +2,16 @@
 
 ## tidyclust (development version)
 
+- [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
+  and
+  [`finalize_workflow_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
+  are deprecated. Use
+  [`tune::finalize_model()`](https://tune.tidymodels.org/reference/finalize_model.html)
+  and
+  [`tune::finalize_workflow()`](https://tune.tidymodels.org/reference/finalize_model.html)
+  instead, which now support `cluster_spec` objects natively.
+  ([\#223](https://github.com/tidymodels/tidyclust/issues/223))
+
 - [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   now warns when passed an
   [`apparent()`](https://rsample.tidymodels.org/reference/apparent.html)
