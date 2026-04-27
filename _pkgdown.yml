@@ -77,6 +77,7 @@ reference:
   - linkage_method
 - title: Developer tools
   contents:
+  - contr_one_hot
   - extract_fit_summary
   - get_centroid_dists
   - new_cluster_metric
