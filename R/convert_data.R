@@ -135,6 +135,15 @@ check_form_dots <- function(x) {
   invisible(NULL)
 }
 
+#' One-hot contrast matrix
+#'
+#' A re-export of [hardhat::contr_one_hot()] for use with
+#' `indicators = "one_hot"`.
+#'
+#' @inheritParams hardhat::contr_one_hot
+#' @export
+contr_one_hot <- hardhat::contr_one_hot
+
 local_one_hot_contrasts <- function(frame = rlang::caller_env()) {
   contrasts <- getOption("contrasts")
   contrasts["unordered"] <- "contr_one_hot"

@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `contr_one_hot` is now exported, fixing the `indicators = "one_hot"` code path in `.convert_form_to_x_fit()` and `.convert_form_to_x_new()`. (#218)
+
 * `finalize_model_tidyclust()` and `finalize_workflow_tidyclust()` are deprecated. Use `tune::finalize_model()` and `tune::finalize_workflow()` instead, which now support `cluster_spec` objects natively. (#223)
 
 * `tune_cluster()` now warns when passed an `apparent()` resample. Metrics from apparent resamples are excluded by `collect_metrics(summarize = TRUE)` (the default) since tune 1.2.0, which caused unexpected `NA` values. Use `collect_metrics(summarize = FALSE)` to see per-resample metrics. (#193)
