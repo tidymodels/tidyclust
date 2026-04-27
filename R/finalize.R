@@ -2,8 +2,12 @@
 
 #' Splice final parameters into objects
 #'
-#' The `finalize_*` functions take a list or tibble of tuning parameter values
-#' and update objects with those values.
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' These functions are deprecated. Please use [tune::finalize_model()] and
+#' [tune::finalize_workflow()] instead, which now support `cluster_spec`
+#' objects natively.
 #'
 #' @param x A recipe, `parsnip` model specification, or workflow.
 #' @param parameters A list or 1-row tibble of parameter values. Note that the
@@ -13,14 +17,20 @@
 #' @return An updated version of `x`.
 #' @examples
 #' kmeans_spec <- k_means(num_clusters = tune())
-#' kmeans_spec
-#'
 #' best_params <- data.frame(num_clusters = 5)
-#' best_params
 #'
+#' # Old:
 #' finalize_model_tidyclust(kmeans_spec, best_params)
+#'
+#' # New:
+#' tune::finalize_model(kmeans_spec, best_params)
 #' @export
 finalize_model_tidyclust <- function(x, parameters) {
+  lifecycle::deprecate_warn(
+    "0.3.0",
+    "finalize_model_tidyclust()",
+    "tune::finalize_model()"
+  )
   if (!inherits(x, "cluster_spec")) {
     cli::cli_abort("{.arg x} should be a tidyclust model specification.")
   }
@@ -45,6 +55,11 @@ finalize_model_tidyclust <- function(x, parameters) {
 #' @rdname finalize_model_tidyclust
 #' @export
 finalize_workflow_tidyclust <- function(x, parameters) {
+  lifecycle::deprecate_warn(
+    "0.3.0",
+    "finalize_workflow_tidyclust()",
+    "tune::finalize_workflow()"
+  )
   if (!inherits(x, "workflow")) {
     cli::cli_abort("{.arg x} should be {.obj_type_friendly workflow}")
   }

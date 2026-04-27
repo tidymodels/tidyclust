@@ -21,15 +21,19 @@ this case, the parameter tibble should be "K" and not "neighbors".}
 An updated version of \code{x}.
 }
 \description{
-The \verb{finalize_*} functions take a list or tibble of tuning parameter values
-and update objects with those values.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+These functions are deprecated. Please use \code{\link[tune:finalize_model]{tune::finalize_model()}} and
+\code{\link[tune:finalize_model]{tune::finalize_workflow()}} instead, which now support \code{cluster_spec}
+objects natively.
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = tune())
-kmeans_spec
-
 best_params <- data.frame(num_clusters = 5)
-best_params
 
+# Old:
 finalize_model_tidyclust(kmeans_spec, best_params)
+
+# New:
+tune::finalize_model(kmeans_spec, best_params)
 }
