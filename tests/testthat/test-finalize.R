@@ -1,4 +1,6 @@
 test_that("finalize_model_tidyclust() updates parameters", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   spec <- k_means(num_clusters = tune())
   params <- data.frame(num_clusters = 5)
 
@@ -9,6 +11,8 @@ test_that("finalize_model_tidyclust() updates parameters", {
 })
 
 test_that("finalize_model_tidyclust() works with tibble parameters", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   spec <- k_means(num_clusters = tune())
   params <- tibble::tibble(num_clusters = 3)
 
@@ -19,13 +23,24 @@ test_that("finalize_model_tidyclust() works with tibble parameters", {
 })
 
 test_that("finalize_model_tidyclust() errors on non-cluster_spec", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_snapshot(
     error = TRUE,
     finalize_model_tidyclust("not a spec", data.frame(num_clusters = 5))
   )
 })
 
+test_that("finalize_model_tidyclust() is deprecated", {
+  spec <- k_means(num_clusters = tune())
+  params <- data.frame(num_clusters = 5)
+
+  expect_snapshot(. <- finalize_model_tidyclust(spec, params))
+})
+
 test_that("finalize_workflow_tidyclust() works with workflows", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   spec <- k_means(num_clusters = tune())
   wf <- workflows::workflow() |>
     workflows::add_model(spec) |>
@@ -41,8 +56,20 @@ test_that("finalize_workflow_tidyclust() works with workflows", {
 })
 
 test_that("finalize_workflow_tidyclust() errors on non-workflow", {
+  withr::local_options(lifecycle_verbosity = "quiet")
+
   expect_snapshot(
     error = TRUE,
     finalize_workflow_tidyclust("not a workflow", data.frame(num_clusters = 5))
   )
+})
+
+test_that("finalize_workflow_tidyclust() is deprecated", {
+  spec <- k_means(num_clusters = tune())
+  wf <- workflows::workflow() |>
+    workflows::add_model(spec) |>
+    workflows::add_formula(~.)
+  params <- data.frame(num_clusters = 4)
+
+  expect_snapshot(. <- finalize_workflow_tidyclust(wf, params))
 })
