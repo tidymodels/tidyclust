@@ -27,8 +27,6 @@ test_that(".convert_form_to_x_fit() processes subset argument", {
 })
 
 test_that(".convert_form_to_x_fit() works with one_hot indicators", {
-  skip("contr_one_hot not available in tidyclust")
-
   data <- data.frame(x = 1:10, cat = factor(rep(c("a", "b"), 5)))
   res <- .convert_form_to_x_fit(~., data, indicators = "one_hot")
 
@@ -127,8 +125,6 @@ test_that(".convert_form_to_x_new() works with data.frame composition", {
 })
 
 test_that(".convert_form_to_x_new() works with one_hot indicators", {
-  skip("contr_one_hot not available in tidyclust")
-
   data <- data.frame(x = 1:10, cat = factor(rep(c("a", "b"), 5)))
 
   preproc <- .convert_form_to_x_fit(~., data, indicators = "one_hot")
