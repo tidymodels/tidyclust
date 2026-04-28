@@ -1,4 +1,13 @@
 # https://github.com/tidymodels/parsnip/blob/main/R/required_pkgs.R
+
+#' Get required packages for a cluster object
+#'
+#' @param x A [`cluster_spec`] or [`cluster_fit`] object.
+#' @param infra A logical. Should tidyclust itself be included in the result?
+#' @param ... Currently unused.
+#' @return A character vector of required package names.
+#' @rdname required_pkgs.cluster_spec
+#' @keywords internal
 #' @export
 required_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
   if (is.null(x$engine)) {
@@ -7,6 +16,7 @@ required_pkgs.cluster_spec <- function(x, infra = TRUE, ...) {
   get_pkgs(x, infra)
 }
 
+#' @rdname required_pkgs.cluster_spec
 #' @export
 required_pkgs.cluster_fit <- function(x, infra = TRUE, ...) {
   get_pkgs(x$spec, infra)

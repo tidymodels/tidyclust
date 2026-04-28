@@ -1,5 +1,12 @@
 # https://github.com/tidymodels/parsnip/blob/main/R/tunable.R
 
+#' Get tunable parameters for a cluster specification
+#'
+#' @inheritParams generics::tunable
+#' @return A tibble with columns `name`, `call_info`, `source`, `component`,
+#'   and `component_id` describing each tunable parameter.
+#' @rdname tunable.cluster_spec
+#' @keywords internal
 #' @export
 tunable.cluster_spec <- function(x, ...) {
   mod_env <- rlang::ns_env("modelenv")$modelenv
@@ -54,6 +61,7 @@ add_engine_parameters <- function(pset, engines) {
   pset
 }
 
+#' @rdname tunable.cluster_spec
 #' @export
 tunable.k_means <- function(x, ...) {
   res <- NextMethod()
@@ -78,6 +86,7 @@ stats_k_means_engine_args <-
   )
 
 
+#' @rdname tunable.cluster_spec
 #' @export
 tunable.db_clust <- function(x, ...) {
   res <- NextMethod()
@@ -103,6 +112,7 @@ dbscan_db_clust_engine_args <-
   )
 
 
+#' @rdname tunable.cluster_spec
 #' @export
 tunable.gm_clust <- function(x, ...) {
   res <- NextMethod()

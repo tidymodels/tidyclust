@@ -1,5 +1,12 @@
 # https://github.com/tidymodels/parsnip/blob/main/R/print.R
 
+#' Print a cluster object
+#'
+#' @param x A [`cluster_fit`] or [`cluster_spec`] object.
+#' @param ... Arguments passed to the underlying print method.
+#' @return The input `x`, invisibly.
+#' @rdname print.cluster_fit
+#' @keywords internal
 #' @export
 print.cluster_fit <- function(x, ...) {
   cat("tidyclust cluster object\n\n")
@@ -18,6 +25,7 @@ print.cluster_fit <- function(x, ...) {
   invisible(x)
 }
 
+#' @rdname print.cluster_fit
 #' @export
 print.cluster_spec <- function(x, ...) {
   cat("Cluster Specification (", x$mode, ")\n\n", sep = "")

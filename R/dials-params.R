@@ -3,6 +3,8 @@
 #' Used in most `tidyclust::hier_clust()` models.
 #'
 #' @inheritParams dials::Laplace
+#' @return A `dials` parameter object for use with [tune::tune_grid()] and
+#'   related functions.
 #' @examples
 #' cut_height()
 #' @export
@@ -24,6 +26,8 @@ cut_height <- function(range = c(0, dials::unknown()), trans = NULL) {
 #'
 #' @details
 #' This parameter is used in `tidyclust` models for `hier_clust()`.
+#' @return A `dials` parameter object for use with [tune::tune_grid()] and
+#'   related functions.
 #' @examples
 #' values_linkage_method
 #' linkage_method()

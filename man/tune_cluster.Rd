@@ -67,6 +67,32 @@ useful for debugging.
 of tuning parameters that correspond to a cluster model or recipe across one
 or more resamples of the data.
 }
+\section{Choosing metrics}{
+
+
+The \code{metrics} argument accepts a \code{\link[=cluster_metric_set]{cluster_metric_set()}}. If \code{NULL}, the
+default metrics are \code{\link[=sse_within_total]{sse_within_total()}} and \code{\link[=sse_total]{sse_total()}}.
+
+Common metrics and their interpretation:
+\itemize{
+\item \code{\link[=sse_within_total]{sse_within_total()}}: Total within-cluster sum of squares. Lower values
+indicate tighter, more compact clusters. Use the "elbow method" — plot
+this against \code{num_clusters} and look for where the improvement flattens.
+\item \code{\link[=sse_ratio]{sse_ratio()}}: Ratio of within-cluster SS to total SS. Lower is better
+(more variance explained by the clustering).
+\item \code{\link[=silhouette_avg]{silhouette_avg()}}: Average silhouette width (range -1 to 1). Higher
+values indicate better-separated clusters. Values above 0.5 are generally
+considered good.
+}
+
+After tuning, use these functions to inspect results:
+\itemize{
+\item \code{\link[tune:collect_predictions]{tune::collect_metrics()}}: All metrics for every parameter combination.
+\item \code{\link[tune:show_best]{tune::show_best()}}: Top N parameter combinations for a given metric.
+\item \code{\link[tune:show_best]{tune::select_best()}}: Single best parameter combination.
+}
+}
+
 \section{Configuration column}{
 
 The \code{.config} column in the results follows the pattern

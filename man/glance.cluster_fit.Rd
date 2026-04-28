@@ -12,8 +12,20 @@
 \item{...}{other arguments passed to methods}
 }
 \value{
-a tibble
+A one-row tibble with model-level summary statistics such as total
+within-cluster sum of squares, between-cluster sum of squares, and number
+of iterations. Support depends on the underlying engine.
 }
 \description{
 This method glances the model in a tidyclust model object, if it exists.
+}
+\examples{
+# glance() support depends on the underlying engine.
+\dontrun{
+kmeans_fit <- k_means(num_clusters = 3) |>
+  set_engine("stats") |>
+  fit(~., mtcars)
+
+glance(kmeans_fit)
+}
 }

@@ -1,0 +1,139 @@
+---
+title: "Getting started with tidyclust"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with tidyclust}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyclust)
+```
+
+## Introduction
+
+tidyclust provides a unified, tidy interface to clustering models, following
+the same design patterns as [parsnip](https://parsnip.tidymodels.org/). It
+lets you swap clustering algorithms by changing a single line, and integrates
+seamlessly with the rest of the tidymodels ecosystem (recipes, workflows,
+tune).
+
+## The tidyclust workflow
+
+Every tidyclust analysis follows the same four steps:
+
+1. **Create a model specification** — choose the algorithm and its parameters.
+2. **Fit the specification** — train the model on data.
+3. **Extract results** — get cluster assignments, centroids, and summaries.
+4. **Evaluate** — use built-in metrics to assess cluster quality.
+
+## K-means example
+
+### 1. Create a specification
+
+```{r}
+kmeans_spec <- k_means(num_clusters = 3) |>
+  set_engine("stats")
+
+kmeans_spec
+```
+
+### 2. Fit to data
+
+```{r}
+set.seed(1234)
+kmeans_fit <- fit(kmeans_spec, ~., data = mtcars)
+kmeans_fit
+```
+
+### 3. Extract results
+
+`extract_cluster_assignment()` returns the cluster label for each training
+observation:
+
+```{r}
+extract_cluster_assignment(kmeans_fit)
+```
+
+`extract_centroids()` returns the location (mean) of each cluster:
+
+```{r}
+extract_centroids(kmeans_fit)
+```
+
+`predict()` assigns new observations to clusters:
+
+```{r}
+predict(kmeans_fit, new_data = mtcars[1:5, ])
+```
+
+`augment()` appends the cluster assignment to the original data:
+
+```{r}
+augment(kmeans_fit, new_data = mtcars)
+```
+
+### 4. Evaluate
+
+tidyclust provides several cluster quality metrics:
+
+```{r}
+sse_within_total(kmeans_fit, mtcars)
+sse_ratio(kmeans_fit, mtcars)
+silhouette_avg(kmeans_fit, mtcars)
+```
+
+Lower `sse_within_total()` and `sse_ratio()` indicate tighter clusters.
+Higher `silhouette_avg()` (maximum 1) indicates better-separated clusters.
+
+## Hierarchical clustering example
+
+The same workflow applies to `hier_clust()`. The number of clusters is cut
+from the dendrogram at fit time using `num_clusters`:
+
+```{r}
+hclust_spec <- hier_clust(num_clusters = 3) |>
+  set_engine("stats")
+
+hclust_fit <- fit(hclust_spec, ~., data = mtcars)
+
+extract_cluster_assignment(hclust_fit)
+extract_centroids(hclust_fit)
+```
+
+## Tidymodels integration
+
+tidyclust works with the broader tidymodels ecosystem. For example, you can
+preprocess data with a recipe and bundle it with a model in a workflow:
+
+```{r}
+library(recipes)
+library(workflows)
+
+rec <- recipe(~., data = mtcars) |>
+  step_normalize(all_predictors())
+
+wf <- workflow() |>
+  add_recipe(rec) |>
+  add_model(k_means(num_clusters = 3))
+
+wf_fit <- fit(wf, data = mtcars)
+augment(wf_fit, new_data = mtcars)
+```
+
+## Next steps
+
+- Learn about tuning the number of clusters in
+  `vignette("tuning_and_metrics", package = "tidyclust")`.
+- Explore k-means options in `vignette("k_means", package = "tidyclust")`.
+- Explore hierarchical clustering in
+  `vignette("hier_clust", package = "tidyclust")`.

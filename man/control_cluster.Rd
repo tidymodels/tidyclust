@@ -2,9 +2,12 @@
 % Please edit documentation in R/control.R
 \name{control_cluster}
 \alias{control_cluster}
+\alias{print.control_cluster}
 \title{Control the fit function}
 \usage{
 control_cluster(verbosity = 1L, catch = FALSE)
+
+\method{print}{control_cluster}(x, ...)
 }
 \arguments{
 \item{verbosity}{An integer where a value of zero indicates that no messages
@@ -17,10 +20,16 @@ should be seen.}
 \item{catch}{A logical where a value of \code{TRUE} will evaluate the model inside
 of \code{try(, silent = TRUE)}. If the model fails, an object is still returned
 (without an error) that inherits the class "try-error".}
+
+\item{x}{A \code{control_cluster} object.}
+
+\item{...}{Not currently used.}
 }
 \value{
 An S3 object with class "control_cluster" that is a named list with
 the results of the function call
+
+The input \code{x}, invisibly.
 }
 \description{
 Options can be passed to the \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} function that control the
@@ -29,5 +38,16 @@ output and computations.
 \examples{
 control_cluster()
 
+# Catch errors instead of stopping — useful inside loops or tune_cluster()
 control_cluster(catch = TRUE)
+
+# Suppress all output during fitting
+control_cluster(verbosity = 0L)
+
+# Show model output but suppress package loading messages (default)
+control_cluster(verbosity = 1L)
+
+# Show all output including package loading messages
+control_cluster(verbosity = 2L)
 }
+\keyword{internal}

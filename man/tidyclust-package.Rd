@@ -4,20 +4,52 @@
 \name{tidyclust-package}
 \alias{tidyclust}
 \alias{tidyclust-package}
-\title{tidyclust: A Common API to Clustering}
+\title{tidyclust: A Tidy Interface to Clustering}
 \description{
-\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+The tidyclust package provides a tidy, unified interface to clustering
+models, following the same design patterns as parsnip. It creates a
+consistent API across different clustering functions and engines.
+}
+\details{
+\subsection{Model specifications}{
+\itemize{
+\item \code{\link[=k_means]{k_means()}}: K-means clustering (stats, ClusterR, klaR, clustMixType
+engines)
+\item \code{\link[=hier_clust]{hier_clust()}}: Hierarchical/agglomerative clustering (stats engine)
+\item \code{\link[=db_clust]{db_clust()}}: Density-based clustering (dbscan engine)
+\item \code{\link[=gm_clust]{gm_clust()}}: Gaussian mixture model clustering (mclust engine)
+}
+}
 
-A common interface to specifying clustering models, in the same style as 'parsnip'. Creates unified interface across different functions and computational engines.
+\subsection{Key functions}{
+\itemize{
+\item \strong{Fitting}: \code{\link[=fit]{fit()}}, \code{\link[=fit_xy]{fit_xy()}}
+\item \strong{Prediction}: \code{\link[=predict.cluster_fit]{predict.cluster_fit()}}
+\item \strong{Extraction}: \code{\link[=extract_centroids]{extract_centroids()}}, \code{\link[=extract_cluster_assignment]{extract_cluster_assignment()}}
+\item \strong{Metrics}: \code{\link[=silhouette_avg]{silhouette_avg()}}, \code{\link[=sse_within_total]{sse_within_total()}}, \code{\link[=sse_ratio]{sse_ratio()}}
+\item \strong{Tuning}: \code{\link[=tune_cluster]{tune_cluster()}}
+}
+}
+
+\subsection{Getting started}{
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Create a specification
+spec <- k_means(num_clusters = 3)
+
+# Fit to data
+fit <- fit(spec, ~., data = mtcars)
+
+# Extract results
+extract_centroids(fit)
+extract_cluster_assignment(fit)
+}\if{html}{\out{</div>}}
+}
 }
 \seealso{
-Useful links:
 \itemize{
-  \item \url{https://github.com/tidymodels/tidyclust}
-  \item \url{https://tidyclust.tidymodels.org/}
-  \item Report bugs at \url{https://github.com/tidymodels/tidyclust/issues}
+\item Package website: \url{https://tidyclust.tidymodels.org/}
+\item Bug reports: \url{https://github.com/tidymodels/tidyclust/issues}
 }
-
 }
 \author{
 \strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@posit.co} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})

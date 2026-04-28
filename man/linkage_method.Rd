@@ -17,6 +17,10 @@ values_linkage_method
 \item{values}{A character string of possible values. See \code{linkage_methods}
 in examples below.}
 }
+\value{
+A \code{dials} parameter object for use with \code{\link[tune:tune_grid]{tune::tune_grid()}} and
+related functions.
+}
 \description{
 The agglomeration Linkage method
 }

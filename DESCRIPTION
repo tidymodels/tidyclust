@@ -63,5 +63,6 @@ Config/Needs/website: pkgdown, tidymodels, tidyverse, palmerpenguins,
 Config/testthat/edition: 3
 Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
+VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
