@@ -20,7 +20,12 @@ trained cluster assignments from the fitted object are used.}
 \item{dists}{A distance matrix for the data.  If \code{NULL}, distance is computed
 on \code{new_data} using the \code{stats::dist()} function.}
 
-\item{dist_fun}{A custom distance functions.}
+\item{dist_fun}{A function of the form \verb{function(x)} that takes a data
+frame or matrix and returns a \code{dist} object. Defaults to
+\code{philentropy::distance} with Euclidean distance. See
+\code{philentropy::getDistMethods()} for a list of supported methods, and
+\code{vignette("tuning_and_metrics", package = "tidyclust")} for usage
+examples.}
 }
 \value{
 A list

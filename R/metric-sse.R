@@ -2,8 +2,12 @@
 #'
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
-#' @param dist_fun A function for calculating distances to centroids.  Defaults
-#'   to Euclidean distance on processed data.
+#' @param dist_fun A function of the form `function(x, y)` that takes two
+#'   matrices (centroids and observations) and returns a distance matrix.
+#'   Defaults to `philentropy::dist_many_many` with Euclidean distance. See
+#'   `philentropy::getDistMethods()` for a list of supported methods, and
+#'   `vignette("tuning_and_metrics", package = "tidyclust")` for usage
+#'   examples.
 #'
 #' @details [sse_within_total()] is the corresponding cluster metric function
 #' that returns the sum of the values given by `sse_within()`.
@@ -91,8 +95,7 @@ sse_within <- function(
 #'
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
-#' @param dist_fun A function for calculating distances to centroids. Defaults
-#'   to Euclidean distance on processed data.
+#' @inheritParams sse_within
 #' @param ... Other arguments passed to methods.
 #'
 #' @details Not to be confused with [sse_within()] that returns a tibble
@@ -187,8 +190,7 @@ sse_within_total_impl <- function(
 #'
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
-#' @param dist_fun A function for calculating distances to centroids.  Defaults
-#'   to Euclidean distance on processed data.
+#' @inheritParams sse_within
 #' @param ... Other arguments passed to methods.
 #'
 #' @return A tibble with 3 columns; `.metric`, `.estimator`, and `.estimate`.
@@ -298,8 +300,7 @@ sse_total_impl <- function(
 #'
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
-#' @param dist_fun A function for calculating distances to centroids.  Defaults
-#'   to Euclidean distance on processed data.
+#' @inheritParams sse_within
 #' @param ... Other arguments passed to methods.
 #'
 #' @return A tibble with 3 columns; `.metric`, `.estimator`, and `.estimate`.

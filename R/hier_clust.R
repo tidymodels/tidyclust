@@ -192,7 +192,7 @@ translate_tidyclust.hier_clust <- function(x, engine = x$engine, ...) {
 #'   unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
 #'   WPGMC) or `"centroid"` (= UPGMC).
-#' @param dist_fun A distance function to use
+#' @inheritParams silhouette
 #'
 #' @return A dendrogram
 #' @keywords internal

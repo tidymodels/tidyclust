@@ -18,9 +18,12 @@ get_centroid_dists(
 
 \item{centroids}{A data frame where each row is a centroid.}
 
-\item{dist_fun}{A function for computing matrix-to-matrix distances. Defaults
-to
-\code{function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")}.}
+\item{dist_fun}{A function of the form \verb{function(x, y)} that takes two
+matrices (centroids and observations) and returns a distance matrix.
+Defaults to \code{philentropy::dist_many_many} with Euclidean distance. See
+\code{philentropy::getDistMethods()} for a list of supported methods, and
+\code{vignette("tuning_and_metrics", package = "tidyclust")} for usage
+examples.}
 }
 \description{
 Computes distance from observations to centroids

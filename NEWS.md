@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* The `dist_fun` argument accepted by cluster metrics is now documented, including how to use `{philentropy}` to supply custom distance methods. See `vignette("tuning_and_metrics", package = "tidyclust")` for examples. (#185)
+
 * Added a "Getting started with tidyclust" vignette (`vignette("tidyclust")`). (#232)
 
 * `contr_one_hot` is now exported, fixing the `indicators = "one_hot"` code path in `.convert_form_to_x_fit()` and `.convert_form_to_x_new()`. (#218)

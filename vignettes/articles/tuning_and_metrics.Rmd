@@ -138,6 +138,47 @@ argue that the drop from two clusters to three, or from three to four, is a bit
 more extreme than the subsequent drops, so we should probably choose three or
 four clusters.
 
+## Custom distance functions
+
+All tidyclust metrics accept a `dist_fun` argument that controls how distances
+are computed. The `{philentropy}` package, which tidyclust uses internally,
+supports many distance and similarity measures. To see all available methods:
+
+```{r}
+philentropy::getDistMethods()
+```
+
+There are two different `dist_fun` interfaces depending on which metric you are
+using.
+
+### Silhouette metrics
+
+`silhouette_avg()` and `silhouette()` expect a single-argument function that
+takes a data frame and returns a `dist` object — the same interface as
+`philentropy::distance` (the default):
+
+```{r}
+kmeans_fit <- kmeans_wflow |>
+  finalize_workflow(list(num_clusters = 3)) |>
+  fit(penguins)
+
+man_dist <- function(x) philentropy::distance(x, method = "manhattan")
+
+silhouette_avg(kmeans_fit, new_data = penguins, dist_fun = man_dist)
+```
+
+### SSE metrics
+
+`sse_within_total()`, `sse_total()`, and `sse_ratio()` expect a two-argument
+function `function(x, y)` that computes distances between two matrices (the
+cluster centroids and the observations). The default is
+`philentropy::dist_many_many` with Euclidean distance:
+
+```{r}
+man_dist2 <- function(x, y) philentropy::dist_many_many(x, y, method = "manhattan")
+
+sse_within_total(kmeans_fit, dist_fun = man_dist2)
+```
 
 
 <!-- ## Comparison to auxilary variables -->
