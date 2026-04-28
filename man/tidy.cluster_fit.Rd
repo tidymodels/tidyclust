@@ -12,8 +12,27 @@
 \item{...}{Additional arguments to tidying method.}
 }
 \value{
-a tibble
+A tibble with one row per cluster. Columns depend on the underlying
+engine but typically include \code{.cluster} and cluster-level summary
+statistics such as centroid coordinates or cluster size.
 }
 \description{
 This method tidies the model in a tidyclust model object, if it exists.
+}
+\examples{
+# tidy() support depends on the underlying engine. For the stats engine,
+# broom must be installed.
+\dontrun{
+kmeans_fit <- k_means(num_clusters = 3) |>
+  set_engine("stats") |>
+  fit(~., mtcars)
+
+tidy(kmeans_fit)
+
+hclust_fit <- hier_clust(num_clusters = 3) |>
+  set_engine("stats") |>
+  fit(~., mtcars)
+
+tidy(hclust_fit)
+}
 }
