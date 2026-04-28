@@ -6,6 +6,20 @@
 \usage{
 new_cluster_spec(cls, args, eng_args, mode, method, engine)
 }
+\arguments{
+\item{cls}{A single character string for the model type (e.g. \code{"k_means"}).}
+
+\item{args}{A named list of main model arguments.}
+
+\item{eng_args}{A named list of engine-specific arguments.}
+
+\item{mode}{A single character string for the model mode (e.g.
+\code{"partition"}).}
+
+\item{method}{A list of method details or \code{NULL}.}
+
+\item{engine}{A single character string for the computational engine.}
+}
 \value{
 A \code{\link{cluster_spec}} object made to work with tidyclust.
 }
