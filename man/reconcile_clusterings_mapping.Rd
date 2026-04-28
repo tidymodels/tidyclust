@@ -41,6 +41,16 @@ alternate assignment to match as closely as possible.  The user must decide
 whether clusters are forced to be "one-to-one"; that is, are we allowed to
 assign multiple labels from the alternate assignment to the same primary
 label?
+
+Cluster labels are arbitrary — two clusterings of the same data may agree on
+the groups but use different label names (e.g. "Dog" vs "Apple" for the same
+cluster). \code{reconcile_clusterings_mapping()} is useful when you want to
+compare two clusterings, for example:
+\itemize{
+\item Comparing cluster assignments across cross-validation folds.
+\item Checking stability of a clustering algorithm across different random seeds.
+\item Aligning predicted clusters on new data with the original training labels.
+}
 }
 \examples{
 \dontshow{if (rlang::is_installed("RcppHungarian")) withAutoprint(\{ # examplesIf}

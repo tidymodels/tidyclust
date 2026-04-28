@@ -5,14 +5,25 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/tidyclust)](https://CRAN.R-project.org/package=tidyclust)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyclust?branch=main)
 [![R-CMD-check](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of tidyclust is to provide a tidy, unified interface to
-clustering models. The packages is closely modeled after the
+clustering models. The package is closely modeled after the
 [parsnip](https://parsnip.tidymodels.org/) package.
+
+## Available models
+
+| Model            | Function       | Engines                             |
+|------------------|----------------|-------------------------------------|
+| K-Means          | `k_means()`    | stats, ClusterR, klaR, clustMixType |
+| Hierarchical     | `hier_clust()` | stats                               |
+| Density-based    | `db_clust()`   | dbscan                              |
+| Gaussian mixture | `gm_clust()`   | mclust                              |
 
 ## Installation
 

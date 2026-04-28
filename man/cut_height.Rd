@@ -16,6 +16,10 @@ these values should be in the \emph{transformed units}.}
 the default is used which matches the units used in \code{range}. If no
 transformation, \code{NULL}.}
 }
+\value{
+A \code{dials} parameter object for use with \code{\link[tune:tune_grid]{tune::tune_grid()}} and
+related functions.
+}
 \description{
 Used in most \code{tidyclust::hier_clust()} models.
 }

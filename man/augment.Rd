@@ -8,21 +8,28 @@
 }
 \arguments{
 \item{x}{A \code{\link{cluster_fit}} object produced by \code{\link[=fit.cluster_spec]{fit.cluster_spec()}} or
-\code{\link[=fit_xy.cluster_spec]{fit_xy.cluster_spec()}} .}
+\code{\link[=fit_xy.cluster_spec]{fit_xy.cluster_spec()}}.}
 
 \item{new_data}{A data frame or matrix.}
 
 \item{...}{Not currently used.}
 }
 \value{
-A \code{tibble::tibble()} with containing \code{new_data} with columns added
-depending on the mode of the model.
+A tibble containing \code{new_data} with a \code{.pred_cluster} column
+appended giving the cluster assignment for each row.
 }
 \description{
 \code{augment()} will add column(s) for predictions to the given data.
 }
 \details{
 For partition models, a \code{.pred_cluster} column is added.
+\subsection{Preprocessing with workflows}{
+
+When \code{x} is a fitted \code{\link[workflows:workflow]{workflows::workflow()}} that includes a recipe, the
+recipe transformations are applied to \code{new_data} before predicting. The
+returned tibble contains the \strong{original} (untransformed) \code{new_data} plus
+the \code{.pred_cluster} column, so the data is not altered by preprocessing.
+}
 }
 \examples{
 kmeans_spec <- k_means(num_clusters = 5) |>
@@ -32,4 +39,19 @@ kmeans_fit <- fit(kmeans_spec, ~., mtcars)
 
 kmeans_fit |>
   augment(new_data = mtcars)
+
+# With a workflow that includes a recipe
+library(recipes)
+library(workflows)
+
+rec <- recipe(~., data = mtcars) |>
+  step_normalize(all_predictors())
+
+wf_fit <- workflow() |>
+  add_recipe(rec) |>
+  add_model(kmeans_spec) |>
+  fit(data = mtcars)
+
+# Returns original (untransformed) data with .pred_cluster appended
+augment(wf_fit, new_data = mtcars)
 }

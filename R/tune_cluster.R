@@ -29,6 +29,26 @@
 #'   [rlang::trace_back()] objects for errors and warnings, which can be
 #'   useful for debugging.
 #'
+#' @section Choosing metrics:
+#'
+#' The `metrics` argument accepts a [cluster_metric_set()]. If `NULL`, the
+#' default metrics are [sse_within_total()] and [sse_total()].
+#'
+#' Common metrics and their interpretation:
+#' - [sse_within_total()]: Total within-cluster sum of squares. Lower values
+#'   indicate tighter, more compact clusters. Use the "elbow method" — plot
+#'   this against `num_clusters` and look for where the improvement flattens.
+#' - [sse_ratio()]: Ratio of within-cluster SS to total SS. Lower is better
+#'   (more variance explained by the clustering).
+#' - [silhouette_avg()]: Average silhouette width (range -1 to 1). Higher
+#'   values indicate better-separated clusters. Values above 0.5 are generally
+#'   considered good.
+#'
+#' After tuning, use these functions to inspect results:
+#' - [tune::collect_metrics()]: All metrics for every parameter combination.
+#' - [tune::show_best()]: Top N parameter combinations for a given metric.
+#' - [tune::select_best()]: Single best parameter combination.
+#'
 #' @section Configuration column:
 #' The `.config` column in the results follows the pattern
 #' `pre{num}_mod{num}_post{num}`. The numbers encode which combination of

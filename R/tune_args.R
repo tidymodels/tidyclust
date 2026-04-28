@@ -1,3 +1,9 @@
+#' Get tune arguments for a cluster specification
+#'
+#' @inheritParams generics::tune_args
+#' @return A tibble describing the tunable arguments in the cluster
+#'   specification.
+#' @keywords internal
 #' @export
 tune_args.cluster_spec <- function(object, full = FALSE, ...) {
   # use the cluster_spec top level class as the id

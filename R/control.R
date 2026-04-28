@@ -19,7 +19,17 @@
 #' @examples
 #' control_cluster()
 #'
+#' # Catch errors instead of stopping — useful inside loops or tune_cluster()
 #' control_cluster(catch = TRUE)
+#'
+#' # Suppress all output during fitting
+#' control_cluster(verbosity = 0L)
+#'
+#' # Show model output but suppress package loading messages (default)
+#' control_cluster(verbosity = 1L)
+#'
+#' # Show all output including package loading messages
+#' control_cluster(verbosity = 2L)
 #' @export
 control_cluster <- function(verbosity = 1L, catch = FALSE) {
   res <- list(verbosity = verbosity, catch = catch)
@@ -45,6 +55,11 @@ check_control <- function(x, call = rlang::caller_env()) {
   x
 }
 
+#' @param x A `control_cluster` object.
+#' @param ... Not currently used.
+#' @return The input `x`, invisibly.
+#' @rdname control_cluster
+#' @keywords internal
 #' @export
 print.control_cluster <- function(x, ...) {
   cat("tidyclust control object\n")

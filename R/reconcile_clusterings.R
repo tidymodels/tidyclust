@@ -14,6 +14,15 @@
 #'   cluster?
 #' @param optimize One of "accuracy" or "precision"; see description.
 #'
+#' @details
+#' Cluster labels are arbitrary — two clusterings of the same data may agree on
+#' the groups but use different label names (e.g. "Dog" vs "Apple" for the same
+#' cluster). `reconcile_clusterings_mapping()` is useful when you want to
+#' compare two clusterings, for example:
+#' - Comparing cluster assignments across cross-validation folds.
+#' - Checking stability of a clustering algorithm across different random seeds.
+#' - Aligning predicted clusters on new data with the original training labels.
+#'
 #' @description
 #' When forcing one-to-one, the user needs to decide what to prioritize:
 #'  *  "accuracy": optimize raw count of all observations with the same label

@@ -5,6 +5,13 @@
 #' These functions are helpful when creating new packages that will register new
 #' cluster specifications.
 #'
+#' @param cls A single character string for the model type (e.g. `"k_means"`).
+#' @param args A named list of main model arguments.
+#' @param eng_args A named list of engine-specific arguments.
+#' @param mode A single character string for the model mode (e.g.
+#'   `"partition"`).
+#' @param method A list of method details or `NULL`.
+#' @param engine A single character string for the computational engine.
 #' @return A [`cluster_spec`] object made to work with tidyclust.
 #'
 #' @export

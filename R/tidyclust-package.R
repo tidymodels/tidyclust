@@ -1,3 +1,42 @@
+#' tidyclust: A Tidy Interface to Clustering
+#'
+#' @description
+#' The tidyclust package provides a tidy, unified interface to clustering
+#' models, following the same design patterns as parsnip. It creates a
+#' consistent API across different clustering functions and engines.
+#'
+#' @details
+#' ## Model specifications
+#' - [k_means()]: K-means clustering (stats, ClusterR, klaR, clustMixType
+#'   engines)
+#' - [hier_clust()]: Hierarchical/agglomerative clustering (stats engine)
+#' - [db_clust()]: Density-based clustering (dbscan engine)
+#' - [gm_clust()]: Gaussian mixture model clustering (mclust engine)
+#'
+#' ## Key functions
+#' - **Fitting**: [fit()], [fit_xy()]
+#' - **Prediction**: [predict.cluster_fit()]
+#' - **Extraction**: [extract_centroids()], [extract_cluster_assignment()]
+#' - **Metrics**: [silhouette_avg()], [sse_within_total()], [sse_ratio()]
+#' - **Tuning**: [tune_cluster()]
+#'
+#' ## Getting started
+#' ```r
+#' # Create a specification
+#' spec <- k_means(num_clusters = 3)
+#'
+#' # Fit to data
+#' fit <- fit(spec, ~., data = mtcars)
+#'
+#' # Extract results
+#' extract_centroids(fit)
+#' extract_cluster_assignment(fit)
+#' ```
+#'
+#' @seealso
+#' - Package website: <https://tidyclust.tidymodels.org/>
+#' - Bug reports: <https://github.com/tidymodels/tidyclust/issues>
+#'
 #' @keywords internal
 "_PACKAGE"
 

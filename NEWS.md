@@ -2,6 +2,8 @@
 
 * The `dist_fun` argument accepted by cluster metrics is now documented, including how to use `{philentropy}` to supply custom distance methods. See `vignette("tuning_and_metrics", package = "tidyclust")` for examples. (#185)
 
+* Added a "Getting started with tidyclust" vignette (`vignette("tidyclust")`). (#232)
+
 * `contr_one_hot` is now exported, fixing the `indicators = "one_hot"` code path in `.convert_form_to_x_fit()` and `.convert_form_to_x_new()`. (#218)
 
 * `finalize_model_tidyclust()` and `finalize_workflow_tidyclust()` are deprecated. Use `tune::finalize_model()` and `tune::finalize_workflow()` instead, which now support `cluster_spec` objects natively. (#223)

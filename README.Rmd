@@ -17,11 +17,21 @@ knitr::opts_chunk$set(
 # tidyclust <a href="https://tidyclust.tidymodels.org"><img src="man/figures/logo.png" align="right" height="138" alt="tidyclust website" /></a>
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/tidyclust)](https://CRAN.R-project.org/package=tidyclust)
 [![Codecov test coverage](https://codecov.io/gh/tidymodels/tidyclust/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyclust?branch=main)
 [![R-CMD-check](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of tidyclust is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the [parsnip](https://parsnip.tidymodels.org/) package.
+The goal of tidyclust is to provide a tidy, unified interface to clustering models. The package is closely modeled after the [parsnip](https://parsnip.tidymodels.org/) package.
+
+## Available models
+
+| Model | Function | Engines |
+|---|---|---|
+| K-Means | `k_means()` | stats, ClusterR, klaR, clustMixType |
+| Hierarchical | `hier_clust()` | stats |
+| Density-based | `db_clust()` | dbscan |
+| Gaussian mixture | `gm_clust()` | mclust |
 
 ## Installation
 
@@ -177,7 +187,7 @@ expand_grid(
     uniform_data
   )
 ) |>
-  pmap_dfr(\(.x) augment_model(.x, .y)) |>
+  pmap_dfr(\(models, datasets) augment_model(models, datasets)) |>
   ggplot(aes(x, y, color = .pred_cluster)) +
   geom_point(alpha = 0.5) +
   facet_grid(model_name ~ data_name, scales = "free", switch = "y") +
