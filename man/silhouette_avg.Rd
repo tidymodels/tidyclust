@@ -33,8 +33,12 @@ silhouette_avg_vec(
 
 \item{dists}{A distance matrix. Used if \code{new_data} is \code{NULL}.}
 
-\item{dist_fun}{A function for calculating distances between observations.
-Defaults to Euclidean distance on processed data.}
+\item{dist_fun}{A function of the form \verb{function(x)} that takes a data
+frame or matrix and returns a \code{dist} object. Defaults to
+\code{philentropy::distance} with Euclidean distance. See
+\code{philentropy::getDistMethods()} for a list of supported methods, and
+\code{vignette("tuning_and_metrics", package = "tidyclust")} for usage
+examples.}
 }
 \value{
 A double; the average silhouette.

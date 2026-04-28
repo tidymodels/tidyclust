@@ -24,7 +24,12 @@ unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"si
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
 WPGMC) or \code{"centroid"} (= UPGMC).}
 
-\item{dist_fun}{A distance function to use}
+\item{dist_fun}{A function of the form \verb{function(x)} that takes a data
+frame or matrix and returns a \code{dist} object. Defaults to
+\code{philentropy::distance} with Euclidean distance. See
+\code{philentropy::getDistMethods()} for a list of supported methods, and
+\code{vignette("tuning_and_metrics", package = "tidyclust")} for usage
+examples.}
 }
 \value{
 A dendrogram

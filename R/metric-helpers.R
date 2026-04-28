@@ -5,7 +5,7 @@
 #'   trained cluster assignments from the fitted object are used.
 #' @param dists A distance matrix for the data.  If `NULL`, distance is computed
 #'   on `new_data` using the `stats::dist()` function.
-#' @param dist_fun A custom distance functions.
+#' @inheritParams silhouette
 #'
 #' @return A list
 prep_data_dist <- function(
@@ -64,9 +64,7 @@ prep_data_dist <- function(
 #'
 #' @param new_data A data frame
 #' @param centroids A data frame where each row is a centroid.
-#' @param dist_fun A function for computing matrix-to-matrix distances. Defaults
-#'   to
-#'   `function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")`.
+#' @inheritParams sse_within
 get_centroid_dists <- function(
   new_data,
   centroids,

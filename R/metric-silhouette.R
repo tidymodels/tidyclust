@@ -3,8 +3,12 @@
 #' @param object A fitted tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
-#' @param dist_fun A function for calculating distances between observations.
-#'   Defaults to Euclidean distance on processed data.
+#' @param dist_fun A function of the form `function(x)` that takes a data
+#'   frame or matrix and returns a `dist` object. Defaults to
+#'   `philentropy::distance` with Euclidean distance. See
+#'   `philentropy::getDistMethods()` for a list of supported methods, and
+#'   `vignette("tuning_and_metrics", package = "tidyclust")` for usage
+#'   examples.
 #'
 #' @details [silhouette_avg()] is the corresponding cluster metric function that
 #' returns the average of the values given by `silhouette()`.
@@ -71,8 +75,7 @@ silhouette <- function(
 #' @param object A fitted kmeans tidyclust model
 #' @param new_data A dataset to predict on.  If `NULL`, uses trained clustering.
 #' @param dists A distance matrix. Used if `new_data` is `NULL`.
-#' @param dist_fun A function for calculating distances between observations.
-#'   Defaults to Euclidean distance on processed data.
+#' @inheritParams silhouette
 #' @param ... Other arguments passed to methods.
 #' @details Not to be confused with [silhouette()] that returns a tibble
 #'   with silhouette for each observation. The silhouette coefficient ranges
