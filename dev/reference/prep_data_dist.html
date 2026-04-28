@@ -74,7 +74,12 @@ on <code>new_data</code> using the <code><a href="https://rdrr.io/r/stats/dist.h
 
 
 <dt id="arg-dist-fun">dist_fun<a class="anchor" aria-label="anchor" href="#arg-dist-fun"></a></dt>
-<dd><p>A custom distance functions.</p></dd>
+<dd><p>A function of the form <code>function(x)</code> that takes a data
+frame or matrix and returns a <code>dist</code> object. Defaults to
+<code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> with Euclidean distance. See
+<code><a href="https://drostlab.github.io/philentropy/reference/getDistMethods.html" class="external-link">philentropy::getDistMethods()</a></code> for a list of supported methods, and
+<code>vignette("tuning_and_metrics", package = "tidyclust")</code> for usage
+examples.</p></dd>
 
 </dl></div>
     <div class="section level2">

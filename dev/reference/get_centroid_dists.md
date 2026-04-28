@@ -27,5 +27,12 @@ get_centroid_dists(
 
 - dist_fun:
 
-  A function for computing matrix-to-matrix distances. Defaults to
-  `function(x, y) philentropy::dist_many_many(x, y, method = "euclidean")`.
+  A function of the form `function(x, y)` that takes two matrices
+  (centroids and observations) and returns a distance matrix. Defaults
+  to
+  [`philentropy::dist_many_many`](https://drostlab.github.io/philentropy/reference/dist_many_many.html)
+  with Euclidean distance. See
+  [`philentropy::getDistMethods()`](https://drostlab.github.io/philentropy/reference/getDistMethods.html)
+  for a list of supported methods, and
+  `vignette("tuning_and_metrics", package = "tidyclust")` for usage
+  examples.

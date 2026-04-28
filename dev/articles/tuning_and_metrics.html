@@ -219,6 +219,71 @@ decreases, with the amount of decrease getting smaller as the number of
 clusters grows. We might argue that the drop from two clusters to three,
 or from three to four, is a bit more extreme than the subsequent drops,
 so we should probably choose three or four clusters.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="custom-distance-functions">Custom distance functions<a class="anchor" aria-label="anchor" href="#custom-distance-functions"></a>
+</h2>
+<p>All tidyclust metrics accept a <code>dist_fun</code> argument that
+controls how distances are computed. The <a href="https://drostlab.github.io/philentropy/" class="external-link">philentropy</a>
+package, which tidyclust uses internally, supports many distance and
+similarity measures. To see all available methods:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">philentropy</span><span class="fu">::</span><span class="fu"><a href="https://drostlab.github.io/philentropy/reference/getDistMethods.html" class="external-link">getDistMethods</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "euclidean"         "manhattan"         "minkowski"        </span></span>
+<span><span class="co">#&gt;  [4] "chebyshev"         "sorensen"          "gower"            </span></span>
+<span><span class="co">#&gt;  [7] "soergel"           "kulczynski_d"      "canberra"         </span></span>
+<span><span class="co">#&gt; [10] "lorentzian"        "intersection"      "non-intersection" </span></span>
+<span><span class="co">#&gt; [13] "wavehedges"        "czekanowski"       "motyka"           </span></span>
+<span><span class="co">#&gt; [16] "kulczynski_s"      "tanimoto"          "ruzicka"          </span></span>
+<span><span class="co">#&gt; [19] "inner_product"     "harmonic_mean"     "cosine"           </span></span>
+<span><span class="co">#&gt; [22] "hassebrook"        "jaccard"           "dice"             </span></span>
+<span><span class="co">#&gt; [25] "fidelity"          "bhattacharyya"     "hellinger"        </span></span>
+<span><span class="co">#&gt; [28] "matusita"          "squared_chord"     "squared_euclidean"</span></span>
+<span><span class="co">#&gt; [31] "pearson"           "neyman"            "squared_chi"      </span></span>
+<span><span class="co">#&gt; [34] "prob_symm"         "divergence"        "clark"            </span></span>
+<span><span class="co">#&gt; [37] "additive_symm"     "kullback-leibler"  "jeffreys"         </span></span>
+<span><span class="co">#&gt; [40] "k_divergence"      "topsoe"            "jensen-shannon"   </span></span>
+<span><span class="co">#&gt; [43] "jensen_difference" "taneja"            "kumar-johnson"    </span></span>
+<span><span class="co">#&gt; [46] "avg"</span></span></code></pre></div>
+<p>There are two different <code>dist_fun</code> interfaces depending on
+which metric you are using.</p>
+<div class="section level3">
+<h3 id="silhouette-metrics">Silhouette metrics<a class="anchor" aria-label="anchor" href="#silhouette-metrics"></a>
+</h3>
+<p><code><a href="../reference/silhouette_avg.html">silhouette_avg()</a></code> and <code><a href="../reference/silhouette.html">silhouette()</a></code> expect a
+single-argument function that takes a data frame and returns a
+<code>dist</code> object — the same interface as
+<code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> (the default):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">kmeans_fit</span> <span class="op">&lt;-</span> <span class="va">kmeans_wflow</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tune.tidymodels.org/reference/finalize_model.html" class="external-link">finalize_workflow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">man_dist</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">philentropy</span><span class="fu">::</span><span class="fu"><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">distance</a></span><span class="op">(</span><span class="va">x</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/silhouette_avg.html">silhouette_avg</a></span><span class="op">(</span><span class="va">kmeans_fit</span>, new_data <span class="op">=</span> <span class="va">penguins</span>, dist_fun <span class="op">=</span> <span class="va">man_dist</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   .metric        .estimator .estimate</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> silhouette_avg standard       0.491</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="sse-metrics">SSE metrics<a class="anchor" aria-label="anchor" href="#sse-metrics"></a>
+</h3>
+<p><code><a href="../reference/sse_within_total.html">sse_within_total()</a></code>, <code><a href="../reference/sse_total.html">sse_total()</a></code>, and
+<code><a href="../reference/sse_ratio.html">sse_ratio()</a></code> expect a two-argument function
+<code>function(x, y)</code> that computes distances between two matrices
+(the cluster centroids and the observations). The default is
+<code><a href="https://drostlab.github.io/philentropy/reference/dist_many_many.html" class="external-link">philentropy::dist_many_many</a></code> with Euclidean distance:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">man_dist2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="fu">philentropy</span><span class="fu">::</span><span class="fu"><a href="https://drostlab.github.io/philentropy/reference/dist_many_many.html" class="external-link">dist_many_many</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, method <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/sse_within_total.html">sse_within_total</a></span><span class="op">(</span><span class="va">kmeans_fit</span>, dist_fun <span class="op">=</span> <span class="va">man_dist2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   .metric          .estimator .estimate</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> sse_within_total standard       <span style="text-decoration: underline;">3</span>620.</span></span></code></pre></div>
 <!-- ## Comparison to auxilary variables -->
 <!-- It is sometimes of interest to compare to external variables -->
 <!-- ```{r, eval=FALSE} -->

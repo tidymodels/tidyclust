@@ -70,8 +70,12 @@
 
 
 <dt id="arg-dist-fun">dist_fun<a class="anchor" aria-label="anchor" href="#arg-dist-fun"></a></dt>
-<dd><p>A function for calculating distances to centroids.  Defaults
-to Euclidean distance on processed data.</p></dd>
+<dd><p>A function of the form <code>function(x, y)</code> that takes two
+matrices (centroids and observations) and returns a distance matrix.
+Defaults to <code><a href="https://drostlab.github.io/philentropy/reference/dist_many_many.html" class="external-link">philentropy::dist_many_many</a></code> with Euclidean distance. See
+<code><a href="https://drostlab.github.io/philentropy/reference/getDistMethods.html" class="external-link">philentropy::getDistMethods()</a></code> for a list of supported methods, and
+<code>vignette("tuning_and_metrics", package = "tidyclust")</code> for usage
+examples.</p></dd>
 
 </dl></div>
     <div class="section level2">

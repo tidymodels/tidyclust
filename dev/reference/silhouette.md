@@ -29,8 +29,14 @@ silhouette(
 
 - dist_fun:
 
-  A function for calculating distances between observations. Defaults to
-  Euclidean distance on processed data.
+  A function of the form `function(x)` that takes a data frame or matrix
+  and returns a `dist` object. Defaults to
+  [`philentropy::distance`](https://drostlab.github.io/philentropy/reference/distance.html)
+  with Euclidean distance. See
+  [`philentropy::getDistMethods()`](https://drostlab.github.io/philentropy/reference/getDistMethods.html)
+  for a list of supported methods, and
+  `vignette("tuning_and_metrics", package = "tidyclust")` for usage
+  examples.
 
 ## Value
 

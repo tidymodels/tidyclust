@@ -34,7 +34,14 @@ prep_data_dist(
 
 - dist_fun:
 
-  A custom distance functions.
+  A function of the form `function(x)` that takes a data frame or matrix
+  and returns a `dist` object. Defaults to
+  [`philentropy::distance`](https://drostlab.github.io/philentropy/reference/distance.html)
+  with Euclidean distance. See
+  [`philentropy::getDistMethods()`](https://drostlab.github.io/philentropy/reference/getDistMethods.html)
+  for a list of supported methods, and
+  `vignette("tuning_and_metrics", package = "tidyclust")` for usage
+  examples.
 
 ## Value
 

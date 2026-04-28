@@ -2,6 +2,13 @@
 
 ## tidyclust (development version)
 
+- The `dist_fun` argument accepted by cluster metrics is now documented,
+  including how to use
+  [philentropy](https://drostlab.github.io/philentropy/) to supply
+  custom distance methods. See
+  `vignette("tuning_and_metrics", package = "tidyclust")` for examples.
+  ([\#185](https://github.com/tidymodels/tidyclust/issues/185))
+
 - Added a “Getting started with tidyclust” vignette
   ([`vignette("tidyclust")`](https://tidyclust.tidymodels.org/dev/articles/tidyclust.md)).
   ([\#232](https://github.com/tidymodels/tidyclust/issues/232))
