@@ -7,6 +7,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/hier_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/index.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/k_means.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/articles/tidyclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/articles/tuning_and_metrics.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/authors.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/index.html</loc></url>
@@ -60,8 +61,10 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/other_predict.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/predict.cluster_fit.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/prep_data_dist.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/print.cluster_fit.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/reconcile_clusterings_mapping.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/reexports.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/required_pkgs.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/set_args.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/set_engine.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/set_mode.cluster_spec.html</loc></url>
@@ -75,6 +78,8 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/tidyclust-package.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/translate_tidyclust.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/tunable.cluster_spec.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/tune_args.cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/tune_cluster.html</loc></url>
 </urlset>
 

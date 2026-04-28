@@ -27,6 +27,12 @@ cut_height(range = c(0, dials::unknown()), trans = NULL)
   If not provided, the default is used which matches the units used in
   `range`. If no transformation, `NULL`.
 
+## Value
+
+A `dials` parameter object for use with
+[`tune::tune_grid()`](https://tune.tidymodels.org/reference/tune_grid.html)
+and related functions.
+
 ## Examples
 
 ``` r

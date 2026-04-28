@@ -21,6 +21,12 @@ An object of class `character` of length 8.
   A character string of possible values. See `linkage_methods` in
   examples below.
 
+## Value
+
+A `dials` parameter object for use with
+[`tune::tune_grid()`](https://tune.tidymodels.org/reference/tune_grid.html)
+and related functions.
+
 ## Details
 
 This parameter is used in `tidyclust` models for

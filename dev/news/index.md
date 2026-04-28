@@ -2,6 +2,10 @@
 
 ## tidyclust (development version)
 
+- Added a “Getting started with tidyclust” vignette
+  ([`vignette("tidyclust")`](https://tidyclust.tidymodels.org/dev/articles/tidyclust.md)).
+  ([\#232](https://github.com/tidymodels/tidyclust/issues/232))
+
 - `contr_one_hot` is now exported, fixing the `indicators = "one_hot"`
   code path in
   [`.convert_form_to_x_fit()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md)

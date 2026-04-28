@@ -27,7 +27,8 @@ matches the corresponding primary cluster
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidyclust.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/db_clust.html">Density-Based Clustering</a></li>
@@ -103,7 +104,13 @@ alternate assignment to match as closely as possible.  The user must decide
 whether clusters are forced to be "one-to-one"; that is, are we allowed to
 assign multiple labels from the alternate assignment to the same primary
 label?</p>
-    </div>
+<p>Cluster labels are arbitrary — two clusterings of the same data may agree on
+the groups but use different label names (e.g. "Dog" vs "Apple" for the same
+cluster). <code>reconcile_clusterings_mapping()</code> is useful when you want to
+compare two clusterings, for example:</p><ul><li><p>Comparing cluster assignments across cross-validation folds.</p></li>
+<li><p>Checking stability of a clustering algorithm across different random seeds.</p></li>
+<li><p>Aligning predicted clusters on new data with the original training labels.</p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

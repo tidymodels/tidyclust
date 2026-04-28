@@ -89,6 +89,42 @@ and `.notes` (optional columns are `.predictions` and `.extracts`).
 [`rlang::trace_back()`](https://rlang.r-lib.org/reference/trace_back.html)
 objects for errors and warnings, which can be useful for debugging.
 
+## Choosing metrics
+
+The `metrics` argument accepts a
+[`cluster_metric_set()`](https://tidyclust.tidymodels.org/dev/reference/cluster_metric_set.md).
+If `NULL`, the default metrics are
+[`sse_within_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_within_total.md)
+and
+[`sse_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_total.md).
+
+Common metrics and their interpretation:
+
+- [`sse_within_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_within_total.md):
+  Total within-cluster sum of squares. Lower values indicate tighter,
+  more compact clusters. Use the "elbow method" — plot this against
+  `num_clusters` and look for where the improvement flattens.
+
+- [`sse_ratio()`](https://tidyclust.tidymodels.org/dev/reference/sse_ratio.md):
+  Ratio of within-cluster SS to total SS. Lower is better (more variance
+  explained by the clustering).
+
+- [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md):
+  Average silhouette width (range -1 to 1). Higher values indicate
+  better-separated clusters. Values above 0.5 are generally considered
+  good.
+
+After tuning, use these functions to inspect results:
+
+- [`tune::collect_metrics()`](https://tune.tidymodels.org/reference/collect_predictions.html):
+  All metrics for every parameter combination.
+
+- [`tune::show_best()`](https://tune.tidymodels.org/reference/show_best.html):
+  Top N parameter combinations for a given metric.
+
+- [`tune::select_best()`](https://tune.tidymodels.org/reference/show_best.html):
+  Single best parameter combination.
+
 ## Configuration column
 
 The `.config` column in the results follows the pattern
@@ -124,11 +160,6 @@ for more details.
 
 ``` r
 library(recipes)
-#> 
-#> Attaching package: ‘recipes’
-#> The following object is masked from ‘package:stats’:
-#> 
-#>     step
 library(rsample)
 library(workflows)
 library(tune)

@@ -88,6 +88,7 @@ how well the model works.
 Functions to allow multiple cluster specifications to be fit at once.
 
 - [`control_cluster()`](https://tidyclust.tidymodels.org/dev/reference/control_cluster.md)
+  [`print(`*`<control_cluster>`*`)`](https://tidyclust.tidymodels.org/dev/reference/control_cluster.md)
   : Control the fit function
 - [`update(`*`<db_clust>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)
   [`update(`*`<gm_clust>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)

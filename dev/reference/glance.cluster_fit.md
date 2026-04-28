@@ -21,4 +21,19 @@ glance(x, ...)
 
 ## Value
 
-a tibble
+A one-row tibble with model-level summary statistics such as total
+within-cluster sum of squares, between-cluster sum of squares, and
+number of iterations. Support depends on the underlying engine.
+
+## Examples
+
+``` r
+# glance() support depends on the underlying engine.
+if (FALSE) { # \dontrun{
+kmeans_fit <- k_means(num_clusters = 3) |>
+  set_engine("stats") |>
+  fit(~., mtcars)
+
+glance(kmeans_fit)
+} # }
+```

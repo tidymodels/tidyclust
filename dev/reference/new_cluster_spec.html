@@ -17,7 +17,8 @@ cluster specifications."><meta property="og:image" content="https://tidyclust.ti
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidyclust.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/db_clust.html">Density-Based Clustering</a></li>
@@ -52,6 +53,35 @@ cluster specifications.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">new_cluster_spec</span><span class="op">(</span><span class="va">cls</span>, <span class="va">args</span>, <span class="va">eng_args</span>, <span class="va">mode</span>, <span class="va">method</span>, <span class="va">engine</span><span class="op">)</span></span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+
+
+<dl><dt id="arg-cls">cls<a class="anchor" aria-label="anchor" href="#arg-cls"></a></dt>
+<dd><p>A single character string for the model type (e.g. <code>"k_means"</code>).</p></dd>
+
+
+<dt id="arg-args">args<a class="anchor" aria-label="anchor" href="#arg-args"></a></dt>
+<dd><p>A named list of main model arguments.</p></dd>
+
+
+<dt id="arg-eng-args">eng_args<a class="anchor" aria-label="anchor" href="#arg-eng-args"></a></dt>
+<dd><p>A named list of engine-specific arguments.</p></dd>
+
+
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
+<dd><p>A single character string for the model mode (e.g.
+<code>"partition"</code>).</p></dd>
+
+
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>A list of method details or <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
+<dd><p>A single character string for the computational engine.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code><a href="cluster_spec.html">cluster_spec</a></code> object made to work with tidyclust.</p>

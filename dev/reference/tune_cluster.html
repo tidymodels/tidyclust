@@ -19,7 +19,8 @@ or more resamples of the data."><meta property="og:image" content="https://tidyc
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/tidyclust.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/db_clust.html">Density-Based Clustering</a></li>
@@ -132,6 +133,25 @@ execution. The <code>.notes</code> column is a tibble with columns <code>locatio
 useful for debugging.</p>
     </div>
     <div class="section level2">
+    <h2 id="choosing-metrics">Choosing metrics<a class="anchor" aria-label="anchor" href="#choosing-metrics"></a></h2>
+
+
+
+<p>The <code>metrics</code> argument accepts a <code><a href="cluster_metric_set.html">cluster_metric_set()</a></code>. If <code>NULL</code>, the
+default metrics are <code><a href="sse_within_total.html">sse_within_total()</a></code> and <code><a href="sse_total.html">sse_total()</a></code>.</p>
+<p>Common metrics and their interpretation:</p><ul><li><p><code><a href="sse_within_total.html">sse_within_total()</a></code>: Total within-cluster sum of squares. Lower values
+indicate tighter, more compact clusters. Use the "elbow method" — plot
+this against <code>num_clusters</code> and look for where the improvement flattens.</p></li>
+<li><p><code><a href="sse_ratio.html">sse_ratio()</a></code>: Ratio of within-cluster SS to total SS. Lower is better
+(more variance explained by the clustering).</p></li>
+<li><p><code><a href="silhouette_avg.html">silhouette_avg()</a></code>: Average silhouette width (range -1 to 1). Higher
+values indicate better-separated clusters. Values above 0.5 are generally
+considered good.</p></li>
+</ul><p>After tuning, use these functions to inspect results:</p><ul><li><p><code><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">tune::collect_metrics()</a></code>: All metrics for every parameter combination.</p></li>
+<li><p><code><a href="https://tune.tidymodels.org/reference/show_best.html" class="external-link">tune::show_best()</a></code>: Top N parameter combinations for a given metric.</p></li>
+<li><p><code><a href="https://tune.tidymodels.org/reference/show_best.html" class="external-link">tune::select_best()</a></code>: Single best parameter combination.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="configuration-column">Configuration column<a class="anchor" aria-label="anchor" href="#configuration-column"></a></h2>
 
 
@@ -166,11 +186,6 @@ calling <code>tune_cluster()</code>:</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/recipes" class="external-link">recipes</a></span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘recipes’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:stats’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     step</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rsample.tidymodels.org" class="external-link">rsample</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflows" class="external-link">workflows</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tune.tidymodels.org/" class="external-link">tune</a></span><span class="op">)</span></span></span>

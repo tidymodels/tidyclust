@@ -41,6 +41,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/tidyclust.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -74,7 +75,45 @@
 </div>
 <!-- badges: start -->
 
-<p>The goal of tidyclust is to provide a tidy, unified interface to clustering models. The packages is closely modeled after the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package.</p>
+<p>The goal of tidyclust is to provide a tidy, unified interface to clustering models. The package is closely modeled after the <a href="https://parsnip.tidymodels.org/" class="external-link">parsnip</a> package.</p>
+<div class="section level2">
+<h2 id="available-models">Available models<a class="anchor" aria-label="anchor" href="#available-models"></a>
+</h2>
+<table class="table">
+<colgroup>
+<col width="25%">
+<col width="22%">
+<col width="52%">
+</colgroup>
+<thead><tr class="header">
+<th>Model</th>
+<th>Function</th>
+<th>Engines</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>K-Means</td>
+<td><code><a href="reference/k_means.html">k_means()</a></code></td>
+<td>stats, ClusterR, klaR, clustMixType</td>
+</tr>
+<tr class="even">
+<td>Hierarchical</td>
+<td><code><a href="reference/hier_clust.html">hier_clust()</a></code></td>
+<td>stats</td>
+</tr>
+<tr class="odd">
+<td>Density-based</td>
+<td><code><a href="reference/db_clust.html">db_clust()</a></code></td>
+<td>dbscan</td>
+</tr>
+<tr class="even">
+<td>Gaussian mixture</td>
+<td><code><a href="reference/gm_clust.html">gm_clust()</a></code></td>
+<td>mclust</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -248,6 +287,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=tidyclust" class="external-link"><img src="https://www.r-pkg.org/badges/version/tidyclust" alt="CRAN status"></a></li>
 <li><a href="https://app.codecov.io/gh/tidymodels/tidyclust?branch=main" class="external-link"><img src="https://codecov.io/gh/tidymodels/tidyclust/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/tidymodels/tidyclust/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>

@@ -1,8 +1,17 @@
 # tidyclust
 
 The goal of tidyclust is to provide a tidy, unified interface to
-clustering models. The packages is closely modeled after the
+clustering models. The package is closely modeled after the
 [parsnip](https://parsnip.tidymodels.org/) package.
+
+## Available models
+
+| Model            | Function                                                                       | Engines                             |
+|------------------|--------------------------------------------------------------------------------|-------------------------------------|
+| K-Means          | [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md)       | stats, ClusterR, klaR, clustMixType |
+| Hierarchical     | [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md) | stats                               |
+| Density-based    | [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)     | dbscan                              |
+| Gaussian mixture | [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)     | mclust                              |
 
 ## Installation
 
