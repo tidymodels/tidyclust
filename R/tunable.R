@@ -63,6 +63,13 @@ add_engine_parameters <- function(pset, engines) {
 
 #' @rdname tunable.cluster_spec
 #' @export
+tunable.hier_clust <- function(x, ...) {
+  res <- NextMethod()
+  res[res$name != "dist_fun", ]
+}
+
+#' @rdname tunable.cluster_spec
+#' @export
 tunable.k_means <- function(x, ...) {
   res <- NextMethod()
   if (x$engine == "stats") {

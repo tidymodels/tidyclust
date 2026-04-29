@@ -23,6 +23,11 @@
 #'   unambiguous abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
 #'   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA), `"median"` (=
 #'   WPGMC) or `"centroid"` (= UPGMC).
+#' @param dist_fun A function for calculating the distance between observations.
+#'   Defaults to `philentropy::distance` which supports numerous distance
+#'   metrics via its `method` argument. The function should accept a matrix or
+#'   data frame and return a square numeric matrix or an object coercible to one
+#'   via [stats::as.dist()]. See [silhouette()] for further details.
 #'
 #' @details
 #'
@@ -70,12 +75,14 @@ hier_clust <-
     engine = "stats",
     num_clusters = NULL,
     cut_height = NULL,
-    linkage_method = "complete"
+    linkage_method = "complete",
+    dist_fun = NULL
   ) {
     args <- list(
       num_clusters = enquo(num_clusters),
       cut_height = enquo(cut_height),
-      linkage_method = enquo(linkage_method)
+      linkage_method = enquo(linkage_method),
+      dist_fun = enquo(dist_fun)
     )
 
     new_cluster_spec(
@@ -112,6 +119,7 @@ update.hier_clust <- function(
   num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
+  dist_fun = NULL,
   fresh = FALSE,
   ...
 ) {
@@ -127,7 +135,8 @@ update.hier_clust <- function(
   args <- list(
     num_clusters = enquo(num_clusters),
     cut_height = enquo(cut_height),
-    linkage_method = enquo(linkage_method)
+    linkage_method = enquo(linkage_method),
+    dist_fun = enquo(dist_fun)
   )
 
   args <- parsnip::update_main_parameters(args, parameters)
