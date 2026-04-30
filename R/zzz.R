@@ -9,6 +9,12 @@
   s3_register("generics::required_pkgs", "cluster_fit")
   s3_register("generics::required_pkgs", "cluster_spec")
 
+  s3_register("butcher::axe_call", "cluster_fit")
+  s3_register("butcher::axe_ctrl", "cluster_fit")
+  s3_register("butcher::axe_data", "cluster_fit")
+  s3_register("butcher::axe_env", "cluster_fit")
+  s3_register("butcher::axe_fitted", "cluster_fit")
+
   ns <- rlang::ns_env("tidyclust")
   makeActiveBinding(
     "tidyclust_color",
