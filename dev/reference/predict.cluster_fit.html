@@ -85,8 +85,10 @@ for the model object or the new data being predicted.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Arguments to the underlying model's prediction function cannot be
-passed here (see <code>opts</code>).</p></dd>
+<dd><p>Optional arguments passed to the underlying predict function.
+Use <code>prefix</code> to change the prefix in the cluster factor levels (default:
+<code>"Cluster_"</code>). Use <code>labels</code> to supply a character vector of cluster labels,
+which overrides <code>prefix</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

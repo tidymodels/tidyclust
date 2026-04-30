@@ -20,7 +20,9 @@ extract_cluster_assignment(object, ...)
 - ...:
 
   Other arguments passed to methods. Using the `prefix` allows you to
-  change the prefix in the levels of the factor levels.
+  change the prefix in the levels of the factor levels. Using `labels`
+  allows you to provide a character vector of cluster labels, overriding
+  `prefix`.
 
 ## Value
 
@@ -107,6 +109,23 @@ kmeans_fit |>
 #>  8 C_1     
 #>  9 C_1     
 #> 10 C_1     
+#> # ℹ 22 more rows
+
+kmeans_fit |>
+  extract_cluster_assignment(labels = c("A", "B", "C", "D", "E"))
+#> # A tibble: 32 × 1
+#>    .cluster
+#>    <fct>   
+#>  1 A       
+#>  2 A       
+#>  3 A       
+#>  4 B       
+#>  5 C       
+#>  6 B       
+#>  7 D       
+#>  8 A       
+#>  9 A       
+#> 10 A       
 #> # ℹ 22 more rows
 
 # Some models such as `hier_clust()` fits in such a way that you can specify

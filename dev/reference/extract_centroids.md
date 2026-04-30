@@ -21,7 +21,9 @@ extract_centroids(object, ...)
 - ...:
 
   Other arguments passed to methods. Using the `prefix` allows you to
-  change the prefix in the levels of the factor levels.
+  change the prefix in the levels of the factor levels. Using `labels`
+  allows you to provide a character vector of cluster labels, overriding
+  `prefix`.
 
 ## Value
 
@@ -92,6 +94,18 @@ kmeans_fit |>
 #> 3 Cluster_3  17.1  7.71  295. 161.   3.05  3.60  17.7 0.143 0       3  
 #> 4 Cluster_4  14.6  8     340. 272.   3.68  3.54  15.1 0     0.5     4  
 #> 5 Cluster_5  13.7  8     443  206.   3.06  4.97  17.6 0     0       3  
+#> # ℹ 1 more variable: carb <dbl>
+
+kmeans_fit |>
+  extract_centroids(labels = c("A", "B", "C", "D", "E"))
+#> # A tibble: 5 × 12
+#>   .cluster   mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear
+#>   <fct>    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1 A         19.9  5.71  167. 120.   3.71  3.11  18.5 0.571 0.429   4  
+#> 2 B         27.0  4     102.  81.4  4.09  2.20  18.8 0.9   0.8     4.1
+#> 3 C         17.1  7.71  295. 161.   3.05  3.60  17.7 0.143 0       3  
+#> 4 D         14.6  8     340. 272.   3.68  3.54  15.1 0     0.5     4  
+#> 5 E         13.7  8     443  206.   3.06  4.97  17.6 0     0       3  
 #> # ℹ 1 more variable: carb <dbl>
 
 # Some models such as `hier_clust()` fits in such a way that you can specify

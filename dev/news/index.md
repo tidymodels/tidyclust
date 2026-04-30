@@ -2,6 +2,13 @@
 
 ## tidyclust (development version)
 
+- [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md),
+  [`extract_centroids()`](https://tidyclust.tidymodels.org/dev/reference/extract_centroids.md),
+  and [`predict()`](https://rdrr.io/r/stats/predict.html) now accept a
+  `labels` argument, a character vector of cluster labels that overrides
+  the auto-generated `prefix`-based labels.
+  ([\#148](https://github.com/tidymodels/tidyclust/issues/148))
+
 - [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
   gains a `dist_fun` argument for specifying a custom distance function.
   ([\#70](https://github.com/tidymodels/tidyclust/issues/70))
