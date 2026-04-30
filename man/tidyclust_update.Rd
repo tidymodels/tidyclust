@@ -37,6 +37,7 @@
   num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
+  dist_fun = NULL,
   fresh = FALSE,
   ...
 )
@@ -80,6 +81,12 @@ obtain cluster assignments (only used if \code{num_clusters} is \code{NULL})}
 unambiguous abbreviation of) one of \code{"ward.D"}, \code{"ward.D2"}, \code{"single"},
 \code{"complete"}, \code{"average"} (= UPGMA), \code{"mcquitty"} (= WPGMA), \code{"median"} (=
 WPGMC) or \code{"centroid"} (= UPGMC).}
+
+\item{dist_fun}{A function for calculating the distance between observations.
+Defaults to \code{philentropy::distance} which supports numerous distance
+metrics via its \code{method} argument. The function should accept a matrix or
+data frame and return a square numeric matrix or an object coercible to one
+via \code{\link[stats:dist]{stats::as.dist()}}. See \code{\link[=silhouette]{silhouette()}} for further details.}
 }
 \value{
 An updated cluster specification.

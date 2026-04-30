@@ -335,3 +335,36 @@ test_that("cut_height matches stats::cutree", {
     length(unique(ref))
   )
 })
+
+test_that("dist_fun can be changed", {
+  fit_default <- hier_clust(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  fit_manhattan <- hier_clust(
+    num_clusters = 3,
+    dist_fun = function(x) philentropy::distance(x, method = "manhattan")
+  ) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  # Fits should differ when using a different distance function
+  expect_false(
+    identical(
+      extract_cluster_assignment(fit_default),
+      extract_cluster_assignment(fit_manhattan)
+    )
+  )
+})
+
+test_that("dist_fun can be set to stats::dist", {
+  fit <- hier_clust(
+    num_clusters = 3,
+    dist_fun = function(x) as.matrix(dist(x))
+  ) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  assignments <- extract_cluster_assignment(fit)
+  expect_identical(length(unique(assignments$.cluster)), 3L)
+})

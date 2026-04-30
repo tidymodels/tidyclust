@@ -2,12 +2,15 @@
 % Please edit documentation in R/tunable.R
 \name{tunable.cluster_spec}
 \alias{tunable.cluster_spec}
+\alias{tunable.hier_clust}
 \alias{tunable.k_means}
 \alias{tunable.db_clust}
 \alias{tunable.gm_clust}
 \title{Get tunable parameters for a cluster specification}
 \usage{
 \method{tunable}{cluster_spec}(x, ...)
+
+\method{tunable}{hier_clust}(x, ...)
 
 \method{tunable}{k_means}(x, ...)
 
