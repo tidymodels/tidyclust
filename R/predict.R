@@ -14,8 +14,10 @@
 #' @param opts A list of optional arguments to the underlying predict function
 #'   that will be used when `type = "raw"`. The list should not include options
 #'   for the model object or the new data being predicted.
-#' @param ... Arguments to the underlying model's prediction function cannot be
-#'   passed here (see `opts`).
+#' @param ... Optional arguments passed to the underlying predict function.
+#'   Use `prefix` to change the prefix in the cluster factor levels (default:
+#'   `"Cluster_"`). Use `labels` to supply a character vector of cluster labels,
+#'   which overrides `prefix`.
 #'
 #' @details
 #'

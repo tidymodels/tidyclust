@@ -48,8 +48,14 @@ extract_fit_summary.workflow <- function(object, ...) {
 }
 
 #' @export
-extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
-  names <- paste0(prefix, seq_along(object$size))
+extract_fit_summary.kmeans <- function(
+  object,
+  ...,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  n_clusters <- length(object$size)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
   names <- factor(names)
 
   cluster_asignments <- factor(
@@ -74,9 +80,11 @@ extract_fit_summary.kmeans <- function(object, ..., prefix = "Cluster_") {
 extract_fit_summary.KMeansCluster <- function(
   object,
   ...,
-  prefix = "Cluster_"
+  prefix = "Cluster_",
+  labels = NULL
 ) {
-  names <- paste0(prefix, seq_len(nrow(object$centroids)))
+  n_clusters <- nrow(object$centroids)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
   names <- factor(names)
 
   cluster_asignments <- factor(
@@ -98,8 +106,14 @@ extract_fit_summary.KMeansCluster <- function(
 }
 
 #' @export
-extract_fit_summary.kproto <- function(object, ..., prefix = "Cluster_") {
-  names <- paste0(prefix, seq_len(nrow(object$centers)))
+extract_fit_summary.kproto <- function(
+  object,
+  ...,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  n_clusters <- nrow(object$centers)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
   names <- factor(names)
 
   cluster_asignments <- factor(
@@ -121,8 +135,14 @@ extract_fit_summary.kproto <- function(object, ..., prefix = "Cluster_") {
 }
 
 #' @export
-extract_fit_summary.kmodes <- function(object, ..., prefix = "Cluster_") {
-  names <- paste0(prefix, seq_len(nrow(object$modes)))
+extract_fit_summary.kmodes <- function(
+  object,
+  ...,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  n_clusters <- nrow(object$modes)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
   names <- factor(names)
 
   cluster_asignments <- factor(
