@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` now accept a `labels` argument, a character vector of cluster labels that overrides the auto-generated `prefix`-based labels. (#148)
+
 * `hier_clust()` gains a `dist_fun` argument for specifying a custom distance function. (#70)
 
 * The `dist_fun` argument accepted by cluster metrics is now documented, including how to use `{philentropy}` to supply custom distance methods. See `vignette("tuning_and_metrics", package = "tidyclust")` for examples. (#185)

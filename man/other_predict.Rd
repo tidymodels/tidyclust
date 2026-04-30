@@ -12,8 +12,10 @@ predict_cluster(object, ...)
 \arguments{
 \item{object}{An object of class \code{\link{cluster_fit}}.}
 
-\item{...}{Arguments to the underlying model's prediction function cannot be
-passed here (see \code{opts}).}
+\item{...}{Optional arguments passed to the underlying predict function.
+Use \code{prefix} to change the prefix in the cluster factor levels (default:
+\code{"Cluster_"}). Use \code{labels} to supply a character vector of cluster labels,
+which overrides \code{prefix}.}
 
 \item{new_data}{A rectangular data object, such as a data frame.}
 }

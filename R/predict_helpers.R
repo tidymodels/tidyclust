@@ -1,47 +1,80 @@
-make_predictions <- function(x, prefix, n_clusters) {
+make_cluster_labels <- function(n_clusters, prefix, labels) {
+  if (!is.null(labels)) {
+    if (length(labels) < n_clusters) {
+      cli::cli_abort(
+        "{.arg labels} must have length {n_clusters}, not {length(labels)}."
+      )
+    }
+    labels <- labels[seq_len(n_clusters)]
+    dupes <- unique(labels[duplicated(labels)])
+    if (length(dupes) > 0) {
+      cli::cli_abort(
+        "{.arg labels} must not contain duplicate values. Duplicated: {.val {dupes}}."
+      )
+    }
+    labels
+  } else {
+    paste0(prefix, seq_len(n_clusters))
+  }
+}
+
+make_predictions <- function(x, prefix, n_clusters, labels = NULL) {
   levels <- seq_len(n_clusters)
-  factor(x, levels = levels, labels = paste0(prefix, levels))
+  fct_labels <- make_cluster_labels(n_clusters, prefix, labels)
+  factor(x, levels = levels, labels = fct_labels)
 }
 
-make_predictions_w_outliers <- function(x, prefix, n_clusters) {
+make_predictions_w_outliers <- function(x, prefix, n_clusters, labels = NULL) {
   levels <- 0:(n_clusters - 1)
-  labels <- paste0(prefix, levels)
-  labels[1] <- "Outlier"
-  factor(x, levels = levels, labels = labels)
+  non_outlier_labels <- make_cluster_labels(n_clusters - 1, prefix, labels)
+  fct_labels <- c("Outlier", non_outlier_labels)
+  factor(x, levels = levels, labels = fct_labels)
 }
 
 
-.k_means_predict_stats <- function(object, new_data, prefix = "Cluster_") {
+.k_means_predict_stats <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
   res <- object$centers
   res <- flexclust::dist2(res, new_data)
   res <- apply(res, 2, which.min)
 
-  make_predictions(res, prefix, length(object$size))
+  make_predictions(res, prefix, length(object$size), labels)
 }
 
-.k_means_predict_ClusterR <- function(object, new_data, prefix = "Cluster_") {
+.k_means_predict_ClusterR <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
   clusters <- predict(object, new_data)
   n_clusters <- length(object$obs_per_cluster)
 
-  make_predictions(clusters, prefix, n_clusters)
+  make_predictions(clusters, prefix, n_clusters, labels)
 }
 
 .k_means_predict_clustMixType <- function(
   object,
   new_data,
-  prefix = "Cluster_"
+  prefix = "Cluster_",
+  labels = NULL
 ) {
   clusters <- predict(object, new_data)$cluster
   n_clusters <- length(object$size)
 
-  make_predictions(clusters, prefix, n_clusters)
+  make_predictions(clusters, prefix, n_clusters, labels)
 }
 
 .k_means_predict_klaR <- function(
   object,
   new_data,
   prefix = "Cluster_",
-  ties = c("first", "last", "random")
+  ties = c("first", "last", "random"),
+  labels = NULL
 ) {
   ties <- rlang::arg_match(ties)
 
@@ -70,7 +103,7 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
     }
   }
 
-  make_predictions(clusters, prefix, n_modes)
+  make_predictions(clusters, prefix, n_modes, labels)
 }
 
 .hier_clust_predict_stats <- function(
@@ -188,7 +221,12 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
   pred_clusts
 }
 
-.db_clust_predict_dbscan <- function(object, new_data, prefix = "Cluster_") {
+.db_clust_predict_dbscan <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
   is_core <- attr(object, "is_core")
   training_data <- attr(object, "training_data")
   cp <- training_data[is_core, ]
@@ -210,12 +248,17 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters) {
     n_clusters <- length(unique(object$cluster[object$cluster != 0])) + 1
   }
 
-  make_predictions_w_outliers(clusters, prefix, n_clusters)
+  make_predictions_w_outliers(clusters, prefix, n_clusters, labels)
 }
 
-.gm_clust_predict_mclust <- function(object, new_data, prefix = "Cluster_") {
+.gm_clust_predict_mclust <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
   clusters <- predict(object, newdata = new_data)$classification
   n_clusters <- attr(object, "num_clusters")
 
-  make_predictions(clusters, prefix, n_clusters)
+  make_predictions(clusters, prefix, n_clusters, labels)
 }

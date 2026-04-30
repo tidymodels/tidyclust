@@ -64,3 +64,41 @@ test_that("prefix is passed in extract_centroids()", {
     all(substr(res$.cluster, 1, 2) == "C_")
   )
 })
+
+test_that("labels is passed in extract_centroids()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  res <- extract_centroids(spec, labels = c("A", "B", "C"))
+
+  expect_identical(levels(res$.cluster), c("A", "B", "C"))
+})
+
+test_that("labels length mismatch errors in extract_centroids()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    extract_centroids(spec, labels = c("A", "B"))
+  )
+})
+
+test_that("too-long labels are subsetted in extract_centroids()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  res <- extract_centroids(spec, labels = c("A", "B", "C", "D"))
+
+  expect_identical(levels(res$.cluster), c("A", "B", "C"))
+})
+
+test_that("duplicate labels errors in extract_centroids()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    extract_centroids(spec, labels = c("A", "A", "B"))
+  )
+})
