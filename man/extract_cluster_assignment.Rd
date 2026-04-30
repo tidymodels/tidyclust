@@ -10,7 +10,9 @@ extract_cluster_assignment(object, ...)
 \item{object}{An fitted \code{\link{cluster_spec}} object.}
 
 \item{...}{Other arguments passed to methods. Using the \code{prefix} allows you
-to change the prefix in the levels of the factor levels.}
+to change the prefix in the levels of the factor levels. Using \code{labels}
+allows you to provide a character vector of cluster labels, overriding
+\code{prefix}.}
 }
 \value{
 A \code{tibble::tibble()} with 1 column named \code{.cluster}. This tibble will
@@ -58,6 +60,9 @@ kmeans_fit |>
 
 kmeans_fit |>
   extract_cluster_assignment(prefix = "C_")
+
+kmeans_fit |>
+  extract_cluster_assignment(labels = c("A", "B", "C", "D", "E"))
 
 # Some models such as `hier_clust()` fits in such a way that you can specify
 # the number of clusters after the model is fit

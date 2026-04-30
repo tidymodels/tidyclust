@@ -22,8 +22,10 @@ value based on the model's mode.}
 that will be used when \code{type = "raw"}. The list should not include options
 for the model object or the new data being predicted.}
 
-\item{...}{Arguments to the underlying model's prediction function cannot be
-passed here (see \code{opts}).}
+\item{...}{Optional arguments passed to the underlying predict function.
+Use \code{prefix} to change the prefix in the cluster factor levels (default:
+\code{"Cluster_"}). Use \code{labels} to supply a character vector of cluster labels,
+which overrides \code{prefix}.}
 }
 \value{
 With the exception of \code{type = "raw"}, the results of
