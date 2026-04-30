@@ -3,6 +3,7 @@
 ## Setup
 
 ``` r
+
 library(workflows)
 library(parsnip)
 ```
@@ -10,6 +11,7 @@ library(parsnip)
 Load libraries:
 
 ``` r
+
 library(tidyclust)
 #> 
 #> Attaching package: 'tidyclust'
@@ -49,6 +51,7 @@ set.seed(838383)
 Load and clean a dataset:
 
 ``` r
+
 data("penguins", package = "modeldata")
 
 penguins <- penguins |>
@@ -158,6 +161,7 @@ To specify a hierarchical clustering model in `tidyclust`, simply choose
 a value of `num_clusters` and (optionally) a linkage method:
 
 ``` r
+
 hc_spec <- hier_clust(
   num_clusters = 3,
   linkage_method = "average"
@@ -182,6 +186,7 @@ linkage
 We fit the model to data in the usual way:
 
 ``` r
+
 hc_fit <- hc_spec |>
   fit(~ bill_length_mm + bill_depth_mm,
     data = penguins
@@ -201,6 +206,7 @@ below, dendrograms are often not very informative for moderate to large
 size datasets.)
 
 ``` r
+
 hc_fit$fit |> plot()
 ```
 
@@ -210,6 +216,7 @@ anything](hier_clust_files/figure-html/unnamed-chunk-12-1.png)
 We can also extract the standard `tidyclust` summary list:
 
 ``` r
+
 hc_summary <- hc_fit |> extract_fit_summary()
 
 hc_summary |> str()
@@ -226,10 +233,11 @@ hc_summary |> str()
 ```
 
 Note that, although the hierarchical clustering algorithm is not focused
-on cluster centroids in the same way $k$-means is, we are still able to
-compute the geometric mean over the predictors for each cluster:
+on cluster centroids in the same way $`k`$-means is, we are still able
+to compute the geometric mean over the predictors for each cluster:
 
 ``` r
+
 hc_fit |> extract_centroids()
 #> # A tibble: 3 × 3
 #>   .cluster  bill_length_mm bill_depth_mm
@@ -265,6 +273,7 @@ specified type of linkage in the model:
   observations in a cluster, and the centroid of the cluster.
 
 ``` r
+
 hc_preds <- hc_fit |> predict(penguins)
 
 hc_preds
@@ -292,6 +301,7 @@ in a particular partition; but if a training observation is treated as
 new data, it is predicted in the same manner as truly new information.
 
 ``` r
+
 bind_cols(
   hc_preds,
   extract_cluster_assignment(hc_fit)
@@ -316,10 +326,11 @@ bind_cols(
 
 Suppose we have produced cluster assignments from two models: a
 hierarchical clustering model with three clusters (as above) and a
-$k$-means clustering model with five clusters (below). How can we
+$`k`$-means clustering model with five clusters (below). How can we
 combine these assignments?
 
 ``` r
+
 km_spec <- k_means(num_clusters = 5)
 km_fit <- km_spec |>
   fit(~., data = penguins)
@@ -332,6 +343,7 @@ We notice that the three-cluster assignments from `hier_clust` do not
 line up perfectly with the five-cluster assignments from `k_means`.
 
 ``` r
+
 tibble(
   hc = hc_preds$.pred_cluster,
   km = km_preds$.pred_cluster
@@ -351,10 +363,10 @@ tibble(
 ```
 
 However, they are not fully unrelated assignments. For example, all of
-`KM_2` in the $k$-means assignment fell inside `HC_1` for the
+`KM_2` in the $`k`$-means assignment fell inside `HC_1` for the
 hierarchical assignments.
 
-Our goal is to relabel the five $k$-means clusters to match the three
+Our goal is to relabel the five $`k`$-means clusters to match the three
 cluster names in the hierarchical output. This can be accomplished with
 [`reconcile_clusterings_mapping()`](https://tidyclust.tidymodels.org/dev/reference/reconcile_clusterings_mapping.md).
 
@@ -366,6 +378,7 @@ If we are not trying to simply match names across two same-size
 clusterings, the option `one_to_one` must be set to `FALSE`.
 
 ``` r
+
 reconcile_clusterings_mapping(
   primary = hc_preds$.pred_cluster,
   alternative = km_preds$.pred_cluster,
@@ -391,4 +404,4 @@ In this example, we can see that `KM_1`, `KM_2`, `KM_5` have been
 matched to `HC_1`; and `KM_3` and `KM_4` have been matched to `HC_2`.
 Notice that no clusters from the `KM` set were matched to `HC_3`;
 evidently, this is a small cluster that did not manifest clearly in the
-$k$-means clustering.
+$`k`$-means clustering.

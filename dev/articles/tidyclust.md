@@ -1,6 +1,7 @@
 # Getting started with tidyclust
 
 ``` r
+
 library(tidyclust)
 ```
 
@@ -28,6 +29,7 @@ Every tidyclust analysis follows the same four steps:
 ### 1. Create a specification
 
 ``` r
+
 kmeans_spec <- k_means(num_clusters = 3) |>
   set_engine("stats")
 
@@ -43,6 +45,7 @@ kmeans_spec
 ### 2. Fit to data
 
 ``` r
+
 set.seed(1234)
 kmeans_fit <- fit(kmeans_spec, ~., data = mtcars)
 kmeans_fit
@@ -101,6 +104,7 @@ kmeans_fit
 returns the cluster label for each training observation:
 
 ``` r
+
 extract_cluster_assignment(kmeans_fit)
 #> # A tibble: 32 × 1
 #>    .cluster 
@@ -122,6 +126,7 @@ extract_cluster_assignment(kmeans_fit)
 returns the location (mean) of each cluster:
 
 ``` r
+
 extract_centroids(kmeans_fit)
 #> # A tibble: 3 × 12
 #>   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear
@@ -136,6 +141,7 @@ extract_centroids(kmeans_fit)
 observations to clusters:
 
 ``` r
+
 predict(kmeans_fit, new_data = mtcars[1:5, ])
 #> # A tibble: 5 × 1
 #>   .pred_cluster
@@ -151,6 +157,7 @@ predict(kmeans_fit, new_data = mtcars[1:5, ])
 the cluster assignment to the original data:
 
 ``` r
+
 augment(kmeans_fit, new_data = mtcars)
 #> # A tibble: 32 × 12
 #>      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
@@ -174,6 +181,7 @@ augment(kmeans_fit, new_data = mtcars)
 tidyclust provides several cluster quality metrics:
 
 ``` r
+
 sse_within_total(kmeans_fit, mtcars)
 #> # A tibble: 1 × 3
 #>   .metric          .estimator .estimate
@@ -207,6 +215,7 @@ The number of clusters is cut from the dendrogram at fit time using
 `num_clusters`:
 
 ``` r
+
 hclust_spec <- hier_clust(num_clusters = 3) |>
   set_engine("stats")
 
@@ -244,6 +253,7 @@ can preprocess data with a recipe and bundle it with a model in a
 workflow:
 
 ``` r
+
 library(recipes)
 #> Loading required package: dplyr
 #> 

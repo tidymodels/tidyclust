@@ -5,6 +5,7 @@
 Load libraries:
 
 ``` r
+
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
@@ -14,6 +15,7 @@ set.seed(838383)
 Load and clean a dataset:
 
 ``` r
+
 data("penguins", package = "modeldata")
 
 penguins <- penguins |>
@@ -35,7 +37,7 @@ of varying inputs and quantifying results is still applicable.
 
 ## Specify and fit a model
 
-In this example, we will fit a $k$-means cluster model to the
+In this example, we will fit a $`k`$-means cluster model to the
 `palmerpenguins` dataset, using only the bill length and bill depth of
 penguins as predictors.
 
@@ -48,6 +50,7 @@ model based on metrics.
 First, we set up cross-validation samples for our data:
 
 ``` r
+
 penguins_cv <- vfold_cv(penguins, v = 5)
 ```
 
@@ -55,6 +58,7 @@ Next, we specify our model with a tuning parameter, make a workflow, and
 establish a range of possible values of `num_clusters` to try:
 
 ``` r
+
 kmeans_spec <- k_means(num_clusters = tune())
 
 penguins_rec <- recipe(~ bill_length_mm + bill_depth_mm,
@@ -89,6 +93,7 @@ to compute metrics on each cross-validation split, for each possible
 choice of number of clusters.
 
 ``` r
+
 res <- tune_cluster(
   kmeans_wflow,
   resamples = penguins_cv,
@@ -111,6 +116,7 @@ res
 ```
 
 ``` r
+
 res_metrics <- res |> collect_metrics()
 res_metrics
 #> # A tibble: 30 × 7
@@ -141,6 +147,7 @@ A common approach to choosing a number of clusters is to look for an
 number:
 
 ``` r
+
 res_metrics |>
   filter(.metric == "sse_ratio") |>
   ggplot(aes(x = num_clusters, y = mean)) +
@@ -173,6 +180,7 @@ tidyclust uses internally, supports many distance and similarity
 measures. To see all available methods:
 
 ``` r
+
 philentropy::getDistMethods()
 #>  [1] "euclidean"         "manhattan"         "minkowski"        
 #>  [4] "chebyshev"         "sorensen"          "gower"            
@@ -206,6 +214,7 @@ expect a single-argument function that takes a data frame and returns a
 (the default):
 
 ``` r
+
 kmeans_fit <- kmeans_wflow |>
   finalize_workflow(list(num_clusters = 3)) |>
   fit(penguins)
@@ -232,6 +241,7 @@ default is
 with Euclidean distance:
 
 ``` r
+
 man_dist2 <- function(x, y) philentropy::dist_many_many(x, y, method = "manhattan")
 
 sse_within_total(kmeans_fit, dist_fun = man_dist2)

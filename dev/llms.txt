@@ -6,12 +6,12 @@ clustering models. The package is closely modeled after the
 
 ## Available models
 
-| Model            | Function                                                                       | Engines                             |
-|------------------|--------------------------------------------------------------------------------|-------------------------------------|
-| K-Means          | [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md)       | stats, ClusterR, klaR, clustMixType |
-| Hierarchical     | [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md) | stats                               |
-| Density-based    | [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)     | dbscan                              |
-| Gaussian mixture | [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)     | mclust                              |
+| Model | Function | Engines |
+|----|----|----|
+| K-Means | [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md) | stats, ClusterR, klaR, clustMixType |
+| Hierarchical | [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md) | stats |
+| Density-based | [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md) | dbscan |
+| Gaussian mixture | [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md) | mclust |
 
 ## Installation
 
@@ -19,6 +19,7 @@ You can install the released version of tidyclust from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+
 install.packages("tidyclust")
 ```
 
@@ -26,6 +27,7 @@ and the development version of tidyclust from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("pak")
 pak::pak("tidymodels/tidyclust")
 ```
@@ -36,6 +38,7 @@ The first thing you do is to create a `cluster specification`. For this
 example we are creating a K-means model, using the `stats` engine.
 
 ``` r
+
 library(tidyclust)
 set.seed(1234)
 
@@ -54,6 +57,7 @@ kmeans_spec
 This specification can then be fit using data.
 
 ``` r
+
 kmeans_spec_fit <- kmeans_spec |>
   fit(~., data = mtcars)
 kmeans_spec_fit
@@ -104,6 +108,7 @@ Once you have a fitted tidyclust object, you can do a number of things.
 a new observation belongs to
 
 ``` r
+
 predict(kmeans_spec_fit, mtcars[1:4, ])
 #> # A tibble: 4 × 1
 #>   .pred_cluster
@@ -118,6 +123,7 @@ predict(kmeans_spec_fit, mtcars[1:4, ])
 returns the cluster assignments of the training observations
 
 ``` r
+
 extract_cluster_assignment(kmeans_spec_fit)
 #> # A tibble: 32 × 1
 #>    .cluster 
@@ -140,6 +146,7 @@ and
 returns the locations of the clusters
 
 ``` r
+
 extract_centroids(kmeans_spec_fit)
 #> # A tibble: 3 × 12
 #>   .cluster    mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb

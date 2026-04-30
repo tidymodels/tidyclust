@@ -2,6 +2,10 @@
 
 ## tidyclust (development version)
 
+- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
+  gains a `dist_fun` argument for specifying a custom distance function.
+  ([\#70](https://github.com/tidymodels/tidyclust/issues/70))
+
 - The `dist_fun` argument accepted by cluster metrics is now documented,
   including how to use
   [philentropy](https://drostlab.github.io/philentropy/) to supply

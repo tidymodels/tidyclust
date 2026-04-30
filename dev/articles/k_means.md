@@ -3,6 +3,7 @@
 ## Setup
 
 ``` r
+
 library(workflows)
 library(parsnip)
 ```
@@ -10,6 +11,7 @@ library(parsnip)
 Load libraries:
 
 ``` r
+
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
@@ -18,6 +20,7 @@ library(tidymodels)
 Load and clean a dataset:
 
 ``` r
+
 data("penguins", package = "modeldata")
 
 penguins <- penguins |>
@@ -40,6 +43,7 @@ To specify a k-means model in `tidyclust`, simply choose a value of
 `num_clusters`:
 
 ``` r
+
 kmeans_spec <- k_means(num_clusters = 3)
 
 kmeans_spec
@@ -60,6 +64,7 @@ implementation, by changing the engine and/or using the corresponding
 arguments from the engine functions:
 
 ``` r
+
 kmeans_spec_lloyd <- k_means(num_clusters = 3) |>
   parsnip::set_engine("stats", algorithm = "Lloyd")
 
@@ -83,6 +88,7 @@ Note that unlike in supervised modeling, the formula should not include
 a response variable.
 
 ``` r
+
 kmeans_fit <- kmeans_spec |>
   fit(~ bill_length_mm + bill_depth_mm,
     data = penguins
@@ -102,6 +108,7 @@ To access only the results produced by the engine - in this case,
 the fit from the fitted model object:
 
 ``` r
+
 kmeans_fit$fit
 #> K-means clustering with 3 clusters of sizes 141, 116, 85
 #> 
@@ -172,6 +179,7 @@ to produce a list of model summary information in a format that is
 consistent across all cluster model specifications and engines
 
 ``` r
+
 kmeans_summary <- kmeans_fit |>
   extract_fit_summary()
 
@@ -196,6 +204,7 @@ assign observations to clusters. To access these, use
 function:
 
 ``` r
+
 kmeans_fit |>
   extract_cluster_assignment()
 #> # A tibble: 342 × 1
@@ -223,6 +232,7 @@ To reconcile these standardized cluster labels with the engine output,
 refer back to the full model fit summary:
 
 ``` r
+
 tibble(
   orig_labels = kmeans_summary$orig_labels,
   standard_labels = kmeans_summary$cluster_assignments
@@ -259,6 +269,7 @@ values in the predictor space, a.k.a. the centroids.
 These can be accessed from the full summary:
 
 ``` r
+
 kmeans_summary$centroids
 #> # A tibble: 3 × 2
 #>   bill_length_mm bill_depth_mm
@@ -271,6 +282,7 @@ kmeans_summary$centroids
 They can also be accessed directly from the fitted model with:
 
 ``` r
+
 kmeans_fit |>
   extract_centroids()
 #> # A tibble: 3 × 3
@@ -287,7 +299,7 @@ is penguins with large bills in both dimensions.
 
 ## Prediction
 
-Since the $k$-means algorithm ultimately assigns training observations
+Since the $`k`$-means algorithm ultimately assigns training observations
 to the cluster with the closest centroid, it is natural to “predict”
 that test observations also belong to the closest centroid cluster.
 
@@ -296,6 +308,7 @@ as expected, producing cluster assignment predictions on new data based
 on distance to the fitted model centroids.
 
 ``` r
+
 new_penguin <- tibble(
   bill_length_mm = 42,
   bill_depth_mm = 17
@@ -313,6 +326,7 @@ To attach all predictions to a dataset as a column, use
 [`augment()`](https://generics.r-lib.org/reference/augment.html):
 
 ``` r
+
 kmeans_fit |>
   augment(penguins)
 #> # A tibble: 342 × 3
@@ -354,6 +368,7 @@ The WSS and TSS come “for free” with the model fit summary, or they can
 be accessed directly from the model fit:
 
 ``` r
+
 kmeans_summary$sse_within_total_total
 #> [1] 944.4986 754.7437 617.9859
 kmeans_summary$sse_total
@@ -382,6 +397,7 @@ totalled, with
 [`sse_within()`](https://tidyclust.tidymodels.org/dev/reference/sse_within.md):
 
 ``` r
+
 kmeans_fit |>
   sse_within()
 #> # A tibble: 3 × 3
@@ -408,6 +424,7 @@ fit. Beause the computation of the silhouette depends on the original
 observation values, a dataset must also be supplied to the function.
 
 ``` r
+
 kmeans_fit |>
   silhouette_avg(penguins)
 #> # A tibble: 1 × 3
@@ -429,6 +446,7 @@ distances from a single matrix (i.e., all pairwise distances between
 observations).
 
 ``` r
+
 my_dist_1 <- function(x) {
   philentropy::distance(x, method = "manhattan")
 }
@@ -461,6 +479,7 @@ penguins by bill dimensions. In the second recipe, we log-scale both
 predictors before clustering.
 
 ``` r
+
 penguins_recipe_1 <- recipe(~ bill_length_mm + bill_depth_mm,
   data = penguins
 )
@@ -615,7 +634,7 @@ There are three common methods for selecting initial centers:
 
 3.  **k-means++:** Beginning with one random set of the observations,
     further observations are sampled via probability-weighted sampling
-    until $k$ clusters are formed. The centroids of these clusters are
+    until $`k`$ clusters are formed. The centroids of these clusters are
     used as the initial centers. ([Further detail
     here](https://en.wikipedia.org/wiki/K-means%2B%2B))
 

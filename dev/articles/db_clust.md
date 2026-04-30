@@ -3,6 +3,7 @@
 ## Setup
 
 ``` r
+
 library(workflows)
 library(parsnip)
 ```
@@ -10,6 +11,7 @@ library(parsnip)
 Load libraries:
 
 ``` r
+
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
@@ -18,6 +20,7 @@ library(tidymodels)
 Load and clean a dataset:
 
 ``` r
+
 data("penguins", package = "modeldata")
 
 penguins <- penguins %>%
@@ -38,6 +41,7 @@ To specify a DBSCAN model in `tidyclust`, simply set the values for
 `radius` and `min_pts`:
 
 ``` r
+
 db_clust_spec <- db_clust(radius = 0.35, min_points = 10)
 
 db_clust_spec
@@ -64,6 +68,7 @@ different scales.
 
 ``` r
 
+
 penguins_recipe <- recipe(~bill_length_mm + bill_depth_mm, data = penguins) %>%
   step_normalize(all_numeric_predictors())
 
@@ -86,6 +91,7 @@ db_clust_fit %>%
 We can also extract the standard `tidyclust` summary list:
 
 ``` r
+
 db_clust_summary <- db_clust_fit %>% extract_fit_summary()
 
 db_clust_summary %>% str()
@@ -111,6 +117,7 @@ Note that the DBSCAN algorithm allows for some points to not be assigned
 clusters. These points are labeled as outliers.
 
 ``` r
+
 db_clust_fit %>% extract_cluster_assignment()
 #> # A tibble: 342 × 1
 #>    .cluster 
@@ -136,6 +143,7 @@ interest, they can still be accessed via the
 object.
 
 ``` r
+
 db_clust_fit %>% extract_centroids()
 #> # A tibble: 4 × 3
 #>   .cluster  bill_length_mm bill_depth_mm
@@ -148,17 +156,18 @@ db_clust_fit %>% extract_centroids()
 
 ## Prediction
 
-Since $DBSCAN$ algorithm ultimately assigns training observations to the
-clusters based on proximity to core points, it is natural to “predict”
-that test observations belong to a cluster if they are within `radius`
-distance to a core point. To reconcile points being within the radius of
-two core points that belong to different clusters, the
+Since $`DBSCAN`$ algorithm ultimately assigns training observations to
+the clusters based on proximity to core points, it is natural to
+“predict” that test observations belong to a cluster if they are within
+`radius` distance to a core point. To reconcile points being within the
+radius of two core points that belong to different clusters, the
 [`predict()`](https://rdrr.io/r/stats/predict.html) function assigns new
 observations to the cluster of the closest core point. If a point is not
 within the `radius` of any core points, it is predicted to be an
 outlier.
 
 ``` r
+
 new_penguin <- tibble(
   bill_length_mm = 45,
   bill_depth_mm = 15
@@ -202,6 +211,7 @@ The fitting process can be described as follows:
 
 ``` r
 
+
 penguins_std %>%
   ggplot() +
   geom_point(aes(x = bill_length_std, y = bill_depth_std)) +
@@ -225,6 +235,7 @@ labs(x = "Standardized Bill Length", y = "Standardized Bill Depth")
     the single cluster have been found.
 
 ``` r
+
 penguins_new <- penguins_std
 penguins_new$cluster <- (db_clust_fit %>% extract_cluster_assignment())$.cluster
 # factor(dbscan_fit$cluster)

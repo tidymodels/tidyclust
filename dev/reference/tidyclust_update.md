@@ -38,6 +38,7 @@ update(
   num_clusters = NULL,
   cut_height = NULL,
   linkage_method = NULL,
+  dist_fun = NULL,
   fresh = FALSE,
   ...
 )
@@ -119,6 +120,18 @@ update(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
   abbreviation of) one of `"ward.D"`, `"ward.D2"`, `"single"`,
   `"complete"`, `"average"` (= UPGMA), `"mcquitty"` (= WPGMA),
   `"median"` (= WPGMC) or `"centroid"` (= UPGMC).
+
+- dist_fun:
+
+  A function for calculating the distance between observations. Defaults
+  to
+  [`philentropy::distance`](https://drostlab.github.io/philentropy/reference/distance.html)
+  which supports numerous distance metrics via its `method` argument.
+  The function should accept a matrix or data frame and return a square
+  numeric matrix or an object coercible to one via
+  [`stats::as.dist()`](https://rdrr.io/r/stats/dist.html). See
+  [`silhouette()`](https://tidyclust.tidymodels.org/dev/reference/silhouette.md)
+  for further details.
 
 ## Value
 

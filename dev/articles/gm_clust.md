@@ -3,6 +3,7 @@
 ## Setup
 
 ``` r
+
 library(workflows)
 library(parsnip)
 ```
@@ -10,6 +11,7 @@ library(parsnip)
 Load Libraries:
 
 ``` r
+
 library(tidyclust)
 library(tidyverse)
 library(tidymodels)
@@ -19,6 +21,7 @@ library(mclust)
 Load and clean a dataset:
 
 ``` r
+
 data("penguins", package = "modeldata")
 
 penguins <- penguins %>%
@@ -41,6 +44,7 @@ and use the TRUE/FALSE parameters to select which model specification to
 use:
 
 ``` r
+
 gm_clust_spec <- gm_clust(
   num_clusters = 3,
   circular = FALSE,
@@ -74,6 +78,7 @@ After specifying the model specification, we fit the model to data in
 the usual way:
 
 ``` r
+
 gm_clust_fit <- gm_clust_spec %>%
   fit( ~ bill_length_mm + bill_depth_mm,
        data = penguins
@@ -91,6 +96,7 @@ gm_clust_fit %>%
 We can also extract the standard `tidyclust` summary list:
 
 ``` r
+
 gm_clust_summary <- gm_clust_fit %>% extract_fit_summary()
 
 gm_clust_summary %>% str()
@@ -113,6 +119,7 @@ The cluster assignments for the training data can be accessed using the
 function.
 
 ``` r
+
 gm_clust_fit %>% extract_cluster_assignment()
 #> # A tibble: 342 × 1
 #>    .cluster 
@@ -140,6 +147,7 @@ The centroids for the fitted clusters can be accessed via
 [`extract_centroids()`](https://tidyclust.tidymodels.org/dev/reference/extract_centroids.md):
 
 ``` r
+
 gm_clust_fit %>% extract_centroids()
 #> # A tibble: 3 × 3
 #>   .cluster  bill_length_mm bill_depth_mm
@@ -159,6 +167,7 @@ function to assign new observations to the cluster in which they have
 the highest probability of belonging to.
 
 ``` r
+
 new_penguin <- tibble(
   bill_length_mm = 40,
   bill_depth_mm = 20
@@ -174,24 +183,24 @@ gm_clust_fit %>%
 
 ## Gaussian Mixture Model Specifications
 
-| Model Name | Circular Clusters? | Zero Covariance? | Shared Orientation? | Shared Shape? | Shared Size? | Example                 |
-|------------|--------------------|------------------|---------------------|---------------|--------------|-------------------------|
-| EII        | TRUE               | –                | –                   | –             | TRUE         | ![](gmm_models/eii.jpg) |
-| VII        | TRUE               | –                | –                   | –             | FALSE        | ![](gmm_models/vii.jpg) |
-| EEI        | FALSE              | TRUE             | –                   | TRUE          | TRUE         | ![](gmm_models/eei.jpg) |
-| EVI        | FALSE              | TRUE             | –                   | FALSE         | TRUE         | ![](gmm_models/evi.jpg) |
-| VEI        | FALSE              | TRUE             | –                   | TRUE          | FALSE        | ![](gmm_models/vei.jpg) |
-| VVI        | FALSE              | TRUE             | –                   | FALSE         | FALSE        | ![](gmm_models/vvi.jpg) |
-| EEE        | FALSE              | FALSE            | TRUE                | TRUE          | TRUE         | ![](gmm_models/eee.jpg) |
-| EVE        | FALSE              | FALSE            | TRUE                | FALSE         | TRUE         | ![](gmm_models/eve.jpg) |
-| VEE        | FALSE              | FALSE            | TRUE                | TRUE          | FALSE        | ![](gmm_models/vee.jpg) |
-| VVE        | FALSE              | FALSE            | TRUE                | FALSE         | FALSE        | ![](gmm_models/vve.jpg) |
-| EEV        | FALSE              | FALSE            | FALSE               | TRUE          | TRUE         | ![](gmm_models/eev.jpg) |
-| EVV        | FALSE              | FALSE            | FALSE               | FALSE         | TRUE         | ![](gmm_models/evv.jpg) |
-| VEV        | FALSE              | FALSE            | FALSE               | TRUE          | FALSE        | ![](gmm_models/vev.jpg) |
-| VVV        | FALSE              | FALSE            | FALSE               | FALSE         | FALSE        | ![](gmm_models/vvv.jpg) |
+| Model Name | Circular Clusters? | Zero Covariance? | Shared Orientation? | Shared Shape? | Shared Size? | Example |
+|----|----|----|----|----|----|----|
+| EII | TRUE | – | – | – | TRUE | ![](gmm_models/eii.jpg) |
+| VII | TRUE | – | – | – | FALSE | ![](gmm_models/vii.jpg) |
+| EEI | FALSE | TRUE | – | TRUE | TRUE | ![](gmm_models/eei.jpg) |
+| EVI | FALSE | TRUE | – | FALSE | TRUE | ![](gmm_models/evi.jpg) |
+| VEI | FALSE | TRUE | – | TRUE | FALSE | ![](gmm_models/vei.jpg) |
+| VVI | FALSE | TRUE | – | FALSE | FALSE | ![](gmm_models/vvi.jpg) |
+| EEE | FALSE | FALSE | TRUE | TRUE | TRUE | ![](gmm_models/eee.jpg) |
+| EVE | FALSE | FALSE | TRUE | FALSE | TRUE | ![](gmm_models/eve.jpg) |
+| VEE | FALSE | FALSE | TRUE | TRUE | FALSE | ![](gmm_models/vee.jpg) |
+| VVE | FALSE | FALSE | TRUE | FALSE | FALSE | ![](gmm_models/vve.jpg) |
+| EEV | FALSE | FALSE | FALSE | TRUE | TRUE | ![](gmm_models/eev.jpg) |
+| EVV | FALSE | FALSE | FALSE | FALSE | TRUE | ![](gmm_models/evv.jpg) |
+| VEV | FALSE | FALSE | FALSE | TRUE | FALSE | ![](gmm_models/vev.jpg) |
+| VVV | FALSE | FALSE | FALSE | FALSE | FALSE | ![](gmm_models/vvv.jpg) |
 
-GMM Model Specifications with gm_clust()
+GMM Model Specifications with gm_clust() {.table style="width:100%;"}
 
 ## A brief introduction to density-based clustering
 

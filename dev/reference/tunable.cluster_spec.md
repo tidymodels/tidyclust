@@ -8,6 +8,9 @@ Get tunable parameters for a cluster specification
 # S3 method for class 'cluster_spec'
 tunable(x, ...)
 
+# S3 method for class 'hier_clust'
+tunable(x, ...)
+
 # S3 method for class 'k_means'
 tunable(x, ...)
 

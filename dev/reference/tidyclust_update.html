@@ -81,6 +81,7 @@ update() can be used in lieu of recreating the object from scratch."><meta prope
 <span>  num_clusters <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cut_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  linkage_method <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dist_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fresh <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
@@ -156,6 +157,14 @@ obtain cluster assignments (only used if <code>num_clusters</code> is <code>NULL
 unambiguous abbreviation of) one of <code>"ward.D"</code>, <code>"ward.D2"</code>, <code>"single"</code>,
 <code>"complete"</code>, <code>"average"</code> (= UPGMA), <code>"mcquitty"</code> (= WPGMA), <code>"median"</code> (=
 WPGMC) or <code>"centroid"</code> (= UPGMC).</p></dd>
+
+
+<dt id="arg-dist-fun">dist_fun<a class="anchor" aria-label="anchor" href="#arg-dist-fun"></a></dt>
+<dd><p>A function for calculating the distance between observations.
+Defaults to <code><a href="https://drostlab.github.io/philentropy/reference/distance.html" class="external-link">philentropy::distance</a></code> which supports numerous distance
+metrics via its <code>method</code> argument. The function should accept a matrix or
+data frame and return a square numeric matrix or an object coercible to one
+via <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::as.dist()</a></code>. See <code><a href="silhouette.html">silhouette()</a></code> for further details.</p></dd>
 
 </dl></div>
     <div class="section level2">

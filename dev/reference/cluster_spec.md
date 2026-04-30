@@ -63,10 +63,12 @@ immediately evaluated inside of the function.
 
 `tidyclust` model functions do not do this. For example, using
 
+
       k_means(num_clusters = ncol(mtcars) / 5)
 
 **does not** execute `ncol(mtcars) / 5` when creating the specification.
 This can be seen in the output:
+
 
       > k_means(num_clusters = ncol(mtcars) / 5)
       K Means Cluster Specification (partition)
@@ -97,6 +99,7 @@ The best way to avoid these issues is to not reference any data objects
 in the global environment but to use data descriptors such as `.cols()`.
 Another way of writing the previous specification is
 
+
       k_means(num_clusters = .cols() / 5)
 
 This is not dependent on any specific data object and is evaluated
@@ -107,10 +110,12 @@ quasiquotation. This would insert the actual R object into the model
 specification and might be the best idea when the data object is small.
 For example, using
 
+
       k_means(num_clusters = ncol(!!mtcars) - 1)
 
 would work (and be reproducible between sessions) but embeds the entire
 mtcars data set into the `num_clusters` expression:
+
 
      > k_means(num_clusters = ncol(!!mtcars) / 5)
      K Means Cluster Specification (partition)
@@ -122,6 +127,7 @@ mtcars data set into the `num_clusters` expression:
 
 However, if there were an object with the number of columns in it, this
 wouldn't be too bad:
+
 
      > num_clusters_val <- ncol(mtcars) / 5
      > num_clusters_val
