@@ -65,6 +65,44 @@ test_that("prefix is passed in predict()", {
   )
 })
 
+test_that("labels is passed in predict()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  res <- predict(spec, mtcars, labels = c("A", "B", "C"))
+
+  expect_identical(levels(res$.pred_cluster), c("A", "B", "C"))
+})
+
+test_that("labels length mismatch errors in predict()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    predict(spec, mtcars, labels = c("A", "B"))
+  )
+})
+
+test_that("too-long labels are subsetted in predict()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  res <- predict(spec, mtcars, labels = c("A", "B", "C", "D"))
+
+  expect_identical(levels(res$.pred_cluster), c("A", "B", "C"))
+})
+
+test_that("duplicate labels errors in predict()", {
+  spec <- tidyclust::k_means(num_clusters = 3) |>
+    fit(~., data = mtcars)
+
+  expect_snapshot(
+    error = TRUE,
+    predict(spec, mtcars, labels = c("A", "A", "B"))
+  )
+})
+
 test_that("predict() with type = 'raw' errors when not available", {
   fit <- k_means(num_clusters = 3) |>
     set_engine("stats") |>

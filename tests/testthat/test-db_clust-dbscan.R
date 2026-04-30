@@ -72,6 +72,27 @@ test_that("all levels are preserved with 1 row predictions", {
 #   )
 # })
 
+test_that("labels is passed in predict() for dbscan outlier path", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  spec <- db_clust(radius = .42, min_points = 5) |>
+    set_engine("dbscan")
+
+  iris_temp <- iris |> dplyr::select(-Species)
+  res <- fit(spec, ~., iris_temp)
+
+  preds <- predict(
+    res,
+    iris_temp[c(58, 25, 75, 125), ],
+    labels = c("X", "Y", "Z")
+  )
+
+  expect_identical(
+    levels(preds$.pred_cluster),
+    c("Outlier", "X", "Y", "Z")
+  )
+})
+
 test_that("extract_cluster_assignment() works", {
   skip_if_not_installed("dbscan")
   set.seed(1234)
