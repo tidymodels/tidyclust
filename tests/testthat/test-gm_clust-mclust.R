@@ -100,3 +100,54 @@ test_that("extract_cluster_assignment() works", {
     expected
   )
 })
+
+test_that("axe_data replaces data with 0-row matrix and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("mclust")
+
+  g_fit <- gm_clust(num_clusters = 3) |>
+    set_engine("mclust") |>
+    fit(~., data = mtcars[, 1:3])
+
+  g_axed <- butcher::axe_data(g_fit)
+
+  expect_equal(nrow(g_axed$fit$data), 0)
+  expect_null(attr(g_axed$fit, "training_data"))
+  expect_equal(nrow(predict(g_axed, mtcars[1:5, 1:3])), 5)
+})
+
+test_that("axe_fitted removes z/classification/uncertainty and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("mclust")
+
+  g_fit <- gm_clust(num_clusters = 3) |>
+    set_engine("mclust") |>
+    fit(~., data = mtcars[, 1:3])
+
+  g_axed <- butcher::axe_fitted(g_fit)
+
+  expect_equal(nrow(g_axed$fit$z), 0)
+  expect_length(g_axed$fit$classification, 0)
+  expect_length(g_axed$fit$uncertainty, 0)
+  expect_equal(nrow(predict(g_axed, mtcars[1:5, 1:3])), 5)
+})
+
+test_that("axe_data reduces serialized size", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("mclust")
+
+  big_data <- data.frame(matrix(rnorm(3000), ncol = 3))
+  g_fit <- gm_clust(num_clusters = 3) |>
+    set_engine("mclust") |>
+    fit(~., data = big_data)
+
+  g_axed <- butcher::axe_data(g_fit)
+
+  f1 <- tempfile()
+  f2 <- tempfile()
+  on.exit(unlink(c(f1, f2)))
+  saveRDS(g_fit, f1)
+  saveRDS(g_axed, f2)
+
+  expect_lt(file.size(f2), file.size(f1))
+})

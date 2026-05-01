@@ -34,7 +34,6 @@ axe_ctrl.cluster_fit <- function(x, verbose = FALSE, ...) {
 #' @rdname axe-cluster_fit
 axe_data.cluster_fit <- function(x, verbose = FALSE, ...) {
   x$fit <- butcher::axe_data(x$fit, verbose = verbose, ...)
-  attr(x$fit, "training_data") <- NULL
   add_butcher_class(x)
 }
 

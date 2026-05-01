@@ -115,3 +115,35 @@ test_that("modifies errors about suggested other models", {
       fit(~., data = data.frame(letters, LETTERS))
   )
 })
+
+test_that("axe_data removes training_data and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("clustMixType")
+
+  data <- iris
+  data$Species <- as.factor(data$Species)
+  k_fit <- k_means(num_clusters = 3) |>
+    set_engine("clustMixType") |>
+    fit(~., data = data)
+
+  k_axed <- butcher::axe_data(k_fit)
+
+  expect_null(attr(k_axed$fit, "training_data"))
+  expect_equal(nrow(predict(k_axed, data)), nrow(data))
+})
+
+test_that("axe_fitted empties cluster assignments and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("clustMixType")
+
+  data <- iris
+  data$Species <- as.factor(data$Species)
+  k_fit <- k_means(num_clusters = 3) |>
+    set_engine("clustMixType") |>
+    fit(~., data = data)
+
+  k_axed <- butcher::axe_fitted(k_fit)
+
+  expect_length(k_axed$fit$cluster, 0)
+  expect_equal(nrow(predict(k_axed, data)), nrow(data))
+})

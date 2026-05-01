@@ -105,3 +105,16 @@ test_that("all parameters are correctly named", {
     c("num_clusters", "linkage_method", "cut_height")
   )
 })
+
+test_that("axe_data does not remove training_data needed for predict", {
+  skip_if_not_installed("butcher")
+
+  h_fit <- hier_clust(num_clusters = 3) |>
+    set_engine("stats") |>
+    fit(~., data = mtcars)
+
+  h_axed <- butcher::axe_data(h_fit)
+
+  expect_false(is.null(attr(h_axed$fit, "training_data")))
+  expect_equal(nrow(predict(h_axed, mtcars)), 32)
+})

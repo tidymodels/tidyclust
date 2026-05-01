@@ -15,6 +15,21 @@
   s3_register("butcher::axe_env", "cluster_fit")
   s3_register("butcher::axe_fitted", "cluster_fit")
 
+  s3_register("butcher::axe_data", "kmeans")
+  s3_register("butcher::axe_fitted", "kmeans")
+
+  s3_register("butcher::axe_data", "KMeansCluster")
+  s3_register("butcher::axe_fitted", "KMeansCluster")
+
+  s3_register("butcher::axe_data", "kproto")
+  s3_register("butcher::axe_fitted", "kproto")
+
+  s3_register("butcher::axe_data", "kmodes")
+  s3_register("butcher::axe_fitted", "kmodes")
+
+  s3_register("butcher::axe_data", "Mclust")
+  s3_register("butcher::axe_fitted", "Mclust")
+
   ns <- rlang::ns_env("tidyclust")
   makeActiveBinding(
     "tidyclust_color",

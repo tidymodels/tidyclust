@@ -157,3 +157,33 @@ test_that("extract_cluster_assignment() works", {
     expected
   )
 })
+
+test_that("axe_data removes training_data and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("klaR")
+
+  data <- data.frame(lapply(iris[, 1:4], \(x) cut(x, 3)))
+  k_fit <- k_means(num_clusters = 3) |>
+    set_engine("klaR") |>
+    fit(~., data = data)
+
+  k_axed <- butcher::axe_data(k_fit)
+
+  expect_null(attr(k_axed$fit, "training_data"))
+  expect_equal(nrow(predict(k_axed, data)), nrow(data))
+})
+
+test_that("axe_fitted empties cluster assignments and predict still works", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("klaR")
+
+  data <- data.frame(lapply(iris[, 1:4], \(x) cut(x, 3)))
+  k_fit <- k_means(num_clusters = 3) |>
+    set_engine("klaR") |>
+    fit(~., data = data)
+
+  k_axed <- butcher::axe_fitted(k_fit)
+
+  expect_length(k_axed$fit$cluster, 0)
+  expect_equal(nrow(predict(k_axed, data)), nrow(data))
+})
