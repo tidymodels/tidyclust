@@ -6,7 +6,9 @@
 #'
 #' @param object An fitted [`cluster_spec`] object.
 #' @param ... Other arguments passed to methods. Using the `prefix` allows you
-#'   to change the prefix in the levels of the factor levels.
+#'   to change the prefix in the levels of the factor levels. Using `labels`
+#'   allows you to provide a character vector of cluster labels, overriding
+#'   `prefix`.
 #'
 #' @details
 #'
@@ -53,6 +55,9 @@
 #'
 #' kmeans_fit |>
 #'   extract_centroids()
+#'
+#' kmeans_fit |>
+#'   extract_centroids(labels = c("A", "B", "C", "D", "E"))
 #'
 #' # Some models such as `hier_clust()` fits in such a way that you can specify
 #' # the number of clusters after the model is fit.

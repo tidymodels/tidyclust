@@ -5,7 +5,9 @@
 #'
 #' @param object An fitted [`cluster_spec`] object.
 #' @param ... Other arguments passed to methods. Using the `prefix` allows you
-#'   to change the prefix in the levels of the factor levels.
+#'   to change the prefix in the levels of the factor levels. Using `labels`
+#'   allows you to provide a character vector of cluster labels, overriding
+#'   `prefix`.
 #'
 #' @details
 #'
@@ -49,6 +51,9 @@
 #'
 #' kmeans_fit |>
 #'   extract_cluster_assignment(prefix = "C_")
+#'
+#' kmeans_fit |>
+#'   extract_cluster_assignment(labels = c("A", "B", "C", "D", "E"))
 #'
 #' # Some models such as `hier_clust()` fits in such a way that you can specify
 #' # the number of clusters after the model is fit
@@ -181,31 +186,38 @@ cluster_assignment_tibble <- function(
   clusters,
   n_clusters,
   ...,
-  prefix = "Cluster_"
+  prefix = "Cluster_",
+  labels = NULL
 ) {
   reorder_clusts <- order(union(unique(clusters), seq_len(n_clusters)))
-  names <- paste0(prefix, seq_len(n_clusters))
+  names <- make_cluster_labels(n_clusters, prefix, labels)
   res <- names[reorder_clusts][clusters]
 
-  tibble::tibble(.cluster = factor(res))
+  tibble::tibble(.cluster = factor(res, levels = names))
 }
 
 cluster_assignment_tibble_w_outliers <- function(
   clusters,
   n_clusters,
   ...,
-  prefix = "Cluster_"
+  prefix = "Cluster_",
+  labels = NULL
 ) {
   no_outliers <- clusters[clusters != 0]
+  n_non_outlier_clusters <- n_clusters - 1
+  non_outlier_names <- make_cluster_labels(
+    n_non_outlier_clusters,
+    prefix,
+    labels
+  )
+  names <- c("Outlier", non_outlier_names)
   if (n_clusters == 1) {
     res <- rep("Outlier", length(clusters))
   } else {
     new_mappings <- c(
       0,
-      order(union(unique(no_outliers), seq_len(n_clusters - 1)))
+      order(union(unique(no_outliers), seq_len(n_non_outlier_clusters)))
     )
-    names <- paste0(prefix, 0:(n_clusters - 1))
-    names[1] <- "Outlier"
     res <- names[new_mappings[(clusters + 1)] + 1]
   }
 
