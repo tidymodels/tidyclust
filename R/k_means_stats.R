@@ -10,3 +10,15 @@
 NULL
 
 # See inst/README-DOCS.md for a description of how these files are processed
+
+# @export - onLoad
+axe_data.kmeans <- function(x, verbose = FALSE, ...) {
+  attr(x, "training_data") <- NULL
+  add_butcher_class(x)
+}
+
+# @export - onLoad
+axe_fitted.kmeans <- function(x, verbose = FALSE, ...) {
+  x$cluster <- integer(0)
+  add_butcher_class(x)
+}

@@ -115,3 +115,16 @@ test_that("extract_cluster_assignment() works", {
     expected
   )
 })
+
+test_that("axe_data does not remove training_data needed for predict", {
+  skip_if_not_installed("butcher")
+  skip_if_not_installed("dbscan")
+
+  d_fit <- db_clust(radius = 2, min_points = 3) |>
+    set_engine("dbscan") |>
+    fit(~., data = mtcars[, 1:5])
+
+  d_axed <- butcher::axe_data(d_fit)
+
+  expect_false(is.null(attr(d_axed$fit, "training_data")))
+})
