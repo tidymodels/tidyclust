@@ -2,6 +2,11 @@
 
 ## tidyclust (development version)
 
+- Added `butcher` support for `cluster_fit` objects. `axe_data()`
+  removes the training data stored in the fit, and `axe_env()` clears
+  the environment reference from the preprocessing terms.
+  ([\#126](https://github.com/tidymodels/tidyclust/issues/126))
+
 - [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md),
   [`extract_centroids()`](https://tidyclust.tidymodels.org/dev/reference/extract_centroids.md),
   and [`predict()`](https://rdrr.io/r/stats/predict.html) now accept a

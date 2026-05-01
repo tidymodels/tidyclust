@@ -44,6 +44,12 @@ created with tidyclust.
 - [`extract_fit_engine(`*`<cluster_fit>`*`)`](https://tidyclust.tidymodels.org/dev/reference/extract-tidyclust.md)
   [`extract_parameter_set_dials(`*`<cluster_spec>`*`)`](https://tidyclust.tidymodels.org/dev/reference/extract-tidyclust.md)
   : Extract elements of a tidyclust model object
+- [`axe_call.cluster_fit()`](https://tidyclust.tidymodels.org/dev/reference/axe-cluster_fit.md)
+  [`axe_ctrl.cluster_fit()`](https://tidyclust.tidymodels.org/dev/reference/axe-cluster_fit.md)
+  [`axe_data.cluster_fit()`](https://tidyclust.tidymodels.org/dev/reference/axe-cluster_fit.md)
+  [`axe_env.cluster_fit()`](https://tidyclust.tidymodels.org/dev/reference/axe-cluster_fit.md)
+  [`axe_fitted.cluster_fit()`](https://tidyclust.tidymodels.org/dev/reference/axe-cluster_fit.md)
+  : Axing a cluster_fit.
 
 ## Prediction
 
