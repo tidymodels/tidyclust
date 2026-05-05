@@ -90,6 +90,9 @@ Defaults to \code{philentropy::distance} which supports numerous distance
 metrics via its \code{method} argument. The function should accept a matrix or
 data frame and return a square numeric matrix or an object coercible to one
 via \code{\link[stats:dist]{stats::as.dist()}}. See \code{\link[=silhouette]{silhouette()}} for further details.}
+
+\item{bandwidth}{Positive double, kernel bandwidth controlling the size of
+the neighborhood used to compute the density estimate (required).}
 }
 \value{
 An updated cluster specification.
