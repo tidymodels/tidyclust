@@ -648,3 +648,45 @@ test_that("tune_cluster warns on apparent resamples", {
     tune_cluster(wflow, resamples = apparent_rs, grid = grid)
   )
 })
+
+test_that("tune_cluster works with validation set", {
+  helper_objects <- helper_objects_tidyclust()
+
+  set.seed(4400)
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(helper_objects$kmeans_mod)
+  grid <- data.frame(num_clusters = 2:4)
+  split <- rsample::initial_validation_split(mtcars)
+  val_set <- rsample::validation_set(split)
+  metrics <- cluster_metric_set(sse_within_total, sse_total)
+
+  res <- tune_cluster(wflow, resamples = val_set, grid = grid, metrics = metrics)
+  res_est <- tune::collect_metrics(res)
+
+  expect_equal(res$id, val_set$id)
+  expect_equal(nrow(res_est), nrow(grid) * 2)
+  expect_equal(sum(res_est$.metric == "sse_total"), nrow(grid))
+  expect_equal(sum(res_est$.metric == "sse_within_total"), nrow(grid))
+  expect_equal(res_est$n, rep(1L, nrow(grid) * 2))
+})
+
+test_that("tune_cluster works with validation set and tuned model", {
+  set.seed(4400)
+  wflow <- workflows::workflow() |>
+    workflows::add_formula(~.) |>
+    workflows::add_model(k_means(num_clusters = tune()))
+  grid <- data.frame(num_clusters = 2:4)
+  split <- rsample::initial_validation_split(mtcars)
+  val_set <- rsample::validation_set(split)
+  metrics <- cluster_metric_set(sse_within_total, sse_total)
+
+  res <- tune_cluster(wflow, resamples = val_set, grid = grid, metrics = metrics)
+  res_est <- tune::collect_metrics(res)
+
+  best <- tune::select_best(res, metric = "sse_within_total")
+
+  expect_equal(res$id, val_set$id)
+  expect_equal(nrow(res_est), nrow(grid) * 2)
+  expect_true(best$num_clusters %in% grid$num_clusters)
+})
