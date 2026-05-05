@@ -19,6 +19,27 @@ cut_height <- function(range = c(0, dials::unknown()), trans = NULL) {
   )
 }
 
+#' Bandwidth
+#'
+#' Used in `tidyclust::mean_shift()` models.
+#'
+#' @inheritParams dials::Laplace
+#' @return A `dials` parameter object for use with [tune::tune_grid()] and
+#'   related functions.
+#' @examples
+#' bandwidth()
+#' @export
+bandwidth <- function(range = c(0.01, 1), trans = NULL) {
+  dials::new_quant_param(
+    type = "double",
+    range = range,
+    inclusive = c(FALSE, TRUE),
+    trans = trans,
+    label = c(bandwidth = "Bandwidth"),
+    finalize = NULL
+  )
+}
+
 #' The agglomeration Linkage method
 #'
 #' @param values A character string of possible values. See `linkage_methods`

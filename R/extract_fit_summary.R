@@ -276,6 +276,44 @@ extract_fit_summary.dbscan <- function(object, ...) {
 }
 
 #' @export
+extract_fit_summary.ms <- function(
+  object,
+  ...,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  n_clusters <- nrow(object$cluster.center)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
+  names <- factor(names)
+
+  cluster_assignments <- factor(
+    names[object$cluster.label],
+    levels = levels(names)
+  )
+
+  centroids <- sweep(object$cluster.center, 2, object$scaled.by, "*")
+  centroids <- tibble::as_tibble(centroids, .name_repair = "minimal")
+  if (ncol(centroids) > 0 && all(colnames(centroids) == "")) {
+    colnames(centroids) <- colnames(object$data)
+  }
+
+  n_members <- as.integer(table(factor(
+    object$cluster.label,
+    levels = seq_len(n_clusters)
+  )))
+
+  list(
+    cluster_names = names,
+    centroids = centroids,
+    n_members = n_members,
+    sse_within_total_total = NULL,
+    sse_total = NULL,
+    orig_labels = object$cluster.label,
+    cluster_assignments = cluster_assignments
+  )
+}
+
+#' @export
 extract_fit_summary.Mclust <- function(object, ...) {
   clusts <- extract_cluster_assignment(object, ...)$.cluster
   n_clust <- dplyr::n_distinct(clusts)

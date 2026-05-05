@@ -24,6 +24,7 @@ clustering models. The package is closely modeled after the
 | Hierarchical     | `hier_clust()` | stats                               |
 | Density-based    | `db_clust()`   | dbscan                              |
 | Gaussian mixture | `gm_clust()`   | mclust                              |
+| Mean shift       | `mean_shift()` | LPCM                                |
 
 ## Installation
 
