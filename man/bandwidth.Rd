@@ -21,7 +21,14 @@ A \code{dials} parameter object for use with \code{\link[tune:tune_grid]{tune::t
 related functions.
 }
 \description{
-Used in \code{tidyclust::mean_shift()} models.
+The kernel bandwidth used by mean shift to estimate the local density
+gradient. Smaller values yield more clusters, while larger values merge
+them.
+}
+\details{
+Used in \code{tidyclust::mean_shift()} models. The scale on which the bandwidth
+is interpreted depends on the engine, since some engines rescale predictors
+internally before applying the kernel.
 }
 \examples{
 bandwidth()

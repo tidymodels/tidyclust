@@ -18,9 +18,9 @@ This model has 1 tuning parameters:
 
 \subsection{Translation from tidyclust to the original package (partition)}{
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{mean_shift(bandwidth = 0.5) \%>\%
-  set_engine("LPCM") \%>\%
-  set_mode("partition") \%>\%
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{mean_shift(bandwidth = 0.5) |>
+  set_engine("LPCM") |>
+  set_mode("partition") |>
   translate_tidyclust()
 }\if{html}{\out{</div>}}
 
