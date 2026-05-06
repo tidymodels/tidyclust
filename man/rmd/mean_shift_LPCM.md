@@ -15,9 +15,9 @@ This model has 1 tuning parameters:
 
 
 ``` r
-mean_shift(bandwidth = 0.5) %>%
-  set_engine("LPCM") %>%
-  set_mode("partition") %>%
+mean_shift(bandwidth = 0.5) |>
+  set_engine("LPCM") |>
+  set_mode("partition") |>
   translate_tidyclust()
 ```
 
@@ -39,18 +39,11 @@ mean_shift(bandwidth = 0.5) %>%
 
 Factor/categorical predictors need to be converted to numeric values (e.g., dummy or indicator variables) for this engine. When using the formula method via \\code{\\link[=fit.cluster_spec]{fit()}}, tidyclust will convert factor columns to indicators.
 
-`LPCM::ms()` scales each variable internally to the unit range before applying
-the Gaussian kernel, so the `bandwidth` value lives on the scaled scale rather
-than the raw data scale. Bandwidths between roughly `0.05` and `1` are typical;
-smaller values find more clusters and larger values merge them.
+`LPCM::ms()` scales each variable internally to the unit range before applying the Gaussian kernel, so the `bandwidth` value lives on the scaled scale rather than the raw data scale. Bandwidths between roughly `0.05` and `1` are typical; smaller values find more clusters and larger values merge them.
 
 ## What does it mean to predict?
 
-To predict the cluster assignment for a new observation, the mean shift
-procedure is run from the new point until it converges to a mode. The
-observation is then assigned to the cluster of the nearest discovered training
-mode by Euclidean distance.
-
+To predict the cluster assignment for a new observation, the mean shift procedure is run from the new point until it converges to a mode. The observation is then assigned to the cluster of the nearest discovered training mode by Euclidean distance.
 
 ## References
 

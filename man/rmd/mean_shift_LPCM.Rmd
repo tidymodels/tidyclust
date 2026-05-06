@@ -1,11 +1,15 @@
-```{r, child = "aaa.Rmd", include = FALSE}
+```{r}
+#| child: aaa.Rmd
+#| include: false
 ```
 
 `r descr_models("mean_shift", "LPCM")`
 
 ## Tuning Parameters
 
-```{r stats-param-info, echo = FALSE}
+```{r}
+#| label: LPCM-param-info
+#| echo: false
 defaults <-
   tibble::tibble(
     tidyclust = c("bandwidth"),
@@ -13,44 +17,42 @@ defaults <-
   )
 
 param <-
-  mean_shift() %>%
-  set_engine("LPCM") %>%
-  set_mode("partition") %>%
+  mean_shift() |>
+  set_engine("LPCM") |>
+  set_mode("partition") |>
   make_parameter_list(defaults)
 ```
 
 This model has `r nrow(param)` tuning parameters:
 
-```{r LPCM-param-list, echo = FALSE, results = "asis"}
+```{r}
+#| label: LPCM-param-list
+#| echo: false
+#| results: asis
 param$item
 ```
 
 ## Translation from tidyclust to the original package (partition)
 
-```{r stats-cls}
-mean_shift(bandwidth = 0.5) %>%
-  set_engine("LPCM") %>%
-  set_mode("partition") %>%
+```{r}
+#| label: LPCM-cls
+mean_shift(bandwidth = 0.5) |>
+  set_engine("LPCM") |>
+  set_mode("partition") |>
   translate_tidyclust()
 ```
 
 ## Preprocessing requirements
 
-```{r child = "template-makes-dummies.Rmd"}
+```{r}
+#| child: template-makes-dummies.Rmd
 ```
 
-`LPCM::ms()` scales each variable internally to the unit range before applying
-the Gaussian kernel, so the `bandwidth` value lives on the scaled scale rather
-than the raw data scale. Bandwidths between roughly `0.05` and `1` are typical;
-smaller values find more clusters and larger values merge them.
+`LPCM::ms()` scales each variable internally to the unit range before applying the Gaussian kernel, so the `bandwidth` value lives on the scaled scale rather than the raw data scale. Bandwidths between roughly `0.05` and `1` are typical; smaller values find more clusters and larger values merge them.
 
 ## What does it mean to predict?
 
-To predict the cluster assignment for a new observation, the mean shift
-procedure is run from the new point until it converges to a mode. The
-observation is then assigned to the cluster of the nearest discovered training
-mode by Euclidean distance.
-
+To predict the cluster assignment for a new observation, the mean shift procedure is run from the new point until it converges to a mode. The observation is then assigned to the cluster of the nearest discovered training mode by Euclidean distance.
 
 ## References
 
