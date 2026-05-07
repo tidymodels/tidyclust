@@ -13,7 +13,7 @@
       fit(bt, mpg ~ ., mtcars)
     Condition
       Error in `check_args()`:
-      ! The bandwidth used for clustering should be > 0.
+      ! The bandwidth used for clustering should be > 0, not -1.
 
 ---
 

@@ -129,7 +129,9 @@ check_args.mean_shift <- function(object) {
   args <- lapply(object$args, rlang::eval_tidy)
 
   if (all(is.numeric(args$bandwidth)) && any(args$bandwidth <= 0)) {
-    cli::cli_abort("The bandwidth used for clustering should be > 0.")
+    cli::cli_abort(
+      "The bandwidth used for clustering should be > 0, not {.val {args$bandwidth}}."
+    )
   }
 
   invisible(object)
