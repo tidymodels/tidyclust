@@ -10,6 +10,8 @@ engine-specific pages for this model are listed below.
 
 - [LPCM](https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_LPCM.md)
 
+- [meanShiftR](https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_meanShiftR.md)
+
 ## Usage
 
 ``` r
@@ -51,10 +53,11 @@ training mode.
 ``` r
 # Show all engines
 modelenv::get_from_env("mean_shift")
-#> # A tibble: 1 × 2
-#>   engine mode     
-#>   <chr>  <chr>    
-#> 1 LPCM   partition
+#> # A tibble: 2 × 2
+#>   engine     mode     
+#>   <chr>      <chr>    
+#> 1 LPCM       partition
+#> 2 meanShiftR partition
 
 mean_shift()
 #> Mean Shift Clustering Specification (partition)

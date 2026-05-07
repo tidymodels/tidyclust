@@ -32,6 +32,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_klaR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_LPCM.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_meanShiftR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-db_clust_fit_dbscan.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-gm_clust_fit_mclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-hier_clust_fit_stats.html</loc></url>
@@ -40,6 +41,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_klaR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-mean_shift_fit_LPCM.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-mean_shift_fit_meanShiftR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/empty_ellipses.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/extract-tidyclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/extract_centroids.html</loc></url>

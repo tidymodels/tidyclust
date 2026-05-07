@@ -89,6 +89,10 @@
   LPCM engine is used.
   ([\#240](https://github.com/tidymodels/tidyclust/issues/240))
 
+- [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
+  gains a new engine with `meanShiftR`.
+  ([\#244](https://github.com/tidymodels/tidyclust/issues/244))
+
 - The `.config` column produced by
   [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   has changed from the `Preprocessor{num}_Model{num}` pattern to
