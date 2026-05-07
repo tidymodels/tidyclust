@@ -7,6 +7,7 @@
 #' @inheritParams hier_clust
 #' @inheritParams db_clust
 #' @inheritParams gm_clust
+#' @inheritParams mean_shift
 #' @param object A cluster specification.
 #' @param parameters A 1-row tibble or named list with _main_ parameters to
 #'   update. Use **either** `parameters` **or** the main arguments directly when

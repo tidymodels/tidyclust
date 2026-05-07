@@ -19,6 +19,35 @@ cut_height <- function(range = c(0, dials::unknown()), trans = NULL) {
   )
 }
 
+#' Bandwidth
+#'
+#' The kernel bandwidth used by mean shift to estimate the local density
+#' gradient. Smaller values yield more clusters, while larger values merge
+#' them.
+#'
+#' @inheritParams dials::Laplace
+#'
+#' @details
+#' Used in `tidyclust::mean_shift()` models. The scale on which the bandwidth
+#' is interpreted depends on the engine, since some engines rescale predictors
+#' internally before applying the kernel.
+#'
+#' @return A `dials` parameter object for use with [tune::tune_grid()] and
+#'   related functions.
+#' @examples
+#' bandwidth()
+#' @export
+bandwidth <- function(range = c(0.01, 1), trans = NULL) {
+  dials::new_quant_param(
+    type = "double",
+    range = range,
+    inclusive = c(FALSE, TRUE),
+    trans = trans,
+    label = c(bandwidth = "Bandwidth"),
+    finalize = NULL
+  )
+}
+
 #' The agglomeration Linkage method
 #'
 #' @param values A character string of possible values. See `linkage_methods`

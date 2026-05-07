@@ -251,6 +251,34 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters, labels = NULL) {
   make_predictions_w_outliers(clusters, prefix, n_clusters, labels)
 }
 
+.mean_shift_predict_LPCM <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  modes <- object$cluster.center
+  scaled_by <- object$scaled.by
+  h <- object$h
+  X_scaled <- as.matrix(object$data)
+
+  new_data <- as.matrix(new_data)
+  new_data_scaled <- sweep(new_data, 2, scaled_by, "/")
+
+  clusters <- vapply(
+    seq_len(nrow(new_data_scaled)),
+    function(i) {
+      final <- LPCM::ms.rep(X = X_scaled, x = new_data_scaled[i, ], h = h)$final
+      dists <- rowSums(sweep(modes, 2, final, "-")^2)
+      which.min(dists)
+    },
+    integer(1)
+  )
+
+  n_clusters <- nrow(modes)
+  make_predictions(clusters, prefix, n_clusters, labels)
+}
+
 .gm_clust_predict_mclust <- function(
   object,
   new_data,

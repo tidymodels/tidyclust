@@ -24,6 +24,8 @@
 
 * The `gm_clust()` clustering specification has been added. This specification allows for the fitting of Gaussian mixture models using the mclust engine. (#209)
 
+* The `mean_shift()` clustering specification has been added. This specification fits clusters by iteratively shifting observations toward regions of high density, with the number of clusters determined automatically. The LPCM engine is used. (#240)
+
 * The `.config` column produced by `tune_cluster()` has changed from the
   `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to
   align with updates in the tune package. (#220)

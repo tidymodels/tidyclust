@@ -51,6 +51,7 @@ Suggests:
     future.apply,
     klaR,
     knitr,
+    LPCM,
     mirai (>= 1.0.0),
     modeldata (>= 1.0.0),
     RcppHungarian,

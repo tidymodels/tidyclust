@@ -5,6 +5,7 @@
   make_k_means()
   make_db_clust()
   make_gm_clust()
+  make_mean_shift()
 
   s3_register("generics::required_pkgs", "cluster_fit")
   s3_register("generics::required_pkgs", "cluster_spec")

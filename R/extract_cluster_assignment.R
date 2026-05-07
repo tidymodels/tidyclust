@@ -173,6 +173,12 @@ extract_cluster_assignment.dbscan <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.ms <- function(object, ...) {
+  n_clusters <- nrow(object$cluster.center)
+  cluster_assignment_tibble(object$cluster.label, n_clusters, ...)
+}
+
+#' @export
 extract_cluster_assignment.Mclust <- function(object, ...) {
   clusters <- object$classification
   n_clusters <- length(unique(clusters))

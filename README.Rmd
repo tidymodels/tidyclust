@@ -32,6 +32,7 @@ The goal of tidyclust is to provide a tidy, unified interface to clustering mode
 | Hierarchical | `hier_clust()` | stats |
 | Density-based | `db_clust()` | dbscan |
 | Gaussian mixture | `gm_clust()` | mclust |
+| Mean shift | `mean_shift()` | LPCM |
 
 ## Installation
 
