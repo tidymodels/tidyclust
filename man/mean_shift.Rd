@@ -29,6 +29,7 @@ is chosen by setting the model engine. The engine-specific pages for this
 model are listed below.
 \itemize{
 \item \link[=details_mean_shift_LPCM]{LPCM}
+\item \link[=details_mean_shift_meanShiftR]{meanShiftR}
 }
 }
 \details{
