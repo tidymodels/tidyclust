@@ -179,6 +179,12 @@ extract_cluster_assignment.ms <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.ms_meanShiftR <- function(object, ...) {
+  n_clusters <- length(unique(object$assignment))
+  cluster_assignment_tibble(object$assignment, n_clusters, ...)
+}
+
+#' @export
 extract_cluster_assignment.Mclust <- function(object, ...) {
   clusters <- object$classification
   n_clusters <- length(unique(clusters))

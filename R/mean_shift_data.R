@@ -69,6 +69,71 @@ make_mean_shift <- function() {
       )
     )
   )
+
+  # ----------------------------------------------------------------------------
+
+  modelenv::set_model_engine("mean_shift", "partition", "meanShiftR")
+  modelenv::set_dependency(
+    model = "mean_shift",
+    mode = "partition",
+    eng = "meanShiftR",
+    pkg = "meanShiftR"
+  )
+  modelenv::set_dependency(
+    model = "mean_shift",
+    mode = "partition",
+    eng = "meanShiftR",
+    pkg = "tidyclust"
+  )
+
+  modelenv::set_fit(
+    model = "mean_shift",
+    eng = "meanShiftR",
+    mode = "partition",
+    value = list(
+      interface = "matrix",
+      protect = c("x", "bandwidth"),
+      func = c(pkg = "tidyclust", fun = ".mean_shift_fit_meanShiftR"),
+      defaults = list()
+    )
+  )
+
+  modelenv::set_encoding(
+    model = "mean_shift",
+    eng = "meanShiftR",
+    mode = "partition",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = TRUE,
+      remove_intercept = TRUE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  modelenv::set_model_arg(
+    model = "mean_shift",
+    eng = "meanShiftR",
+    exposed = "bandwidth",
+    original = "bandwidth",
+    func = list(pkg = "tidyclust", fun = "bandwidth"),
+    has_submodel = FALSE
+  )
+
+  modelenv::set_pred(
+    model = "mean_shift",
+    eng = "meanShiftR",
+    mode = "partition",
+    type = "cluster",
+    value = list(
+      pre = NULL,
+      post = NULL,
+      func = c(fun = ".mean_shift_predict_meanShiftR"),
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
+    )
+  )
 }
 
 # nocov end

@@ -279,6 +279,39 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters, labels = NULL) {
   make_predictions(clusters, prefix, n_clusters, labels)
 }
 
+.mean_shift_predict_meanShiftR <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  centers <- meanShiftR_centers(object)
+
+  new_data <- as.matrix(new_data)
+  pred <- meanShiftR::meanShift(
+    queryData = new_data,
+    trainData = object$trainData,
+    bandwidth = object$bandwidth
+  )
+
+  pred_modes <- pred$value
+  clusters <- vapply(
+    seq_len(nrow(pred_modes)),
+    function(i) {
+      which.min(rowSums(sweep(centers, 2, pred_modes[i, ], "-")^2))
+    },
+    integer(1)
+  )
+
+  n_clusters <- nrow(centers)
+  make_predictions(clusters, prefix, n_clusters, labels)
+}
+
+meanShiftR_centers <- function(object) {
+  ids <- sort(unique(object$assignment))
+  object$value[match(ids, object$assignment), , drop = FALSE]
+}
+
 .gm_clust_predict_mclust <- function(
   object,
   new_data,
