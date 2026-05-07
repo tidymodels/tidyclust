@@ -26,6 +26,8 @@
 
 * The `mean_shift()` clustering specification has been added. This specification fits clusters by iteratively shifting observations toward regions of high density, with the number of clusters determined automatically. The LPCM engine is used. (#240)
 
+* `mean_shift()` gains a new engine with `meanShiftR`. (#244)
+
 * The `.config` column produced by `tune_cluster()` has changed from the
   `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to
   align with updates in the tune package. (#220)

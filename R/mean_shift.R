@@ -11,6 +11,7 @@
 #' model are listed below.
 #'
 #' - \link[=details_mean_shift_LPCM]{LPCM}
+#' - \link[=details_mean_shift_meanShiftR]{meanShiftR}
 #'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is `"partition"`.
@@ -165,4 +166,54 @@ translate_tidyclust.mean_shift <- function(x, engine = x$engine, ...) {
   }
 
   LPCM::ms(X = x, h = bandwidth, plot = FALSE, ...)
+}
+
+#' Simple Wrapper around meanShiftR::meanShift function
+#'
+#' This wrapper passes the data and bandwidth to `meanShiftR::meanShift()` and
+#' stashes the training data and bandwidth on the result so they can be reused
+#' for prediction and extraction.
+#'
+#' @param x matrix or data frame.
+#' @param bandwidth Kernel bandwidth controlling the neighborhood size. A scalar
+#'   is recycled to a per-column vector.
+#'
+#' @return A list with class `"ms_meanShiftR"`.
+#' @keywords internal
+#' @export
+.mean_shift_fit_meanShiftR <- function(x, bandwidth = NULL, ...) {
+  if (is.null(bandwidth)) {
+    cli::cli_abort(
+      "Please specify `bandwidth` to be able to fit specification.",
+      call = call("fit")
+    )
+  }
+
+  x <- as.matrix(x)
+
+  if (length(bandwidth) == 1) {
+    bw <- rep(bandwidth, ncol(x))
+  } else if (length(bandwidth) == ncol(x)) {
+    bw <- bandwidth
+  } else {
+    cli::cli_abort(
+      "{.arg bandwidth} must have length 1 or {ncol(x)}, not \\
+      {length(bandwidth)}.",
+      call = call("fit")
+    )
+  }
+
+  res <- meanShiftR::meanShift(
+    queryData = x,
+    trainData = x,
+    bandwidth = bw,
+    ...
+  )
+
+  res$assignment <- as.vector(res$assignment)
+  res$trainData <- x
+  res$bandwidth <- bw
+
+  class(res) <- c("ms_meanShiftR", class(res))
+  res
 }

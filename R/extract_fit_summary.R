@@ -314,6 +314,44 @@ extract_fit_summary.ms <- function(
 }
 
 #' @export
+extract_fit_summary.ms_meanShiftR <- function(
+  object,
+  ...,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  centroids <- meanShiftR_centers(object)
+  n_clusters <- nrow(centroids)
+  names <- make_cluster_labels(n_clusters, prefix, labels)
+  names <- factor(names)
+
+  cluster_assignments <- factor(
+    names[object$assignment],
+    levels = levels(names)
+  )
+
+  centroids <- tibble::as_tibble(centroids, .name_repair = "minimal")
+  if (ncol(centroids) > 0 && all(colnames(centroids) == "")) {
+    colnames(centroids) <- colnames(object$trainData)
+  }
+
+  n_members <- as.integer(table(factor(
+    object$assignment,
+    levels = seq_len(n_clusters)
+  )))
+
+  list(
+    cluster_names = names,
+    centroids = centroids,
+    n_members = n_members,
+    sse_within_total_total = NULL,
+    sse_total = NULL,
+    orig_labels = object$assignment,
+    cluster_assignments = cluster_assignments
+  )
+}
+
+#' @export
 extract_fit_summary.Mclust <- function(object, ...) {
   clusts <- extract_cluster_assignment(object, ...)$.cluster
   n_clust <- dplyr::n_distinct(clusts)

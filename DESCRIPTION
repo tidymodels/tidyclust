@@ -52,6 +52,7 @@ Suggests:
     klaR,
     knitr,
     LPCM,
+    meanShiftR,
     mirai (>= 1.0.0),
     modeldata (>= 1.0.0),
     RcppHungarian,

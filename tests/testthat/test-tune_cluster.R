@@ -661,7 +661,12 @@ test_that("tune_cluster works with validation set", {
   val_set <- rsample::validation_set(split)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
-  res <- tune_cluster(wflow, resamples = val_set, grid = grid, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = val_set,
+    grid = grid,
+    metrics = metrics
+  )
   res_est <- tune::collect_metrics(res)
 
   expect_equal(res$id, val_set$id)
@@ -681,7 +686,12 @@ test_that("tune_cluster works with validation set and tuned model", {
   val_set <- rsample::validation_set(split)
   metrics <- cluster_metric_set(sse_within_total, sse_total)
 
-  res <- tune_cluster(wflow, resamples = val_set, grid = grid, metrics = metrics)
+  res <- tune_cluster(
+    wflow,
+    resamples = val_set,
+    grid = grid,
+    metrics = metrics
+  )
   res_est <- tune::collect_metrics(res)
 
   best <- tune::select_best(res, metric = "sse_within_total")
