@@ -75,3 +75,19 @@
       Error in `fit()`:
       ! Please specify `bandwidth` to be able to fit specification.
 
+# errors if `bandwidth` isn't specified (meanShiftR)
+
+    Code
+      fit(set_engine(mean_shift(), "meanShiftR"), ~., data = mtcars)
+    Condition
+      Error in `fit()`:
+      ! Please specify `bandwidth` to be able to fit specification.
+
+# errors on bandwidth length mismatch (meanShiftR)
+
+    Code
+      .mean_shift_fit_meanShiftR(as.matrix(mtcars), bandwidth = c(1, 2))
+    Condition
+      Error in `fit()`:
+      ! `bandwidth` must have length 1 or 11, not 2.
+
