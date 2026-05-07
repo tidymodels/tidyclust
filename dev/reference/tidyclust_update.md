@@ -45,6 +45,9 @@ update(
 
 # S3 method for class 'k_means'
 update(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
+
+# S3 method for class 'mean_shift'
+update(object, parameters = NULL, bandwidth = NULL, fresh = FALSE, ...)
 ```
 
 ## Arguments
@@ -132,6 +135,11 @@ update(object, parameters = NULL, num_clusters = NULL, fresh = FALSE, ...)
   [`stats::as.dist()`](https://rdrr.io/r/stats/dist.html). See
   [`silhouette()`](https://tidyclust.tidymodels.org/dev/reference/silhouette.md)
   for further details.
+
+- bandwidth:
+
+  Positive double, kernel bandwidth controlling the size of the
+  neighborhood used to compute the density estimate (required).
 
 ## Value
 

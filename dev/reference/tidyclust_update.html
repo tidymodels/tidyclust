@@ -39,7 +39,7 @@ update() can be used in lieu of recreating the object from scratch."><meta prope
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Update a cluster specification</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/main/R/db_clust.R" class="external-link"><code>R/db_clust.R</code></a>, <a href="https://github.com/tidymodels/tidyclust/blob/main/R/gm_clust.R" class="external-link"><code>R/gm_clust.R</code></a>, <a href="https://github.com/tidymodels/tidyclust/blob/main/R/hier_clust.R" class="external-link"><code>R/hier_clust.R</code></a>, and 2 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/main/R/db_clust.R" class="external-link"><code>R/db_clust.R</code></a>, <a href="https://github.com/tidymodels/tidyclust/blob/main/R/gm_clust.R" class="external-link"><code>R/gm_clust.R</code></a>, <a href="https://github.com/tidymodels/tidyclust/blob/main/R/hier_clust.R" class="external-link"><code>R/hier_clust.R</code></a>, and 3 more</small>
       <div class="d-none name"><code>tidyclust_update.Rd</code></div>
     </div>
 
@@ -87,7 +87,10 @@ update() can be used in lieu of recreating the object from scratch."><meta prope
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'k_means'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">object</span>, parameters <span class="op">=</span> <span class="cn">NULL</span>, num_clusters <span class="op">=</span> <span class="cn">NULL</span>, fresh <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">object</span>, parameters <span class="op">=</span> <span class="cn">NULL</span>, num_clusters <span class="op">=</span> <span class="cn">NULL</span>, fresh <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'mean_shift'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="va">object</span>, parameters <span class="op">=</span> <span class="cn">NULL</span>, bandwidth <span class="op">=</span> <span class="cn">NULL</span>, fresh <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -165,6 +168,11 @@ Defaults to <code><a href="https://drostlab.github.io/philentropy/reference/dist
 metrics via its <code>method</code> argument. The function should accept a matrix or
 data frame and return a square numeric matrix or an object coercible to one
 via <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stats::as.dist()</a></code>. See <code><a href="silhouette.html">silhouette()</a></code> for further details.</p></dd>
+
+
+<dt id="arg-bandwidth">bandwidth<a class="anchor" aria-label="anchor" href="#arg-bandwidth"></a></dt>
+<dd><p>Positive double, kernel bandwidth controlling the size of
+the neighborhood used to compute the density estimate (required).</p></dd>
 
 </dl></div>
     <div class="section level2">

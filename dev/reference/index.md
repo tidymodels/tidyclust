@@ -15,6 +15,8 @@ parsnip](https://parsnip.tidymodels.org/reference/index.html#models).
   : Density-Based Spatial Clustering of Applications with Noise (DBSCAN)
 - [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)
   : Gaussian Mixture Models (GMM)
+- [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
+  : Mean Shift Clustering
 - [`cluster_spec`](https://tidyclust.tidymodels.org/dev/reference/cluster_spec.md)
   : Model Specification Information
 - [`cluster_fit`](https://tidyclust.tidymodels.org/dev/reference/cluster_fit.md)
@@ -100,6 +102,7 @@ Functions to allow multiple cluster specifications to be fit at once.
   [`update(`*`<gm_clust>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)
   [`update(`*`<hier_clust>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)
   [`update(`*`<k_means>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)
+  [`update(`*`<mean_shift>`*`)`](https://tidyclust.tidymodels.org/dev/reference/tidyclust_update.md)
   : Update a cluster specification
 - [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
   [`finalize_workflow_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
@@ -111,6 +114,8 @@ Functions to allow multiple cluster specifications to be fit at once.
 
 Dials objects.
 
+- [`bandwidth()`](https://tidyclust.tidymodels.org/dev/reference/bandwidth.md)
+  : Bandwidth
 - [`cut_height()`](https://tidyclust.tidymodels.org/dev/reference/cut_height.md)
   : Cut Height
 - [`linkage_method()`](https://tidyclust.tidymodels.org/dev/reference/linkage_method.md)

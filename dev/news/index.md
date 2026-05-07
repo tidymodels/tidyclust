@@ -81,6 +81,14 @@
   the fitting of Gaussian mixture models using the mclust engine.
   ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
 
+- The
+  [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
+  clustering specification has been added. This specification fits
+  clusters by iteratively shifting observations toward regions of high
+  density, with the number of clusters determined automatically. The
+  LPCM engine is used.
+  ([\#240](https://github.com/tidymodels/tidyclust/issues/240))
+
 - The `.config` column produced by
   [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   has changed from the `Preprocessor{num}_Model{num}` pattern to
