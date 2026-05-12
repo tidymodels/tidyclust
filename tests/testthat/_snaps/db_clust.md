@@ -102,3 +102,11 @@
       Error in `fit()`:
       ! Please specify `min_points` to be able to fit specification.
 
+# errors if `min_points` isn't specified (hdbscan)
+
+    Code
+      fit(set_engine(db_clust(), "hdbscan"), ~., data = mtcars)
+    Condition
+      Error in `fit()`:
+      ! Please specify `min_points` to be able to fit specification.
+
