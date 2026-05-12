@@ -78,6 +78,71 @@ make_db_clust <- function() {
       )
     )
   )
+
+  # ----------------------------------------------------------------------------
+
+  modelenv::set_model_engine("db_clust", "partition", "hdbscan")
+  modelenv::set_dependency(
+    model = "db_clust",
+    mode = "partition",
+    eng = "hdbscan",
+    pkg = "dbscan"
+  )
+  modelenv::set_dependency(
+    model = "db_clust",
+    mode = "partition",
+    eng = "hdbscan",
+    pkg = "tidyclust"
+  )
+
+  modelenv::set_fit(
+    model = "db_clust",
+    eng = "hdbscan",
+    mode = "partition",
+    value = list(
+      interface = "matrix",
+      protect = c("x", "min_points"),
+      func = c(pkg = "tidyclust", fun = ".db_clust_fit_hdbscan"),
+      defaults = list()
+    )
+  )
+
+  modelenv::set_encoding(
+    model = "db_clust",
+    eng = "hdbscan",
+    mode = "partition",
+    options = list(
+      predictor_indicators = "traditional",
+      compute_intercept = TRUE,
+      remove_intercept = TRUE,
+      allow_sparse_x = FALSE
+    )
+  )
+
+  modelenv::set_model_arg(
+    model = "db_clust",
+    eng = "hdbscan",
+    exposed = "min_points",
+    original = "min_points",
+    func = list(pkg = "dials", fun = "min_points"),
+    has_submodel = TRUE
+  )
+
+  modelenv::set_pred(
+    model = "db_clust",
+    eng = "hdbscan",
+    mode = "partition",
+    type = "cluster",
+    value = list(
+      pre = NULL,
+      post = NULL,
+      func = c(fun = ".db_clust_predict_hdbscan"),
+      args = list(
+        object = rlang::expr(object$fit),
+        new_data = rlang::expr(new_data)
+      )
+    )
+  )
 }
 
 # nocov end

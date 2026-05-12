@@ -100,6 +100,9 @@ tunable.db_clust <- function(x, ...) {
   if (x$engine == "dbscan") {
     res <- add_engine_parameters(res, dbscan_db_clust_engine_args)
   }
+  if (x$engine == "hdbscan") {
+    res <- add_engine_parameters(res, hdbscan_db_clust_engine_args)
+  }
   res
 }
 
@@ -115,6 +118,17 @@ dbscan_db_clust_engine_args <-
     ),
     source = "cluster_spec",
     component = "dbscan",
+    component_id = "engine"
+  )
+
+hdbscan_db_clust_engine_args <-
+  tibble::tibble(
+    name = "min_cluster_size",
+    call_info = list(
+      list(pkg = "dials", fun = "min_points")
+    ),
+    source = "cluster_spec",
+    component = "hdbscan",
     component_id = "engine"
   )
 
