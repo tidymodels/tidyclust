@@ -28,6 +28,8 @@
 
 * `mean_shift()` gains a new engine with `meanShiftR`. (#244)
 
+* `db_clust()` gains a new engine with `hdbscan`, using `dbscan::hdbscan()` to fit HDBSCAN models. (#238)
+
 * The `.config` column produced by `tune_cluster()` has changed from the
   `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to
   align with updates in the tune package. (#220)

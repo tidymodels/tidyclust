@@ -22,6 +22,27 @@ test_that("primary arguments", {
       min_points = new_empty_quosure(4)
     )
   )
+
+  basic_hdbscan <- translate_tidyclust(basic |> set_engine("hdbscan"))
+  expect_equal(
+    basic_hdbscan$method$fit$args,
+    list(
+      x = rlang::expr(missing_arg()),
+      min_points = rlang::expr(missing_arg())
+    )
+  )
+
+  db_hdbscan <- translate_tidyclust(
+    db_clust(min_points = 4) |> set_engine("hdbscan")
+  )
+  expect_equal(
+    db_hdbscan$method$fit$args,
+    list(
+      x = rlang::expr(missing_arg()),
+      min_points = rlang::expr(missing_arg()),
+      min_points = new_empty_quosure(4)
+    )
+  )
 })
 
 
@@ -180,6 +201,114 @@ test_that("errors if `min_points` isn't specified", {
     error = TRUE,
     db_clust(radius = 20) %>%
       set_engine("dbscan") %>%
+      fit(~., data = mtcars)
+  )
+})
+
+# ------------------------------------------------------------------------------
+# hdbscan engine
+
+test_that("predictions (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  x_scaled <- as.data.frame(scale(mtcars))
+  hdb_fit <- db_clust(min_points = 5) |>
+    set_engine("hdbscan") |>
+    fit(~., x_scaled)
+
+  preds <- predict(hdb_fit, x_scaled)
+  expect_s3_class(preds$.pred_cluster, "factor")
+  expect_identical(nrow(preds), nrow(mtcars))
+
+  assignments <- extract_cluster_assignment(hdb_fit)
+  expect_identical(
+    levels(preds$.pred_cluster),
+    levels(assignments$.cluster)
+  )
+})
+
+test_that("predictions on new data (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  x_scaled <- as.data.frame(scale(mtcars))
+  train <- x_scaled[1:24, ]
+  new <- x_scaled[25:32, ]
+
+  hdb_fit <- db_clust(min_points = 5) |>
+    set_engine("hdbscan") |>
+    fit(~., train)
+
+  preds <- predict(hdb_fit, new)
+  expect_s3_class(preds$.pred_cluster, "factor")
+  expect_identical(nrow(preds), nrow(new))
+  expect_identical(
+    levels(preds$.pred_cluster),
+    levels(extract_cluster_assignment(hdb_fit)$.cluster)
+  )
+})
+
+test_that("extract_cluster_assignment works (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  x_scaled <- as.data.frame(scale(mtcars))
+  hdb_fit <- db_clust(min_points = 5) |>
+    set_engine("hdbscan") |>
+    fit(~., x_scaled)
+
+  assigned <- extract_cluster_assignment(hdb_fit)$.cluster
+  expect_identical(
+    which(assigned == "Outlier"),
+    which(hdb_fit$fit$cluster == 0)
+  )
+  expect_identical(
+    length(unique(assigned[assigned != "Outlier"])),
+    length(unique(hdb_fit$fit$cluster[hdb_fit$fit$cluster != 0]))
+  )
+})
+
+test_that("extract_centroids works (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  x_scaled <- as.data.frame(scale(mtcars))
+  hdb_fit <- db_clust(min_points = 5) |>
+    set_engine("hdbscan") |>
+    fit(~., x_scaled)
+
+  centroids <- extract_centroids(hdb_fit)
+  expect_named(centroids, c(".cluster", colnames(mtcars)))
+  expect_identical(
+    levels(centroids$.cluster),
+    levels(extract_cluster_assignment(hdb_fit)$.cluster)
+  )
+
+  # the "Outlier" row should be NA
+  outlier_row <- centroids[centroids$.cluster == "Outlier", -1]
+  expect_all_true(is.na(unlist(outlier_row)))
+})
+
+test_that("min_cluster_size overrides min_points (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  set.seed(1234)
+  x <- as.data.frame(scale(mtcars))
+
+  fit_default <- db_clust(min_points = 5) |>
+    set_engine("hdbscan") |>
+    fit(~., x)
+
+  fit_override <- db_clust(min_points = 5) |>
+    set_engine("hdbscan", min_cluster_size = 10) |>
+    fit(~., x)
+
+  expect_identical(fit_default$fit$minPts, 5)
+  expect_identical(fit_override$fit$minPts, 10)
+})
+
+test_that("errors if `min_points` isn't specified (hdbscan)", {
+  skip_if_not_installed("dbscan")
+  expect_snapshot(
+    error = TRUE,
+    db_clust() |>
+      set_engine("hdbscan") |>
       fit(~., data = mtcars)
   )
 })

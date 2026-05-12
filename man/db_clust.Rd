@@ -34,6 +34,7 @@ chosen by setting the model engine. The engine-specific pages for this model
 are listed below.
 \itemize{
 \item \link[=details_db_clust_dbscan]{dbscan}
+\item \link[=details_db_clust_hdbscan]{hdbscan}
 }
 }
 \details{

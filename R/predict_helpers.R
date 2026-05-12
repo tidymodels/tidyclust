@@ -251,6 +251,21 @@ make_predictions_w_outliers <- function(x, prefix, n_clusters, labels = NULL) {
   make_predictions_w_outliers(clusters, prefix, n_clusters, labels)
 }
 
+.db_clust_predict_hdbscan <- function(
+  object,
+  new_data,
+  prefix = "Cluster_",
+  labels = NULL
+) {
+  training_data <- attr(object, "training_data")
+  clusters <- object$cluster
+  n_clusters <- length(unique(clusters[clusters != 0])) + 1
+
+  preds <- stats::predict(object, newdata = new_data, data = training_data)
+
+  make_predictions_w_outliers(preds, prefix, n_clusters, labels)
+}
+
 .mean_shift_predict_LPCM <- function(
   object,
   new_data,

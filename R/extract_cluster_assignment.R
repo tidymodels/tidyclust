@@ -173,6 +173,13 @@ extract_cluster_assignment.dbscan <- function(object, ...) {
 }
 
 #' @export
+extract_cluster_assignment.hdbscan <- function(object, ...) {
+  clusters <- object$cluster
+  n_clusters <- length(unique(clusters[clusters != 0])) + 1
+  cluster_assignment_tibble_w_outliers(clusters, n_clusters, ...)
+}
+
+#' @export
 extract_cluster_assignment.ms <- function(object, ...) {
   n_clusters <- nrow(object$cluster.center)
   cluster_assignment_tibble(object$cluster.label, n_clusters, ...)

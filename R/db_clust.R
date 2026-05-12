@@ -10,6 +10,7 @@
 #' are listed below.
 #'
 #' - \link[=details_db_clust_dbscan]{dbscan}
+#' - \link[=details_db_clust_hdbscan]{hdbscan}
 #'
 #' @param mode A single character string for the type of model. The only
 #'   possible value for this model is `"partition"`.
@@ -262,4 +263,40 @@ dbscan_helper <- function(object, ...) {
     training_data$cp_clusters
   )
   training_data$cluster[order(training_data$overall_order)]
+}
+
+#' Simple Wrapper around hdbscan function
+#'
+#' This wrapper passes the data to `dbscan::hdbscan()` and stashes the training
+#' data on the result so it can be reused for prediction and extraction.
+#'
+#' @param x matrix or data frame.
+#' @param min_points Minimum cluster size used as the `minPts` argument of
+#'   `dbscan::hdbscan()`.
+#' @param min_cluster_size Engine-specific override for `minPts`. When supplied,
+#'   it is used in place of `min_points`.
+#'
+#' @return hdbscan object
+#' @keywords internal
+#' @export
+.db_clust_fit_hdbscan <- function(
+  x,
+  min_points = NULL,
+  min_cluster_size = NULL,
+  ...
+) {
+  min_pts <- min_cluster_size %||% min_points
+
+  if (is.null(min_pts)) {
+    cli::cli_abort(
+      "Please specify `min_points` to be able to fit specification.",
+      call = call("fit")
+    )
+  }
+
+  res <- dbscan::hdbscan(x, minPts = min_pts, ...)
+  attr(res, "min_points") <- min_pts
+  attr(res, "training_data") <- x
+
+  res
 }
