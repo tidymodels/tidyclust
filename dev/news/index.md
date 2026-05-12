@@ -93,6 +93,12 @@
   gains a new engine with `meanShiftR`.
   ([\#244](https://github.com/tidymodels/tidyclust/issues/244))
 
+- [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
+  gains a new engine with `hdbscan`, using
+  [`dbscan::hdbscan()`](https://rdrr.io/pkg/dbscan/man/hdbscan.html) to
+  fit HDBSCAN models.
+  ([\#238](https://github.com/tidymodels/tidyclust/issues/238))
+
 - The `.config` column produced by
   [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   has changed from the `Preprocessor{num}_Model{num}` pattern to

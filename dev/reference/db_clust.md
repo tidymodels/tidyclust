@@ -9,6 +9,8 @@ engine-specific pages for this model are listed below.
 
 - [dbscan](https://tidyclust.tidymodels.org/dev/reference/details_db_clust_dbscan.md)
 
+- [hdbscan](https://tidyclust.tidymodels.org/dev/reference/details_db_clust_hdbscan.md)
+
 ## Usage
 
 ``` r
@@ -60,10 +62,11 @@ outlier.
 ``` r
 # Show all engines
 modelenv::get_from_env("db_clust")
-#> # A tibble: 1 × 2
-#>   engine mode     
-#>   <chr>  <chr>    
-#> 1 dbscan partition
+#> # A tibble: 2 × 2
+#>   engine  mode     
+#>   <chr>   <chr>    
+#> 1 dbscan  partition
+#> 2 hdbscan partition
 
 db_clust()
 #> DBSCAN Clustering Specification (partition)

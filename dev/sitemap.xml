@@ -25,6 +25,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/db_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dbscan_helper.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_db_clust_dbscan.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/details_db_clust_hdbscan.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_gm_clust_mclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_hier_clust_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_k_means_ClusterR.html</loc></url>
@@ -34,6 +35,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_LPCM.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/details_mean_shift_meanShiftR.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-db_clust_fit_dbscan.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-db_clust_fit_hdbscan.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-gm_clust_fit_mclust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-hier_clust_fit_stats.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/dot-k_means_fit_ClusterR.html</loc></url>

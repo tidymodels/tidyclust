@@ -5,6 +5,7 @@ There are multiple implementations for this model, and the implementation is
 chosen by setting the model engine. The engine-specific pages for this model
 are listed below.
 dbscan
+hdbscan
 
 "><meta property="og:description" content="db_clust defines a model that fits clusters based on areas with observations
 that are densely packed together using the DBSCAN algorithm
@@ -12,6 +13,7 @@ There are multiple implementations for this model, and the implementation is
 chosen by setting the model engine. The engine-specific pages for this model
 are listed below.
 dbscan
+hdbscan
 
 "><meta property="og:image" content="https://tidyclust.tidymodels.org/logo.png"><meta name="robots" content="noindex"><script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="tidyclust.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script></head><body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -61,6 +63,7 @@ that are densely packed together using the DBSCAN algorithm</p>
 <p>There are multiple implementations for this model, and the implementation is
 chosen by setting the model engine. The engine-specific pages for this model
 are listed below.</p><ul><li><p><a href="details_db_clust_dbscan.html">dbscan</a></p></li>
+<li><p><a href="details_db_clust_hdbscan.html">hdbscan</a></p></li>
 </ul></div>
 
     <div class="section level2">
@@ -117,10 +120,11 @@ If not, we predict the observation to be an outlier.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Show all engines</span></span></span>
 <span class="r-in"><span><span class="fu">modelenv</span><span class="fu">::</span><span class="fu"><a href="https://modelenv.tidymodels.org/reference/get_model_env.html" class="external-link">get_from_env</a></span><span class="op">(</span><span class="st">"db_clust"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   engine mode     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> dbscan partition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   engine  mode     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> dbscan  partition</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> hdbscan partition</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">db_clust</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> DBSCAN Clustering Specification (partition)</span>
