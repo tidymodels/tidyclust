@@ -1,0 +1,81 @@
+```{r}
+#| child: aaa.Rmd
+#| include: false
+```
+
+`r descr_models("db_clust", "hdbscan")`
+
+## Tuning Parameters
+
+```{r}
+#| label: hdbscan-param-info
+#| echo: false
+defaults <-
+  tibble::tibble(
+    tidyclust = c("min_points"),
+    default = c("no default")
+  )
+
+param <-
+  db_clust() |>
+  set_engine("hdbscan") |>
+  set_mode("partition") |>
+  make_parameter_list(defaults)
+```
+
+This model has `r nrow(param)` tuning parameters:
+
+```{r}
+#| label: hdbscan-param-list
+#| echo: false
+#| results: asis
+param$item
+```
+
+The `hdbscan` engine also accepts the engine-specific argument
+`min_cluster_size` (passed via `set_engine("hdbscan", min_cluster_size = ...)`).
+When supplied, it overrides `min_points` as the value of `minPts` passed to
+`dbscan::hdbscan()`. If not supplied, `min_points` is used.
+
+## Translation from tidyclust to the original package (partition)
+
+```{r}
+#| label: hdbscan-cls
+db_clust(min_points = 5) |>
+  set_engine("hdbscan") |>
+  set_mode("partition") |>
+  translate_tidyclust()
+```
+
+## Preprocessing requirements
+
+```{r}
+#| child: template-makes-dummies.Rmd
+```
+
+```{r}
+#| child: template-same-scale.Rmd
+```
+
+## What does it mean to predict?
+
+To predict the cluster assignment for a new observation, the nearest training
+observation that was not classified as noise is found. The new observation is
+assigned to that neighbor's cluster if the distance is at most the neighbor's
+core distance; otherwise the new observation is marked as an outlier.
+
+## References
+
+- Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-Based
+  Clustering Based on Hierarchical Density Estimates. In _Advances in Knowledge
+  Discovery and Data Mining_ (Vol. 7819, pp. 160–172). Springer.
+  https://doi.org/10.1007/978-3-642-37456-2_14
+
+- Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
+  Hierarchical density estimates for data clustering, visualization, and
+  outlier detection. _ACM Transactions on Knowledge Discovery from Data_,
+  10(1), 1–51. https://doi.org/10.1145/2733381
+
+- Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast Density-Based
+  Clustering with R. _Journal of Statistical Software_, 91(1).
+  https://doi.org/10.18637/jss.v091.i01
