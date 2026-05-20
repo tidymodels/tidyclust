@@ -22,9 +22,9 @@ clustering models. The package is closely modeled after the
 |------------------|----------------|-------------------------------------|
 | K-Means          | `k_means()`    | stats, ClusterR, klaR, clustMixType |
 | Hierarchical     | `hier_clust()` | stats                               |
-| Density-based    | `db_clust()`   | dbscan                              |
+| Density-based    | `db_clust()`   | dbscan, hdbscan                     |
 | Gaussian mixture | `gm_clust()`   | mclust                              |
-| Mean shift       | `mean_shift()` | LPCM                                |
+| Mean shift       | `mean_shift()` | LPCM, meanShiftR                    |
 
 ## Installation
 
