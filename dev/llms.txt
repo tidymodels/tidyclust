@@ -10,9 +10,9 @@ clustering models. The package is closely modeled after the
 |----|----|----|
 | K-Means | [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md) | stats, ClusterR, klaR, clustMixType |
 | Hierarchical | [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md) | stats |
-| Density-based | [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md) | dbscan |
+| Density-based | [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md) | dbscan, hdbscan |
 | Gaussian mixture | [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md) | mclust |
-| Mean shift | [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md) | LPCM |
+| Mean shift | [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md) | LPCM, meanShiftR |
 
 ## Installation
 
