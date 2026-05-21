@@ -64,19 +64,19 @@ the unequal variances between predictors and their covariances.
 \itemize{
 \item Banfield, J. D., & Raftery, A. E. (1993). Model-Based Gaussian and
 Non-Gaussian Clustering. Biometrics, 49(3), 803.
-\url{https://doi.org/10.2307/2532201}
+\url{https://www.jstor.org/stable/2532201}
 \item Celeux, G., & Govaert, G. (1995). Gaussian parsimonious clustering
 models. Pattern Recognition, 28(5), 781–793.
-\url{https://doi.org/10.1016/0031-3203(94)00125-6}
+\url{https://www.sciencedirect.com/science/article/pii/0031320394001256}
 \item Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum
 Likelihood from Incomplete Data via the EM Algorithm.
 \item McNicholas, P. D. (2016). Model-Based clustering. Journal of
 Classification, 33(3), 331–373.
-\url{https://doi.org/10.1007/s00357-016-9211-9}
+\url{https://link.springer.com/article/10.1007/s00357-016-9211-9}
 \item Scrucca, L., Fop, M., Murphy, T., Brendan, & Raftery, A., E. (2016).
 Mclust 5: Clustering, Classification and Density Estimation Using
 Gaussian Finite Mixture Models. The R Journal, 8(1), 289.
-\url{https://doi.org/10.32614/RJ-2016-021}
+\url{https://journal.r-project.org/articles/RJ-2016-021/index.html}
 \item Scrucca, L., Fraley, C., Murphy, T. B., & Raftery, A. E. (2023).
 Model-based clustering, classification, and density estimation using
 mclust in R. Chapman; Hall/CRC. https: //doi.org/10.1201/9781003277965

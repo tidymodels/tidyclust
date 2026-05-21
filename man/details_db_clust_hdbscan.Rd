@@ -70,14 +70,15 @@ marked as an outlier.
 \item Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-Based
 Clustering Based on Hierarchical Density Estimates. In \emph{Advances in
 Knowledge Discovery and Data Mining} (Vol. 7819, pp. 160–172).
-Springer. \url{https://doi.org/10.1007/978-3-642-37456-2_14}
+Springer.
+\url{https://link.springer.com/chapter/10.1007/978-3-642-37456-2_14}
 \item Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
 Hierarchical density estimates for data clustering, visualization, and
 outlier detection. \emph{ACM Transactions on Knowledge Discovery from
-Data}, 10(1), 1–51. \url{https://doi.org/10.1145/2733381}
+Data}, 10(1), 1–51. \url{https://dl.acm.org/doi/10.1145/2733381}
 \item Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast
 Density-Based Clustering with R. \emph{Journal of Statistical Software},
-91(1). \url{https://doi.org/10.18637/jss.v091.i01}
+91(1). \url{https://www.jstatsoft.org/article/view/v091i01}
 }
 }
 }

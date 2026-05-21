@@ -66,7 +66,7 @@ clustering. WIREs Data Mining and Knowledge Discovery, 1(3), 231–240.
 \item Tran, T. N., Drab, K., & Daszykowski, M. (2013). Revised DBSCAN
 algorithm to cluster data with dense adjacent clusters. Chemometrics
 and Intelligent Laboratory Systems, 49 120, 92–96.
-\url{https://doi.org/10.1016/j.chemolab.2012.11.006}
+\url{https://www.sciencedirect.com/science/article/pii/S0169743912002249}
 }
 }
 }
