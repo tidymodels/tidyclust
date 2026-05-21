@@ -1,11 +1,14 @@
-pandoc: 3.1.11
-pkgdown: 2.1.1
+pandoc: 3.8.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
+  articles/db_clust: db_clust.html
+  articles/gm_clust: gm_clust.html
   articles/hier_clust: hier_clust.html
   articles/k_means: k_means.html
+  tidyclust: tidyclust.html
   articles/tuning_and_metrics: tuning_and_metrics.html
-last_built: 2025-01-27T23:22Z
+last_built: 2026-05-21T23:07Z
 urls:
   reference: https://tidyclust.tidymodels.org/reference
   article: https://tidyclust.tidymodels.org/articles

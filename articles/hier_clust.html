@@ -6,20 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Hierarchical Clustering • tidyclust</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Hierarchical Clustering">
-<script defer data-domain="tidyclust.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><script defer data-domain="tidyclust.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
@@ -29,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,11 +37,14 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../articles/tidyclust.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/hier_clust.html">Hierarchical Clustering</a></li>
+<li><a class="dropdown-item" href="../articles/db_clust.html">Density-Based Clustering</a></li>
+    <li><a class="dropdown-item" href="../articles/gm_clust.html">Gaussian Model Clustering</a></li>
+    <li><a class="dropdown-item" href="../articles/hier_clust.html">Hierarchical Clustering</a></li>
     <li><a class="dropdown-item" href="../articles/k_means.html">k-means</a></li>
     <li><a class="dropdown-item" href="../articles/tuning_and_metrics.html">Tuning Cluster Models</a></li>
   </ul>
@@ -66,10 +68,10 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.svg" class="logo" alt=""><h1>Hierarchical Clustering</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Hierarchical Clustering</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.2.4/vignettes/articles/hier_clust.Rmd" class="external-link"><code>vignettes/articles/hier_clust.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.3.0/vignettes/articles/hier_clust.Rmd" class="external-link"><code>vignettes/articles/hier_clust.Rmd</code></a></small>
       <div class="d-none name"><code>hier_clust.Rmd</code></div>
     </div>
 
@@ -90,24 +92,24 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     knit_engine_docs, list_md_problems</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ────────────────── tidyverse 2.0.0 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr    </span> 1.1.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr    </span> 2.1.5</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.5.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2  </span> 3.5.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble   </span> 3.2.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">lubridate</span> 1.9.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr    </span> 1.3.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr    </span> 1.0.2</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────────── tidyverse_conflicts() ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ─────────────── tidyverse 2.0.0 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr    </span> 1.2.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr    </span> 2.2.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.6.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2  </span> 4.0.3     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble   </span> 3.3.1</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">lubridate</span> 1.9.5     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr    </span> 1.3.2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr    </span> 1.2.2</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ───────────────────────────────── tidyverse_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use the conflicted package (<span style="color: #0000BB; font-style: italic;">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ──────────────────────────────── tidymodels 1.2.0 ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">broom       </span> 1.0.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">rsample     </span> 1.2.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dials       </span> 1.3.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tune        </span> 1.2.1</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">infer       </span> 1.0.7     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">workflowsets</span> 1.1.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">modeldata   </span> 1.4.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">yardstick   </span> 1.3.2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">recipes     </span> 1.1.0     </span></span>
-<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ─────────────────────────────────── tidymodels_conflicts() ──</span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Attaching packages</span> ───────────────────────────── tidymodels 1.5.0 ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">broom       </span> 1.0.13     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">rsample     </span> 1.3.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dials       </span> 1.4.3      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tailor      </span> 0.1.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">infer       </span> 1.1.0      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tune        </span> 2.1.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">modeldata   </span> 1.5.1      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">workflowsets</span> 1.1.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">recipes     </span> 1.3.2      <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">yardstick   </span> 1.4.0 </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Conflicts</span> ──────────────────────────────── tidymodels_conflicts() ──</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">scales</span>::<span style="color: #00BB00;">discard()</span>             masks <span style="color: #0000BB;">purrr</span>::discard()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span>               masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">fixed()</span>              masks <span style="color: #0000BB;">stringr</span>::fixed()</span></span>
@@ -116,18 +118,17 @@
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">tidyclust</span>::<span style="color: #00BB00;">list_md_problems()</span> masks <span style="color: #0000BB;">parsnip</span>::list_md_problems()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">yardstick</span>::<span style="color: #00BB00;">spec()</span>             masks <span style="color: #0000BB;">readr</span>::spec()</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">recipes</span>::<span style="color: #00BB00;">step()</span>               masks <span style="color: #0000BB;">stats</span>::step()</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">•</span> Use <span style="color: #00BB00;">tidymodels_prefer()</span> to resolve common conflicts.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">838383</span><span class="op">)</span></span></code></pre></div>
 <p>Load and clean a dataset:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"penguins"</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">bill_length_mm</span>, <span class="va">bill_depth_mm</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># shuffle rows</span></span>
-<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">penguins</span> <span class="op">&lt;-</span> <span class="va">penguins</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If you have not yet read the <code>k_means</code> vignette, we
 recommend reading that first; functions that are used in this vignette
@@ -143,23 +144,23 @@ observations into clusters.</p>
 <p>The hierarchical clustering process begins with each observation in
 it’s own cluster; i.e., <em>n</em> clusters for <em>n</em>
 observations.</p>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-4-1.png" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e." width="700"></p>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e." width="700"></p>
 <p>The closest two observations are then joined together into a single
 cluster.</p>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-5-1.png" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
 <p>This process continues, with the closest two clusters being joined
 (or “agglomerated”) at each step.</p>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-6-1.png" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="scatter chart. 5 circles are randomly located, and labeled a, b, c, d, and e. One of the circles are replacing 2 of the previous circles." width="700"></p>
 <p>The result of the process is a <strong>dendrogram</strong>, which
 shows the joining of clusters in tree form:</p>
 <pre><code><span><span class="co">#&gt; Warning in dist(fake_dat): NAs introduced by coercion</span></span></code></pre>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-7-1.png" alt="Dendrogram chart. With 5 observations." width="700"></p>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="Dendrogram chart. With 5 observations." width="700"></p>
 <div class="section level3">
 <h3 id="clusters-from-dendrogram">Clusters from dendrogram<a class="anchor" aria-label="anchor" href="#clusters-from-dendrogram"></a>
 </h3>
 <p>To produce a partition-style cluster assignment from the dendrogram,
 one must “cut” the tree at a chosen height:</p>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-8-1.png" alt="Dendrogram chart. With 5 observations. A horizontal like at 0.6 cuts the dendrogram into 3 clusters." width="700"></p>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="Dendrogram chart. With 5 observations. A horizontal like at 0.6 cuts the dendrogram into 3 clusters." width="700"></p>
 <p>The observations that remain joined in the dendrogram below the cut
 height are considered to be in a cluster together:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 2</span></span></span>
@@ -242,12 +243,12 @@ The default linkage
 </h2>
 <p>We fit the model to data in the usual way:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op">&lt;-</span> <span class="va">hc_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op">&lt;-</span> <span class="va">hc_spec</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span> <span class="va">bill_length_mm</span> <span class="op">+</span> <span class="va">bill_depth_mm</span>,</span>
 <span>    data <span class="op">=</span> <span class="va">penguins</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
-<span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">hc_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         Length Class      Mode</span></span>
 <span><span class="co">#&gt; spec    4      hier_clust list</span></span>
@@ -258,14 +259,14 @@ The default linkage
 see below, dendrograms are often not very informative for moderate to
 large size datasets.)</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_fit</span><span class="op">$</span><span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hier_clust_files/figure-html/unnamed-chunk-12-1.png" alt="Dendrogram chart. With too many observations to be able to clearly see anything" width="700"></p>
+<code class="sourceCode R"><span><span class="va">hc_fit</span><span class="op">$</span><span class="va">fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="hier_clust_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="Dendrogram chart. With too many observations to be able to clearly see anything" width="700"></p>
 <p>We can also extract the standard <code>tidyclust</code> summary
 list:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_summary</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hc_summary</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/extract_fit_summary.html">extract_fit_summary</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">hc_summary</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">hc_summary</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 7</span></span>
 <span><span class="co">#&gt;  $ cluster_names         : Factor w/ 3 levels "Cluster_1","Cluster_2",..: 1 2 3</span></span>
 <span><span class="co">#&gt;  $ centroids             : tibble [3 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
@@ -282,7 +283,7 @@ focused on cluster centroids in the same way
 is, we are still able to compute the geometric mean over the predictors
 for each cluster:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hc_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/extract_centroids.html">extract_centroids</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   .cluster  bill_length_mm bill_depth_mm</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -315,7 +316,7 @@ of squared distances between observations in a cluster, and the centroid
 of the cluster.</p></li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hc_preds</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">hc_preds</span> <span class="op">&lt;-</span> <span class="va">hc_fit</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">penguins</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hc_preds</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 342 × 1</span></span></span>
@@ -359,8 +360,8 @@ data, it is predicted in the same manner as truly new information.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 332 more rows</span></span></span></code></pre></div>
 <!-- Overriding cluster partition: -->
 <!-- ```{r} -->
-<!-- hc_fit %>% extract_cluster_assignment(num_clusters = 5) -->
-<!-- hc_fit %>% extract_cluster_assignment(cut_height = 5) -->
+<!-- hc_fit |> extract_cluster_assignment(num_clusters = 5) -->
+<!-- hc_fit |> extract_cluster_assignment(cut_height = 5) -->
 <!-- ``` -->
 </div>
 <div class="section level2">
@@ -373,7 +374,7 @@ clustering model with five clusters (below). How can we combine these
 assignments?</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">km_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/k_means.html">k_means</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="va">km_fit</span> <span class="op">&lt;-</span> <span class="va">km_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="va">km_fit</span> <span class="op">&lt;-</span> <span class="va">km_spec</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">km_preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">km_fit</span>, <span class="va">penguins</span>, prefix <span class="op">=</span> <span class="st">"KM_"</span><span class="op">)</span></span>
@@ -385,7 +386,7 @@ assignments from <code>k_means</code>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  hc <span class="op">=</span> <span class="va">hc_preds</span><span class="op">$</span><span class="va">.pred_cluster</span>,</span>
 <span>  km <span class="op">=</span> <span class="va">km_preds</span><span class="op">$</span><span class="va">.pred_cluster</span></span>
-<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">hc</span>, <span class="va">km</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
 <span><span class="co">#&gt;   hc    km        n</span></span>
@@ -456,7 +457,7 @@ clustering.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>
