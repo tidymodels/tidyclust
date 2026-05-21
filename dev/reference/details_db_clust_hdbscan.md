@@ -9,9 +9,10 @@ For this engine, there is a single mode: partition
 
 ### Tuning Parameters
 
-This model has 1 tuning parameter:
+This model has 1 tuning parameters:
 
-- `min_points`: Min Points (type: integer, default: no default)
+- `min_points`: Minimum Number of Points (type: integer, default: no
+  default)
 
 The `hdbscan` engine also accepts the engine-specific argument
 `min_cluster_size` (passed via
@@ -42,8 +43,9 @@ not supplied, `min_points` is used.
 
 Factor/categorical predictors need to be converted to numeric values
 (e.g., dummy or indicator variables) for this engine. When using the
-formula method via , tidyclust will convert factor columns to
-indicators.
+formula method via
+[`fit()`](https://tidyclust.tidymodels.org/dev/reference/fit.md),
+tidyclust will convert factor columns to indicators.
 
 Predictors should have the same scale. One way to achieve this is to
 center and scale each so that each predictor has mean zero and a
@@ -62,13 +64,14 @@ marked as an outlier.
 - Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-Based
   Clustering Based on Hierarchical Density Estimates. In *Advances in
   Knowledge Discovery and Data Mining* (Vol. 7819, pp. 160–172).
-  Springer. <https://doi.org/10.1007/978-3-642-37456-2_14>
+  Springer.
+  <https://link.springer.com/chapter/10.1007/978-3-642-37456-2_14>
 
 - Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
   Hierarchical density estimates for data clustering, visualization, and
   outlier detection. *ACM Transactions on Knowledge Discovery from
-  Data*, 10(1), 1–51. <https://doi.org/10.1145/2733381>
+  Data*, 10(1), 1–51. <https://dl.acm.org/doi/10.1145/2733381>
 
 - Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast
   Density-Based Clustering with R. *Journal of Statistical Software*,
-  91(1). <https://doi.org/10.18637/jss.v091.i01>
+  91(1). <https://www.jstatsoft.org/article/view/v091i01>

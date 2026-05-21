@@ -309,9 +309,19 @@ Dials objects.
   : Bandwidth
 - [`cut_height()`](https://tidyclust.tidymodels.org/dev/reference/cut_height.md)
   : Cut Height
+- [`circular()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  [`zero_covariance()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  [`shared_orientation()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  [`shared_shape()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  [`shared_size()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  : Gaussian mixture covariance structure parameters
 - [`linkage_method()`](https://tidyclust.tidymodels.org/dev/reference/linkage_method.md)
   [`values_linkage_method`](https://tidyclust.tidymodels.org/dev/reference/linkage_method.md)
   : The agglomeration Linkage method
+- [`min_points()`](https://tidyclust.tidymodels.org/dev/reference/min_points.md)
+  : Minimum number of points
+- [`radius()`](https://tidyclust.tidymodels.org/dev/reference/radius.md)
+  : Radius
 
 ## Developer tools
 

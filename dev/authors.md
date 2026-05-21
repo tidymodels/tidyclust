@@ -17,12 +17,12 @@ Source:
 [`DESCRIPTION`](https://github.com/tidymodels/tidyclust/blob/main/DESCRIPTION)
 
 Hvitfeldt E, Bodwin K (2026). *tidyclust: A Common API to Clustering*. R
-package version 0.2.4.9000, <https://github.com/tidymodels/tidyclust>.
+package version 0.3.0.9000, <https://github.com/tidymodels/tidyclust>.
 
     @Manual{,
       title = {tidyclust: A Common API to Clustering},
       author = {Emil Hvitfeldt and Kelly Bodwin},
       year = {2026},
-      note = {R package version 0.2.4.9000},
+      note = {R package version 0.3.0.9000},
       url = {https://github.com/tidymodels/tidyclust},
     }

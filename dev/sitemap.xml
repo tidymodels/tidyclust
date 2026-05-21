@@ -54,6 +54,7 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/get_centroid_dists.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/glance.cluster_fit.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/gm_clust.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/hier_clust.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/index.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/k_means.html</loc></url>
@@ -65,12 +66,14 @@
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/mclust_helper.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/mean_shift.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/min_grid.cluster_spec.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/min_points.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/new_cluster_spec.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/other_predict.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/predict.cluster_fit.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/prep_data_dist.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/print.cluster_fit.html</loc></url>
+<url><loc>https://tidyclust.tidymodels.org/dev/reference/radius.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/reconcile_clusterings_mapping.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/reexports.html</loc></url>
 <url><loc>https://tidyclust.tidymodels.org/dev/reference/required_pkgs.cluster_spec.html</loc></url>

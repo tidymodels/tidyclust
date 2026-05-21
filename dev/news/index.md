@@ -2,39 +2,9 @@
 
 ## tidyclust (development version)
 
-- Added `butcher` support for `cluster_fit` objects. `axe_data()`
-  removes the training data stored in the fit, and `axe_env()` clears
-  the environment reference from the preprocessing terms.
-  ([\#126](https://github.com/tidymodels/tidyclust/issues/126))
+## tidyclust 0.3.0
 
-- [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md),
-  [`extract_centroids()`](https://tidyclust.tidymodels.org/dev/reference/extract_centroids.md),
-  and [`predict()`](https://rdrr.io/r/stats/predict.html) now accept a
-  `labels` argument, a character vector of cluster labels that overrides
-  the auto-generated `prefix`-based labels.
-  ([\#148](https://github.com/tidymodels/tidyclust/issues/148))
-
-- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
-  gains a `dist_fun` argument for specifying a custom distance function.
-  ([\#70](https://github.com/tidymodels/tidyclust/issues/70))
-
-- The `dist_fun` argument accepted by cluster metrics is now documented,
-  including how to use
-  [philentropy](https://drostlab.github.io/philentropy/) to supply
-  custom distance methods. See
-  `vignette("tuning_and_metrics", package = "tidyclust")` for examples.
-  ([\#185](https://github.com/tidymodels/tidyclust/issues/185))
-
-- Added a “Getting started with tidyclust” vignette
-  ([`vignette("tidyclust")`](https://tidyclust.tidymodels.org/dev/articles/tidyclust.md)).
-  ([\#232](https://github.com/tidymodels/tidyclust/issues/232))
-
-- `contr_one_hot` is now exported, fixing the `indicators = "one_hot"`
-  code path in
-  [`.convert_form_to_x_fit()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md)
-  and
-  [`.convert_form_to_x_new()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md).
-  ([\#218](https://github.com/tidymodels/tidyclust/issues/218))
+### Deprecation
 
 - [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
   and
@@ -46,6 +16,98 @@
   instead, which now support `cluster_spec` objects natively.
   ([\#223](https://github.com/tidymodels/tidyclust/issues/223))
 
+### New Models and Engines
+
+- New
+  [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
+  clustering specification for fitting DBSCAN models, with engines
+  `"dbscan"` and `"hdbscan"`.
+  ([\#209](https://github.com/tidymodels/tidyclust/issues/209),
+  [\#238](https://github.com/tidymodels/tidyclust/issues/238))
+
+- New
+  [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)
+  clustering specification for fitting Gaussian mixture models, with
+  engine `"mclust"`.
+  ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
+
+- New
+  [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
+  clustering specification for fitting mean shift models, which
+  iteratively shift observations toward regions of high density and
+  determine the number of clusters automatically. Engines `"LPCM"` and
+  `"meanShiftR"` are supported.
+  ([\#240](https://github.com/tidymodels/tidyclust/issues/240),
+  [\#244](https://github.com/tidymodels/tidyclust/issues/244))
+
+### Improvements
+
+- Added `dials` parameter constructors
+  [`radius()`](https://tidyclust.tidymodels.org/dev/reference/radius.md),
+  [`min_points()`](https://tidyclust.tidymodels.org/dev/reference/min_points.md),
+  [`circular()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md),
+  [`zero_covariance()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md),
+  [`shared_orientation()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md),
+  [`shared_shape()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md),
+  and
+  [`shared_size()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust_params.md)
+  so that tuning parameters for
+  [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
+  and
+  [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)
+  resolve to real parameter objects rather than erroring on unexported
+  `dials::` names.
+
+- Added a “Getting started with tidyclust” vignette
+  ([`vignette("tidyclust")`](https://tidyclust.tidymodels.org/dev/articles/tidyclust.md)).
+  ([\#232](https://github.com/tidymodels/tidyclust/issues/232))
+
+- Added `butcher` support for `cluster_fit` objects. `axe_data()`
+  removes the training data stored in the fit, and `axe_env()` clears
+  the environment reference from the preprocessing terms.
+  ([\#126](https://github.com/tidymodels/tidyclust/issues/126))
+
+- [`contr_one_hot()`](https://tidyclust.tidymodels.org/dev/reference/contr_one_hot.md)
+  is now exported, fixing the `indicators = "one_hot"` code path in
+  [`.convert_form_to_x_fit()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md)
+  and
+  [`.convert_form_to_x_new()`](https://tidyclust.tidymodels.org/dev/reference/convert_helpers.md).
+  ([\#218](https://github.com/tidymodels/tidyclust/issues/218))
+
+- [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md),
+  [`extract_centroids()`](https://tidyclust.tidymodels.org/dev/reference/extract_centroids.md),
+  and [`predict()`](https://rdrr.io/r/stats/predict.html) gain a
+  `labels` argument, a character vector of cluster labels that overrides
+  the auto-generated `prefix`-based labels.
+  ([\#148](https://github.com/tidymodels/tidyclust/issues/148))
+
+- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
+  gains a `dist_fun` argument for specifying a custom distance function.
+  ([\#70](https://github.com/tidymodels/tidyclust/issues/70))
+
+- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
+  documentation now clarifies that
+  [`predict()`](https://rdrr.io/r/stats/predict.html) may not match
+  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
+  on training data: [`predict()`](https://rdrr.io/r/stats/predict.html)
+  uses a distance-based heuristic while
+  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
+  uses [`cutree()`](https://rdrr.io/r/stats/cutree.html) based on the
+  dendrogram structure.
+  ([\#208](https://github.com/tidymodels/tidyclust/issues/208))
+
+- The `dist_fun` argument accepted by cluster metrics is now documented,
+  including how to use
+  [philentropy](https://drostlab.github.io/philentropy/) to supply
+  custom distance methods. See
+  `vignette("tuning_and_metrics", package = "tidyclust")` for examples.
+  ([\#185](https://github.com/tidymodels/tidyclust/issues/185))
+
+- [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  now supports parallel processing via the `mirai` package in addition
+  to `future`.
+  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
 - [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   now warns when passed an
   [`apparent()`](https://rsample.tidymodels.org/reference/apparent.html)
@@ -55,83 +117,17 @@
   `collect_metrics(summarize = FALSE)` to see per-resample metrics.
   ([\#193](https://github.com/tidymodels/tidyclust/issues/193))
 
-- [`hier_clust()`](https://tidyclust.tidymodels.org/dev/reference/hier_clust.md)
-  documentation now clarifies that
-  [`predict()`](https://rdrr.io/r/stats/predict.html) may not match
-  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
-  on training data. This is expected behavior:
-  [`predict()`](https://rdrr.io/r/stats/predict.html) uses a
-  distance-based heuristic while
-  [`extract_cluster_assignment()`](https://tidyclust.tidymodels.org/dev/reference/extract_cluster_assignment.md)
-  uses [`cutree()`](https://rdrr.io/r/stats/cutree.html) based on the
-  dendrogram structure.
-  ([\#208](https://github.com/tidymodels/tidyclust/issues/208))
-
-### New Clustering Specifications
-
-- The
-  [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
-  clustering specification has been added. This specification allows for
-  the use of the DBSCAN algorithm using the dbscan engine.
-  ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
-
-- The
-  [`gm_clust()`](https://tidyclust.tidymodels.org/dev/reference/gm_clust.md)
-  clustering specification has been added. This specification allows for
-  the fitting of Gaussian mixture models using the mclust engine.
-  ([\#209](https://github.com/tidymodels/tidyclust/issues/209))
-
-- The
-  [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
-  clustering specification has been added. This specification fits
-  clusters by iteratively shifting observations toward regions of high
-  density, with the number of clusters determined automatically. The
-  LPCM engine is used.
-  ([\#240](https://github.com/tidymodels/tidyclust/issues/240))
-
-- [`mean_shift()`](https://tidyclust.tidymodels.org/dev/reference/mean_shift.md)
-  gains a new engine with `meanShiftR`.
-  ([\#244](https://github.com/tidymodels/tidyclust/issues/244))
-
-- [`db_clust()`](https://tidyclust.tidymodels.org/dev/reference/db_clust.md)
-  gains a new engine with `hdbscan`, using
-  [`dbscan::hdbscan()`](https://rdrr.io/pkg/dbscan/man/hdbscan.html) to
-  fit HDBSCAN models.
-  ([\#238](https://github.com/tidymodels/tidyclust/issues/238))
-
-- The `.config` column produced by
-  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
-  has changed from the `Preprocessor{num}_Model{num}` pattern to
-  `pre{num}_mod{num}_post{num}` to align with updates in the tune
-  package. ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
-
-- The `foreach` package is no longer supported for parallel processing
-  in
-  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md).
-  Use the `future` or `mirai` packages instead. See
-  [`?tune::parallelism`](https://tune.tidymodels.org/reference/parallelism.html)
-  for details.
-  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
-
-- [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
-  now supports parallel processing via the `mirai` package in addition
-  to `future`.
-  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
-
 - The `.notes` column returned by
   [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
   now includes a `trace` column containing backtraces for errors and
   warnings, making it easier to debug failures.
   ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
 
+### Bug Fixes
+
 - Fixed bug when trying to tune the `linkage_method` argument.
   ([\#206](https://github.com/tidymodels/tidyclust/issues/206),
   [@lgaborini](https://github.com/lgaborini))
-
-- [`sse_within_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_within_total.md)
-  now correctly applies a custom `dist_fun` when `new_data` is `NULL` by
-  using training data stored in the model.
-  ([\#184](https://github.com/tidymodels/tidyclust/issues/184))
 
 - [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
   now has `direction = "maximize"` instead of `direction = "zero"`, so
@@ -142,6 +138,27 @@
   correctly return models with the highest silhouette values.
   ([\#212](https://github.com/tidymodels/tidyclust/issues/212),
   [@dnldelarosa](https://github.com/dnldelarosa))
+
+- [`sse_within_total()`](https://tidyclust.tidymodels.org/dev/reference/sse_within_total.md)
+  now correctly applies a custom `dist_fun` when `new_data` is `NULL` by
+  using training data stored in the model.
+  ([\#184](https://github.com/tidymodels/tidyclust/issues/184))
+
+### Breaking Changes
+
+- The `foreach` package is no longer supported for parallel processing
+  in
+  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md).
+  Use the `future` or `mirai` packages instead. See
+  [`?tune::parallelism`](https://tune.tidymodels.org/reference/parallelism.html)
+  for details.
+  ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
+
+- The `.config` column produced by
+  [`tune_cluster()`](https://tidyclust.tidymodels.org/dev/reference/tune_cluster.md)
+  has changed from the `Preprocessor{num}_Model{num}` pattern to
+  `pre{num}_mod{num}_post{num}` to align with updates in the tune
+  package. ([\#220](https://github.com/tidymodels/tidyclust/issues/220))
 
 ## tidyclust 0.2.4
 

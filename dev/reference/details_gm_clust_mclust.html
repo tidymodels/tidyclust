@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.2.4.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.3.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,44 +53,41 @@
 
 
 <p>This model has 6 tuning parameters:</p><ul><li><p><code>num_clusters</code>: # Clusters (type: integer, default: no default)</p></li>
-<li><p><code>circular</code>: Circular cluster shapes? (type: logical, default: TRUE)</p></li>
-<li><p><code>zero_covariance</code>: Zero covariance between predictors? (type: logical,
-default: TRUE)</p></li>
-<li><p><code>shared_orientation</code>: Shared orientation between clusters? (type:
-logical, default: TRUE)</p></li>
-<li><p><code>shared_shape</code>: Shared shape between clusters? (type: logical,
-default: TRUE)</p></li>
-<li><p><code>shared_size</code>: Shared size between clusters? (type: logical, default:
+<li><p><code>circular</code>: Circular MVG (type: logical, default: TRUE)</p></li>
+<li><p><code>zero_covariance</code>: Zero Covariance (type: logical, default: TRUE)</p></li>
+<li><p><code>shared_orientation</code>: Shared Orientation (type: logical, default:
 TRUE)</p></li>
+<li><p><code>shared_shape</code>: Shared Shape (type: logical, default: TRUE)</p></li>
+<li><p><code>shared_size</code>: Shared Size (type: logical, default: TRUE)</p></li>
 </ul></div>
 
 <div class="section">
 <h3 id="translation-from-tidyclust-to-the-original-package-partition-">Translation from tidyclust to the original package (partition)<a class="anchor" aria-label="anchor" href="#translation-from-tidyclust-to-the-original-package-partition-"></a></h3>
 
 
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">gm_clust</span>(<span class="at">num_clusters =</span> <span class="dv">3</span>, <span class="at">circular =</span> <span class="cn">FALSE</span>, <span class="at">zero_covariance =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"mclust"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"partition"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">translate_tidyclust</span>()</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">## GMM Clustering Specification (partition)</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">## Main Arguments:</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##   num_clusters = 3</span></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">##   circular = FALSE</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">##   zero_covariance = FALSE</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">##   shared_orientation = TRUE</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="do">##   shared_shape = TRUE</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">##   shared_size = TRUE</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="do">## Computational engine: mclust</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="do">##</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="do">## Model fit template:</span></span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="do">## tidyclust::.gm_clust_fit_mclust(x = missing_arg(), G = missing_arg(),</span></span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="do">##     circular = missing_arg(), zero_covariance = missing_arg(),</span></span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="do">##     shared_orientation = missing_arg(), shared_shape = missing_arg(),</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="do">##     shared_size = missing_arg(), G = 3, circular = FALSE, zero_covariance = FALSE,</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="do">##     shared_orientation = TRUE, shared_shape = TRUE, shared_size = TRUE)</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span><span class="fu"><a href="../reference/gm_clust.html">gm_clust</a></span><span class="op">(</span>num_clusters <span class="op">=</span> <span class="fl">3</span>, circular <span class="op">=</span> <span class="cn">FALSE</span>, zero_covariance <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"mclust"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"partition"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/translate_tidyclust.html">translate_tidyclust</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## GMM Clustering Specification (partition)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">## Main Arguments:</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="do">##   num_clusters = 3</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="do">##   circular = FALSE</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">##   zero_covariance = FALSE</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">##   shared_orientation = TRUE</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="do">##   shared_shape = TRUE</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="do">##   shared_size = TRUE</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">## Computational engine: mclust</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="do">## Model fit template:</span></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## tidyclust::.gm_clust_fit_mclust(x = missing_arg(), num_clusters = missing_arg(),</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="do">##     circular = missing_arg(), zero_covariance = missing_arg(),</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="do">##     shared_orientation = missing_arg(), shared_shape = missing_arg(),</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="do">##     shared_size = missing_arg(), num_clusters = 3, circular = FALSE,</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="do">##     zero_covariance = FALSE, shared_orientation = TRUE, shared_shape = TRUE,</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="do">##     shared_size = TRUE)</span></span></code></pre><p></p></div>
 </div>
 
 <div class="section">
@@ -108,19 +105,19 @@ the unequal variances between predictors and their covariances.</p>
 
 <ul><li><p>Banfield, J. D., &amp; Raftery, A. E. (1993). Model-Based Gaussian and
 Non-Gaussian Clustering. Biometrics, 49(3), 803.
-<a href="https://doi.org/10.2307/2532201" class="external-link">https://doi.org/10.2307/2532201</a></p></li>
+<a href="https://www.jstor.org/stable/2532201" class="external-link">https://www.jstor.org/stable/2532201</a></p></li>
 <li><p>Celeux, G., &amp; Govaert, G. (1995). Gaussian parsimonious clustering
 models. Pattern Recognition, 28(5), 781–793.
-<a href="https://doi.org/10.1016/0031-3203(94)00125-6" class="external-link">https://doi.org/10.1016/0031-3203(94)00125-6</a></p></li>
+<a href="https://www.sciencedirect.com/science/article/pii/0031320394001256" class="external-link">https://www.sciencedirect.com/science/article/pii/0031320394001256</a></p></li>
 <li><p>Dempster, A. P., Laird, N. M., &amp; Rubin, D. B. (1977). Maximum
 Likelihood from Incomplete Data via the EM Algorithm.</p></li>
 <li><p>McNicholas, P. D. (2016). Model-Based clustering. Journal of
 Classification, 33(3), 331–373.
-<a href="https://doi.org/10.1007/s00357-016-9211-9" class="external-link">https://doi.org/10.1007/s00357-016-9211-9</a></p></li>
+<a href="https://link.springer.com/article/10.1007/s00357-016-9211-9" class="external-link">https://link.springer.com/article/10.1007/s00357-016-9211-9</a></p></li>
 <li><p>Scrucca, L., Fop, M., Murphy, T., Brendan, &amp; Raftery, A., E. (2016).
 Mclust 5: Clustering, Classification and Density Estimation Using
 Gaussian Finite Mixture Models. The R Journal, 8(1), 289.
-<a href="https://doi.org/10.32614/RJ-2016-021" class="external-link">https://doi.org/10.32614/RJ-2016-021</a></p></li>
+<a href="https://journal.r-project.org/articles/RJ-2016-021/index.html" class="external-link">https://journal.r-project.org/articles/RJ-2016-021/index.html</a></p></li>
 <li><p>Scrucca, L., Fraley, C., Murphy, T. B., &amp; Raftery, A. E. (2023).
 Model-based clustering, classification, and density estimation using
 mclust in R. Chapman; Hall/CRC. https: //doi.org/10.1201/9781003277965</p></li>
