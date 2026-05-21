@@ -1,4 +1,4 @@
-# tidyclust (development version)
+# tidyclust 0.3.0
 
 ## Deprecation
 
