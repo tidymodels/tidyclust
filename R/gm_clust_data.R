@@ -67,7 +67,7 @@ make_gm_clust <- function() {
     eng = "mclust",
     exposed = "circular",
     original = "circular",
-    func = list(pkg = "dials", fun = "circular"),
+    func = list(pkg = "tidyclust", fun = "circular"),
     has_submodel = TRUE
   )
 
@@ -76,7 +76,7 @@ make_gm_clust <- function() {
     eng = "mclust",
     exposed = "zero_covariance",
     original = "zero_covariance",
-    func = list(pkg = "dials", fun = "zero_covariance"),
+    func = list(pkg = "tidyclust", fun = "zero_covariance"),
     has_submodel = TRUE
   )
 
@@ -85,7 +85,7 @@ make_gm_clust <- function() {
     eng = "mclust",
     exposed = "shared_orientation",
     original = "shared_orientation",
-    func = list(pkg = "dials", fun = "shared_orientation"),
+    func = list(pkg = "tidyclust", fun = "shared_orientation"),
     has_submodel = TRUE
   )
 
@@ -94,7 +94,7 @@ make_gm_clust <- function() {
     eng = "mclust",
     exposed = "shared_shape",
     original = "shared_shape",
-    func = list(pkg = "dials", fun = "shared_shape"),
+    func = list(pkg = "tidyclust", fun = "shared_shape"),
     has_submodel = TRUE
   )
 
@@ -103,7 +103,7 @@ make_gm_clust <- function() {
     eng = "mclust",
     exposed = "shared_size",
     original = "shared_size",
-    func = list(pkg = "dials", fun = "shared_size"),
+    func = list(pkg = "tidyclust", fun = "shared_size"),
     has_submodel = TRUE
   )
 

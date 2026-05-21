@@ -1,55 +1,56 @@
 # tidyclust (development version)
 
-* Added `butcher` support for `cluster_fit` objects. `axe_data()` removes the training data stored in the fit, and `axe_env()` clears the environment reference from the preprocessing terms. (#126)
+# tidyclust 0.3.0
 
-* `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` now accept a `labels` argument, a character vector of cluster labels that overrides the auto-generated `prefix`-based labels. (#148)
-
-* `hier_clust()` gains a `dist_fun` argument for specifying a custom distance function. (#70)
-
-* The `dist_fun` argument accepted by cluster metrics is now documented, including how to use `{philentropy}` to supply custom distance methods. See `vignette("tuning_and_metrics", package = "tidyclust")` for examples. (#185)
-
-* Added a "Getting started with tidyclust" vignette (`vignette("tidyclust")`). (#232)
-
-* `contr_one_hot` is now exported, fixing the `indicators = "one_hot"` code path in `.convert_form_to_x_fit()` and `.convert_form_to_x_new()`. (#218)
+## Deprecation
 
 * `finalize_model_tidyclust()` and `finalize_workflow_tidyclust()` are deprecated. Use `tune::finalize_model()` and `tune::finalize_workflow()` instead, which now support `cluster_spec` objects natively. (#223)
 
+## New Models and Engines
+
+* New `db_clust()` clustering specification for fitting DBSCAN models, with engines `"dbscan"` and `"hdbscan"`. (#209, #238)
+
+* New `gm_clust()` clustering specification for fitting Gaussian mixture models, with engine `"mclust"`. (#209)
+
+* New `mean_shift()` clustering specification for fitting mean shift models, which iteratively shift observations toward regions of high density and determine the number of clusters automatically. Engines `"LPCM"` and `"meanShiftR"` are supported. (#240, #244)
+
+## Improvements
+
+* Added `dials` parameter constructors `radius()`, `min_points()`, `circular()`, `zero_covariance()`, `shared_orientation()`, `shared_shape()`, and `shared_size()` so that tuning parameters for `db_clust()` and `gm_clust()` resolve to real parameter objects rather than erroring on unexported `dials::` names.
+
+* Added a "Getting started with tidyclust" vignette (`vignette("tidyclust")`). (#232)
+
+* Added `butcher` support for `cluster_fit` objects. `axe_data()` removes the training data stored in the fit, and `axe_env()` clears the environment reference from the preprocessing terms. (#126)
+
+* `contr_one_hot()` is now exported, fixing the `indicators = "one_hot"` code path in `.convert_form_to_x_fit()` and `.convert_form_to_x_new()`. (#218)
+
+* `extract_cluster_assignment()`, `extract_centroids()`, and `predict()` gain a `labels` argument, a character vector of cluster labels that overrides the auto-generated `prefix`-based labels. (#148)
+
+* `hier_clust()` gains a `dist_fun` argument for specifying a custom distance function. (#70)
+
+* `hier_clust()` documentation now clarifies that `predict()` may not match `extract_cluster_assignment()` on training data: `predict()` uses a distance-based heuristic while `extract_cluster_assignment()` uses `cutree()` based on the dendrogram structure. (#208)
+
+* The `dist_fun` argument accepted by cluster metrics is now documented, including how to use `{philentropy}` to supply custom distance methods. See `vignette("tuning_and_metrics", package = "tidyclust")` for examples. (#185)
+
+* `tune_cluster()` now supports parallel processing via the `mirai` package in addition to `future`. (#220)
+
 * `tune_cluster()` now warns when passed an `apparent()` resample. Metrics from apparent resamples are excluded by `collect_metrics(summarize = TRUE)` (the default) since tune 1.2.0, which caused unexpected `NA` values. Use `collect_metrics(summarize = FALSE)` to see per-resample metrics. (#193)
 
-* `hier_clust()` documentation now clarifies that `predict()` may not match `extract_cluster_assignment()` on training data. This is expected behavior: `predict()` uses a distance-based heuristic while `extract_cluster_assignment()` uses `cutree()` based on the dendrogram structure. (#208)
+* The `.notes` column returned by `tune_cluster()` now includes a `trace` column containing backtraces for errors and warnings, making it easier to debug failures. (#220)
 
-## New Clustering Specifications
-
-* The `db_clust()` clustering specification has been added. This specification allows for the use of the DBSCAN algorithm using the dbscan engine. (#209)
-
-* The `gm_clust()` clustering specification has been added. This specification allows for the fitting of Gaussian mixture models using the mclust engine. (#209)
-
-* The `mean_shift()` clustering specification has been added. This specification fits clusters by iteratively shifting observations toward regions of high density, with the number of clusters determined automatically. The LPCM engine is used. (#240)
-
-* `mean_shift()` gains a new engine with `meanShiftR`. (#244)
-
-* `db_clust()` gains a new engine with `hdbscan`, using `dbscan::hdbscan()` to fit HDBSCAN models. (#238)
-
-* The `.config` column produced by `tune_cluster()` has changed from the
-  `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to
-  align with updates in the tune package. (#220)
-
-* The `foreach` package is no longer supported for parallel processing in
-  `tune_cluster()`. Use the `future` or `mirai` packages instead. See
-  `?tune::parallelism` for details. (#220)
-
-* `tune_cluster()` now supports parallel processing via the `mirai` package in
-  addition to `future`. (#220)
-
-* The `.notes` column returned by `tune_cluster()` now includes a `trace`
-  column containing backtraces for errors and warnings, making it easier to
-  debug failures. (#220)
+## Bug Fixes
 
 * Fixed bug when trying to tune the `linkage_method` argument. (#206, @lgaborini)
 
+* `silhouette_avg()` now has `direction = "maximize"` instead of `direction = "zero"`, so that `show_best()` and `select_best()` correctly return models with the highest silhouette values. (#212, @dnldelarosa)
+
 * `sse_within_total()` now correctly applies a custom `dist_fun` when `new_data` is `NULL` by using training data stored in the model. (#184)
 
-* `silhouette_avg()` now has `direction = "maximize"` instead of `direction = "zero"`, so that `show_best()` and `select_best()` correctly return models with the highest silhouette values. (#212, @dnldelarosa)
+## Breaking Changes
+
+* The `foreach` package is no longer supported for parallel processing in `tune_cluster()`. Use the `future` or `mirai` packages instead. See `?tune::parallelism` for details. (#220)
+
+* The `.config` column produced by `tune_cluster()` has changed from the `Preprocessor{num}_Model{num}` pattern to `pre{num}_mod{num}_post{num}` to align with updates in the tune package. (#220)
 
 # tidyclust 0.2.4
 

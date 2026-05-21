@@ -50,7 +50,7 @@ make_db_clust <- function() {
     eng = "dbscan",
     exposed = "radius",
     original = "radius",
-    func = list(pkg = "dials", fun = "radius"),
+    func = list(pkg = "tidyclust", fun = "radius"),
     has_submodel = TRUE
   )
 
@@ -59,7 +59,7 @@ make_db_clust <- function() {
     eng = "dbscan",
     exposed = "min_points",
     original = "min_points",
-    func = list(pkg = "dials", fun = "min_points"),
+    func = list(pkg = "tidyclust", fun = "min_points"),
     has_submodel = TRUE
   )
 
@@ -124,7 +124,7 @@ make_db_clust <- function() {
     eng = "hdbscan",
     exposed = "min_points",
     original = "min_points",
-    func = list(pkg = "dials", fun = "min_points"),
+    func = list(pkg = "tidyclust", fun = "min_points"),
     has_submodel = TRUE
   )
 

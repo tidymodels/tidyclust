@@ -113,8 +113,8 @@ dbscan_db_clust_engine_args <-
       "minPts"
     ),
     call_info = list(
-      list(pkg = "dials", fun = "radius"),
-      list(pkg = "dials", fun = "min_points")
+      list(pkg = "tidyclust", fun = "radius"),
+      list(pkg = "tidyclust", fun = "min_points")
     ),
     source = "cluster_spec",
     component = "dbscan",
@@ -125,7 +125,7 @@ hdbscan_db_clust_engine_args <-
   tibble::tibble(
     name = "min_cluster_size",
     call_info = list(
-      list(pkg = "dials", fun = "min_points")
+      list(pkg = "tidyclust", fun = "min_points")
     ),
     source = "cluster_spec",
     component = "hdbscan",
@@ -155,11 +155,11 @@ mclust_gm_clust_engine_args <-
     ),
     call_info = list(
       list(pkg = "dials", fun = "num_clusters"),
-      list(pkg = "dials", fun = "circular"),
-      list(pkg = "dials", fun = "zero_covariance"),
-      list(pkg = "dials", fun = "shared_orientation"),
-      list(pkg = "dials", fun = "shared_shape"),
-      list(pkg = "dials", fun = "shared_size")
+      list(pkg = "tidyclust", fun = "circular"),
+      list(pkg = "tidyclust", fun = "zero_covariance"),
+      list(pkg = "tidyclust", fun = "shared_orientation"),
+      list(pkg = "tidyclust", fun = "shared_shape"),
+      list(pkg = "tidyclust", fun = "shared_size")
     ),
     source = "cluster_spec",
     component = "mclust",

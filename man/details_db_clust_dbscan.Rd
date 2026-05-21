@@ -13,18 +13,20 @@ For this engine, there is a single mode: partition
 This model has 2 tuning parameters:
 \itemize{
 \item \code{radius}: Radius (type: double, default: no default)
-\item \code{min_points}: Min Points (type: integer, default: no_default)
+\item \code{min_points}: Minimum Number of Points (type: integer, default:
+no_default)
 }
 }
 
 \subsection{Translation from tidyclust to the original package (partition)}{
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{db_clust(radius = 0.5, min_points = 5)\%>\% 
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{db_clust(radius = 0.5, min_points = 5)\%>\% 
   set_engine("dbscan") \%>\% 
   set_mode("partition") \%>\% 
   translate_tidyclust()
+}\if{html}{\out{</div>}}
 
-## DBSCAN Clustering Specification (partition)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## DBSCAN Clustering Specification (partition)
 ## 
 ## Main Arguments:
 ##   radius = 0.5
@@ -33,8 +35,8 @@ This model has 2 tuning parameters:
 ## Computational engine: dbscan 
 ## 
 ## Model fit template:
-## tidyclust::.db_clust_fit_dbscan(x = missing_arg(), eps = missing_arg(), 
-##     minPts = missing_arg(), eps = 0.5, minPts = 5)
+## tidyclust::.db_clust_fit_dbscan(x = missing_arg(), radius = missing_arg(), 
+##     min_points = missing_arg(), radius = 0.5, min_points = 5)
 }\if{html}{\out{</div>}}
 }
 
@@ -42,8 +44,8 @@ This model has 2 tuning parameters:
 
 Factor/categorical predictors need to be converted to numeric values
 (e.g., dummy or indicator variables) for this engine. When using the
-formula method via , tidyclust will convert factor columns to
-indicators.
+formula method via \code{\link[=fit.cluster_spec]{fit()}}, tidyclust
+will convert factor columns to indicators.
 
 Predictors should have the same scale. One way to achieve this is to
 center and scale each so that each predictor has mean zero and a
@@ -57,17 +59,14 @@ Density-Based Algorithm for Discovering Clusters in Large Spatial
 Databases with Noise.
 \item Hahsler, M., Piekenbrock, M., & Doran, D. (2019a). Dbscan : Fast
 Density-Based Clustering with r. Journal of Statistical Software,
-91(1). \url{https://doi.org/10.18637/jss.v091.i01}
-\item Hahsler, M., Piekenbrock, M., & Doran, D. (2019b). dbscan: Fast
-density-based clustering with R. Journal of Statistical Software,
-91(1), 1–30. \url{https://doi.org/10.18637/jss.v091}. i01
+91(1). \url{https://www.jstatsoft.org/article/view/v091i01}
 \item Kriegel, H., Kröger, P., Sander, J., & Zimek, A. (2011). Density-based
 clustering. WIREs Data Mining and Knowledge Discovery, 1(3), 231–240.
-\url{https://doi.org/10.1002/widm}. 30
+\url{https://wires.onlinelibrary.wiley.com/doi/10.1002/widm.30}. 30
 \item Tran, T. N., Drab, K., & Daszykowski, M. (2013). Revised DBSCAN
 algorithm to cluster data with dense adjacent clusters. Chemometrics
 and Intelligent Laboratory Systems, 49 120, 92–96.
-\url{https://doi.org/10.1016/j.chemolab.2012.11.006}
+\url{https://www.sciencedirect.com/science/article/pii/S0169743912002249}
 }
 }
 }

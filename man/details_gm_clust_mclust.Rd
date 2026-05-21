@@ -13,26 +13,24 @@ For this engine, there is a single mode: partition
 This model has 6 tuning parameters:
 \itemize{
 \item \code{num_clusters}: # Clusters (type: integer, default: no default)
-\item \code{circular}: Circular cluster shapes? (type: logical, default: TRUE)
-\item \code{zero_covariance}: Zero covariance between predictors? (type: logical,
-default: TRUE)
-\item \code{shared_orientation}: Shared orientation between clusters? (type:
-logical, default: TRUE)
-\item \code{shared_shape}: Shared shape between clusters? (type: logical,
-default: TRUE)
-\item \code{shared_size}: Shared size between clusters? (type: logical, default:
+\item \code{circular}: Circular MVG (type: logical, default: TRUE)
+\item \code{zero_covariance}: Zero Covariance (type: logical, default: TRUE)
+\item \code{shared_orientation}: Shared Orientation (type: logical, default:
 TRUE)
+\item \code{shared_shape}: Shared Shape (type: logical, default: TRUE)
+\item \code{shared_size}: Shared Size (type: logical, default: TRUE)
 }
 }
 
 \subsection{Translation from tidyclust to the original package (partition)}{
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{gm_clust(num_clusters = 3, circular = FALSE, zero_covariance = FALSE) \%>\% 
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{gm_clust(num_clusters = 3, circular = FALSE, zero_covariance = FALSE) \%>\% 
   set_engine("mclust") \%>\% 
   set_mode("partition") \%>\% 
   translate_tidyclust()
+}\if{html}{\out{</div>}}
 
-## GMM Clustering Specification (partition)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## GMM Clustering Specification (partition)
 ## 
 ## Main Arguments:
 ##   num_clusters = 3
@@ -45,11 +43,12 @@ TRUE)
 ## Computational engine: mclust 
 ## 
 ## Model fit template:
-## tidyclust::.gm_clust_fit_mclust(x = missing_arg(), G = missing_arg(), 
+## tidyclust::.gm_clust_fit_mclust(x = missing_arg(), num_clusters = missing_arg(), 
 ##     circular = missing_arg(), zero_covariance = missing_arg(), 
 ##     shared_orientation = missing_arg(), shared_shape = missing_arg(), 
-##     shared_size = missing_arg(), G = 3, circular = FALSE, zero_covariance = FALSE, 
-##     shared_orientation = TRUE, shared_shape = TRUE, shared_size = TRUE)
+##     shared_size = missing_arg(), num_clusters = 3, circular = FALSE, 
+##     zero_covariance = FALSE, shared_orientation = TRUE, shared_shape = TRUE, 
+##     shared_size = TRUE)
 }\if{html}{\out{</div>}}
 }
 
@@ -65,19 +64,19 @@ the unequal variances between predictors and their covariances.
 \itemize{
 \item Banfield, J. D., & Raftery, A. E. (1993). Model-Based Gaussian and
 Non-Gaussian Clustering. Biometrics, 49(3), 803.
-\url{https://doi.org/10.2307/2532201}
+\url{https://www.jstor.org/stable/2532201}
 \item Celeux, G., & Govaert, G. (1995). Gaussian parsimonious clustering
 models. Pattern Recognition, 28(5), 781–793.
-\url{https://doi.org/10.1016/0031-3203(94)00125-6}
+\url{https://www.sciencedirect.com/science/article/pii/0031320394001256}
 \item Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum
 Likelihood from Incomplete Data via the EM Algorithm.
 \item McNicholas, P. D. (2016). Model-Based clustering. Journal of
 Classification, 33(3), 331–373.
-\url{https://doi.org/10.1007/s00357-016-9211-9}
+\url{https://link.springer.com/article/10.1007/s00357-016-9211-9}
 \item Scrucca, L., Fop, M., Murphy, T., Brendan, & Raftery, A., E. (2016).
 Mclust 5: Clustering, Classification and Density Estimation Using
 Gaussian Finite Mixture Models. The R Journal, 8(1), 289.
-\url{https://doi.org/10.32614/RJ-2016-021}
+\url{https://journal.r-project.org/articles/RJ-2016-021/index.html}
 \item Scrucca, L., Fraley, C., Murphy, T. B., & Raftery, A. E. (2023).
 Model-based clustering, classification, and density estimation using
 mclust in R. Chapman; Hall/CRC. https: //doi.org/10.1201/9781003277965

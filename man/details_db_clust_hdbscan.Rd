@@ -10,9 +10,10 @@
 For this engine, there is a single mode: partition
 \subsection{Tuning Parameters}{
 
-This model has 1 tuning parameter:
+This model has 1 tuning parameters:
 \itemize{
-\item \code{min_points}: Min Points (type: integer, default: no default)
+\item \code{min_points}: Minimum Number of Points (type: integer, default: no
+default)
 }
 
 The \code{hdbscan} engine also accepts the engine-specific argument
@@ -24,12 +25,13 @@ overrides \code{min_points} as the value of \code{minPts} passed to
 
 \subsection{Translation from tidyclust to the original package (partition)}{
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{db_clust(min_points = 5) |>
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{db_clust(min_points = 5) |>
   set_engine("hdbscan") |>
   set_mode("partition") |>
   translate_tidyclust()
+}\if{html}{\out{</div>}}
 
-## DBSCAN Clustering Specification (partition)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{## DBSCAN Clustering Specification (partition)
 ## 
 ## Main Arguments:
 ##   min_points = 5
@@ -46,8 +48,8 @@ overrides \code{min_points} as the value of \code{minPts} passed to
 
 Factor/categorical predictors need to be converted to numeric values
 (e.g., dummy or indicator variables) for this engine. When using the
-formula method via , tidyclust will convert factor columns to
-indicators.
+formula method via \code{\link[=fit.cluster_spec]{fit()}}, tidyclust
+will convert factor columns to indicators.
 
 Predictors should have the same scale. One way to achieve this is to
 center and scale each so that each predictor has mean zero and a
@@ -68,14 +70,15 @@ marked as an outlier.
 \item Campello, R. J. G. B., Moulavi, D., & Sander, J. (2013). Density-Based
 Clustering Based on Hierarchical Density Estimates. In \emph{Advances in
 Knowledge Discovery and Data Mining} (Vol. 7819, pp. 160–172).
-Springer. \url{https://doi.org/10.1007/978-3-642-37456-2_14}
+Springer.
+\url{https://link.springer.com/chapter/10.1007/978-3-642-37456-2_14}
 \item Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
 Hierarchical density estimates for data clustering, visualization, and
 outlier detection. \emph{ACM Transactions on Knowledge Discovery from
-Data}, 10(1), 1–51. \url{https://doi.org/10.1145/2733381}
+Data}, 10(1), 1–51. \url{https://dl.acm.org/doi/10.1145/2733381}
 \item Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast
 Density-Based Clustering with R. \emph{Journal of Statistical Software},
-91(1). \url{https://doi.org/10.18637/jss.v091.i01}
+91(1). \url{https://www.jstatsoft.org/article/view/v091i01}
 }
 }
 }

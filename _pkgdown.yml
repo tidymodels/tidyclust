@@ -77,7 +77,10 @@ reference:
   contents:
   - bandwidth
   - cut_height
+  - gm_clust_params
   - linkage_method
+  - min_points
+  - radius
 - title: Developer tools
   contents:
   - contr_one_hot
