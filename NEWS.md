@@ -14,6 +14,8 @@
 
 ## Improvements
 
+* Added `dials` parameter constructors `radius()`, `min_points()`, `circular()`, `zero_covariance()`, `shared_orientation()`, `shared_shape()`, and `shared_size()` so that tuning parameters for `db_clust()` and `gm_clust()` resolve to real parameter objects rather than erroring on unexported `dials::` names.
+
 * Added a "Getting started with tidyclust" vignette (`vignette("tidyclust")`). (#232)
 
 * Added `butcher` support for `cluster_fit` objects. `axe_data()` removes the training data stored in the fit, and `axe_env()` clears the environment reference from the preprocessing terms. (#126)
