@@ -4,6 +4,8 @@
 
 ## tidyclust 0.3.0
 
+CRAN release: 2026-05-21
+
 ### Deprecation
 
 - [`finalize_model_tidyclust()`](https://tidyclust.tidymodels.org/dev/reference/finalize_model_tidyclust.md)
