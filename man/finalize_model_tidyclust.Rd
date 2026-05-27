@@ -24,7 +24,7 @@ An updated version of \code{x}.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 These functions are deprecated. Please use \code{\link[tune:finalize_model]{tune::finalize_model()}} and
-\code{\link[tune:finalize_model]{tune::finalize_workflow()}} instead, which now support \code{cluster_spec}
+\code{\link[tune:finalize_workflow]{tune::finalize_workflow()}} instead, which now support \code{cluster_spec}
 objects natively.
 }
 \examples{
