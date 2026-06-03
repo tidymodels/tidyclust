@@ -137,7 +137,7 @@ jaccard_avg_impl <- function(pred_clusters, pred_clusters_new) {
   cluster_stabilities <- apply(jaccard_avg_matrix, 1, max)
 
   tibble::tibble(
-    .metric = "jaccard",
+    .metric = "jaccard_avg",
     .estimator = "standard",
     .estimate = mean(cluster_stabilities)
   )
