@@ -63,6 +63,8 @@ reference:
   - sse_within_total
   - silhouette
   - sse_within
+  - pred_strength
+  - jaccard_avg
 - title: Tuning
   desc: >
     Functions to allow multiple cluster specifications to be fit at once.

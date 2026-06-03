@@ -69,6 +69,8 @@ silhouette_avg_vec(kmeans_fit, dists = dists)
 }
 \seealso{
 Other cluster metric: 
+\code{\link{jaccard_avg}()},
+\code{\link{pred_strength}()},
 \code{\link{sse_ratio}()},
 \code{\link{sse_total}()},
 \code{\link{sse_within_total}()}
