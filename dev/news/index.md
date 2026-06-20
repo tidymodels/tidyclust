@@ -2,6 +2,13 @@
 
 ## tidyclust (development version)
 
+- [`cluster_metric_set()`](https://tidyclust.tidymodels.org/dev/reference/cluster_metric_set.md)
+  now labels each metric in its output with the name supplied to it, so
+  multiple metrics that wrap the same built-in metric (for example
+  [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
+  with different `dist_fun` values) no longer collide and silently
+  merge. ([\#257](https://github.com/tidymodels/tidyclust/issues/257))
+
 - [`new_cluster_metric()`](https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.md)
   documentation now shows how to author a custom clustering metric, such
   as wrapping
