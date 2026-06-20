@@ -65,7 +65,7 @@ core distance; otherwise the new observation is marked as an outlier.
 - Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
   Hierarchical density estimates for data clustering, visualization, and
   outlier detection. _ACM Transactions on Knowledge Discovery from Data_,
-  10(1), 1–51. https://dl.acm.org/doi/10.1145/2733381
+  10(1), 1–51. doi: 10.1145/2733381
 
 - Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast Density-Based
   Clustering with R. _Journal of Statistical Software_, 91(1).

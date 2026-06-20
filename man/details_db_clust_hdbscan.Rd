@@ -75,7 +75,7 @@ Springer.
 \item Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
 Hierarchical density estimates for data clustering, visualization, and
 outlier detection. \emph{ACM Transactions on Knowledge Discovery from
-Data}, 10(1), 1–51. \url{https://dl.acm.org/doi/10.1145/2733381}
+Data}, 10(1), 1–51. doi: 10.1145/2733381
 \item Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast
 Density-Based Clustering with R. \emph{Journal of Statistical Software},
 91(1). \url{https://www.jstatsoft.org/article/view/v091i01}
