@@ -100,6 +100,36 @@ test_that("new_cluster_metric() works", {
   expect_equal(attr(metric, "direction"), "maximize")
 })
 
+test_that("custom metric wrapping a built-in metric works in cluster_metric_set()", {
+  kmeans_fit <- k_means(num_clusters = 5) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  manhattan_dist <- function(x) philentropy::distance(x, method = "manhattan")
+
+  manhattan_silhouette_avg <- new_cluster_metric(
+    function(object, new_data = NULL, ...) {
+      silhouette_avg(
+        object,
+        new_data = new_data,
+        dist_fun = manhattan_dist,
+        ...
+      )
+    },
+    direction = "maximize"
+  )
+
+  my_metrics <- cluster_metric_set(manhattan_silhouette_avg, sse_ratio)
+
+  res <- my_metrics(kmeans_fit, new_data = mtcars)
+
+  expect_equal(res$.metric, c("silhouette_avg", "sse_ratio"))
+  expect_equal(
+    res$.estimate[[1]],
+    silhouette_avg_vec(kmeans_fit, new_data = mtcars, dist_fun = manhattan_dist)
+  )
+})
+
 test_that("new_cluster_metric() errors with non-function", {
   expect_snapshot(
     error = TRUE,
