@@ -220,6 +220,13 @@ make_cluster_metric_function <- function(fns) {
       SIMPLIFY = FALSE,
       USE.NAMES = FALSE
     )
+    metric_list <- mapply(
+      FUN = relabel_metric,
+      metric_list,
+      names(fns),
+      SIMPLIFY = FALSE,
+      USE.NAMES = FALSE
+    )
     dplyr::bind_rows(metric_list)
   }
   class(metric_function) <- c(
@@ -229,6 +236,13 @@ make_cluster_metric_function <- function(fns) {
   )
   attr(metric_function, "metrics") <- fns
   metric_function
+}
+
+relabel_metric <- function(res, name) {
+  if (is.data.frame(res) && ".metric" %in% names(res)) {
+    res[[".metric"]] <- name
+  }
+  res
 }
 
 eval_safely <- function(expr, expr_nm, data = NULL, env = rlang::caller_env()) {

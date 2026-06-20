@@ -123,10 +123,58 @@ test_that("custom metric wrapping a built-in metric works in cluster_metric_set(
 
   res <- my_metrics(kmeans_fit, new_data = mtcars)
 
-  expect_equal(res$.metric, c("silhouette_avg", "sse_ratio"))
+  expect_equal(res$.metric, c("manhattan_silhouette_avg", "sse_ratio"))
   expect_equal(
     res$.estimate[[1]],
     silhouette_avg_vec(kmeans_fit, new_data = mtcars, dist_fun = manhattan_dist)
+  )
+})
+
+test_that("metrics wrapping the same built-in stay distinct in a metric set", {
+  kmeans_fit <- k_means(num_clusters = 5) |>
+    set_engine("stats") |>
+    fit(~., mtcars)
+
+  manhattan_dist <- function(x) philentropy::distance(x, method = "manhattan")
+  euclidean_dist <- function(x) philentropy::distance(x, method = "euclidean")
+
+  mk <- function(f) {
+    new_cluster_metric(
+      function(object, new_data = NULL, ...) {
+        silhouette_avg(object, new_data = new_data, dist_fun = f, ...)
+      },
+      direction = "maximize"
+    )
+  }
+
+  manhattan_silhouette_avg <- mk(manhattan_dist)
+  euclidean_silhouette_avg <- mk(euclidean_dist)
+
+  my_metrics <- cluster_metric_set(
+    manhattan_silhouette_avg,
+    euclidean_silhouette_avg
+  )
+
+  res <- my_metrics(kmeans_fit, new_data = mtcars)
+
+  expect_equal(
+    res$.metric,
+    c("manhattan_silhouette_avg", "euclidean_silhouette_avg")
+  )
+  expect_equal(
+    res$.estimate,
+    c(
+      silhouette_avg_vec(
+        kmeans_fit,
+        new_data = mtcars,
+        dist_fun = manhattan_dist
+      ),
+      silhouette_avg_vec(
+        kmeans_fit,
+        new_data = mtcars,
+        dist_fun = euclidean_dist
+      )
+    )
   )
 })
 
