@@ -10,10 +10,6 @@ linkage_method(values = values_linkage_method)
 values_linkage_method
 ```
 
-## Format
-
-An object of class `character` of length 8.
-
 ## Arguments
 
 - values:
