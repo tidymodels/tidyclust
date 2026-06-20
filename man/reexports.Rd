@@ -29,14 +29,14 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}}
+  \item{dplyr}{\code{\link[dplyr:\%>\%]{\%>\%}}}
 
-  \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{fit}}, \code{\link[generics]{fit_xy}}, \code{\link[generics]{glance}}, \code{\link[generics]{min_grid}}, \code{\link[generics]{required_pkgs}}, \code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics:augment]{augment()}}, \code{\link[generics:fit]{fit()}}, \code{\link[generics:fit_xy]{fit_xy()}}, \code{\link[generics:glance]{glance()}}, \code{\link[generics:min_grid]{min_grid()}}, \code{\link[generics:required_pkgs]{required_pkgs()}}, \code{\link[generics:tidy]{tidy()}}}
 
-  \item{hardhat}{\code{\link[hardhat:hardhat-extract]{extract_fit_engine}}, \code{\link[hardhat:hardhat-extract]{extract_fit_parsnip}}, \code{\link[hardhat:hardhat-extract]{extract_parameter_set_dials}}, \code{\link[hardhat:hardhat-extract]{extract_preprocessor}}, \code{\link[hardhat:hardhat-extract]{extract_spec_parsnip}}, \code{\link[hardhat]{tune}}}
+  \item{hardhat}{\code{\link[hardhat:extract_fit_engine]{extract_fit_engine()}}, \code{\link[hardhat:extract_fit_parsnip]{extract_fit_parsnip()}}, \code{\link[hardhat:extract_parameter_set_dials]{extract_parameter_set_dials()}}, \code{\link[hardhat:extract_preprocessor]{extract_preprocessor()}}, \code{\link[hardhat:extract_spec_parsnip]{extract_spec_parsnip()}}, \code{\link[hardhat:tune]{tune()}}}
 
-  \item{parsnip}{\code{\link[parsnip:predict.model_fit]{predict_raw}}, \code{\link[parsnip]{set_args}}, \code{\link[parsnip]{set_engine}}, \code{\link[parsnip:set_args]{set_mode}}}
+  \item{parsnip}{\code{\link[parsnip:predict_raw]{predict_raw()}}, \code{\link[parsnip:set_args]{set_args()}}, \code{\link[parsnip:set_engine]{set_engine()}}, \code{\link[parsnip:set_mode]{set_mode()}}}
 
-  \item{tune}{\code{\link[tune]{load_pkgs}}}
+  \item{tune}{\code{\link[tune:load_pkgs]{load_pkgs()}}}
 }}
 

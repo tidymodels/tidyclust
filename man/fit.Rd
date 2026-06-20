@@ -80,7 +80,7 @@ used (as discussed on each model page). If the \code{verbosity} option of
 If you would like to use an alternative method for generating contrasts
 when supplying a formula to \code{fit()}, set the global option \code{contrasts} to
 your preferred method. For example, you might set it to: \code{options(contrasts = c(unordered = "contr.helmert", ordered = "contr.poly"))}. See the help
-page for \code{\link[stats:contrast]{stats::contr.treatment()}} for more possible contrast types.
+page for \code{\link[stats:contr.treatment]{stats::contr.treatment()}} for more possible contrast types.
 }
 \examples{
 library(dplyr)
