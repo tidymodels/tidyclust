@@ -2,6 +2,14 @@
 
 ## tidyclust (development version)
 
+- [`new_cluster_metric()`](https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.md)
+  documentation now shows how to author a custom clustering metric, such
+  as wrapping
+  [`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
+  with a non-default `dist_fun`, for use with
+  [`cluster_metric_set()`](https://tidyclust.tidymodels.org/dev/reference/cluster_metric_set.md).
+  ([\#254](https://github.com/tidymodels/tidyclust/issues/254))
+
 ## tidyclust 0.3.0
 
 CRAN release: 2026-05-21

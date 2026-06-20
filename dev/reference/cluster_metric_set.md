@@ -26,6 +26,14 @@ A `cluster_metric_set()` object, combining the use of all input metrics.
 
 ## Details
 
-All functions must be:
+All functions must be cluster metrics. To include a metric that wraps a
+built-in metric with custom arguments, such as
+[`silhouette_avg()`](https://tidyclust.tidymodels.org/dev/reference/silhouette_avg.md)
+with a non-default `dist_fun`, first wrap it with
+[`new_cluster_metric()`](https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.md)
+so that it carries the `cluster_metric` class. See the examples in
+[`new_cluster_metric()`](https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.md).
 
-- Only cluster metrics
+## See also
+
+[`new_cluster_metric()`](https://tidyclust.tidymodels.org/dev/reference/new_cluster_metric.md)

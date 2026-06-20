@@ -70,8 +70,16 @@ metrics.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All functions must be:</p><ul><li><p>Only cluster metrics</p></li>
-</ul></div>
+    <p>All functions must be cluster metrics. To include a metric that
+wraps a built-in metric with custom arguments, such as <code><a href="silhouette_avg.html">silhouette_avg()</a></code>
+with a non-default <code>dist_fun</code>, first wrap it with <code><a href="new_cluster_metric.html">new_cluster_metric()</a></code> so
+that it carries the <code>cluster_metric</code> class. See the examples in
+<code><a href="new_cluster_metric.html">new_cluster_metric()</a></code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="new_cluster_metric.html">new_cluster_metric()</a></code></p></div>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
