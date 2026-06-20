@@ -87,9 +87,9 @@ considered good.
 
 After tuning, use these functions to inspect results:
 \itemize{
-\item \code{\link[tune:collect_predictions]{tune::collect_metrics()}}: All metrics for every parameter combination.
+\item \code{\link[tune:collect_metrics]{tune::collect_metrics()}}: All metrics for every parameter combination.
 \item \code{\link[tune:show_best]{tune::show_best()}}: Top N parameter combinations for a given metric.
-\item \code{\link[tune:show_best]{tune::select_best()}}: Single best parameter combination.
+\item \code{\link[tune:select_best]{tune::select_best()}}: Single best parameter combination.
 }
 }
 

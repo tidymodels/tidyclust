@@ -57,9 +57,9 @@ sse_ratio(kmeans_fit)
 sse_ratio_vec(kmeans_fit)
 }
 \seealso{
-Other cluster metric: 
-\code{\link{silhouette_avg}()},
-\code{\link{sse_total}()},
-\code{\link{sse_within_total}()}
+Other cluster metric:
+\code{\link[=silhouette_avg]{silhouette_avg()}},
+\code{\link[=sse_total]{sse_total()}},
+\code{\link[=sse_within_total]{sse_within_total()}}
 }
 \concept{cluster metric}

@@ -50,7 +50,7 @@ Measures average silhouette across all observations
 Not to be confused with \code{\link[=silhouette]{silhouette()}} that returns a tibble
 with silhouette for each observation. The silhouette coefficient ranges
 from -1 to 1, where values close to 1 indicate well-separated clusters.
-This metric has \code{direction = "maximize"}, so \code{\link[tune:show_best]{tune::select_best()}} and
+This metric has \code{direction = "maximize"}, so \code{\link[tune:select_best]{tune::select_best()}} and
 \code{\link[tune:show_best]{tune::show_best()}} will return models with the highest silhouette values.
 }
 \examples{
@@ -68,9 +68,9 @@ silhouette_avg(kmeans_fit, dists = dists)
 silhouette_avg_vec(kmeans_fit, dists = dists)
 }
 \seealso{
-Other cluster metric: 
-\code{\link{sse_ratio}()},
-\code{\link{sse_total}()},
-\code{\link{sse_within_total}()}
+Other cluster metric:
+\code{\link[=sse_ratio]{sse_ratio()}},
+\code{\link[=sse_total]{sse_total()}},
+\code{\link[=sse_within_total]{sse_within_total()}}
 }
 \concept{cluster metric}
