@@ -20,8 +20,12 @@ metrics.
 together into a new function that calculates all of them at once.
 }
 \details{
-All functions must be:
-\itemize{
-\item Only cluster metrics
+All functions must be cluster metrics. To include a metric that
+wraps a built-in metric with custom arguments, such as \code{\link[=silhouette_avg]{silhouette_avg()}}
+with a non-default \code{dist_fun}, first wrap it with \code{\link[=new_cluster_metric]{new_cluster_metric()}} so
+that it carries the \code{cluster_metric} class. See the examples in
+\code{\link[=new_cluster_metric]{new_cluster_metric()}}.
 }
+\seealso{
+\code{\link[=new_cluster_metric]{new_cluster_metric()}}
 }

@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `new_cluster_metric()` documentation now shows how to author a custom clustering metric, such as wrapping `silhouette_avg()` with a non-default `dist_fun`, for use with `cluster_metric_set()`. (#254)
+
 # tidyclust 0.3.0
 
 ## Deprecation

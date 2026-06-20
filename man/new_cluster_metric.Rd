@@ -7,7 +7,9 @@
 new_cluster_metric(fn, direction)
 }
 \arguments{
-\item{fn}{A function.}
+\item{fn}{A function. It should take \code{object} and \code{new_data} as its first
+two arguments and return a single-row tibble, as produced by the built-in
+metrics such as \code{\link[=silhouette_avg]{silhouette_avg()}}.}
 
 \item{direction}{A string. One of:
 \itemize{
@@ -20,8 +22,32 @@ new_cluster_metric(fn, direction)
 A \code{cluster_metric} object.
 }
 \description{
-These functions provide convenient wrappers to create the one
-type of metric functions in celrry: clustering metrics. They add a
+This function provides a convenient wrapper to create the one
+type of metric function used in tidyclust: clustering metrics. It adds a
 metric-specific class to \code{fn}. These features are used by
 \code{\link[=cluster_metric_set]{cluster_metric_set()}} and by \code{\link[=tune_cluster]{tune_cluster()}} when tuning.
+
+Use \code{new_cluster_metric()} when you want to author your own clustering
+metric, for example to call \code{\link[=silhouette_avg]{silhouette_avg()}} with a non-default
+\code{dist_fun}. A plain function cannot be passed to \code{\link[=cluster_metric_set]{cluster_metric_set()}}
+directly; it must first be wrapped with \code{new_cluster_metric()} so that it
+carries the \code{cluster_metric} class.
+}
+\examples{
+# Author a custom metric that uses a non-default distance function. Here we
+# use the average silhouette with Chebyshev (L-infinity) distance.
+linf_dist <- function(x) philentropy::distance(x, method = "chebyshev")
+
+linf_silhouette_avg <- new_cluster_metric(
+  function(object, new_data = NULL, ...) {
+    silhouette_avg(object, new_data = new_data, dist_fun = linf_dist, ...)
+  },
+  direction = "maximize"
+)
+
+# The custom metric can now be combined with others in a metric set.
+cluster_metric_set(linf_silhouette_avg, sse_ratio)
+}
+\seealso{
+\code{\link[=cluster_metric_set]{cluster_metric_set()}}
 }

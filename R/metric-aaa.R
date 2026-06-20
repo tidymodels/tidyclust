@@ -1,11 +1,19 @@
 #' Construct a new clustering metric function
 #'
-#' @description These functions provide convenient wrappers to create the one
-#'   type of metric functions in celrry: clustering metrics. They add a
+#' @description This function provides a convenient wrapper to create the one
+#'   type of metric function used in tidyclust: clustering metrics. It adds a
 #'   metric-specific class to `fn`. These features are used by
 #'   [cluster_metric_set()] and by [tune_cluster()] when tuning.
 #'
-#' @param fn A function.
+#'   Use `new_cluster_metric()` when you want to author your own clustering
+#'   metric, for example to call [silhouette_avg()] with a non-default
+#'   `dist_fun`. A plain function cannot be passed to [cluster_metric_set()]
+#'   directly; it must first be wrapped with `new_cluster_metric()` so that it
+#'   carries the `cluster_metric` class.
+#'
+#' @param fn A function. It should take `object` and `new_data` as its first
+#'   two arguments and return a single-row tibble, as produced by the built-in
+#'   metrics such as [silhouette_avg()].
 #'
 #' @return A `cluster_metric` object.
 #'
@@ -14,6 +22,22 @@
 #'   - `"minimize"`
 #'   - `"zero"`
 #'
+#' @seealso [cluster_metric_set()]
+#'
+#' @examples
+#' # Author a custom metric that uses a non-default distance function. Here we
+#' # use the average silhouette with Chebyshev (L-infinity) distance.
+#' linf_dist <- function(x) philentropy::distance(x, method = "chebyshev")
+#'
+#' linf_silhouette_avg <- new_cluster_metric(
+#'   function(object, new_data = NULL, ...) {
+#'     silhouette_avg(object, new_data = new_data, dist_fun = linf_dist, ...)
+#'   },
+#'   direction = "maximize"
+#' )
+#'
+#' # The custom metric can now be combined with others in a metric set.
+#' cluster_metric_set(linf_silhouette_avg, sse_ratio)
 #' @export
 new_cluster_metric <- function(fn, direction) {
   if (!is.function(fn)) {
@@ -46,8 +70,13 @@ new_cluster_metric <- function(fn, direction) {
 #' @return A `cluster_metric_set()` object, combining the use of all input
 #'   metrics.
 #'
-#' @details All functions must be:
-#' - Only cluster metrics
+#' @details All functions must be cluster metrics. To include a metric that
+#' wraps a built-in metric with custom arguments, such as [silhouette_avg()]
+#' with a non-default `dist_fun`, first wrap it with [new_cluster_metric()] so
+#' that it carries the `cluster_metric` class. See the examples in
+#' [new_cluster_metric()].
+#'
+#' @seealso [new_cluster_metric()]
 #' @export
 cluster_metric_set <- function(...) {
   quo_fns <- rlang::enquos(...)
