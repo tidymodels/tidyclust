@@ -62,11 +62,11 @@ Density-Based Clustering with r. Journal of Statistical Software,
 91(1). \url{https://www.jstatsoft.org/article/view/v091i01}
 \item Kriegel, H., Kröger, P., Sander, J., & Zimek, A. (2011). Density-based
 clustering. WIREs Data Mining and Knowledge Discovery, 1(3), 231–240.
-\url{https://wires.onlinelibrary.wiley.com/doi/10.1002/widm.30}. 30
+doi: 10.1002/widm.30. 30
 \item Tran, T. N., Drab, K., & Daszykowski, M. (2013). Revised DBSCAN
 algorithm to cluster data with dense adjacent clusters. Chemometrics
-and Intelligent Laboratory Systems, 49 120, 92–96.
-\url{https://www.sciencedirect.com/science/article/pii/S0169743912002249}
+and Intelligent Laboratory Systems, 49 120, 92–96. doi:
+10.1016/j.chemolab.2012.11.006
 }
 }
 }

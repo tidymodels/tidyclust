@@ -1,5 +1,9 @@
 # tidyclust (development version)
 
+# tidyclust 0.3.1
+
+## Bug Fixes
+
 * `cluster_metric_set()` now labels each metric in its output with the name supplied to it, so multiple metrics that wrap the same built-in metric (for example `silhouette_avg()` with different `dist_fun` values) no longer collide and silently merge. (#257)
 
 * `new_cluster_metric()` documentation now shows how to author a custom clustering metric, such as wrapping `silhouette_avg()` with a non-default `dist_fun`, for use with `cluster_metric_set()`. (#254)
