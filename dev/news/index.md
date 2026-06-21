@@ -2,6 +2,12 @@
 
 ## tidyclust (development version)
 
+## tidyclust 0.3.1
+
+CRAN release: 2026-06-20
+
+### Bug Fixes
+
 - [`cluster_metric_set()`](https://tidyclust.tidymodels.org/dev/reference/cluster_metric_set.md)
   now labels each metric in its output with the name supplied to it, so
   multiple metrics that wrap the same built-in metric (for example

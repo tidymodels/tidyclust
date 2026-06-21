@@ -70,7 +70,7 @@ marked as an outlier.
 - Campello, R. J. G. B., Moulavi, D., Zimek, A., & Sander, J. (2015).
   Hierarchical density estimates for data clustering, visualization, and
   outlier detection. *ACM Transactions on Knowledge Discovery from
-  Data*, 10(1), 1–51. <https://dl.acm.org/doi/10.1145/2733381>
+  Data*, 10(1), 1–51. doi: 10.1145/2733381
 
 - Hahsler, M., Piekenbrock, M., & Doran, D. (2019). dbscan: Fast
   Density-Based Clustering with R. *Journal of Statistical Software*,

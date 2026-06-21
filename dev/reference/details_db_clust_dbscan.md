@@ -59,9 +59,9 @@ variance of one.
 
 - Kriegel, H., Kröger, P., Sander, J., & Zimek, A. (2011). Density-based
   clustering. WIREs Data Mining and Knowledge Discovery, 1(3), 231–240.
-  <https://wires.onlinelibrary.wiley.com/doi/10.1002/widm.30>. 30
+  doi: 10.1002/widm.30. 30
 
 - Tran, T. N., Drab, K., & Daszykowski, M. (2013). Revised DBSCAN
   algorithm to cluster data with dense adjacent clusters. Chemometrics
-  and Intelligent Laboratory Systems, 49 120, 92–96.
-  <https://www.sciencedirect.com/science/article/pii/S0169743912002249>
+  and Intelligent Laboratory Systems, 49 120, 92–96. doi:
+  10.1016/j.chemolab.2012.11.006

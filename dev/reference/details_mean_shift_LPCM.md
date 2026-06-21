@@ -56,12 +56,11 @@ training mode by Euclidean distance.
 
 - Cheng, Y. (1995). Mean shift, mode seeking, and clustering. IEEE
   Transactions on Pattern Analysis and Machine Intelligence, 17(8),
-  790–799. <https://ieeexplore.ieee.org/document/400568>
+  790–799. doi: 10.1109/34.400568
 
 - Comaniciu, D., & Meer, P. (2002). Mean shift: A robust approach toward
   feature space analysis. IEEE Transactions on Pattern Analysis and
-  Machine Intelligence, 24(5), 603–619.
-  <https://ieeexplore.ieee.org/document/1000236>
+  Machine Intelligence, 24(5), 603–619. doi: 10.1109/34.1000236
 
 - Einbeck, J., Evers, L., & Hinchliff, K. (2010). Data compression and
   regression based on local principal curves. In A. Fink, B. Lausen, W.
