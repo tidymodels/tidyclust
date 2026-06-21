@@ -111,9 +111,11 @@ tune_id <- function(x) {
       }
     }
 
-    # [tune()] will always return a call object
+    # [tune()] will always return a simple call object. `is_call_simple()`
+    # guards against namespaced calls like `pkg::fun`, for which
+    # `call_name()` returns `NULL` (#261).
     if (is.call(x)) {
-      if (rlang::call_name(x) == "tune") {
+      if (rlang::is_call_simple(x) && rlang::call_name(x) == "tune") {
         # If an id was specified:
         if (length(x) > 1) {
           return(x[[2]])
@@ -121,7 +123,6 @@ tune_id <- function(x) {
           # no id
           return("")
         }
-        return(x$id)
       } else {
         return(NA_character_)
       }

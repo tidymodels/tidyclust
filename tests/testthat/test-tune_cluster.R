@@ -700,3 +700,67 @@ test_that("tune_cluster works with validation set and tuned model", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_true(best$num_clusters %in% grid$num_clusters)
 })
+
+test_that("tune_args() works with a namespaced function argument (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = stats::dist
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})
+
+test_that("tune_args() works with a non-simple call argument (#261)", {
+  funs <- list(euclidean = stats::dist)
+
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = funs$euclidean
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})
+
+test_that("tune_args() works with an anonymous function argument (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = function(x) stats::dist(x)
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})
+
+test_that("tune_args() handles a non-simple call argument with no tuning (#261)", {
+  spec <- hier_clust(
+    num_clusters = 3,
+    dist_fun = stats::dist
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(nrow(res), 0L)
+})
+
+test_that("tune_cluster() works with a namespaced dist_fun (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = stats::dist
+  )
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+
+  res <- tune_cluster(
+    spec,
+    ~.,
+    resamples = folds,
+    grid = 3
+  )
+
+  expect_s3_class(res, "tune_results")
+  expect_equal(res$id, folds$id)
+})
