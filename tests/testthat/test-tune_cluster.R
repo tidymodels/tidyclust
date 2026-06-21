@@ -711,3 +711,16 @@ test_that("tune_args() works with a namespaced function argument (#261)", {
 
   expect_equal(res$id, "num_clusters")
 })
+
+test_that("tune_args() works with a non-simple call argument (#261)", {
+  funs <- list(euclidean = stats::dist)
+
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = funs$euclidean
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})
