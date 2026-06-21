@@ -724,3 +724,43 @@ test_that("tune_args() works with a non-simple call argument (#261)", {
 
   expect_equal(res$id, "num_clusters")
 })
+
+test_that("tune_args() works with an anonymous function argument (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = function(x) stats::dist(x)
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})
+
+test_that("tune_args() handles a non-simple call argument with no tuning (#261)", {
+  spec <- hier_clust(
+    num_clusters = 3,
+    dist_fun = stats::dist
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(nrow(res), 0L)
+})
+
+test_that("tune_cluster() works with a namespaced dist_fun (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = stats::dist
+  )
+  folds <- rsample::vfold_cv(mtcars, v = 2)
+
+  res <- tune_cluster(
+    spec,
+    ~.,
+    resamples = folds,
+    grid = 3
+  )
+
+  expect_s3_class(res, "tune_results")
+  expect_equal(res$id, folds$id)
+})
