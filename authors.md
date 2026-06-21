@@ -14,15 +14,15 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidymodels/tidyclust/blob/v0.3.0/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/tidymodels/tidyclust/blob/v0.3.1/DESCRIPTION)
 
 Hvitfeldt E, Bodwin K (2026). *tidyclust: A Common API to Clustering*. R
-package version 0.3.0, <https://github.com/tidymodels/tidyclust>.
+package version 0.3.1, <https://github.com/tidymodels/tidyclust>.
 
     @Manual{,
       title = {tidyclust: A Common API to Clustering},
       author = {Emil Hvitfeldt and Kelly Bodwin},
       year = {2026},
-      note = {R package version 0.3.0},
+      note = {R package version 0.3.1},
       url = {https://github.com/tidymodels/tidyclust},
     }

@@ -1,6 +1,29 @@
 # Changelog
 
+## tidyclust 0.3.1
+
+CRAN release: 2026-06-20
+
+### Bug Fixes
+
+- [`cluster_metric_set()`](https://tidyclust.tidymodels.org/reference/cluster_metric_set.md)
+  now labels each metric in its output with the name supplied to it, so
+  multiple metrics that wrap the same built-in metric (for example
+  [`silhouette_avg()`](https://tidyclust.tidymodels.org/reference/silhouette_avg.md)
+  with different `dist_fun` values) no longer collide and silently
+  merge. ([\#257](https://github.com/tidymodels/tidyclust/issues/257))
+
+- [`new_cluster_metric()`](https://tidyclust.tidymodels.org/reference/new_cluster_metric.md)
+  documentation now shows how to author a custom clustering metric, such
+  as wrapping
+  [`silhouette_avg()`](https://tidyclust.tidymodels.org/reference/silhouette_avg.md)
+  with a non-default `dist_fun`, for use with
+  [`cluster_metric_set()`](https://tidyclust.tidymodels.org/reference/cluster_metric_set.md).
+  ([\#254](https://github.com/tidymodels/tidyclust/issues/254))
+
 ## tidyclust 0.3.0
+
+CRAN release: 2026-05-21
 
 ### Deprecation
 

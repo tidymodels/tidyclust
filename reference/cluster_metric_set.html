@@ -9,7 +9,7 @@ together into a new function that calculates all of them at once."><meta propert
 
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ together into a new function that calculates all of them at once."><meta propert
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Combine metric functions</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.3.0/R/metric-aaa.R" class="external-link"><code>R/metric-aaa.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.3.1/R/metric-aaa.R" class="external-link"><code>R/metric-aaa.R</code></a></small>
       <div class="d-none name"><code>cluster_metric_set.Rd</code></div>
     </div>
 
@@ -70,8 +70,16 @@ metrics.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All functions must be:</p><ul><li><p>Only cluster metrics</p></li>
-</ul></div>
+    <p>All functions must be cluster metrics. To include a metric that
+wraps a built-in metric with custom arguments, such as <code><a href="silhouette_avg.html">silhouette_avg()</a></code>
+with a non-default <code>dist_fun</code>, first wrap it with <code><a href="new_cluster_metric.html">new_cluster_metric()</a></code> so
+that it carries the <code>cluster_metric</code> class. See the examples in
+<code><a href="new_cluster_metric.html">new_cluster_metric()</a></code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="new_cluster_metric.html">new_cluster_metric()</a></code></p></div>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

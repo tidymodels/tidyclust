@@ -21,7 +21,7 @@ stats
 
     <a class="navbar-brand me-2" href="../index.html">tidyclust</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ stats
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Hierarchical (Agglomerative) Clustering</h1>
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.3.0/R/hier_clust.R" class="external-link"><code>R/hier_clust.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyclust/blob/v0.3.1/R/hier_clust.R" class="external-link"><code>R/hier_clust.R</code></a></small>
       <div class="d-none name"><code>hier_clust.Rd</code></div>
     </div>
 
@@ -115,6 +115,10 @@ via <code><a href="https://rdrr.io/r/stats/dist.html" class="external-link">stat
 
 </dl></div>
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>A <code>hier_clust</code> cluster specification.</p>
+    </div>
+    <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
 
 <div class="section">
@@ -133,7 +137,19 @@ smallest average distances between training observations and the new
 observation.</p></li>
 <li><p><em>centroid method</em>: The new observation is assigned to the cluster with the
 closest centroid, as in prediction for k_means.</p></li>
-</ul></div>
+<li><p><em>Ward’s method</em>: The new observation is assigned to the cluster with the
+smallest increase in <strong>error sum of squares (ESS)</strong> due to the new
+addition. The ESS is computed as the sum of squared distances between
+observations in a cluster, and the centroid of the cluster.</p></li>
+</ul><p>Note that these heuristics for assigning new observations to existing
+clusters are approximations. For most linkage methods, the predictions on
+training data may not match the cluster assignments from
+<code><a href="extract_cluster_assignment.html">extract_cluster_assignment()</a></code>. This is because <code><a href="extract_cluster_assignment.html">extract_cluster_assignment()</a></code>
+uses <code><a href="https://rdrr.io/r/stats/cutree.html" class="external-link">cutree()</a></code> to cut the fitted dendrogram, which assigns clusters based on
+the dendrogram structure rather than proximity to existing cluster members.
+Observations on the boundary between clusters may therefore be assigned to
+different clusters by the two methods.</p>
+</div>
 
     </div>
 

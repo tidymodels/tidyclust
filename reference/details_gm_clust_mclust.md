@@ -61,12 +61,11 @@ the unequal variances between predictors and their covariances.
 ### References
 
 - Banfield, J. D., & Raftery, A. E. (1993). Model-Based Gaussian and
-  Non-Gaussian Clustering. Biometrics, 49(3), 803.
-  <https://www.jstor.org/stable/2532201>
+  Non-Gaussian Clustering. Biometrics, 49(3), 803. doi: 10.2307/2532201
 
 - Celeux, G., & Govaert, G. (1995). Gaussian parsimonious clustering
-  models. Pattern Recognition, 28(5), 781–793.
-  <https://www.sciencedirect.com/science/article/pii/0031320394001256>
+  models. Pattern Recognition, 28(5), 781–793. doi:
+  10.1016/0031-3203(94)00125-6
 
 - Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum
   Likelihood from Incomplete Data via the EM Algorithm.
