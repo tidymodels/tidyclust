@@ -700,3 +700,14 @@ test_that("tune_cluster works with validation set and tuned model", {
   expect_equal(nrow(res_est), nrow(grid) * 2)
   expect_true(best$num_clusters %in% grid$num_clusters)
 })
+
+test_that("tune_args() works with a namespaced function argument (#261)", {
+  spec <- hier_clust(
+    num_clusters = tune(),
+    dist_fun = stats::dist
+  )
+
+  res <- tune_args(spec)
+
+  expect_equal(res$id, "num_clusters")
+})

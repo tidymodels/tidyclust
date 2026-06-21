@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+* `tune_args()` no longer errors when a model argument is set to a namespaced function such as `dist_fun = stats::dist`, which previously broke tuning of other arguments. (#261)
+
 # tidyclust 0.3.1
 
 ## Bug Fixes
