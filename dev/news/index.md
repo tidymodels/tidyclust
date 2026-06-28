@@ -2,6 +2,13 @@
 
 ## tidyclust (development version)
 
+- [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md)
+  with the `stats` engine no longer errors when fit on sparse
+  predictors, such as those produced by
+  [`recipes::step_dummy()`](https://recipes.tidymodels.org/reference/step_dummy.html)
+  in a workflow.
+  ([\#263](https://github.com/tidymodels/tidyclust/issues/263))
+
 ## tidyclust 0.3.1
 
 CRAN release: 2026-06-20
