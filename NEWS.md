@@ -1,4 +1,4 @@
-# tidyclust (development version)
+# tidyclust 0.3.2
 
 ## Bug Fixes
 
