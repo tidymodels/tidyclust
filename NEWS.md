@@ -1,5 +1,7 @@
 # tidyclust (development version)
 
+## Bug Fixes
+
 * `k_means()` with the `stats` engine no longer errors when fit on sparse predictors, such as those produced by `recipes::step_dummy()` in a workflow. (#263)
 
 # tidyclust 0.3.1
