@@ -2,6 +2,10 @@
 
 ## tidyclust (development version)
 
+## tidyclust 0.3.2
+
+### Bug Fixes
+
 - [`k_means()`](https://tidyclust.tidymodels.org/dev/reference/k_means.md)
   with the `stats` engine no longer errors when fit on sparse
   predictors, such as those produced by
