@@ -237,7 +237,7 @@ check_args.k_means <- function(object) {
   }
 
   if (length(centers) == 1) {
-    n_distinct <- nrow(unique(data))
+    n_distinct <- nrow(unique(as.matrix(data)))
     if (centers > n_distinct) {
       cli::cli_abort(
         c(
