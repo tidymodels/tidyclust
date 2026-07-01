@@ -1,6 +1,6 @@
 Package: tidyclust
 Title: A Common API to Clustering
-Version: 0.3.0.9001
+Version: 0.3.2.9001
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
@@ -71,4 +71,4 @@ Config/usethis/last-upkeep: 2025-04-24
 Encoding: UTF-8
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0

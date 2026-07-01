@@ -4,6 +4,20 @@
 
 New `jaccard_avg()`  and `pred_strength()` metrics for estimating cluster stability.
 
+# tidyclust 0.3.2
+
+## Bug Fixes
+
+* `k_means()` with the `stats` engine no longer errors when fit on sparse predictors, such as those produced by `recipes::step_dummy()` in a workflow. (#263)
+
+# tidyclust 0.3.1
+
+## Bug Fixes
+
+* `cluster_metric_set()` now labels each metric in its output with the name supplied to it, so multiple metrics that wrap the same built-in metric (for example `silhouette_avg()` with different `dist_fun` values) no longer collide and silently merge. (#257)
+
+* `new_cluster_metric()` documentation now shows how to author a custom clustering metric, such as wrapping `silhouette_avg()` with a non-default `dist_fun`, for use with `cluster_metric_set()`. (#254)
+
 # tidyclust 0.3.0
 
 ## Deprecation

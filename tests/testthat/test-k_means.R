@@ -202,3 +202,17 @@ test_that("errors if `num_clust` isn't specified", {
       fit(~., data = mtcars)
   )
 })
+
+test_that("fitting works with sparse predictors from step_dummy (#263)", {
+  skip_if_not_installed("workflows")
+  skip_if_not_installed("recipes")
+
+  set.seed(1)
+  data <- tibble::tibble(x = factor(sample(letters[1:4], 50, replace = TRUE)))
+
+  rec <- recipes::recipe(~., data = data) |>
+    recipes::step_dummy(x)
+  wf <- workflows::workflow(rec, k_means(num_clusters = 2))
+
+  expect_no_error(fit(wf, data = data))
+})
