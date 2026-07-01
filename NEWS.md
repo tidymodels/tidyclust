@@ -1,5 +1,9 @@
 # tidyclust (development version)
 
+## Improvements
+
+New `jaccard_avg()`  and `pred_strength()` metrics for estimating cluster stability.
+
 # tidyclust 0.3.2
 
 ## Bug Fixes
@@ -114,7 +118,7 @@
 
 ## Breaking Changes
 
-* Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.k_means_fit_ClusterR()`, `.k_means_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users. 
+* Exported internal functions `ClusterR_kmeans_fit()`, `stats_kmeans_fit()`, and `hclust_fit()` have been renamed to `.k_means_fit_ClusterR()`, `.k_means_fit_stats()`, and `.hier_clust_fit_stats()` to reduce visibility for users.
 
 * Cluster reordering is now done at the fitting time, not the extraction and prediction time. (#154)
 
